@@ -129,7 +129,7 @@ class: middle
 <br><br><br><br><br><br><br>
 
 .large.center[
-[smasongarrison.github.io/psychstats/](https://smasongarrison.github.io/psychstats/)]
+[psychmethods.github.io/coursenotes/](https://psychmethods.github.io/coursenotes/)]
 
 
 
