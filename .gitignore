@@ -16,3 +16,4 @@ xu*
 *.utf8.md
 */libs/*
 *.js
+.Rproj.user
