@@ -127,7 +127,7 @@ class: middle
 ---
 # Introductions
 
-- Call Me Prof. Mason (preferred), Prof. Garrison, Dr. Mason, or Dr. Garrison
+- Call Me... Prof. Mason (preferred) .tiny[Prof. Garrison, Dr. Mason, or Dr. Garrison are also ok]
 .tiny[- Not Sarah, Mason, Mrs. Garrison, Ms. Garrison etc]
 
 - About me:
@@ -151,12 +151,20 @@ class: middle
 
 <br><br><br><br><br><br><br>
 
+
+
+.large.center[
+[Canvas](https://wakeforest.instructure.com/courses/40646)]
+
+<br>and<br>
+
 .large.center[
 [psychmethods.github.io/coursenotes/](https://psychmethods.github.io/coursenotes/)]
 
 
 
 ---
+
 class: middle
 
 # Course structure and policies
@@ -165,9 +173,8 @@ class: middle
 
 ## Class meetings
 
-- Interactive
-- Some lectures, lots of learn-by-doing
-- Bring your laptop to class every day
+- Lectures: Monday \& Wednesday
+- R Tutorials: Friday
 
 ---
 
