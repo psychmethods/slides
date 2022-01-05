@@ -63,30 +63,37 @@ class: middle
 
 # Lecture Roadmap
 
-All lectures will start with a roadmap and few learning outcomes, including today:
-- Learning Outcomes
-- Overview of the Course
-- Knowledge is Power
-- What is <TOPIC>
+All lectures will start with a roadmap, including today:
+--
 
- The roadmap gives *us* structure as I lecture
-	- Trust Me, you don't want me to lecture without one
+
+- Overview of the Course
+- Logistics
+- Learning Outcomes
+- Knowledge is Power
+- What is Statistics?
+
+--
+
+The roadmap gives *us* structure as I lecture
+
+.tiny[Trust Me, you don't want me to lecture without one]
 
 ---
 
 
 # Learning Outcomes
 
-- Define and differentiate *variables* and *cases*
-- Explain why you are taking statistics as part of a psychology degree
-- Apply the concept of variation to examples of cases and variables
-- Evaluate ways to be a successful learner in this class
+- Are found on canvas at the start of each module.
+
+- What's a module?
 
 ---
+
 ## Learning Outcomes: How to Think About Them
 
 - Ways for teachers to define what we want students to be able to do.
-- Used in assessments (e.g., quizzes and projects)
+- Used in assessments (e.g., quizzes and papers)
 - I will be asking you to demonstrate that you have achieved these outcomes.
 - You can also try to evaluate whether you've achieved the learning outcomes.
 - Practice making questions that will test your understanding, share them with others, and try each other's questions.
@@ -130,18 +137,22 @@ class: middle
 - Office:	Greene 438
 - E-mail:	garrissm@wfu.edu
 - Office Hours: Bookable via Calendly 
-<br>
+--
+<br><br>
 .large.center[[calendly.com/smasongarrison/](https://calendly.com/smasongarrison/)]
 
 ---
 # Introductions
 
-- Call Me... Prof. Mason (preferred) .tiny[Prof. Garrison, Dr. Mason, or Dr. Garrison are also ok]
-.tiny[- Not Sarah, Mason, Mrs. Garrison, Ms. Garrison etc]
+- Call Me... Prof. Mason (preferred) 
+  - .tiny[Prof. Garrison, Dr. Mason, or Dr. Garrison are also ok]
+  - .tiny[Not Sarah, Mason, Mrs. Garrison, Ms. Garrison etc]
+--
 
 - About me:
   - Born in Upstate New York, Undergrad in St. Louis, Grad School in Nashville, and Professoring in Winston-Salem
-  - Quantitative Psychology and Behavior Genetics: Applied to Understanding the Relationship between Health, Wealth, and Individual Differences.
+  - Quantitative Psychology and Behavior Genetics: 
+      - Applied to Understanding the Relationship between Health, Wealth, and Individual Differences.
   - I love stats and cats
 
 
