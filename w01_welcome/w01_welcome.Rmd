@@ -47,8 +47,9 @@ class: middle
 
 - 310 is an introduction to methods in psychological research, 
 - with an emphasis on 
-  - statistical thinking and 
-  - best practices.
+  - statistical thinking, 
+  - best practices, and
+  - practical skills
 
 ---
 
@@ -60,16 +61,28 @@ class: middle
 ---
 
 
+# Lecture Roadmap
+
+All lectures will start with a roadmap and few learning outcomes, including today:
+- Learning Outcomes
+- Overview of the Course
+- Knowledge is Power
+- What is <TOPIC>
+
+ The roadmap gives *us* structure as I lecture
+	- Trust Me, you don't want me to lecture without one
+
+---
+
+
 # Learning Outcomes
 
-All lectures will start with a few learning outcomes, including today:
 - Define and differentiate *variables* and *cases*
 - Explain why you are taking statistics as part of a psychology degree
 - Apply the concept of variation to examples of cases and variables
 - Evaluate ways to be a successful learner in this class
 
 ---
-
 ## Learning Outcomes: How to Think About Them
 
 - Ways for teachers to define what we want students to be able to do.
@@ -95,14 +108,10 @@ All lectures will start with a few learning outcomes, including today:
 
 ## Learning Outcomes: Course Level
 
-.pull-left[
-```{r child = "content/lg_amanda.md"}
-```
-]
-.pull-right[
+
 ```{r child = "content/lg_eranda.md"}
 ```
-]
+
 
 
 ---
