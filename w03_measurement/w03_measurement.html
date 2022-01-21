@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Measurement</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="S. Mason Garrison" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Measurement
+### S. Mason Garrison
+
+---
+
+
+
+
+
+layout: true
+  
+&lt;div class="my-footer"&gt;
+&lt;span&gt;
+&lt;a href="https://DataScience4Psych.github.io/DataScience4Psych/" target="_blank"&gt;Methods in Psychological Research&lt;/a&gt;
+&lt;/span&gt;
+&lt;/div&gt; 
+
+---
+
+
+
+class: middle
+
+# Measurement
+
+---
+
+## Measurement
+
+- 4th step in the research process
+  - Def: assignment of numbers to characteristics of people or objects
+
+--
+
+- Examples: measurement scales
+    - Speed `\(\rightarrow\)` miles-per-hour
+    - Temperature (kelvin)
+    - Order of finishers
+    - Numbers on the back of basketball jerseys
+    
+--
+
+- Variables contain the outcome of measurement processes
+  - Qualitative: number represent qualities (not quantities)
+  - Quantitative: numbers mean something in relation quantities in the real world
+  
+---
+
+## Characterize each level of measurement   
+
+- Levels of Measurement [@Stevens1946]
+    - Nominal, ordinal, interval, ratio
+--
+    - Properties :
+        - Have absolute zero
+            - 0 indicated absence (origin means zero)
+        - Equal intervals
+            - An interval means the same value at any point on measurement scales
+        - Order
+            - Number means order
+        - Identity
+            - Different numbers mean different measurement outcomes (1 `\(\neq\)` 2 )
+
+---
+
+class: middle
+
+# Levels of Measurement
+
+
+---
+
+# Ratio (quantitative) 
+    - All four features
+    - Multiplication is a permissible transformation
+    
+
+```r
+## Installs library if missing
+if (!require("HistData")) install.packages("HistData") 
+library(HistData)   # loads the HistData package
+data("Galton")			# loads the Galton dataset
+```
+
+---
+
+# Example 
+
+
+```r
+# attaches the dataset
+attach(Galton)
+# First 3n rows of data
+head(Galton, n=3)
+```
+
+```
+##   parent child
+## 1   70.5  61.7
+## 2   68.5  61.7
+## 3   65.5  61.7
+```
+
+---
+
+# Example 
+
+
+```r
+# Histogram		hist(Galton$child)  is the same, use if you do not want to attach the data file
+hist(child)	
+```
+
+&lt;img src="w03_measurement_files/figure-html/unnamed-chunk-4-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+```r
+plot(density(child))		# Density Plot
+```
+
+&lt;img src="w03_measurement_files/figure-html/unnamed-chunk-4-2.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+```r
+detach(Galton)			# Remember to detach you dataset!
+```
+
+
+---
+
+
+# Bandwidth Aside
+
+[Bandwidth: Smoothing Method](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/density.html)
+
+
+```r
+args(density.default)
+```
+
+```
+## function (x, bw = "nrd0", adjust = 1, kernel = c("gaussian", 
+##     "epanechnikov", "rectangular", "triangular", "biweight", 
+##     "cosine", "optcosine"), weights = NULL, window = kernel, 
+##     width, give.Rkern = FALSE, n = 512, from, to, cut = 3, na.rm = FALSE, 
+##     ...) 
+## NULL
+```
+
+```r
+#?density # Gives you documentation
+
+knitr::include_graphics("img/density.png")
+```
+
+&lt;img src="img/density.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+```r
+set.seed(201010)
+x &lt;- rnorm(1000, 10, 2)
+par(mfrow = c(2,2))
+plot(density(x))  #A bit bumpy
+plot(density(x,adjust = 10)) #Very sooth
+plot(density(x,adjust = .1)) #Very bumpy
+```
+
+&lt;img src="w03_measurement_files/figure-html/unnamed-chunk-5-2.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Interval
+- Interval (quantitative)
+    - Temperature in Fahrenheit is an example
+    - Addition is a permissible transformation
+    -	Has three features (all but absolute zero)
+    
+
+```r
+# Interval Example
+library(datasets)
+data("nottem")
+nottem[1:10] 			# First ten rows of data
+```
+
+```
+##  [1] 40.6 40.8 44.4 46.7 54.1 58.5 57.7 56.4 54.3 50.5
+```
+
+```r
+hist(nottem) 			# Histogram
+```
+
+&lt;img src="w03_measurement_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+```r
+plot(density(nottem)) 	# Density Plot
+```
+
+&lt;img src="w03_measurement_files/figure-html/unnamed-chunk-6-2.png" width="90%" style="display: block; margin: auto;" /&gt;
+---
+# Ordinal
+- Ordinal (qualitative)
+    -	Has order and identity
+    - Monotonic transformations are permissible
+    - These maintain the order of the values
+
+
+```r
+# Ordinal Example
+library(ggplot2movies)
+data(movies)
+variable&lt;-movies$rating
+head(movies[!is.na(movies$budget),], n=10) 		# First ten rows of data, with a non-missing budget
+```
+
+```
+## # A tibble: 10 x 24
+##   title   year length budget rating votes    r1    r2    r3    r4
+##   &lt;chr&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 'G' M~  1935     85  4.5e5    7.2   281   0     4.5   4.5   4.5
+## 2 'Mano~  1966     74  1.9e4    1.6  7996  74.5   4.5   4.5   4.5
+## 3 'Til ~  1997    113  2.3e7    4.8   799   4.5   4.5   4.5  14.5
+## 4 .com ~  2002     96  5  e6    3.7   271  64.5   4.5   4.5   4.5
+## 5 10 Th~  1999     97  1.6e7    6.7 19095   4.5   4.5   4.5   4.5
+## 6 100 M~  2002     98  1.1e6    5.6   181   4.5   4.5   4.5   4.5
+## # ... with 4 more rows, and 14 more variables: r5 &lt;dbl&gt;,
+## #   r6 &lt;dbl&gt;, r7 &lt;dbl&gt;, r8 &lt;dbl&gt;, r9 &lt;dbl&gt;, r10 &lt;dbl&gt;,
+## #   mpaa &lt;chr&gt;, Action &lt;int&gt;, Animation &lt;int&gt;, Comedy &lt;int&gt;,
+## #   Drama &lt;int&gt;, Documentary &lt;int&gt;, Romance &lt;int&gt;, Short &lt;int&gt;
+```
+
+```r
+hist(variable) 			# Histogram
+```
+
+&lt;img src="w03_measurement_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+```r
+plot(density(variable)) 	# Density Plot
+```
+
+&lt;img src="w03_measurement_files/figure-html/unnamed-chunk-7-2.png" width="90%" style="display: block; margin: auto;" /&gt;
+---
+# Nominal 
+
+- Nominal
+    - Only has identity
+    - Any identity preserving transformation is permissible
+
+
+```r
+# Nominal Example
+library(vcd)
+data(Arthritis)
+Arthritis[1:10, ]  		# First ten rows of data
+```
+
+```
+##    ID Treatment  Sex Age Improved
+## 1  57   Treated Male  27     Some
+## 2  46   Treated Male  29     None
+## 3  77   Treated Male  30     None
+## 4  17   Treated Male  32   Marked
+## 5  36   Treated Male  46   Marked
+## 6  23   Treated Male  58   Marked
+## 7  75   Treated Male  59     None
+## 8  39   Treated Male  59   Marked
+## 9  33   Treated Male  63     None
+## 10 55   Treated Male  63     None
+```
+
+```r
+variable&lt;-Arthritis$Treatment
+#hist(variable) 				# Histogram error
+
+barplot_fix&lt;-prop.table(table(variable))
+
+barplot(barplot_fix)	# Sometimes, R is silly
+```
+
+&lt;img src="w03_measurement_files/figure-html/unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+---
+
+# More complex measurement level taxomony
+- Missing (considered nominal under the Stevens taxonomy)
+- Binary (considered nominal under the Stevens taxonomy)
+- Nominal (considered nominal under the Stevens taxonomy)
+- Partially ordered (considered ordinal under Stevens)
+- Fully ordered (considered ordinal under Stevens)
+- Interval
+- Ratio
+- Absolute measurement (has no permissible transformation)
+    - `\(6.02 x 10^{23}\)`
+    - `\(\pi\)`
+    
+---
+
+# Could measurement level be itself on a continuum?
+
+
+&lt;div style="float: left; width: 45%;"&gt;
+- Example: IQ
+    - Falls between interval and ratio?
+    - Or falls between ordinal and interval?
+    
+![](img/iq_curves.gif){}
+&lt;/div&gt;
+
+&lt;div style="float: right; width: 55%;"&gt;
+ ![](img/iq_fail.png){} 
+&lt;/div&gt;
+
+---
+
+# Goals of Measurement
+- Reliable
+    - “…the degree to which a test or measure produces the same scores when applied in the same circumstances…” [@Thomas1996]
+    - In other words, if you take the measure again, will you get the same result?
+
+- Valid
+    - “Degree to which a test or instrument measures what it purports to measure”  [@Thomas1996]
+    - In other words, does your measure measure what is it supposed to measure?
+
+---
+# Illustration
+
+![](img/validreliable.gif){}
+class: middle
+
+# Wrapping Up...
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightLines": true,
+"highlightStyle": "solarized-light",
+"countIncrementalSlides": false,
+"slideNumberFormat": ""
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
