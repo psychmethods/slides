@@ -1,7 +1,7 @@
 ---
 title: "Measurement"
 author: "S. Mason Garrison"
-bibliography: library.bib
+bibliography: "library.bib"
 output:
   xaringan::moon_reader:
     css: "../slides.css"
@@ -24,6 +24,8 @@ output:
 #       slideNumberFormat: ""  
 library(tidyverse)
 if (!require("emo")) devtools::install_github("hadley/emo")
+# Installs library if missing
+if (!require("HistData")) install.packages("HistData") 
 library(emo)
 knitr::opts_chunk$set(echo = FALSE,out.width = "90%", fig.align = "center")
 
@@ -39,7 +41,6 @@ class: middle
 
 - 4th step in the research process
   - Def: assignment of numbers to characteristics of people or objects
-
 --
 
 - Examples: measurement scales
@@ -48,28 +49,30 @@ class: middle
     - Order of finishers
     - Numbers on the back of basketball jerseys
     
---
-
+---
+## Variables
 - Variables contain the outcome of measurement processes
-  - Qualitative: number represent qualities (not quantities)
-  - Quantitative: numbers mean something in relation quantities in the real world
+  - Qualitative: 
+      - number represent qualities (not quantities)
+  - Quantitative: 
+      - numbers mean something in relation quantities in the real world
   
 ---
 
 ## Characterize each level of measurement   
 
-- Levels of Measurement [@Stevens1946]
+- Levels of Measurement (Stevens, 1946)
     - Nominal, ordinal, interval, ratio
 --
-    - Properties :
-        - Have absolute zero
-            - 0 indicated absence (origin means zero)
-        - Equal intervals
-            - An interval means the same value at any point on measurement scales
-        - Order
-            - Number means order
-        - Identity
-            - Different numbers mean different measurement outcomes (1 $\neq$ 2 )
+- Properties:
+    - Have absolute zero
+        - 0 indicated absence (origin means zero)
+    - Equal intervals
+         - An interval means the same value at any point on measurement scales
+    - Order
+        - Number means order
+    - Identity
+          - Different numbers mean different measurement outcomes (1 $\neq$ 2 )
 
 ---
 
@@ -80,40 +83,65 @@ class: middle
 
 ---
 
-# Ratio (quantitative) 
-    - All four features
-    - Multiplication is a permissible transformation
-    
-```{r, echo=TRUE,warning=FALSE}
+# Ratio (quantitative)
 
-## Installs library if missing
-if (!require("HistData")) install.packages("HistData") 
-library(HistData)   # loads the HistData package
-data("Galton")			# loads the Galton dataset
-```
+
+- All four properties
+    - Have absolute zero
+    - Equal intervals
+    - Order
+    - Identity
+- Multiplication and Division are permissible transformations
+
 
 ---
 
-# Example 
+# Example (Base R)
+
 
 ```{r, echo=TRUE,warning=FALSE}
-# attaches the dataset
-attach(Galton)
+# loads the HistData package
+library(HistData)
+# loads the Galton dataset
+data("Galton")
 # First 3n rows of data
 head(Galton, n=3)
 ```
 
+
 ---
 
-# Example 
+# Example (Base R)
 
-```{r, echo=TRUE,warning=FALSE}
-# Histogram		hist(Galton$child)  is the same, use if you do not want to attach the data file
-hist(child)	
-plot(density(child))		# Density Plot
-detach(Galton)			# Remember to detach you dataset!
+
+
+.pull-left[
+```{r ref.label = "hist1",out.width = "100%", echo = FALSE, warning = FALSE}
 ```
 
+]
+.pull-right[
+```{r hist1, fig.show = "hide", warning = FALSE,echo = TRUE}
+# Histogram
+hist(Galton$child)
+```
+]
+
+---
+
+# Example (Base R)
+
+.pull-left[
+```{r ref.label = "hist2",out.width = "100%", echo = FALSE, warning = FALSE}
+```
+]
+.pull-right[
+```{r hist2, fig.show = "hide", warning = FALSE,echo = TRUE}
+# Density Plot
+plot(density(Galton$child))
+```
+
+]
 
 ---
 
@@ -126,16 +154,38 @@ detach(Galton)			# Remember to detach you dataset!
 args(density.default)
 
 #?density # Gives you documentation
+```
 
+---
+# Bandwidth Aside
+```{r, echo=FALSE,warning=FALSE}
 knitr::include_graphics("img/density.png")
+```
 
+---
+
+# Bandwidth Aside
+
+.pull-left[
+```{r ref.label = "dens",out.width = "100%", echo = FALSE, warning = FALSE}
+```
+]
+.pull-right[
+```{r dens, fig.show = "hide", warning = FALSE,echo = TRUE}
 set.seed(201010)
 x <- rnorm(1000, 10, 2)
 par(mfrow = c(2,2))
-plot(density(x))  #A bit bumpy
-plot(density(x,adjust = 10)) #Very sooth
-plot(density(x,adjust = .1)) #Very bumpy
+
+#A bit bumpy
+plot(density(x))
+#Very sooth
+plot(density(x,adjust = 10))
+ #Very bumpy
+plot(density(x,adjust = .1))
 ```
+
+]
+
 
 ---
 
@@ -150,48 +200,91 @@ plot(density(x,adjust = .1)) #Very bumpy
 library(datasets)
 data("nottem")
 nottem[1:10] 			# First ten rows of data
-hist(nottem) 			# Histogram
-plot(density(nottem)) 	# Density Plot
 ```
+
 ---
-# Ordinal
-- Ordinal (qualitative)
-    -	Has order and identity
-    - Monotonic transformations are permissible
-    - These maintain the order of the values
+.pull-left[
+```{r, echo=TRUE}
+# Histogram
+hist(nottem)
+```
+]
+.pull-right[
+```{r, echo=TRUE}
+# Density Plot
+plot(density(nottem))
+```
+]
+
+---
+
+# Ordinal (qualitative)
+.pull-left[
+-	Has order and identity
+- Monotonic transformations are permissible
+- These variables maintain the order of the values
+]
 
 ```{r, echo=TRUE}
 # Ordinal Example
 library(ggplot2movies)
 data(movies)
 variable<-movies$rating
-head(movies[!is.na(movies$budget),], n=10) 		# First ten rows of data, with a non-missing budget
-hist(variable) 			# Histogram
-plot(density(variable)) 	# Density Plot
+head(movies[!is.na(movies$budget),], n=5) 		# First 5 rows of data, with a non-missing budget
+
 ```
 ---
-# Nominal 
+.pull-left[
+```{r, echo=TRUE}
+# Histogram
+hist(variable) 
+```
+]
+.pull-right[
+```{r, echo=TRUE}
+# Density Plot
+plot(density(variable)) 
+```
+]
 
-- Nominal
-    - Only has identity
-    - Any identity preserving transformation is permissible
+---
+
+# Nominal
+
+.pull-left[
+- Only has identity
+- Any identity preserving transformation is permissible
+]
+
 
 ```{r, echo=TRUE}
 # Nominal Example
 library(vcd)
 data(Arthritis)
-Arthritis[1:10, ]  		# First ten rows of data
-
-variable<-Arthritis$Treatment
-#hist(variable) 				# Histogram error
-
-barplot_fix<-prop.table(table(variable))
-
-barplot(barplot_fix)	# Sometimes, R is silly
+# First 8  rows of data
+Arthritis[1:8, ]
 ```
+
+---
+.pull-left[
+```{r ref.label = "nom",out.width = "100%", echo = FALSE, warning = FALSE}
+```
+]
+.pull-right[
+```{r nom, fig.show = "hide", warning = FALSE,echo = TRUE}
+variable<-Arthritis$Treatment
+#hist(variable) # error
+
+barplot_fix <-
+     prop.table(table(variable))
+# Sometimes, R is silly
+barplot(barplot_fix)
+```
+]
 ---
 
 # More complex measurement level taxomony
+
 - Missing (considered nominal under the Stevens taxonomy)
 - Binary (considered nominal under the Stevens taxonomy)
 - Nominal (considered nominal under the Stevens taxonomy)
@@ -200,41 +293,46 @@ barplot(barplot_fix)	# Sometimes, R is silly
 - Interval
 - Ratio
 - Absolute measurement (has no permissible transformation)
-    - $6.02 x 10^{23}$
+    - $6.02$ x $10^{23}$
     - $\pi$
     
 ---
 
-# Could measurement level be itself on a continuum?
+## Could measurement level be itself on a continuum?
 
-
-<div style="float: left; width: 45%;">
+.pull-left[
 - Example: IQ
     - Falls between interval and ratio?
     - Or falls between ordinal and interval?
-    
-![](img/iq_curves.gif){}
-</div>
+![](img/iq_curves.gif)
+]
 
-<div style="float: right; width: 55%;">
- ![](img/iq_fail.png){} 
-</div>
+--
+.pull-right[
+ ![](img/iq_fail.png)
+]
 
 ---
+
+
 
 # Goals of Measurement
 - Reliable
-    - “…the degree to which a test or measure produces the same scores when applied in the same circumstances…” [@Thomas1996]
-    - In other words, if you take the measure again, will you get the same result?
+  - "…the degree to which a test or measure produces the same scores when applied in the same circumstances…" Thomas (1996)
+  - In other words, if you take the measure again, will you get the same result?
+--
 
 - Valid
-    - “Degree to which a test or instrument measures what it purports to measure”  [@Thomas1996]
+    - "Degree to which a test or instrument measures what it purports to measure" Thomas (1996)
     - In other words, does your measure measure what is it supposed to measure?
 
 ---
-# Illustration
-
-![](img/validreliable.gif){}
-class: middle
 
 # Wrapping Up...
+
+<br><br>
+![](img/validreliable.gif)
+
+
+
+
