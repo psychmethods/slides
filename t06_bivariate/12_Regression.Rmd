@@ -4,7 +4,7 @@ date: '`r format(Sys.time(), "%B %d, %Y")`'
 bibliography: library.bib
 output:
   slidy_presentation:
-    css: teaching.css
+    css: ../teaching.css
     fig_caption: yes
     font_adjustment: 2
     highlight: pygments
@@ -31,6 +31,7 @@ knitr::opts_chunk$set(echo = FALSE,out.width="75%", fig.align = "center",fig.ret
     
 
 # Motivating Smoking and Lung Capacity
+
 If you recall, we previously used data on smoking and lung capacity.
 
 
@@ -63,6 +64,7 @@ scatterplot(lung_capacity~cigarettes,data=smoking)
 
 
 # Regression
+
 - In simple language, we draw a line through the points in a scatter plot
 - In more sophisicated language, we fit a linear model of the relationship between $x$ and $y$
 - A regression line is a straight line that describes how a response variable $y$ changes as an explanatory variable $x$ changes. 

@@ -4,7 +4,7 @@ date: '`r format(Sys.time(), "%B %d, %Y")`'
 bibliography: library.bib
 output:
   slidy_presentation:
-    css: teaching.css
+    css: ../teaching.css
     fig_caption: yes
     font_adjustment: 2
     highlight: pygments
@@ -304,7 +304,7 @@ grid.arrange(plotin, plotcm, top='Correlation between Parent and Child Heights i
 # Correlation Magnitude
 
 ```{r}
-knitr::include_graphics("res/pic/correlation magnitude.png")
+knitr::include_graphics("../img/correlation magnitude.png")
 ```
 
 
@@ -630,7 +630,7 @@ detach(data)
     - It is the most sensitive summary stat we have seen thus far
 
 ```{r}
-knitr::include_graphics("res/pic/nonline.png")
+knitr::include_graphics("../img/nonline.png")
 ```
 
 # Shared Variance: $R^{2}$
