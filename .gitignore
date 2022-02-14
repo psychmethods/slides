@@ -17,3 +17,6 @@ xu*
 */libs/*
 *.js
 .Rproj.user
+dat/desktop.ini
+img/desktop.ini
+t03_descriptives/dat/desktop.ini
