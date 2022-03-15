@@ -27,7 +27,7 @@ if (!require("emo")) devtools::install_github("hadley/emo")
 # Installs library if missing
 library(emo)
 knitr::opts_chunk$set(echo = FALSE,out.width = "90%", fig.align = "center")
-
+library(psych)
 ```
 
 class: middle
@@ -91,25 +91,158 @@ class: middle
 --
 
 - Paired
+  - e.g., same measures for siblings in a pair
   - e.g. a measurement of disease at two different parts of the body in the same patient / animal
   - e.g. measurements before and after treatment for the same individual
 --
 
 - Independent:
-  - e.g.the weight of two different breeds of mice
+  - e.g. the weight of two different breeds of mice
+  - e.g. superpowers after exposure to radiation
 
 ---
 
 ## Matched pair t-test
 
-- Used when we want to know whether a sample we collected come from a particular population with unknown mean $\mu$. 
-- Important: Only used if we are interested in the difference score, and we don't make inference about pre-test measure or post-test measure
-- We only use the difference score to denote change, thus a matched pair t-test is same with the one-sample t-test in terms of procedure.
-- In one sample t-test, we have the sampling distribution of the mean, 
-  - Here we instead have the sampling distribution of the difference score.
-  - The null is that the difference score is 0
+.pull-left[
+- The paired (a.k.a. matched) t-test evaluates mean difference between pairs of measurements.
+- Used when the two samples of data are:
+  - related or 
+  - provided by the same participants
+  ]
+  
+--
+
+.pull-right[
+- The procedure for a matched pair t-test is same as the one-sample t-test.
+- But, we the difference score to denote change.
+- For the paired t-test, we have the sampling distribution of the difference score $^{a}$ 
+  - ( $H_{0}: \mu_{\Delta} = 0$ )
+]
+
+.footnote[a: In one sample t-test, we have the sampling distribution of the mean.]
+---
+
+## Worked Example
+
+
+.tiny.pull-left-narrow[
+```{r results='as.is'}
+library(knitr)
+paired_df <- data.frame(
+  id = 1:17,
+  time1 = c(
+    83.8,
+    83.3,
+    86,
+    82.5,
+    86.7,
+    79.6,
+    76.9,
+    94.2,
+    73.4,
+    80.5,
+    81.6,
+    82.1,
+    77.6,
+    83.5,
+    89.9,
+    86,
+    87.3
+  ),
+  time2 = c(
+    95.2,
+    94.3,
+    91.5,
+    91.9,
+    100.3,
+    76.7,
+    76.8,
+    101.6,
+    94.9,
+    75.2,
+    77.8,
+    95.5,
+    90.7,
+    92.5,
+    93.8,
+    91.7,
+    98
+  )
+)
+paired_df$difference= paired_df$time2-paired_df$time1
+summary_df=describe(paired_df)
+kable(paired_df)
+
+```
+
+]
+.pull-right-wide[
+- We want to see whether family therapy is an effective treatment for improving mood. 
+- In this experiment, there are 17 participants, 
+  - and they were scored on mood before and after treatment. 
+- For contrived reasons, mood was scored with a proprietary ratio-level measure called MOOD. 
+  - Before treatment, MOOD scores averaged `r round(summary_df$mean[2],digits=2)` (sd = `r round(summary_df$sd[2],digits=2)`)
+  -  After treatment, MOOD scores averaged `r round(summary_df$mean[3],digits=2)` (sd = `r round(summary_df$sd[3],digits=2)`)
+- .hand[Question]:
+  - Did treatment improve mood?
+]
+
+---
+
+## Worked Example
+
+- A negative difference represents mood loss, and 
+  - a positive difference represents a mood improvement 
+- Even though we found that differences in MOOD scores were `r round(summary_df$mean[4],digits=2)` (sd = `r round(summary_df$sd[4],digits=2)`) on average.
+- We still need to test to see whether this difference is likely to represent a
+  - true difference in population means, or 
+  - a chance difference. 
+
+
+
+---
+
+## Workflow
+
+- `1`. Decide what type of test we want to use
+  - We don't know population sd 
+      - ∴  t-test
+  - We have one sample, and we want to know whether it is from a particular population.
+      - ∴  one sample t-test
+- `2`. Decide what the null and alternative hypothesis is.
+  - Null: students are guessing. $H_{0}: \mu=20$  $(\mu_0)$
+  - Alternative: students are not guessing. $H_{1}: \mu\ne20$  $(\mu_1)$
+
+---
+
+## Workflow
+
+- `3`. List what we have
+  - $\bar{x}= 46.21$
+  - $\mu=20$
+  - $N=28$
+  - $s=6.73$
+- `4.`  Compute t-statistic
+  - $t = \frac{M- \mu_{0} }{s/\sqrt{n}}$ = 
+  - (46.21−20)/(6.73/ $\sqrt{28}$)= 20.61
   
 ---
+
+## Workflow
+  
+- `5`. finding critical value in t-table
+  - Df = n-1 = 27
+  - Because we specified the test as two-tailed, 
+     - a 95% CI will have a upper tail probability of 0.05/2= 0.025
+  - t*=2.051
+- `6`. Compare t-statistic to t* (we can also calculate p and compare to $\alpha$)
+  - 20.61 > 2.051
+- `7`. Make decision: reject null or not, and draw conclusion
+   - We reject null hypothesis based on the results, the group of students are not guessing. 
+
+---
+
 
 ## Worked Example
 
