@@ -1,0 +1,509 @@
+---
+title: "t-tests and their applications <br> `r emo::ji('tea')`"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+#       slideNumberFormat: ""  
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+# Installs library if missing
+if (!require("HistData")) install.packages("HistData") 
+library(emo)
+knitr::opts_chunk$set(echo = FALSE,out.width = "90%", fig.align = "center")
+
+```
+
+class: middle
+
+# t-tests and their applications
+
+---
+
+## Roadmap: Last Week 
+.large[
+- p-values
+- Hypothesis Testing
+- Experimental Designs
+]
+
+---
+
+## Roadmap: This Week
+.large[
+- t-test logic
+- one sample t-tests
+- two sample t-tests
+- Interrogating Null Effects
+]
+
+---
+
+class: middle
+
+# t-tests
+
+
+---
+
+## Context
+
+- We studied the characteristics of the $Z$-statistic 
+  - for comparing a mean with a null-hypothesized value. 
+--
+
+- In the process, we learned a number of general principles about 
+	- hypothesis testing, 
+	- power, and the factors affecting power and 
+	- the sample size n needed to achieve it. 
+
+---
+
+## Z-Test to T-Test
+
+- The Z statistic itself is virtually never used in practice.
+
+--
+- .hand-blue[Why?]
+
+--
+- Because the population standard deviation $\sigma$ is not known, 
+  - anymore than the population mean is.
+
+--
+- .hand-blue[So, what do we do?]
+
+---
+
+## Solution?
+
+- We could substitute an estimate of $\sigma$ (*i.e.*,  $\hat{\sigma}$ )
+  - in place of $\sigma$.
+--
+  
+- Could we replace it with... 
+  - the sample standard deviation (*s*)?
+--
+
+- Thus, creating a modified $Z$ statistic?
+--
+
+
+<br><br>
+.center.large[
+$Z_{modified} = \frac{M- \mu_{0} }{s/\sqrt{n}}$
+]
+
+---
+
+## Thinking Intuitively
+
+- The original $Z$ statistic modified M by subtracting a constant, 
+  - then dividing by a constant.
+- The only thing in the $Z$ statistic that would vary over repeated samples is
+  - M, the sample mean.
+- This means that the distribution of $Z$ has to be the
+  - same shape as the distribution of M
+
+---
+
+## Thinking Intuitively
+.pull-left[
+- The modified $Z$ statistic has a 
+  - sample quantity in its denominator.
+- That quantity varies over repeated samples along with M.
+- So now, instead of only one thing varying, 
+  - you have two.
+- It turns out that, as $n$ gets larger and larger, 
+  - these modifications matter less and less, 
+  - because $s$ starts acting more and more like the constant that it is estimating.
+]
+.center.pull-right.large[
+<br>
+<br>
+<br>
+$Z_{modified} = \frac{M- \mu_{0} }{s/\sqrt{n}}$
+]
+---
+
+## Thinking Intuitively
+
+- In fact, it was known back around 1900 that, as $n$ goes to infinity, 
+  - the modified $Z$ statistic's distribution got closer and closer to 
+  - the distribution of the original $Z$ statistic.
+- What people didn't know was...
+  - how to characterize the performance of the modified $Z$ statistic at small sample sizes.
+  
+---
+
+## Student's T
+.pull-left[
+- W.S. Gossett was a statistician working for the Guinness brewery,
+  - when he derived the exact distribution of $Z_{modified}$ under some specific conditions.
+- This development was considered something of a landmark by the statistical community.
+- However, due confidentiality and conflicts of interest, 
+  - Gossett published his work under the pen name of "Student".
+
+]
+
+.pull-right[
+```{r studentt, echo=FALSE, out.width="65%"}
+knitr::include_graphics("../img/William_Sealy_Gosset.jpg")
+```
+
+.small[
+- [source: wikimedia](https://commons.wikimedia.org/wiki/File:William_Sealy_Gosset.jpg)]
+
+]
+---
+
+## Student's T
+
+.pull-left[
+- Thus, the modified $Z$ statistic became known as
+  - “Student's t statistic” in his honor.
+- The distribution of the statistic became known as
+  - “Student’s t distribution,” 
+- This statistic and distribution has many applications 
+  - beyond what we are reviewing here
+]
+
+.pull-right[
+```{r ref.label = "studentt", echo=FALSE, out.width="65%"}
+```
+
+.small[
+- [source: wikimedia](https://commons.wikimedia.org/wiki/File:William_Sealy_Gosset.jpg)]
+
+]
+---
+
+## t-distribution facts
+.pull-left[
+- the t-distribution varies as a function of:
+   - degrees of freedom (df)
+- For the sake of simplicity, df will be defined as one less than the number of observations in the sample. 
+- Df = n-1 (n: sample size)
+
+.center.large[
+$t_{df} = \frac{z}{ \sqrt{\frac{ \chi^{2}_{df}}{df}}}$
+]
+]
+.pull-right[
+```{r ztplot, echo=FALSE}
+# code: https://sebastiansauer.github.io/normal_curve_ggplot2/
+# code: https://ggplot2tutor.com/tutorials/sampling_distributions
+
+library(ggplot2)
+
+p1 <- ggplot(data.frame(x=c(-4,4)),aes(x,color="red")) + stat_function(fun=dt, args=list(df=1),aes(colour="df=1")) + 
+  stat_function(fun=dt, args=list(df=3),aes(colour="df=3")) +
+  stat_function(fun=dt, args=list(df=8),aes(colour="df=8")) +
+  stat_function(fun=dt, args=list(df=30),aes(colour="df=30")) +
+  stat_function(fun=dnorm, aes(colour="normal")) + 
+  scale_color_manual(name="Distribution", values=c("red","blue","green","orange","black")) +
+  ggtitle("Comparison of t Distributions")
+  
+p1+theme_bw()
+
+```
+
+]
+
+---
+
+```{r ztplot,echo=FALSE}
+```
+
+---
+
+## Z vs T
+<br>
+
+|   | Z-Distribution | T-distribution |
+|---|---|---|
+| Do we know the population variance? | Yes | No. We substitute sample variance $s^{2}$ for $\sigma^{2}$|
+| shape | Bell shaped and symmetric | Bell shaped and symmetric, but fatter tail than z-distribution. |
+| Mean  | 0  | 0 |
+| Variance  | 1 | df/(df-2): proportionally larger than z |
+| score   | $Z = \frac{M- \mu_{0} }{\sigma/\sqrt{n}}$  | $t = \frac{M- \mu_{0} }{s/\sqrt{n}}$  |
+
+---
+
+class: middle
+
+# Wrapping Up...
+---
+
+class: middle
+
+# Three t-test Applications
+
+---
+
+## Three t-test Applications
+
+- One sample t-test
+  - Used when we want to know whether a sample we collected come from a particular population with unknown mean $\mu$. 
+  - (similar to what we did with z-test so far)
+--
+
+- Matched pair t-test
+  - Used when the two samples of data were related or provided by the same participants 
+  - (*e.g.*, pre- and post-test)
+--
+  
+- Independent sample t-test
+  - test the difference between the means of two independent groups 
+  - (*e.g.*, treatment and control group)
+
+---
+
+## General Procedure
+.large[
+1. Decide what type of test we want to use
+2. Decide what the null and alternative hypothesis is.
+3. List what we have
+4. Compute t-statistic
+5. finding critical value in t-table
+6. Compare t-statistic to t* 
+  - (we can also calculate p and compare to $\alpha$)
+7. Make decision: reject null or not, and draw conclusion
+]
+---
+
+## One Sample t-test
+
+- Used when we want to know whether a sample we collected come from a particular population with unknown mean $\mu$. 
+--
+
+- Example:
+- We had a group of 28 students taking a reading quiz, but had not seen the passage on which the questions were based (sample mean: 46.21, sample sd: 6.73). 
+- If the students had really guessed blindly, without even looking at the possible answers, 
+  - we would expect that they would get 20 items correct (OUT OF 100) by chance.
+--
+
+- Question:
+  - Did the students guess by chance?
+
+---
+
+## Workflow
+
+- `1`. Decide what type of test we want to use
+  - We don't know population sd 
+      - ∴  t-test
+  - We only have one sample, and we want to know whether it is from a particular population.
+      - ∴  one sample t-test
+- `2`. Decide what the null and alternative hypothesis is.
+  - Null: students are guessing. $H_{0}: \mu=20$  $(\mu_0)$
+  - Alternative: students are not guessing. $H_{1}: \mu\ne20$  $(\mu_1)$
+
+---
+
+## Workflow
+
+- `3`. List what we have
+  - $\bar{x}= 46.21$
+  - $\mu=20$
+  - $N=28$
+  - $s=6.73$
+- `4.`  Compute t-statistic
+  - $t = \frac{M- \mu_{0} }{s/\sqrt{n}}$ = 
+  - (46.21−20)/(6.73/ $\sqrt{28}$)= 20.61
+  
+---
+
+## Workflow
+  
+- `5`. finding critical value in t-table
+  - Df = n-1 = 27
+  - Because we specified the test as two-tailed, 
+     - a 95% CI will have a upper tail probability of 0.05/2= 0.025
+  - t*=2.051
+- `6`. Compare t-statistic to t* (we can also calculate p and compare to $\alpha$)
+  - 20.61 > 2.051
+- `7`. Make decision: reject null or not, and draw conclusion
+   - We reject null hypothesis based on the results, the group of students are not guessing. 
+
+
+---
+
+## One-sample t-test: does mean = X?
+
+- e.g. Question: Published data suggests that the microarray failure rate for a particular supplier is 2.1%
+- **Genomics Core want to know if this holds true in their own lab?**
+
+---
+
+
+## One-sample t-test: does mean = X?
+
+- Null hypothesis, $H_0$:
+    + Mean monthly failure rate = 2.1%
+- Alternative hypothesis: $H_1$:
+    + Mean monthly failure rate $\ne$ 2.1%
+- Tails: *two-tailed*
+- Either *reject* or *do not reject* the null hypothesis 
+<!-- - ***Never accept the alternative hypothesis*** -->
+
+---
+
+## One sample t-test; the data
+.small.pull-left[
+```{r results='as.is'}
+library(knitr)
+failure <- data.frame(Month = month.name, "Monthly failure rate" = c(2.9,2.99,2.48,1.48,2.71,4.17,3.74,3.04,1.23,2.72,3.23,3.4))
+kable(failure)
+me <- round(mean(failure$Monthly.failure.rate),3)
+sd <- round(sd(failure$Monthly.failure.rate),3)
+```
+]
+.pull-right[
+
+- mean = $(2.9 + \dots + 3.40) / 12$ = `r me`
+- Standard deviation = `r sd`
+- Hypothesized Mean = 2.1
+]
+
+---
+
+## One-sample t-test; key assumptions
+
+.pull-left-narrow[
+- Observations are independent
+- Observations are normally distributed
+]
+.pull-right-wide[
+```{r}
+hist(failure$Monthly.failure.rate,col="steelblue",xlab="Monthly Failure Rate",main="")
+```
+]
+
+
+
+```{r}
+test <- t.test(failure$Monthly.failure.rate,mu=2.1)
+stat <- round(test$statistic,3)
+pval <- round(test$p.value,3)
+degfree <- test$parameter
+critvals <- c(qt(0.05, degfree),qt(0.95,degfree))
+rect1 <- data.frame(xmin = -4,xmax = critvals[1], ymin=-Inf,ymax=Inf)
+rect2 <- data.frame(xmin = critvals[2],xmax = 4, ymin=-Inf,ymax=Inf)
+```
+
+---
+
+
+## One-sample t-test; results
+.pull-left[
+- Test statistic:
+
+$t_{n-1} = t_{11} = \frac{\bar{x} - \mu_0}{s.d. / \sqrt{n}}$
+
+
+$= \frac{2.84 - 2.10}{s.e.(M)} =$ `r stat`
+
+]
+.pull-right[
+
+```{r}
+ggplot(data.frame(x=c(-4,4)),aes(x)) + stat_function(fun=dt, args=list(df=11)) +
+geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_rect(data=rect2,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE)
+```
+]
+
+---
+
+
+## One-sample t-test; results
+
+```{r,out.width = "70%"}
+ggplot(data.frame(x=c(-4,4)),aes(x)) + stat_function(fun=dt, args=list(df=11)) +
+geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_rect(data=rect2,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_vline(xintercept = stat,lty=2,col="red")
+```
+
+---
+
+
+## One-sample t-test; results
+
+- Test statistic: $t_{n-1} = t_{11} = \frac{\bar{x} - \mu_0} {s.d. / \sqrt{n}} = \frac{2.84 - 2.10}{s.e.(\bar{x})} =$ `r stat`
+- df = 11
+- P = 0.01
+- ***Reject*** $H_0$
+- Evidence that mean monthly failure rate $\ne$ 2.1%
+
+---
+
+## One-sample t-test; results
+
+- The mean monthly failure rate of microarrays in the Genomics core is 2.84 (95% CI: 2.30, 3.37).
+- It is not equal to the hypothesized mean proposed by the company of 2.1.
+- t=3.07, df=11, p=0.01
+
+---
+
+## 3rd Example
+
+- We wanted to test whether the volume of a shipment of lumber is less than usual:
+  - $\mu_{0} = 39000$ cubic feet
+  
+.pull-left-narrow[
+- Classic $R$  syntax
+  - t.test(y, mu = 0)
+  - where x is the name of our variable of interest, and 
+  - mu is set equal to the mean specified by the null hypothesis.
+]
+
+.pull-right-wide[
+```{r onesample, results="hide", echo=TRUE}
+set.seed(0)
+treeVolume <- c(rnorm(75, 
+                      mean = 36500, 
+                      sd = 2000))
+t.test(treeVolume, mu = 39000) # Ho: mu = 39000
+
+```
+
+]
+
+.center.footnote[Source Code: https://datascienceplus.com/t-tests/]
+
+---
+
+## Output
+
+```{r ref.label = "onesample", echo = FALSE, warning = FALSE}
+```
+
+---
+
+class: middle
+
+
+# Wrapping Up...
+<!--
+- source code: https://ggplot2tutor.com/tutorials/sampling_distributions
+- source code: https://github.com/bioinformatics-core-shared-training/IntroductionToStats
+
+# References
+
+-->

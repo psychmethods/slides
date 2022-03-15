@@ -515,7 +515,7 @@ If you are not sure about the name of the function you are looking for, you can 
 # Wrapping Up...
 
 <br><br>
-![](img/validreliable.gif)
+![](../img/validreliable.gif)
 
 
 

@@ -170,7 +170,7 @@ args(density.default)
 ---
 # Bandwidth Aside
 ```{r, echo=FALSE,warning=FALSE}
-knitr::include_graphics("img/density.png")
+knitr::include_graphics("../img/density.png")
 ```
 
 ---
@@ -315,12 +315,12 @@ barplot(barplot_fix)
 - Example: IQ
     - Falls between interval and ratio?
     - Or falls between ordinal and interval?
-![](img/iq_curves.gif)
+![](../img/iq_curves.gif)
 ]
 
 --
 .pull-right[
- ![](img/iq_fail.png)
+ ![](../img/iq_fail.png)
 ]
 
 ---
@@ -356,7 +356,7 @@ barplot(barplot_fix)
 # Wrapping Up...
 
 <br><br>
-![](img/validreliable.gif)
+![](../img/validreliable.gif)
 
 
 

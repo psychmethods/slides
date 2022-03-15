@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>two sample t-tests   2️⃣</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="S. Mason Garrison" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# two sample t-tests <br> 2️⃣
+### S. Mason Garrison
+
+---
+
+
+
+
+
+layout: true
+  
+&lt;div class="my-footer"&gt;
+&lt;span&gt;
+&lt;a href="https://DataScience4Psych.github.io/DataScience4Psych/" target="_blank"&gt;Methods in Psychological Research&lt;/a&gt;
+&lt;/span&gt;
+&lt;/div&gt; 
+
+---
+
+
+
+class: middle
+
+# two sample t-tests
+
+---
+
+## Roadmap: This Week
+.large[
+- t-test logic
+- one sample t-tests
+- two sample t-tests
+- Interrogating Null Effects
+]
+
+---
+
+class: middle
+
+# Recall: t-tests
+
+---
+
+## Three t-test Applications
+
+- One sample t-test
+  - Used when we want to know whether a sample we collected come from a particular population with unknown mean `\(\mu\)`. 
+  - (similar to what we did with z-test so far)
+--
+
+- Matched pair t-test
+  - Used when the two samples of data were related or provided by the same participants 
+  - (*e.g.*, pre- and post-test)
+--
+  
+- Independent sample t-test
+  - test the difference between the means of two independent groups 
+  - (*e.g.*, treatment and control group)
+
+---
+
+## General Procedure
+.large[
+1. Decide what type of test we want to use
+2. Decide what the null and alternative hypothesis is.
+3. List what we have
+4. Compute t-statistic
+5. finding critical value in t-table
+6. Compare t-statistic to t* 
+  - (we can also calculate p and compare to `\(\alpha\)`)
+7. Make decision: reject null or not, and draw conclusion
+]
+
+---
+
+
+## Two-sample t-tests
+
+- Two types of two-sample t-test:
+--
+
+- Paired
+  - e.g. a measurement of disease at two different parts of the body in the same patient / animal
+  - e.g. measurements before and after treatment for the same individual
+--
+
+- Independent:
+  - e.g.the weight of two different breeds of mice
+
+---
+
+## Matched pair t-test
+
+- Used when we want to know whether a sample we collected come from a particular population with unknown mean `\(\mu\)`. 
+- Important: Only used if we are interested in the difference score, and we don't make inference about pre-test measure or post-test measure
+- We only use the difference score to denote change, thus a matched pair t-test is same with the one-sample t-test in terms of procedure.
+- In one sample t-test, we have the sampling distribution of the mean, 
+  - Here we instead have the sampling distribution of the difference score.
+  - The null is that the difference score is 0
+  
+---
+
+## Worked Example
+
+- We're testing a new drug, Procardia, that's meant to reduce hypertension:
+- We find 100 individuals with a high systolic blood pressure (x=  145; mmHg, SD=9 mmHg),
+- We give them Procardia for a month, and then measure their blood pressure again.
+- We find that the mean systolic blood pressure has decreased to 142mmHg with standard deviation 8mmHg.
+
+---
+  
+.pull-left-narrow[
+- Classic `\(R\)`  syntax
+  - t.test(y1, y2, paired=TRUE).
+  - where y1 and y2 are the paired variable of interest, and 
+  - paired is set equal to true.
+]
+
+.pull-right-wide[
+
+```r
+set.seed(282011)
+
+preTreat &lt;- c(rnorm(100, mean = 145, sd = 9))
+postTreat &lt;- c(rnorm(100, mean = 142, sd = 8))
+
+t.test(preTreat, postTreat, paired = TRUE)
+```
+
+]
+
+.center.footnote[Source Code: https://datascienceplus.com/t-tests/]
+
+---
+
+## Output
+
+
+```
+## 
+## 	Paired t-test
+## 
+## data:  preTreat and postTreat
+## t = 1.3623, df = 99, p-value = 0.1762
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.7362123  3.9619064
+## sample estimates:
+## mean of the differences 
+##                1.612847
+```
+
+
+---
+
+## Paired two-sample t-test: Does the mean difference = 0?
+
+- e.g. Research question: 
+- 20 patients with ovarian cancer were studied using MRI imaging. 
+  - Cellularity was measured for each patient at two sites of disease. 
+- Does the cellularity differ between two different sites of disease? 
+
+---
+
+## Paired two-sample t-test: Does the mean difference = 0?
+
+- Null hypothesis, `\(H_0\)`:
+    + Cellularity at site A = Cellularity at site B
+- Alternative hypothesis, `\(H_1\)`
+    + Cellularity at site A `\(\ne\)` Cellularity at site B
+- Tails: two-tailed
+- Either ***reject*** or ***do not reject*** the null hypothesis 
+
+---
+
+## Paired two-sample t-test; null hypothesis
+
+- `\(H_0\)`; Cellularity at site A = Cellularity at site B
+    + ***or***
+- `\(H_0\)`: Cellularity at site A - Cellularity at site B = 0
+
+---
+
+## Paired two-sample t-test; the data
+
+![](../img/cellularity-table.png)
+
+---
+
+## Paired two-sample t-test; key assumptions
+
+.pull-left[
+- Observations are independent
+- The ***paired differences*** are normally-distributed
+]
+
+.pull-right[
+&lt;img src="02_multisample_files/figure-html/unnamed-chunk-3-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+## Paired two-sample t-test; results
+
+.pull-left[
+`\(t_{n-1} = t_{19} = \frac{\bar{X}_{A-B}}{s.e.(\bar{X}_{A-B})} =\)` 3.66
+
+df = 19
+
+P-value: 0.002
+
+
+&lt;br&gt;
+***Reject*** `\(H_0\)`
+
+(evidence that cellularity at Site A `\(\ne\)` site B)
+]
+.pull-right[
+&lt;img src="02_multisample_files/figure-html/unnamed-chunk-4-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+## Paired two-sample t-test; results
+
+- The difference in cellularity between the two sites is 19.14 (95% CI: 8.20, 30.08).
+- There is evidence of a difference in cellularity between the two sites. 
+- t=3.66, df=19, p=0.002.
+
+
+--- 
+
+# Another example
+
+
+
+```r
+set.seed(0)
+treeVolume_t1 &lt;- c(rnorm(75, 
+                      mean = 5, 
+                      sd = 5))
+
+treeVolume_t2 = treeVolume_t1+ c(rnorm(75, 
+                      mean = 0, 
+                      sd = 1))
+
+t.test(treeVolume_t1,treeVolume_t2 ) # Ho: mu = 39000
+```
+
+]
+
+.center.footnote[Source Code: https://datascienceplus.com/t-tests/]
+
+---
+
+class: middle
+
+# wrapping up...
+
+
+---
+
+class: middle
+
+# Independent two-sample t-tests
+
+
+---
+
+## Independent two-sample t-test: Does the mean of group A = mean of group B?
+
+![](../img/mice-breeds.png)
+
+- e.g. research question: 40 male mice (20 of breed A and 20 of breed B) were weighed at 4 weeks old
+- Does the weight of 4-week old male mice depend on breed?
+
+---
+
+## Independent two-sample t-test: Does the mean of group A = mean of group B?
+
+- Null hypothesis, `\(H_0\)`
+    + mean weight of breed A = mean weight of breed B
+- Alternative hypothesis, `\(H_1\)`
+    + mean weight of breed B `\(\ne\)` mean weight of breed B
+- Tails: two-tailed 
+    + the tails on the distribution - not on the mice!!!
+- Either ***reject*** or ***do not reject*** the null hypothesis
+
+---
+
+## Independent two-sample t-test: the data
+
+![](../img/mice-data.png)
+---
+
+## Independent two-sample t-test: key assumptions
+.pull-left[
+- Observations are independent
+- Observations are normally-distributed
+]
+.pull-right[
+&lt;img src="02_multisample_files/figure-html/unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+---
+
+## Independent two-sample t-test: *More* key assumptions
+
+.pull-left[
+- Equal variance in the two comparison groups
+    + Use "Welch's correction" if variances are different
+    + alters the t-statistic and degrees of freedom
+]
+.pull-right[
+&lt;img src="02_multisample_files/figure-html/unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+---
+
+## Independent two-sample t-test: result
+
+.pull-left[
+- `\(t_{df} = \frac{\bar{X_A} - \bar{X_B}}{s.e.(\bar{X_A} - \bar{X_B})}\)` = -1.21
+- df = 29.78 (with Welch's correction)
+]
+
+.pull-right[
+&lt;img src="02_multisample_files/figure-html/unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" /&gt;
+]
+
+P-value: 0.24
+
+***Do not reject*** `\(H_0\)`
+
+(No evidence that mean weight of breed A `\(\ne\)` mean weight of breed B)
+
+---
+
+
+## Independent two-sample t-test: result
+
+- The difference in mean weight between the two breeds is -1.30 (95% CI: -3.48, 0.89) 
+    + [NB as this is negative, breed B mice tend to be bigger than breed A].
+- There is no evidence of a difference in weights between breed A and breed B. 
+- t=-1.21, df= 29.78 (Welch’s correction), p=0.24
+
+
+
+
+## What if normality is not reasonable?
+
+- Transform your data, e.g. log transformation
+- Non-parametric tests....
+
+---
+
+
+## Summary - continuous variables
+
+- One-sample t-test 
+    + Use when we have one group.
+- Paired two-sample t-test 
+    + Use when we have two non-independent groups. 
+- Independent two-sample t-test 
+    + Use when we have two independent groups. A Welch correction may be needed if the two groups have different spread.
+- Non-parametric tests or transformations
+    + Use when we cannot assume normality. 
+
+---
+
+    
+## Summary - t-test
+
+- Turn scientific question to null and alternative hypothesis
+- Think about test assumptions
+- Calculate summary statistics
+- Carry out t-test if appropriate
+
+
+
+---
+
+class: middle
+
+# wrapping up...
+
+
+---
+
+
+class: middle
+
+# Robustness of t-test...
+
+
+---
+
+## Robustness of t-test
+
+- A confidence interval or significance test is called robust if the confidence level or p-value does not change very much when the conditions for use of the procedure are violated.
+--
+- Rule of thumb
+--
+- For one sample t-test or matched pair t-test
+  - For n &lt; 15, use t only if the data appear close to Normal or roughly symmetric. 
+    - If the data are clearly skewed or if outliers are present, do not use t.
+- For n&gt; 40: The t procedures can be used, 
+  - even for clearly skewed distribution
+  
+---
+## For two independent t-test
+
+- More robust than the one-sample t methods, particularly when the distributions are not symmetric.
+- When n_{1}=n_{2} and the two population have same shape, t is robust for even very small sample. e.g., `\(n_{1}=n_{2}=5\)`. 
+-Rule of thumb: adapt the guidelines for one-sample t procedures to two-sample procedures by replacing “sample size” with the “sum of the sample sizes,” `\(n_{1}+n_{2}\)`.
+
+
+---
+
+# Wrapping Up...
+
+- source code: https://ggplot2tutor.com/tutorials/sampling_distributions
+- source code: https://github.com/bioinformatics-core-shared-training/IntroductionToStats
+
+# References
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightLines": true,
+"highlightStyle": "solarized-light",
+"countIncrementalSlides": false,
+"slideNumberFormat": ""
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
