@@ -426,7 +426,7 @@ $= \frac{2.84 - 2.10}{s.e.(M)} =$ `r stat`
 
 ```{r}
 ggplot(data.frame(x=c(-4,4)),aes(x)) + stat_function(fun=dt, args=list(df=11)) +
-geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_rect(data=rect2,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE)
+geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_rect(data=rect2,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE)+theme_bw()
 ```
 ]
 
@@ -437,7 +437,7 @@ geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steel
 
 ```{r,out.width = "70%"}
 ggplot(data.frame(x=c(-4,4)),aes(x)) + stat_function(fun=dt, args=list(df=11)) +
-geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_rect(data=rect2,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_vline(xintercept = stat,lty=2,col="red")
+geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_rect(data=rect2,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_vline(xintercept = stat,lty=2,col="red")+theme_bw()
 ```
 
 ---

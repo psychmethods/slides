@@ -172,6 +172,7 @@ paired_df <- data.frame(
 )
 paired_df$difference= paired_df$time2-paired_df$time1
 summary_df=describe(paired_df)
+pairedtstat= t.test(paired_df$time2, paired_df$time1, paired=TRUE)
 kable(paired_df)
 
 ```
@@ -208,48 +209,59 @@ kable(paired_df)
 - `1`. Decide what type of test we want to use
   - We don't know population sd 
       - ∴  t-test
-  - We have one sample, and we want to know whether it is from a particular population.
-      - ∴  one sample t-test
+  - We have one sample but two related scores for each participants, and 
+      - we want to know whether the difference is significant
+      - ∴  matched pair t-test
 - `2`. Decide what the null and alternative hypothesis is.
-  - Null: students are guessing. $H_{0}: \mu=20$  $(\mu_0)$
-  - Alternative: students are not guessing. $H_{1}: \mu\ne20$  $(\mu_1)$
+  - Null: No treatment effect. $H_{0}: \mu_{\Delta} = \mu_{post}- \mu_{pre} =0$
+  - Alternative: The treatment improves MOOD. $H_{1}:\mu_{\Delta}\gt 0$  $(\mu_1)$
 
 ---
 
 ## Workflow
 
 - `3`. List what we have
-  - $\bar{x}= 46.21$
-  - $\mu=20$
-  - $N=28$
-  - $s=6.73$
+  - $\bar{\Delta}=$  `r round(summary_df$mean[4],digits=2)`
+  - $\mu_{\Delta}=0$
+  - $N=17$
+  - $s_{\Delta}=$ `r round(summary_df$sd[4],digits=2)`
 - `4.`  Compute t-statistic
-  - $t = \frac{M- \mu_{0} }{s/\sqrt{n}}$ = 
-  - (46.21−20)/(6.73/ $\sqrt{28}$)= 20.61
+  - $t = \frac{\bar{\Delta}- \mu_{\Delta} }{s/\sqrt{n}}$ = 
+  - (`r round(summary_df$mean[4],digits=2)`−0)/(`r round(summary_df$sd[4],digits=2)`/ $\sqrt{17}$)= `r round(pairedtstat$statistic ,digits=2)`
   
 ---
 
 ## Workflow
-  
+.pull-left[  
 - `5`. finding critical value in t-table
-  - Df = n-1 = 27
-  - Because we specified the test as two-tailed, 
-     - a 95% CI will have a upper tail probability of 0.05/2= 0.025
-  - t*=2.051
+  - Df = n-1 = 16
+  - Because we specified the test as one-tailed, 
+     - A one-tailed test at 0.05 level: t.05(16)=
+  - t*= `r round(qt(.95,16),digits=3)`
 - `6`. Compare t-statistic to t* (we can also calculate p and compare to $\alpha$)
-  - 20.61 > 2.051
+  - `r round(pairedtstat$statistic ,digits=2)` > `r round(qt(.95,16),digits=3)`
+  ]
+--  
+.pull-right[
 - `7`. Make decision: reject null or not, and draw conclusion
-   - We reject null hypothesis based on the results, the group of students are not guessing. 
+   - We reject null hypothesis based on the results t value, 
+   - the difference scores were unlikely to be sampled from a population of 
+      - difference scores where $\mu_{\Delta}= 0$, 
+   - which means that the therapy has an effect. 
+]
 
 ---
 
 
-## Worked Example
+## Procardia Example
 
 - We're testing a new drug, Procardia, that's meant to reduce hypertension:
-- We find 100 individuals with a high systolic blood pressure (x=  145; mmHg, SD=9 mmHg),
-- We give them Procardia for a month, and then measure their blood pressure again.
-- We find that the mean systolic blood pressure has decreased to 142mmHg with standard deviation 8mmHg.
+- We find 100 individuals with a high systolic blood pressure 
+  - (x=  145; mmHg, SD=9 mmHg),
+- We give them Procardia for a month, 
+  - and then measure their blood pressure again.
+- We find that the mean systolic blood pressure has decreased to 142mmHg 
+  - with standard deviation 8mmHg.
 
 ---
   
@@ -321,12 +333,12 @@ t.test(preTreat, postTreat, paired = TRUE)
 
 ## Paired two-sample t-test; key assumptions
 
-.pull-left[
+.pull-left-narrow[
 - Observations are independent
 - The ***paired differences*** are normally-distributed
 ]
 
-.pull-right[
+.pull-right-wide[
 ```{r}
 data <- read.csv("../dat/pairedtwo-samplet-test.csv")
 data$diff <- data$A - data$B
@@ -345,10 +357,14 @@ rect2 <- data.frame(xmin = critvals[2],xmax = 4, ymin=-Inf,ymax=Inf)
 
 ## Paired two-sample t-test; results
 
-.pull-left[
+.pull-left-narrow[
 $t_{n-1} = t_{19} = \frac{\bar{X}_{A-B}}{s.e.(\bar{X}_{A-B})} =$ `r stat`
 
+<br>
+
 df = `r degfree`
+
+<br>
 
 P-value: `r pval`
 
@@ -356,12 +372,13 @@ P-value: `r pval`
 <br>
 ***Reject*** $H_0$
 
+<br>
 (evidence that cellularity at Site A $\ne$ site B)
 ]
-.pull-right[
+.pull-right-wide[
 ```{r}
 ggplot(data.frame(x=c(-4,4)),aes(x)) + stat_function(fun=dt, args=list(df=degfree)) +
-geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_rect(data=rect2,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_vline(xintercept = stat,lty=2,col="red")
+geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_rect(data=rect2,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_vline(xintercept = stat,lty=2,col="red")+theme_bw()
 ```
 
 ]
@@ -375,13 +392,12 @@ geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steel
 - There is evidence of a difference in cellularity between the two sites. 
 - t=`r stat`, df=`r degfree`, p=`r pval`.
 
-
---- 
+---
 
 # Another example
 
 
-```{r onesample, results="hide", echo=TRUE}
+```{r pairedsample, results="hide", echo=TRUE}
 set.seed(0)
 treeVolume_t1 <- c(rnorm(75, 
                       mean = 5, 
@@ -391,19 +407,28 @@ treeVolume_t2 = treeVolume_t1+ c(rnorm(75,
                       mean = 0, 
                       sd = 1))
 
-t.test(treeVolume_t1,treeVolume_t2 ) # Ho: mu = 39000
+t.test(treeVolume_t1,treeVolume_t2,paired=TRUE ) # Ho: mu1 = mu2
 
 ```
 
-]
+
 
 .center.footnote[Source Code: https://datascienceplus.com/t-tests/]
 
+
+
 ---
+
+## Output
+
+```{r ref.label = "pairedsample", echo = FALSE, warning = FALSE}
+```
+---
+
 
 class: middle
 
-# wrapping up...
+# Wrapping up...
 
 
 ---
@@ -415,23 +440,28 @@ class: middle
 
 ---
 
-## Independent two-sample t-test: Does the mean of group A = mean of group B?
+## Independent two-sample t-test: 
+## Does the mean of group A = mean of group B?
 
+.center[
 ![](../img/mice-breeds.png)
-
-- e.g. research question: 40 male mice (20 of breed A and 20 of breed B) were weighed at 4 weeks old
+]
+- e.g. research question: 
+  - 40 male mice (20 of breed A and 20 of breed B) were weighed at 4 weeks old
 - Does the weight of 4-week old male mice depend on breed?
 
 ---
 
-## Independent two-sample t-test: Does the mean of group A = mean of group B?
+## Independent two-sample t-test: 
+## Does the mean of group A = mean of group B?
 
 - Null hypothesis, $H_0$
     + mean weight of breed A = mean weight of breed B
 - Alternative hypothesis, $H_1$
     + mean weight of breed B $\ne$ mean weight of breed B
-- Tails: two-tailed 
-    + the tails on the distribution - not on the mice!!!
+- Tails: two-tailed
+--
+  + the tails on the distribution - not on the mice!!!
 - Either ***reject*** or ***do not reject*** the null hypothesis
 
 ---
@@ -442,29 +472,29 @@ class: middle
 ---
 
 ## Independent two-sample t-test: key assumptions
-.pull-left[
+.pull-left-narrow[
 - Observations are independent
 - Observations are normally-distributed
 ]
-.pull-right[
+.pull-right-wide[
 ```{r}
 mice <- read.csv("../dat/independenttwo-samplet-test.csv")
 par(mfrow=c(1,2))
-ggplot(mice, aes(x = Weight)) + geom_histogram(fill="steelblue",col="grey") + facet_wrap(~Breed)
+ggplot(mice, aes(x = Weight)) + geom_histogram(fill="steelblue",col="grey") + facet_wrap(~Breed)+theme_bw()
 ```
 ]
 ---
 
 ## Independent two-sample t-test: *More* key assumptions
 
-.pull-left[
+.pull-left-narrow[
 - Equal variance in the two comparison groups
     + Use "Welch's correction" if variances are different
     + alters the t-statistic and degrees of freedom
 ]
-.pull-right[
+.pull-right-wide[
 ```{r}
-ggplot(mice, aes(x=Breed,y=Weight)) + geom_boxplot(fill="steelblue") + coord_flip()
+ggplot(mice, aes(x=Breed,y=Weight)) + geom_boxplot(fill="steelblue") + coord_flip()+theme_bw()
 test <- t.test(Weight~Breed,data=mice,var.equal = FALSE)
 tsat <-round(test$statistic,2)
 degfree <- round(test$parameter,2)
@@ -487,7 +517,7 @@ rect2 <- data.frame(xmin = critvals[2],xmax = 4, ymin=-Inf,ymax=Inf)
 .pull-right[
 ```{r}
 ggplot(data.frame(x=c(-4,4)),aes(x)) + stat_function(fun=dt, args=list(df=degfree)) +
-geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_rect(data=rect2,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_vline(xintercept = tsat,lty=2,col="red")
+geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_rect(data=rect2,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_vline(xintercept = tsat,lty=2,col="red")+theme_bw()
 ```
 ]
 
@@ -508,7 +538,7 @@ P-value: `r round(test$p.value,2)`
 - t=`r tsat`, df= `r degfree` (Welch’s correction), p=`r pval`
 
 
-
+---
 
 ## What if normality is not reasonable?
 
@@ -562,20 +592,25 @@ class: middle
 
 - A confidence interval or significance test is called robust if the confidence level or p-value does not change very much when the conditions for use of the procedure are violated.
 --
+
 - Rule of thumb
 --
+
 - For one sample t-test or matched pair t-test
   - For n < 15, use t only if the data appear close to Normal or roughly symmetric. 
     - If the data are clearly skewed or if outliers are present, do not use t.
-- For n> 40: The t procedures can be used, 
+- For n > 40: The t procedures can be used, 
   - even for clearly skewed distribution
   
 ---
 ## For two independent t-test
 
 - More robust than the one-sample t methods, particularly when the distributions are not symmetric.
-- When n_{1}=n_{2} and the two population have same shape, t is robust for even very small sample. e.g., $n_{1}=n_{2}=5$. 
--Rule of thumb: adapt the guidelines for one-sample t procedures to two-sample procedures by replacing “sample size” with the “sum of the sample sizes,” $n_{1}+n_{2}$.
+- When $n_{1}=n_{2}$ and the two population have same shape, 
+  - t is robust for even very small sample. 
+  - e.g., $n_{1}=n_{2}=5$. 
+- Rule of thumb: 
+  - adapt the guidelines for one-sample t procedures to two-sample procedures by replacing “sample size” with the “sum of the sample sizes,” $n_{1}+n_{2}$.
 
 
 ---
