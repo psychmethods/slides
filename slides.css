@@ -276,6 +276,7 @@ font-size: unset;
   margin-left: -1.5em
 }
 
+/* tip */
 .tip {
   border-right: solid 5px #F26BAA;
   background-color: #E7E7E7;
@@ -288,6 +289,18 @@ font-size: unset;
   margin-bottom: 5px;
 }
 
+/* definition */
+.def {
+  border-right: solid 5px #F26BAA;
+  background-color: #E7E7E7;
+}
+.def:before{
+  content: "Definition: ";
+  font-size: 120%;
+  font-weight: bold;
+  color: #F26BAA;
+  margin-bottom: 5px;
+}
 
 /* Quotes */
 blockquote {

@@ -41,7 +41,7 @@ class: middle
 - t-test logic
 - one sample t-tests
 - two sample t-tests
-- Interrogating Null Effects
+- robustness of t-tests
 ]
 
 ---
@@ -232,6 +232,7 @@ kable(paired_df)
 ---
 
 ## Workflow
+
 .pull-left[  
 - `5`. finding critical value in t-table
   - Df = n-1 = 16
@@ -240,8 +241,9 @@ kable(paired_df)
   - t*= `r round(qt(.95,16),digits=3)`
 - `6`. Compare t-statistic to t* (we can also calculate p and compare to $\alpha$)
   - `r round(pairedtstat$statistic ,digits=2)` > `r round(qt(.95,16),digits=3)`
-  ]
---  
+]
+--
+
 .pull-right[
 - `7`. Make decision: reject null or not, and draw conclusion
    - We reject null hypothesis based on the results t value, 
@@ -319,9 +321,9 @@ t.test(preTreat, postTreat, paired = TRUE)
 
 ## Paired two-sample t-test; null hypothesis
 
-- $H_0$; Cellularity at site A = Cellularity at site B
+- $H_0$: Cellularity at site A = Cellularity at site B
     + ***or***
-- $H_0$: Cellularity at site A - Cellularity at site B = 0
+- $H_0$: Cellularity at site A $-$ Cellularity at site B = 0
 
 ---
 
@@ -342,14 +344,28 @@ t.test(preTreat, postTreat, paired = TRUE)
 ```{r}
 data <- read.csv("../dat/pairedtwo-samplet-test.csv")
 data$diff <- data$A - data$B
-ggplot(data, aes(x=diff)) + geom_histogram(fill="steelblue")
+ggplot(data,
+       aes(x = diff)) + 
+  geom_histogram(fill = "steelblue") +
+  theme_bw()
+
 test <- t.test(data$diff)
+
 stat <- round(test$statistic,2)
+
 degfree <- round(test$parameter,2)
+
 pval <- round(test$p.value,3)
-critvals <- c(qt(0.05, degfree),qt(0.95,degfree))
-rect1 <- data.frame(xmin = -4,xmax = critvals[1], ymin=-Inf,ymax=Inf)
-rect2 <- data.frame(xmin = critvals[2],xmax = 4, ymin=-Inf,ymax=Inf)
+critvals <- c(qt(0.05, degfree),
+              qt(0.95,degfree))
+rect1 <- data.frame(xmin = -4,
+                    xmax = critvals[1], 
+                    ymin=-Inf,
+                    ymax=Inf)
+rect2 <- data.frame(xmin = critvals[2],
+                    xmax = 4, 
+                    ymin=-Inf,
+                    ymax=Inf)
 ```
 ]
 
@@ -357,7 +373,7 @@ rect2 <- data.frame(xmin = critvals[2],xmax = 4, ymin=-Inf,ymax=Inf)
 
 ## Paired two-sample t-test; results
 
-.pull-left-narrow[
+.pull-left[
 $t_{n-1} = t_{19} = \frac{\bar{X}_{A-B}}{s.e.(\bar{X}_{A-B})} =$ `r stat`
 
 <br>
@@ -375,10 +391,40 @@ P-value: `r pval`
 <br>
 (evidence that cellularity at Site A $\ne$ site B)
 ]
-.pull-right-wide[
+.pull-right[
 ```{r}
-ggplot(data.frame(x=c(-4,4)),aes(x)) + stat_function(fun=dt, args=list(df=degfree)) +
-geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_rect(data=rect2,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_vline(xintercept = stat,lty=2,col="red")+theme_bw()
+ggplot(data.frame(x = c(-4, 4)),
+       aes(x)) +
+  stat_function(fun = dt,
+                args = list(df = degfree)) +
+  geom_rect(
+    data = rect1,
+    aes(
+      xmin = xmin,
+      xmax = xmax,
+      ymin = ymin,
+      ymax = ymax
+    ),
+    fill = "steelblue",
+    alpha = 0.5,
+    inherit.aes = FALSE
+  ) +
+  geom_rect(
+    data = rect2,
+    aes(
+      xmin = xmin,
+      xmax = xmax,
+      ymin = ymin,
+      ymax = ymax
+    ),
+    fill = "steelblue",
+    alpha = 0.5,
+    inherit.aes = FALSE
+  ) +
+  geom_vline(xintercept = stat,
+             lty = 2,
+             col = "red") +
+  theme_bw()
 ```
 
 ]
@@ -388,7 +434,8 @@ geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steel
 
 ## Paired two-sample t-test; results
 
-- The difference in cellularity between the two sites is 19.14 (95% CI: 8.20, 30.08).
+- The difference in cellularity between the two sites is 19.14 
+  - (95% CI: 8.20, 30.08).
 - There is evidence of a difference in cellularity between the two sites. 
 - t=`r stat`, df=`r degfree`, p=`r pval`.
 
@@ -403,7 +450,8 @@ treeVolume_t1 <- c(rnorm(75,
                       mean = 5, 
                       sd = 5))
 
-treeVolume_t2 = treeVolume_t1+ c(rnorm(75, 
+treeVolume_t2 = treeVolume_t1 + 
+                    c(rnorm(75, 
                       mean = 0, 
                       sd = 1))
 
@@ -448,7 +496,7 @@ class: middle
 ]
 - e.g. research question: 
   - 40 male mice (20 of breed A and 20 of breed B) were weighed at 4 weeks old
-- Does the weight of 4-week old male mice depend on breed?
+- Does the weight of 4-week-old male mice depend on breed?
 
 ---
 
@@ -461,7 +509,8 @@ class: middle
     + mean weight of breed B $\ne$ mean weight of breed B
 - Tails: two-tailed
 --
-  + the tails on the distribution - not on the mice!!!
+
+  - the tails on the distribution - not on the mice!!!
 - Either ***reject*** or ***do not reject*** the null hypothesis
 
 ---
@@ -478,9 +527,16 @@ class: middle
 ]
 .pull-right-wide[
 ```{r}
+
 mice <- read.csv("../dat/independenttwo-samplet-test.csv")
+
 par(mfrow=c(1,2))
-ggplot(mice, aes(x = Weight)) + geom_histogram(fill="steelblue",col="grey") + facet_wrap(~Breed)+theme_bw()
+ggplot(mice, 
+       aes(x = Weight)) +
+  geom_histogram(fill = "steelblue",
+                 col = "grey") + 
+  facet_wrap(~Breed) +
+  theme_bw()
 ```
 ]
 ---
@@ -494,14 +550,40 @@ ggplot(mice, aes(x = Weight)) + geom_histogram(fill="steelblue",col="grey") + fa
 ]
 .pull-right-wide[
 ```{r}
-ggplot(mice, aes(x=Breed,y=Weight)) + geom_boxplot(fill="steelblue") + coord_flip()+theme_bw()
-test <- t.test(Weight~Breed,data=mice,var.equal = FALSE)
-tsat <-round(test$statistic,2)
-degfree <- round(test$parameter,2)
-pval <- round(test$p.value,2)
-critvals <- c(qt(0.05, degfree),qt(0.95,degfree))
-rect1 <- data.frame(xmin = -4,xmax = critvals[1], ymin=-Inf,ymax=Inf)
-rect2 <- data.frame(xmin = critvals[2],xmax = 4, ymin=-Inf,ymax=Inf)
+ggplot(mice, 
+       aes(x = Breed,
+           y = Weight)) + 
+  geom_boxplot(fill = "steelblue") +
+  coord_flip() + 
+  theme_bw()
+
+test <- t.test(Weight~Breed,
+               data = mice,
+               var.equal = FALSE)
+
+tsat <- round(test$statistic,
+              2)
+
+degfree <- round(test$parameter,
+                 2)
+
+pval <- round(test$p.value,
+              2)
+
+critvals <- c(qt(0.05,
+                 degfree),
+              qt(0.95,
+                 degfree))
+
+rect1 <- data.frame(xmin = -4,
+                    xmax = critvals[1], 
+                    ymin = -Inf,
+                    ymax = Inf)
+
+rect2 <- data.frame(xmin = critvals[2],
+                    xmax = 4, 
+                    ymin = -Inf,
+                    ymax = Inf)
 ```
 
 ]
@@ -517,25 +599,27 @@ rect2 <- data.frame(xmin = critvals[2],xmax = 4, ymin=-Inf,ymax=Inf)
 .pull-right[
 ```{r}
 ggplot(data.frame(x=c(-4,4)),aes(x)) + stat_function(fun=dt, args=list(df=degfree)) +
-geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_rect(data=rect2,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_vline(xintercept = tsat,lty=2,col="red")+theme_bw()
+geom_rect(data=rect1, aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),
+          fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_rect(data=rect2,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steelblue", alpha=0.5, inherit.aes = FALSE) + geom_vline(xintercept = tsat,lty=2,col="red")+theme_bw()
 ```
 ]
 
-P-value: `r round(test$p.value,2)`
-
-***Do not reject*** $H_0$
-
-(No evidence that mean weight of breed A $\ne$ mean weight of breed B)
+- P-value: `r round(test$p.value,2)`
+- ***Do not reject*** $H_0$
+- (No evidence that mean weight of breed A $\ne$ mean weight of breed B)
 
 ---
 
 
 ## Independent two-sample t-test: result
 
-- The difference in mean weight between the two breeds is -1.30 (95% CI: -3.48, 0.89) 
+- The difference in mean weight between the two breeds 
+  - is -1.30 (95% CI: -3.48, 0.89) 
     + [NB as this is negative, breed B mice tend to be bigger than breed A].
 - There is no evidence of a difference in weights between breed A and breed B. 
-- t=`r tsat`, df= `r degfree` (Welch’s correction), p=`r pval`
+- t =`r tsat`,
+- df = `r degfree` (Welch's correction),
+- p=`r pval`
 
 
 ---
@@ -548,21 +632,22 @@ P-value: `r round(test$p.value,2)`
 ---
 
 
-## Summary - continuous variables
+## Summary
 
 - One-sample t-test 
     + Use when we have one group.
 - Paired two-sample t-test 
     + Use when we have two non-independent groups. 
 - Independent two-sample t-test 
-    + Use when we have two independent groups. A Welch correction may be needed if the two groups have different spread.
+    + Use when we have two independent groups. 
+      - .small[A Welch correction may be needed if the two groups have different spread.]
 - Non-parametric tests or transformations
     + Use when we cannot assume normality. 
 
 ---
 
     
-## Summary - t-test
+## Summary
 
 - Turn scientific question to null and alternative hypothesis
 - Think about test assumptions

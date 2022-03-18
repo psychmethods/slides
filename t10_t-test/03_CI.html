@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Confidence Intervals   2️⃣</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="S. Mason Garrison" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Confidence Intervals <br> 2️⃣
+### S. Mason Garrison
+
+---
+
+
+
+
+
+layout: true
+  
+&lt;div class="my-footer"&gt;
+&lt;span&gt;
+&lt;a href="https://DataScience4Psych.github.io/DataScience4Psych/" target="_blank"&gt;Methods in Psychological Research&lt;/a&gt;
+&lt;/span&gt;
+&lt;/div&gt; 
+
+---
+
+
+
+class: middle
+
+# Confidence Intervals
+
+---
+
+# Confidence Intervals (CI)
+
+.pull-left[
+- Sample statistics estimate population parameters
+- How confident are we in these estimations?
+]
+--
+
+.pull-right[
+- Confidence interval
+  - range around sample statistic in which the corresponding population parameter is estimated to be.
+]
+
+---
+
+# Confidence Intervals (CI)
+
+.pull-left[
+- Sample statistics typically deviate from actual population parameters
+- Wake students, n = 100; MIQ = 136
+- Is mean Wake IQ really 136?
+]
+--
+
+.pull-right[
+- Confidence interval: 
+  - Given sample size and statistic,
+  - we're X% confident that the population parameter is within this range
+]
+---
+
+# Confidence Intervals (CI)
+
+- CIs are computed with specific percentages
+- Most common: 95% confidence interval
+
+
+&gt; “…sample mean of 5.5, 95% CI[4.2, 6.8]…”
+
+--
+
+&lt;br&gt;
+
+&gt; “If the study were repeated with different samples, the population mean would fall within the interval 95% of the time.”
+
+
+---
+
+# Demo
+.center[
+&lt;iframe style="overflow: hidden;" src="https://wise1.cgu.edu/vis/ci_creation/" width="750" height="600" frameborder="0"&lt;/iframe&gt;  
+]
+
+.footnote[source: https://wise.cgu.edu/portfolio2/demo-confidence-interval-creation/]
+
+---
+class: middle
+
+# Wrapping Up...
+
+---
+
+class: middle
+
+# Practicalities
+
+---
+
+# What's needed to compute CIs?
+
+- Standard error of the mean (SE)
+  - How much will this statistic vary from sample to sample, on average? 
+- As N increases `\(\rightarrow\)` SE decreases `\(\rightarrow\)` CI narrows
+--
+
+- Confidence % (you set this)
+  - 95%, then look at ± 1.96 SEs
+  - 99%, then look at ± 2.58 SEs
+
+
+---
+
+## Interpreting CIs
+
+- In results, will generally report lower and upper CIs:
+
+&gt; “Mean IQ score was 136, 95% CI [130, 142].”
+
+---
+
+&lt;img src="../img/CIfigure.PNG" width="75%" style="display: block; margin: auto;" /&gt;
+
+--
+
+- There's an important link between CIs and statistical significance
+--
+
+- `\(H_{0}\)`: r = 0
+--
+
+- Sig test: How unusual this observed r is
+  - assuming r = 0?
+--
+
+- If p `\(\lt\)` .05, 
+  - reject `\(H_{0}\)`
+---
+
+&lt;img src="../img/CIfigure.PNG" width="75%" style="display: block; margin: auto;" /&gt;
+
+
+- There's an important link between CIs and statistical significance
+- `\(H_{0}\)`: r = 0
+--
+
+- CI: Are we 95%+ confident that r is not 0?
+--
+
+- If 95% CI does not include 0
+  - reject `\(H_{0}\)`
+
+
+---
+
+&lt;img src="../img/CIfigure.PNG" width="75%" style="display: block; margin: auto;" /&gt;
+
+
+- There's an important link between CIs and statistical significance
+--
+
+- We can say:
+&gt; “…the 95% CI does not contain zero, and so X and Y were positively correlated.”
+
+---
+
+
+&lt;img src="../img/CIfigurens.PNG" width="75%" style="display: block; margin: auto;" /&gt;
+
+- There's an important link between CIs and statistical significance
+--
+
+- We can say:
+&gt; “…the 95% CI contains zero and so the correlation was not statistically significant…”
+
+---
+
+## Circling back
+
+.pull-left[
+- Wake students, n = 100; MIQ = 136
+- American population, MIQ = 98
+- Are Wake students different than the American pop.? 
+]
+--
+.pull-right[
+- How unusual would 136 IQ in the sample,
+  - assuming MWFU-IQ = MUSA-IQ?
+- Is p &lt; .05?
+
+.hand-pink[OR?]
+
+- What is the 95% CI for MWFU-IQ?
+  - Does it include 98?
+]
+
+---
+
+
+# Wrapping Up...
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightLines": true,
+"highlightStyle": "solarized-light",
+"countIncrementalSlides": false,
+"slideNumberFormat": ""
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
