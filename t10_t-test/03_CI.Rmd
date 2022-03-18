@@ -1,5 +1,5 @@
 ---
-title: "Confidence Intervals <br> `r emo::ji('two')`"
+title: "Confidence Intervals <br> `r emo::ji('cactus')`"
 author: "S. Mason Garrison"
 bibliography: "library.bib"
 output:
