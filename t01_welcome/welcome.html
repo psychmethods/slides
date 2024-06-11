@@ -5,16 +5,20 @@
     <meta charset="utf-8" />
     <meta name="author" content="S. Mason Garrison" />
     <script src="libs/header-attrs/header-attrs.js"></script>
-    <link href="libs/font-awesome/css/all.css" rel="stylesheet" />
-    <link href="libs/font-awesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="libs/font-awesome/css/v4-shims.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="../slides.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
+.title[
 # Welcome to 310 <br> 🙌
+]
+.author[
 ### S. Mason Garrison
+]
 
 ---
 
@@ -26,7 +30,7 @@ layout: true
   
 &lt;div class="my-footer"&gt;
 &lt;span&gt;
-&lt;a href="https://DataScience4Psych.github.io/DataScience4Psych/" target="_blank"&gt;Methods in Psychological Research&lt;/a&gt;
+&lt;a href="https://psychmethods.github.io/coursenotes/" target="_blank"&gt;Methods in Psychological Research&lt;/a&gt;
 &lt;/span&gt;
 &lt;/div&gt; 
 
@@ -37,6 +41,7 @@ layout: true
 class: middle
 
 # Hello world!
+## Welcome to PSY 310
 
 ---
 
@@ -102,9 +107,9 @@ class: middle
 
 | Course        | Professor           | Assistant  |
 | ------------- |:-------------:| -----:|
-| PSY 310      | Prof. Mason Garrison | Tukey |
+| PSY 310       | Prof. Mason Garrison | Tukey |
 | Methods in Psychological Research      | Greene 438      |    |
-| AKA Methods for Psych Minors | Office Hours by Appointment      | ![](img/tuk.jpg)    |
+| AKA Methods for Psych Minors | Office Hours by Appointment      | ![](../img/tuk.jpg)    |
 | Officially Face2Face | [calendly.com/smasongarrison ](https://calendly.com/smasongarrison/)      |    |
 
 
@@ -112,28 +117,41 @@ class: middle
 
 # Introductions
 
-- Call Me... Prof. Mason (preferred) 
-  - .tiny[Prof. Garrison, Dr. Mason, or Dr. Garrison are also ok]
-  - .tiny[Not Sarah, Mason, Mrs. Garrison, Ms. Garrison etc]
---
+- .large[Call Me... .pink.hand[Prof.] .hand[Mason] (preferred)] 
+  - .light-blue.hand[Prof.] Garrison, .light-blue.hand[Dr.] Mason, or .light-blue.hand[Dr.] Garrison are also ok
+  - Not .green.hand[Mrs.] Garrison, .green.hand[Ms.] Garrison,  .green.hand[ ﹏ ] Sarah, .green.hand[﹏] Mason,  etc
 
-- About me:
-  - Born in Upstate New York, Undergrad in St. Louis, Grad School in Nashville, and Professoring in Winston-Salem
-  - Quantitative Psychology and Behavior Genetics: 
-      - Applied to Understanding the Relationship between Health, Wealth, and Individual Differences.
-  - I love stats and cats
+---
 
+##.pink.hand[About me]
+### 👩🏻‍🦰 \+ 🧬 \+🧮= 👩🏻‍💻\*👩🏻‍🏫
+.pull-left[
+- Born in [Upstate New York](https://en.wikipedia.org/wiki/Upstate_New_York#Geographic_divisions), 
+- Undergrad in [St. Louis](https://en.wikipedia.org/wiki/Washington_University_in_St._Louis), 
+- Grad School in [Nashville](https://en.wikipedia.org/wiki/Vanderbilt_Peabody_College_of_Education_and_Human_Development), and 
+- Professoring on the tenure-track in [Winston-Salem](https://en.wikipedia.org/wiki/Wake_Forest_University)
+]
+
+.pull-right[
+- Quantitative Psychology, Behavior Genetics, Diversity Science 
+  - .small[Applied to understanding the relationship between Health, Wealth, and Individual Differences]
+- I love stats and cats
+]
+
+---
+
+class: middle, center, inverse
+
+# Back to Learning
 
 ---
 
 # Learning Goals
 
-- Are found on canvas at the start of each module.
-- What's a module?
-
 ---
 
 ## Learning Goals: How to Think About Them
+
 
 - Ways for teachers to define what we want students to be able to do.
 - Used in assessments (e.g., quizzes and papers)
@@ -148,11 +166,12 @@ class: middle
 .pull-left-narrow[
 - Note the **verb**! 
 - The depth of understanding I expect is articulated in the depth of the verb, and 
-  - is based on Bloom's Taxonomy.
+  - is based on [Bloom's Taxonomy](https://en.wikipedia.org/wiki/Bloom's_taxonomy)
 - Your skills in an area should be moving up the taxonomy.
 ]
 
-.center.pull-right-wide[&lt;br&gt;![](img/blooms.jpg)]
+.center.pull-right-wide[&lt;br&gt;![](../img/blooms.jpg)]
+.footnote[Armstrong, P. (2010). Bloom’s Taxonomy. Vanderbilt University Center for Teaching. Retrieved 2024-06-11. [from 🔗]( https://cft.vanderbilt.edu/guides-sub-pages/blooms-taxonomy/)]
 
 ---
 
@@ -176,7 +195,35 @@ class: middle
 ---
 
 
+# Course Milestones
+
+.pull-left[
+- Three (3) Exams
+	- Friday, 02/11
+	- Friday, 04/01
+	- During Finals, 05/06
+- Two (2) Short Critiques
+	- Friday, 03/04
+	- Friday, 04/29
+]
+.pull-right[
+- One (1) Reading Quiz
+	- per module
+- Two (2) Engagement Activities
+	- per week/module
+]
+--
+
+.overlay-center[[You can skip some of these activities if necessary]]
+
+
+---
+
+
 class: middle
+
+
+
 
 ## Introductions
 
@@ -338,6 +385,19 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
 (function() {
   "use strict"
   // Replace <script> tags in slides area to make them executable
