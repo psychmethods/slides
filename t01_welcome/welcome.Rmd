@@ -171,14 +171,17 @@ class: middle, center, inverse
 ```{r child = "content/lg_eranda.md"}
 ```
 
+--
 
+.overlay-background.white.hand[You'll learn how to think like a psychological scientist]
 
 ---
 
 
-# Course Milestones
+## Course Milestones
 
 .pull-left[
+## Big Ticket
 - Three (3) Exams
 	- Friday, 02/11
 	- Friday, 04/01
@@ -188,6 +191,7 @@ class: middle, center, inverse
 	- Friday, 04/29
 ]
 .pull-right[
+## Weekly Tickets
 - One (1) Reading Quiz
 	- per module
 - Two (2) Engagement Activities
@@ -195,7 +199,14 @@ class: middle, center, inverse
 ]
 --
 
-.overlay-center[[You can skip some of these activities if necessary]]
+.overlay-shadow[#.pink.hand[You] 
+
+#.pink.hand[can] 
+
+#.pink.hand[skip]
+
+#.pink.hand[some]
+]
 
 
 ---
