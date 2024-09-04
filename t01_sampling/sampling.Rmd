@@ -1,0 +1,336 @@
+---
+title: "Sampling in Action: The M&M Challenge"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE,out.width = "90%", fig.align = "center")
+```
+
+class: middle
+
+# Sampling in Action: The M&M Challenge
+
+---
+
+## Roadmap
+
+- M&M Sampling Activity
+- Analysis and Discussion
+- Advanced Sampling Concepts
+
+---
+
+## Sampling in Action
+
+Sampling involves selecting a subset of a population to estimate characteristics of the whole. 
+
+--
+
+This session covers:
+
+- Sample Size Effects: How different sizes influence accuracy.
+- Variability in Sampling: The impact on data reliability.
+- Estimation Techniques: Methods for deriving population parameters from samples.
+
+
+---
+
+## M&M Sampling Activity
+
+- Objective: Demonstrate sampling principles using M&M's
+  - Hands-on experience with data collection and analysis
+  
+--
+
+- Materials:
+  - Small packages of plain M&M's (one per student)
+  - Napkins for sorting
+
+
+
+---
+
+## M&M Sampling Procedure
+
+*Steps in the activity*
+
+- Distribute M&M packages and materials
+--
+
+- Sort M&M's by color on napkins
+--
+
+- Record frequency of each color
+--
+
+- Calculate percentages for each color
+--
+
+- Hypothesize population color distribution
+--
+
+- Form pairs to pool data
+--
+
+- Pool data for entire class
+    - using google sheets (and some R magic)
+
+---
+
+class: middle
+
+# Data Collection and Analysis
+
+```{r ref.label = "nom",out.width = "80%", echo = FALSE, warning = FALSE}
+```
+
+---
+
+.tiny[
+
+```{r nom, fig.show = "hide", warning = FALSE,echo = TRUE,eval=TRUE}
+
+set.seed(123) # For reproducibility
+
+# Define the number of students and colors
+students <- c("Tukey", "Gauss", "Noether", "Fisher", 
+              "Bayes", "Pearson", "Student", 
+              "Fiducial", "Neyman", "Cochran")
+colors <- c("Blue", "Brown", 
+            "Green", "Red", "Yellow")
+
+# Simulate the total number of M&Ms for each student
+total_mms <- sample(15:20, 
+                    length(students), replace = TRUE)
+
+# Simulate the counts of each color for each student
+color_counts <- replicate(length(colors), 
+                          sample(1:total_mms, 
+                                 length(students), replace = TRUE))
+
+# Create the dataframe
+df_syn <- data.frame(Name = students, 
+                     color_counts)
+colnames(df_syn)[-1] <- colors
+
+# Calculate the percentages
+df_syn <- df_syn %>%
+  mutate(Total = rowSums(across(Blue:Yellow))) %>%
+  mutate(Blue_perc = Blue / Total * 100,
+         Brown_perc = Brown / Total * 100,
+         Green_perc = Green / Total * 100,
+         Red_perc = Red / Total * 100,
+         Yellow_perc = Yellow / Total * 100)
+
+# Reshape the data to long format
+df_long_syn <- df_syn %>%
+  pivot_longer(cols = c(Blue_perc, Brown_perc, Green_perc, Red_perc, Yellow_perc),
+               names_to = "Color",
+               values_to = "Percentage")
+
+# Plotting the data
+stacked_plot <- df_long_syn %>%
+  ggplot(aes(x = Name, y = Percentage, fill = Color)) +
+  geom_col(position = "stack") +
+  labs(title = "M&M Color Distribution by Student",
+       x = "Student",
+       y = "Percentage") +
+  scale_fill_manual(values = c("Blue_perc" = "blue",
+                               "Brown_perc" = "brown",
+                               "Green_perc" = "green",
+                               "Red_perc" = "red",
+                               "Yellow_perc" = "yellow"),
+                    labels = c("Blue_perc" = "Blue",
+                               "Brown_perc" = "Brown",
+                               "Green_perc" = "Green",
+                               "Red_perc" = "Red",
+                               "Yellow_perc" = "Yellow")) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Overall distribution of M&Ms
+overall_distribution <- df_syn %>%
+  select(Blue, Brown, Green, Red, Yellow) %>%
+  summarise(across(everything(), sum)) %>%
+  pivot_longer(cols = everything(), names_to = "Color", values_to = "Count")
+
+overall_plot <- overall_distribution %>%
+  ggplot(aes(x = Color, y = Count, fill = Color)) +
+  geom_col() +
+  labs(title = "Overall M&M Color Distribution",
+       x = "Color",
+       y = "Total Count") +
+  scale_fill_manual(values = c("Blue" = "blue",
+                               "Brown" = "brown",
+                               "Green" = "green",
+                               "Red" = "red",
+                               "Yellow" = "yellow")) +
+  theme_minimal()
+
+# Display both plots
+library(gridExtra)
+grid.arrange(stacked_plot, overall_plot, ncol = 2)
+```
+
+]
+
+---
+
+# Inputting Student Data
+
+```{r ref.label = "input",out.width = "90%", echo = FALSE, warning = FALSE}
+library(qrcode)
+
+share_link <- "https://docs.google.com/spreadsheets/d/1D4i8e0pTrqwLk_FjMFtkimqhmtOrBf-X6OU9RT57m_Q"
+code <- qr_code(share_link)
+plot(code)
+```
+
+```{r}
+library(googlesheets4)
+library(tidyverse)
+share_link <- "https://docs.google.com/spreadsheets/d/1D4i8e0pTrqwLk_FjMFtkimqhmtOrBf-X6OU9RT57m_Q"
+
+#Read google sheets data into R
+df <- read_sheet(share_link)
+
+
+# Calculate percentages for the first student
+df <- df %>% 
+  mutate(Blue_perc = Blue / Total * 100,
+         Brown_perc = Brown / Total * 100,
+         Green_perc = Green / Total * 100,
+         Red_perc = Red / Total * 100,
+         Yellow_perc = Yellow / Total * 100)
+
+# Convert the data to long format
+df_long <- df %>%
+  pivot_longer(cols = c(Blue_perc, Brown_perc, Green_perc, Red_perc, Yellow_perc),
+               names_to = "Color",
+               values_to = "Percentage")
+
+# Create the stacked bar chart
+
+df_long %>%
+  ggplot(aes(x = Name, y = Percentage, fill = Color)) +
+  geom_col(position = "stack") +
+  labs(title = "M&M Color Distribution by Student",
+       x = "Name",
+       y = "Percentage") +
+  scale_fill_manual(values = c("Blue_perc" = "blue",
+                               "Brown_perc" = "brown",
+                               "Green_perc" = "green",
+                               "Red_perc" = "red",
+                               "Yellow_perc" = "yellow"),
+                    labels = c("Blue_perc" = "Blue",
+                               "Brown_perc" = "Brown",
+                               "Green_perc" = "Green",
+                               "Red_perc" = "Red",
+                               "Yellow_perc" = "Yellow")) +
+  theme_minimal()
+
+
+```
+
+
+---
+
+
+# Sample Size Effects
+
+- Compare estimates:
+    - Individual samples
+    - Paired samples
+    - Class-wide sample
+- Discuss accuracy improvements with larger samples
+
+---
+
+# Example (Hypothetical data)
+
+```{r, echo=TRUE,warning=FALSE}
+# Individual sample
+individual <- c(20, 15, 25, 10, 20, 10)
+names(individual) <- c("Blue", "Brown", "Green", "Orange", "Red", "Yellow")
+
+# Class-wide sample
+class_wide <- c(24, 13, 16, 20, 13, 14)
+names(class_wide) <- c("Blue", "Brown", "Green", "Orange", "Red", "Yellow")
+
+# Compare
+data.frame(Individual = individual, Class_Wide = class_wide)
+```
+
+---
+
+# Visualization
+
+```{r, echo=TRUE, warning=FALSE}
+barplot(rbind(individual, class_wide), beside = TRUE, 
+        col = c("lightblue", "darkgrey"),
+        legend.text = c("Individual", "Class-wide"),
+        main = "M&M Color Distribution: Individual vs Class-wide")
+```
+
+---
+
+class: middle
+
+# Advanced Sampling Concepts
+
+---
+
+# Relating to Sampling Methods
+
+- Simple random sampling
+    - Each M&M package as a random sample
+- Stratified sampling
+    - If we sorted M&M bags by production date
+
+---
+
+# Potential Biases
+
+- Production process biases
+    - Color distribution variations between factories
+- Relating to survey sampling biases
+    - Non-response bias
+    - Selection bias
+
+---
+
+# Importance of Representative Samples
+
+- What if we only sampled from one factory?
+- Implications for psychological research
+    - Generalizing from sample to population
+
+---
+
+# Wrapping Up...
+
+<br><br>
+![](../img/mms.jpg)
+
+```
+

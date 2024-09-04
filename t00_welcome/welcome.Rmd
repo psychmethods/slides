@@ -1,0 +1,330 @@
+---
+title: "Welcome to 310 <br> `r emo::ji('raised_hands')`"
+author: "S. Mason Garrison"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+#       slideNumberFormat: ""  
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+
+
+```
+
+class: middle
+
+# Hello world!
+## Welcome to PSY 310
+
+---
+
+## .large[What is this class?]
+
+--
+<br><br>
+
+.center.huge[Methods in Psychological Research]
+
+---
+
+## .large[What is this class?]
+
+- 310 is an introduction to methods in psychological research, 
+- with an emphasis on 
+  - statistical thinking, 
+  - best practices, and
+  - practical skills
+
+---
+
+class: middle
+
+# Before I get too far ahead of myself ...
+
+
+---
+
+
+# Lecture Roadmap
+
+All lectures will start with a roadmap, including today:
+--
+
+
+- Overview of the Course
+- Logistics
+- Learning Outcomes
+- Knowledge is Power
+- What is Statistics?
+
+--
+
+The roadmap gives *us* structure as I lecture
+
+.tiny[Trust Me, you don't want me to lecture without one]
+
+---
+
+
+class: middle
+
+# Overview of the Course
+
+
+---
+
+
+# Overview
+
+<br>
+
+| Course        | Professor           | Assistant  |
+| ------------- |:-------------:| -----:|
+| PSY 310       | Prof. Mason Garrison | Tukey |
+| Methods in Psychological Research      | Greene 438      |    |
+| AKA Methods for Psych Minors | Office Hours by Appointment      | ![](../img/tuk.jpg)    |
+| Officially Face2Face | [calendly.com/smasongarrison ](https://calendly.com/smasongarrison/)      |    |
+
+
+---
+
+# Introductions
+
+- .large[Call Me... .pink.hand[Prof.] .hand[Mason] (preferred)] 
+  - .light-blue.hand[Prof.] Garrison, .light-blue.hand[Dr.] Mason, or .light-blue.hand[Dr.] Garrison are also ok
+  - Not .green.hand[Mrs.] Garrison, .green.hand[Ms.] Garrison,  .green.hand[ ﹏ ] Sarah, .green.hand[﹏] Mason,  etc
+
+---
+
+##.pink.hand[About me]
+### 👩🏻‍🦰 \+ 🧬 \+🧮= 👩🏻‍💻\*👩🏻‍🏫
+.pull-left[
+- Born in [Upstate New York](https://en.wikipedia.org/wiki/Upstate_New_York#Geographic_divisions), 
+- Undergrad in [St. Louis](https://en.wikipedia.org/wiki/Washington_University_in_St._Louis), 
+- Grad School in [Nashville](https://en.wikipedia.org/wiki/Vanderbilt_Peabody_College_of_Education_and_Human_Development), and 
+- Professoring on the tenure-track in [Winston-Salem](https://en.wikipedia.org/wiki/Wake_Forest_University)
+]
+
+.pull-right[
+- Quantitative Psychology, Behavior Genetics, Diversity Science 
+  - .small[Applied to understanding the relationship between Health, Wealth, and Individual Differences]
+- I love stats and cats
+]
+
+---
+
+class: middle, center, inverse
+
+# Back to Learning
+
+---
+
+# Learning Goals
+
+---
+
+## Learning Goals: How to Think About Them
+
+
+- Ways for teachers to define what we want students to be able to do.
+- Used in assessments (e.g., quizzes and papers)
+- I will be asking you to demonstrate that you have achieved these outcomes.
+- You can also try to evaluate whether you've achieved the learning outcomes.
+- Practice making questions that will test your understanding, share them with others, and try each other's questions.
+
+---
+
+## Learning Goals: How to Think About Them
+<br>
+.pull-left-narrow[
+- Note the **verb**! 
+- The depth of understanding I expect is articulated in the depth of the verb, and 
+  - is based on [Bloom's Taxonomy](https://en.wikipedia.org/wiki/Bloom's_taxonomy)
+- Your skills in an area should be moving up the taxonomy.
+]
+
+.center.pull-right-wide[<br>![](../img/blooms.jpg)]
+.footnote[Armstrong, P. (2010). Bloom’s Taxonomy. Vanderbilt University Center for Teaching. Retrieved `r Sys.Date()`. [from `r emo::ji('link')`]( https://cft.vanderbilt.edu/guides-sub-pages/blooms-taxonomy/)]
+
+---
+
+## Learning Goals: Course Level
+
+
+```{r child = "content/lg_eranda.md"}
+```
+
+--
+
+.overlay-background.white.hand[You'll learn how to think like a psychological scientist]
+
+---
+
+
+## Course Milestones
+
+.pull-left[
+## Big Ticket
+- Three (3) Exams
+	- Friday, 10/04
+	- Friday, 11/15
+	- During Finals, 12/13
+- Two (2) Short Critiques
+	- Friday, 10/18
+	- Friday, 12/06
+]
+.pull-right[
+## Weekly Tickets
+- One (1) Reading Quiz
+	- per module
+- Two (2) Engagement Activities
+	- per week/module
+]
+--
+
+.overlay-shadow[#.pink.hand[You] 
+
+#.pink.hand[can] 
+
+#.pink.hand[skip]
+
+#.pink.hand[some]
+]
+
+
+---
+
+
+class: middle
+
+
+
+
+## Introductions
+
+
+---
+
+# Introductions
+
+- Instructor: Prof. S. Mason Garrison
+- Office:	Greene 438
+- E-mail:	garrissm@wfu.edu
+- Office Hours: Bookable via Calendly 
+--
+<br><br>
+.large.center[[calendly.com/smasongarrison/](https://calendly.com/smasongarrison/)]
+
+---
+
+
+
+class: middle
+
+# Logistics!
+
+
+---
+
+
+
+## Where is this course?
+
+<br><br><br><br><br><br><br>
+
+
+
+.large.center[
+[Canvas](https://wakeforest.instructure.com/courses/66374)]
+
+<br>and<br>
+
+.large.center[
+[psychmethods.github.io/coursenotes/](https://psychmethods.github.io/coursenotes/)]
+
+
+
+---
+
+class: middle
+
+# Course structure and policies
+
+---
+
+## Class meetings
+
+- Lectures: Monday \& Wednesday
+- Tutorials? Friday
+
+---
+
+## Diversity & Inclusiveness:
+
+.midi[
+**Intent:** Students from all diverse backgrounds and perspectives be well-served by this course, that students' learning needs be addressed both in and out of class, and that the diversity that the students bring to this class be viewed as a resource, strength and benefit. It is my intent to present materials and activities that are respectful of diversity: gender identity, sexuality, disability, age, socioeconomic status, ethnicity, race, nationality, religion, and culture. Let me know ways to improve the effectiveness of the course for you personally, or for other students or student groups.
+]
+
+--
+
+.midi[
+- If you have a name and/or set of pronouns that differ from those that appear in your official records, please let me know.
+- If you feel your performance is being impacted by your experiences outside of class, please don't hesitate to come and talk with me. If you prefer to speak with someone outside of the course, your advisor is an excellent resource. 
+- I (like many people) am still in the process of learning about diverse perspectives/identities. If something was said in class (by anyone) that made you feel uncomfortable, please talk to me about it.
+]
+
+---
+
+## How to get help
+
+- Course content, logistics, etc. discussion on the course discussion forum.
+    - Please post on the FAQ instead of direct messaging.
+    - Use proper formatting: When asking questions involving code, please make sure to use inline code formatting for short bits of code or code snippets for longer, multi-line chunks.
+- Often it's a lot more pleasant an experience to get your questions answered in person. Make use of my office hours, I'm here to help!
+
+---
+
+## Tips for asking questions
+
+- First search existing discussion for answers. If the question has already been answered, you're done! If it has already been asked but you're not satisfied with the answer, add to the thread. 
+- Give your question context from course concepts not course assignments.
+    - Good context: "I have a question on filtering"
+    - Bad context: "I have a question on HW 1 question 4"
+- Be precise in your description:
+    - Good description: "I am getting the following error and I'm not sure how to resolve it - `Error: could not find function "ggplot"`"
+    - Bad description: "R giving errors, help me! Aaaarrrrrgh!” 
+    
+---
+
+## More Tips for asking questions
+
+- You can edit a question after posting it.
+- Format your questions nicely using markdown and code formatting.
+- Where appropriate, provide links to specific files, or even lines.
+    - Sharing code will help others understand your question.
+    
+
+
+
+---
+
+class: middle
+
+# Wrapping Up...
