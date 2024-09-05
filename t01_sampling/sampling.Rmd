@@ -40,18 +40,20 @@ class: middle
 
 ---
 
-## Sampling in Action
 
-Sampling involves selecting a subset of a population to estimate characteristics of the whole. 
+# What is Sampling?
 
---
+.pull-left[
+- Selecting a subset of a population
+- Used to estimate characteristics of the whole
+- Critical in research and statistics
+]
 
-This session covers:
-
-- Sample Size Effects: How different sizes influence accuracy.
-- Variability in Sampling: The impact on data reliability.
-- Estimation Techniques: Methods for deriving population parameters from samples.
-
+.pull-right[
+```{r, echo=FALSE, out.width="100%", error=FALSE}
+#knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Sample_vs_population.svg/640px-Sample_vs_population.svg.png")
+```
+]
 
 ---
 
@@ -59,13 +61,11 @@ This session covers:
 
 - Objective: Demonstrate sampling principles using M&M's
   - Hands-on experience with data collection and analysis
-  
 --
 
 - Materials:
   - Small packages of plain M&M's (one per student)
   - Napkins for sorting
-
 
 
 ---
@@ -97,11 +97,39 @@ This session covers:
 
 ---
 
-class: middle
 
-# Data Collection and Analysis
+# Data Collection
+.pull-left[
+.center[
+```{r, echo=FALSE, out.width="100%", warning = FALSE}
+library(qrcode)
 
-```{r ref.label = "nom",out.width = "80%", echo = FALSE, warning = FALSE}
+share_link <- "https://docs.google.com/spreadsheets/d/1D4i8e0pTrqwLk_FjMFtkimqhmtOrBf-X6OU9RT57m_Q"
+code <- qr_code(share_link)
+plot(code)
+```
+
+Scan to input your data!
+]]
+--
+
+.pull-right[
+- Distribute M&M packages and materials
+- Sort M&M's by color on napkins
+- Record frequency of each color
+- Calculate percentages for each color
+- Hypothesize population color distribution
+- Form pairs to pool data
+- Pool data for entire class
+]
+
+---
+
+# Analysis in Action
+
+- What we'll get from the class data
+
+```{r ref.label = "nom",out.width = "65%", echo = FALSE, warning = FALSE}
 ```
 
 ---
@@ -187,26 +215,20 @@ overall_plot <- overall_distribution %>%
                                "Yellow" = "yellow")) +
   theme_minimal()
 
+stacked_plot
+
 # Display both plots
 library(gridExtra)
-grid.arrange(stacked_plot, overall_plot, ncol = 2)
+#grid.arrange(stacked_plot, overall_plot, ncol = 2)
 ```
 
 ]
 
 ---
 
-# Inputting Student Data
+## Analysis in action
 
-```{r ref.label = "input",out.width = "90%", echo = FALSE, warning = FALSE}
-library(qrcode)
-
-share_link <- "https://docs.google.com/spreadsheets/d/1D4i8e0pTrqwLk_FjMFtkimqhmtOrBf-X6OU9RT57m_Q"
-code <- qr_code(share_link)
-plot(code)
-```
-
-```{r}
+```{r, error=TRUE, warning=FALSE,message=FALSE,out.width = "65%"}
 library(googlesheets4)
 library(tidyverse)
 share_link <- "https://docs.google.com/spreadsheets/d/1D4i8e0pTrqwLk_FjMFtkimqhmtOrBf-X6OU9RT57m_Q"
@@ -247,50 +269,79 @@ df_long %>%
                                "Green_perc" = "Green",
                                "Red_perc" = "Red",
                                "Yellow_perc" = "Yellow")) +
-  theme_minimal()
-
-
+  theme_minimal()  +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 
 ---
+
 
 
 # Sample Size Effects
 
-- Compare estimates:
-    - Individual samples
-    - Paired samples
-    - Class-wide sample
-- Discuss accuracy improvements with larger samples
 
----
+.pull-left-narrow[
+```{r sample_size_effects, echo=FALSE}
+library(kableExtra)
 
-# Example (Hypothetical data)
+sample_size_df <- data.frame(
+  "Sample Size" = c("Individual", "Paired", "Class-wide"),
+  "Accuracy" = c("Low", "Medium", "High"),
+  "Variability" = c("High", "Medium", "Low")
+)
 
-```{r, echo=TRUE,warning=FALSE}
-# Individual sample
-individual <- c(20, 15, 25, 10, 20, 10)
-names(individual) <- c("Blue", "Brown", "Green", "Orange", "Red", "Yellow")
-
-# Class-wide sample
-class_wide <- c(24, 13, 16, 20, 13, 14)
-names(class_wide) <- c("Blue", "Brown", "Green", "Orange", "Red", "Yellow")
-
-# Compare
-data.frame(Individual = individual, Class_Wide = class_wide)
+kable(sample_size_df, format = "html") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = FALSE) %>%
+  column_spec(1, bold = TRUE)
 ```
+]
 
----
+--
 
-# Visualization
+.pull-right-wide[
+```{r, echo=FALSE,error=TRUE, warning=FALSE,message=FALSE}
+# Calculate overall distribution
 
-```{r, echo=TRUE, warning=FALSE}
-barplot(rbind(individual, class_wide), beside = TRUE, 
-        col = c("lightblue", "darkgrey"),
-        legend.text = c("Individual", "Class-wide"),
-        main = "M&M Color Distribution: Individual vs Class-wide")
+# Overall distribution of M&Ms
+overall_distribution <- df %>% # replace na with 0s
+  mutate(across(is.numeric, ~replace_na(., 0))) %>%
+  select(Blue, Brown, Green, Red, Yellow) %>%
+  summarise(across(everything(), sum)) %>%
+  pivot_longer(cols = everything(), names_to = "Color", values_to = "Count")
+
+
+overall_plot <- overall_distribution %>%
+  ggplot(aes(x = Color, y = Count, fill = Color)) +
+  geom_col() +
+  labs(title = "Overall M&M Color Distribution",
+       x = "Color",
+       y = "Total Count") +
+  scale_fill_manual(values = c("Blue" = "blue",
+                               "Brown" = "brown",
+                               "Green" = "green",
+                               "Red" = "red",
+                               "Yellow" = "yellow")) +
+  theme_minimal()
+
+overall_pie <- overall_distribution %>% 
+  ggplot(aes(x = "", y = Count, fill = Color)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y") +
+  labs(title = "Overall M&M Color Distribution",
+       fill = "Color") +
+  scale_fill_manual(values = c("Blue" = "blue",
+                               "Brown" = "brown",
+                               "Green" = "green",
+                               "Red" = "red",
+                               "Yellow" = "yellow")) +
+  theme_minimal()
+
+library(gridExtra)
+grid.arrange(overall_pie, overall_plot, ncol = 1)
 ```
+]
+
 
 ---
 
@@ -300,37 +351,81 @@ class: middle
 
 ---
 
-# Relating to Sampling Methods
+## Relating to Sampling Methods
 
+.pull-left[
 - Simple random sampling
     - Each M&M package as a random sample
 - Stratified sampling
-    - If we sorted M&M bags by production date
+    - If we sorted M&M bags by production date,
+    - Could this improve representativeness?
+]
+--
+.pull-right[
+
+-Cluster sampling
+  - If we sampled entire boxes of M&M packages
+  - Potential production batch effects?
+
+- Systematic sampling
+  - If we selected every nth M&M package from production line
+  - Could introduce cyclical biases?
+]
 
 ---
 
-# Potential Biases
+# Potential Biases in M&M Sampling
 
+.pull-left[
 - Production process biases
     - Color distribution variations between factories
-- Relating to survey sampling biases
-    - Non-response bias
-    - Selection bias
+    - Akin to sampling frame bias in surveys
+    
+- Selection bias
+  - If students choose their favorite color of package
+  - Akin to  non-random sample selection in research    
+  ]
+  
+.pull-right[
+
+- Measurement bias
+  - Errors in counting or recording M&M colors
+  - Akin to survey response errors
+
+- Non-response bias
+  - If some students don't participate or eat their M&M's
+  - Akin to survey non-respondents
+]
 
 ---
 
 # Importance of Representative Samples
-
+.pull-left[
 - What if we only sampled from one factory?
 - Implications for psychological research
     - Generalizing from sample to population
-
+    - External validity of research findings
+    ]
+--   
+.pull-right[
+- Strategies for improving representativeness
+  - Increasing sample size (more M&M packages)
+  - Diversifying sample sources (different stores, batches)
+  - Random selection procedures
+  - Weighting techniques for unequal probability samples
+]
 ---
 
 # Wrapping Up...
 
-<br><br>
-![](../img/mms.jpg)
+.pull-left[
+## Key Takeaways
+1. Sampling is required for understanding populations
+2. Larger samples generally provide better estimates
+3. Be aware of potential biases in sampling
+4. Always aim for representative samples
+]
 
-```
-
+.pull-right[
+![M&Ms](../img/mms.jpg)
+]
