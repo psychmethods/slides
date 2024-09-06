@@ -146,8 +146,8 @@ set.seed(123) # For reproducibility
 students <- c("Tukey", "Gauss", "Noether", "Fisher", 
               "Bayes", "Pearson", "Student", 
               "Fiducial", "Neyman", "Cochran")
-colors <- c("Blue", "Brown", 
-            "Green", "Red", "Yellow")
+colors <- c("Blue", "Orange", 
+            "Green", "Red", "Yellow", "Brown")
 
 # Simulate the total number of M&Ms for each student
 total_mms <- sample(15:20, 
@@ -167,14 +167,15 @@ colnames(df_syn)[-1] <- colors
 df_syn <- df_syn %>%
   mutate(Total = rowSums(across(Blue:Yellow))) %>%
   mutate(Blue_perc = Blue / Total * 100,
-         Brown_perc = Brown / Total * 100,
+         Orange_perc = Orange / Total * 100,
          Green_perc = Green / Total * 100,
          Red_perc = Red / Total * 100,
+         Brown_perc = Brown / Total * 100,
          Yellow_perc = Yellow / Total * 100)
 
 # Reshape the data to long format
 df_long_syn <- df_syn %>%
-  pivot_longer(cols = c(Blue_perc, Brown_perc, Green_perc, Red_perc, Yellow_perc),
+  pivot_longer(cols = c(Blue_perc, Orange_perc, Green_perc, Red_perc, Yellow_perc, Brown_perc),
                names_to = "Color",
                values_to = "Percentage")
 
@@ -186,21 +187,23 @@ stacked_plot <- df_long_syn %>%
        x = "Student",
        y = "Percentage") +
   scale_fill_manual(values = c("Blue_perc" = "blue",
-                               "Brown_perc" = "brown",
+                               "Orange_perc" = "Orange",
                                "Green_perc" = "green",
                                "Red_perc" = "red",
-                               "Yellow_perc" = "yellow"),
+                               "Yellow_perc" = "yellow",
+                               "Brown_perc" = "brown"),
                     labels = c("Blue_perc" = "Blue",
-                               "Brown_perc" = "Brown",
+                               "Orange_perc" = "Orange",
                                "Green_perc" = "Green",
                                "Red_perc" = "Red",
+                               "Brown_perc" = "Brown",
                                "Yellow_perc" = "Yellow")) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 # Overall distribution of M&Ms
 overall_distribution <- df_syn %>%
-  select(Blue, Brown, Green, Red, Yellow) %>%
+  select(Blue, Orange, Green, Red, Yellow) %>%
   summarise(across(everything(), sum)) %>%
   pivot_longer(cols = everything(), names_to = "Color", values_to = "Count")
 
@@ -211,10 +214,11 @@ overall_plot <- overall_distribution %>%
        x = "Color",
        y = "Total Count") +
   scale_fill_manual(values = c("Blue" = "blue",
-                               "Brown" = "brown",
+                               "Orange" = "Orange",
                                "Green" = "green",
                                "Red" = "red",
-                               "Yellow" = "yellow")) +
+                               "Yellow" = "yellow",
+                               "Brown" = "brown")) +
   theme_minimal()
 
 stacked_plot
@@ -242,14 +246,16 @@ df <- read_sheet(share_link)
 # Calculate percentages for the first student
 df <- df %>% 
   mutate(Blue_perc = Blue / Total * 100,
-         Brown_perc = Brown / Total * 100,
+         Orange_perc = Orange / Total * 100,
          Green_perc = Green / Total * 100,
          Red_perc = Red / Total * 100,
-         Yellow_perc = Yellow / Total * 100)
+         Yellow_perc = Yellow / Total * 100,
+         Brown_perc = Brown / Total * 100)
 
 # Convert the data to long format
 df_long <- df %>%
-  pivot_longer(cols = c(Blue_perc, Brown_perc, Green_perc, Red_perc, Yellow_perc),
+  pivot_longer(cols = c(Blue_perc, Orange_perc, Green_perc, Red_perc, Yellow_perc,
+                        Brown_perc),
                names_to = "Color",
                values_to = "Percentage")
 
@@ -262,15 +268,17 @@ df_long %>%
        x = "Name",
        y = "Percentage") +
   scale_fill_manual(values = c("Blue_perc" = "blue",
-                               "Brown_perc" = "brown",
+                               "Orange_perc" = "Orange",
                                "Green_perc" = "green",
                                "Red_perc" = "red",
-                               "Yellow_perc" = "yellow"),
+                               "Yellow_perc" = "yellow",
+                               "Brown_perc" = "brown"),
                     labels = c("Blue_perc" = "Blue",
-                               "Brown_perc" = "Brown",
+                               "Orange_perc" = "Orange",
                                "Green_perc" = "Green",
                                "Red_perc" = "Red",
-                               "Yellow_perc" = "Yellow")) +
+                               "Yellow_perc" = "Yellow",
+                               "Brown_perc" = "Brown")) +
   theme_minimal()  +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
@@ -308,7 +316,7 @@ kable(sample_size_df, format = "html") %>%
 # Overall distribution of M&Ms
 overall_distribution <- df %>% # replace na with 0s
   mutate(across(is.numeric, ~replace_na(., 0))) %>%
-  select(Blue, Brown, Green, Red, Yellow) %>%
+  select(Blue, Orange, Green, Red, Yellow, Brown) %>%
   summarise(across(everything(), sum)) %>%
   pivot_longer(cols = everything(), names_to = "Color", values_to = "Count")
 
@@ -320,10 +328,11 @@ overall_plot <- overall_distribution %>%
        x = "Color",
        y = "Total Count") +
   scale_fill_manual(values = c("Blue" = "blue",
-                               "Brown" = "brown",
+                               "Orange" = "Orange",
                                "Green" = "green",
                                "Red" = "red",
-                               "Yellow" = "yellow")) +
+                               "Yellow" = "yellow",
+                               "Brown" = "brown")) +
   theme_minimal()
 
 overall_pie <- overall_distribution %>% 
@@ -333,10 +342,11 @@ overall_pie <- overall_distribution %>%
   labs(title = "Overall M&M Color Distribution",
        fill = "Color") +
   scale_fill_manual(values = c("Blue" = "blue",
-                               "Brown" = "brown",
+                               "Orange" = "Orange",
                                "Green" = "green",
                                "Red" = "red",
-                               "Yellow" = "yellow")) +
+                               "Yellow" = "yellow",
+                               "Brown" = "brown")) +
   theme_minimal()
 
 library(gridExtra)
