@@ -110,6 +110,7 @@ plot(code)
 ```
 
 Scan to input your data!
+.footnote[https://docs.google.com/spreadsheets/d/1D4i8e0pTrqwLk_FjMFtkimqhmtOrBf-X6OU9RT57m_Q]
 ]]
 --
 
@@ -133,6 +134,7 @@ Scan to input your data!
 ```
 
 ---
+# Source Code
 
 .tiny[
 
@@ -363,7 +365,7 @@ class: middle
 --
 .pull-right[
 
--Cluster sampling
+- Cluster sampling
   - If we sampled entire boxes of M&M packages
   - Potential production batch effects?
 
@@ -400,6 +402,7 @@ class: middle
 ---
 
 # Importance of Representative Samples
+
 .pull-left[
 - What if we only sampled from one factory?
 - Implications for psychological research
