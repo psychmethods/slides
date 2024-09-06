@@ -363,6 +363,7 @@ class: middle
     - Could this improve representativeness?
 ]
 --
+
 .pull-right[
 
 - Cluster sampling
@@ -409,7 +410,9 @@ class: middle
     - Generalizing from sample to population
     - External validity of research findings
     ]
---   
+    
+--
+
 .pull-right[
 - Strategies for improving representativeness
   - Increasing sample size (more M&M packages)
