@@ -33,7 +33,7 @@ knitr::opts_chunk$set(echo = FALSE,out.width = "90%", fig.align = "center")
 
 class: middle
 
-# Measurement
+# Measurement: The Foundation of Scientific Research
 
 
 ---
@@ -47,52 +47,82 @@ class: middle
 
 ---
 
-## Measurement
+## Understanding Measurement
 
-- 4th step in the research process
-  - Def: assignment of numbers to characteristics of people or objects
+- Definition: Measurement is the assignment of numbers to characteristics of people or objects
+  - 4th step in the research process
+  - It's purpose is to describe and differentiate 
 --
 
 - Examples: measurement scales
     - Speed $\rightarrow$ miles-per-hour
-    - Temperature (kelvin)
-    - Order of finishers
-    - Numbers on the back of basketball jerseys
+    - Temperature $\rightarrow$ Kelvin (K)
+    - Order of finishers in a race $\rightarrow$ 1st, 2nd, 3rd, etc.
+    - Numbers on the back of basketball jerseys $\rightarrow$ `r round(runif(0,250,n=5),digits=0)`
     
 ---
 
-## Variables
+## Variables: The Building Blocks of Measurement
+
 - Variables contain the outcome of measurement processes
-  - Qualitative: 
-      - number represent qualities (not quantities)
-  - Quantitative: 
-      - numbers mean something in relation quantities in the real world
-  
----
-
-## Characterize each level of measurement   
-
-- Levels of Measurement (Stevens, 1946)
-    - Nominal, ordinal, interval, ratio
 --
-- Properties:
-    - Have absolute zero
-        - 0 indicated absence (origin means zero)
-    - Equal intervals
-         - An interval means the same value at any point on measurement scales
-    - Order
-        - Number means order
-    - Identity
-          - Different numbers mean different measurement outcomes (1 $\neq$ 2 )
 
+- Variables can be:
+    - Qualitative: 
+      - Numbers represent qualities (not quantities)
+      - Example: Coding for eye color (1 = Blue, 2 = Brown, 3 = Green)
+--
+    - Quantitative: 
+      - Numbers mean something in relation quantities in the real world
+      - Example: Height in centimeters, Weight in kilograms
 ---
 
 class: middle
 
 # Levels of Measurement
 
+---
+
+## Stevens' Classification (1946): 
+.pull-left[
+- Characterizes each level of measurement   
+    - Nominal
+    - ordinal, 
+    - interval, 
+    - ratio
+]
+--
+
+.pull-right[
+- Key Properties:
+  - Identity
+  - Order
+  - Equal Intervals
+  - Absolute Zero
+]
+--
+
+.footnote[Stevens, Stanley Smith (1946). On the theory of scales of measurement. Science, 103(2684), 677-680.]
+
+```{r, out.width = "15%", fig.align = "left", echo=FALSE}
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/en/2/2b/Headshot_of_Stanley_Smith_Stevens.png")
+```
 
 ---
+
+## Key Properties of Measurement
+
+- Have absolute zero
+  - 0 indicated absence (origin means zero)
+- Equal intervals
+  - An interval means the same value at any point on measurement scales
+- Order
+  - Number means order
+- Identity
+  - Different numbers mean different measurement outcomes $(1 \neq 2)$
+
+---
+
 
 # Ratio (quantitative)
 
@@ -102,8 +132,11 @@ class: middle
     - Equal intervals
     - Order
     - Identity
-- Multiplication and Division are permissible transformations
-
+--
+- Multiplication and division are permissible transformations
+--
+- Examples: 
+    - Height, weight, age, income, distance, time, etc.
 
 ---
 
@@ -200,12 +233,13 @@ plot(density(x,adjust = .1))
 
 ---
 
-# Interval
-- Interval (quantitative)
-    - Temperature in Fahrenheit is an example
-    - Addition is a permissible transformation
-    -	Has three features (all but absolute zero)
-    
+# Interval (quantitative)
+
+- Has order, identity, and equal intervals
+   - (all but absolute zero)
+- Addition is a permissible transformation
+- Example: Temperature in Celsius or Fahrenheit
+
 ```{r, echo=TRUE}
 # Interval Example
 library(datasets)
@@ -214,6 +248,8 @@ nottem[1:10] 			# First ten rows of data
 ```
 
 ---
+## Interval (quantitative)
+
 .pull-left[
 ```{r, echo=TRUE}
 # Histogram
@@ -230,24 +266,28 @@ plot(density(nottem))
 ---
 
 # Ordinal (qualitative)
-.pull-left[
+.pull-left-narrow[
 -	Has order and identity
 - Monotonic transformations are permissible
 - These variables maintain the order of the values
+- Example: Education levels (High School, Bachelor's, Master's, PhD)
 ]
 
 ```{r, echo=TRUE}
 # Ordinal Example
 library(ggplot2movies)
 data(movies)
-variable<-movies$rating
-head(movies[!is.na(movies$budget),], n=5) 		# First 5 rows of data, with a non-missing budget
+# First 4 rows of data, with a non-missing budget
+head(movies[!is.na(movies$budget),], n = 4) 
 
 ```
+
 ---
+# Ordinal (qualitative)
 .pull-left[
 ```{r, echo=TRUE}
 # Histogram
+variable <- movies$rating
 hist(variable) 
 ```
 ]
@@ -262,9 +302,10 @@ plot(density(variable))
 
 # Nominal
 
-.pull-left[
+.pull-left-narrow[
 - Only has identity
-- Any identity preserving transformation is permissible
+- Any identity-preserving transformation is permissible
+- Example: Jersey numbers in sports
 ]
 
 
@@ -272,11 +313,12 @@ plot(density(variable))
 # Nominal Example
 library(vcd)
 data(Arthritis)
-# First 8  rows of data
-Arthritis[1:8, ]
+head(Arthritis[, c("ID", "Treatment")], 8)
 ```
 
 ---
+
+# Basic Barplot
 .pull-left[
 ```{r ref.label = "nom",out.width = "100%", echo = FALSE, warning = FALSE}
 ```
@@ -296,9 +338,9 @@ barplot(barplot_fix)
 
 # More complex measurement level taxomony
 
-- Missing (considered nominal under the Stevens taxonomy)
-- Binary (considered nominal under the Stevens taxonomy)
-- Nominal (considered nominal under the Stevens taxonomy)
+- Missing (considered nominal under the Stevens)
+- Binary (considered nominal under the Stevens)
+- Nominal (considered nominal under the Stevens)
 - Partially ordered (considered ordinal under Stevens)
 - Fully ordered (considered ordinal under Stevens)
 - Interval
@@ -325,39 +367,71 @@ barplot(barplot_fix)
 
 ---
 
-
+class: center, middle
 
 # Goals of Measurement
 
-- Reliable
+---
+
+# Goals of Measurement
+
+- Reliability
   - "…the degree to which a test or measure produces the same scores when applied in the same circumstances…" (Thomas and Nelson 1996)
   - In other words, if you take the measure again, will you get the same result?
 
 --
-
 - (Internal) Validity
   - "Degree to which a test or instrument measures what it purports to measure"  (Thomas and Nelson 1996)
   - In other words, does your measure measure what is it supposed to measure?
 
 ---
 
-## More on this later...
+## Types of Validity (More on this later...)
 
 - Two Major Areas within Validity
   - Internal Validity
     - Is this evidence supportive of our claim, within this study?
-  
   - External Validity
     - Is this evidence supportive of our claim beyond this study?
     - Does this finding generalize to outside this study?
 
 ---
 
+## Practical Applications
+
+- Psychology: Measuring personality traits
+- Education: Assessing student performance
+- Medicine: Tracking patient vital signs
+- Business: Evaluating customer satisfaction
+- Sports: Analyzing athletic performance
+
+---
+
+# Challenges in Measurement
+
+- Measurement Error
+  - Random errors vs. Systematic errors
+- Bias in Measurement
+  - Observer bias, response bias, selection bias
+- Cultural and Linguistic Considerations
+  - Ensuring measures are valid across different cultures and languages
+- Ethical Considerations
+  - Privacy, consent, and responsible use of data
+
+---
+
 # Wrapping Up...
+## The Importance of Good Measurement
 
 <br><br>
 ![](../img/validreliable.gif)
 
+---
+
+# Lingering Questions
+- How might the level of measurement affect the statistical analyses we can perform?
+- Can you think of examples where improper measurement could lead to incorrect conclusions?
+- How can we improve the reliability and validity of our measurements in real-world research?
 
 
 
