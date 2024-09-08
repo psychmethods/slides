@@ -124,6 +124,19 @@ knitr::include_graphics("https://upload.wikimedia.org/wikipedia/en/2/2b/Headshot
 ---
 
 
+
+## Which properties does this measure have?
+
+
+```{r, out.width = "65%", fig.align = "center", echo=FALSE}
+knitr::include_graphics("../img/equalinterval.jpeg")
+```
+--
+
+.footnote[Source: [/u/ZigeonVO](https://www.reddit.com/user/ZigeonVO) via [r/assholedesign](https://www.reddit.com/r/assholedesign/comments/1fc7cnt/this_card_i_was_given_today_from_a_delivery/)]
+---
+
+
 # Ratio (quantitative)
 
 
