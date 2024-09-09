@@ -148,8 +148,9 @@ knitr::include_graphics("../img/equalinterval.jpeg")
 --
 - Multiplication and division are permissible transformations
 --
+
 - Examples: 
-    - Height, weight, age, income, distance, time, etc.
+    - Height, weight, age, income, time, etc.
 
 ---
 
@@ -202,7 +203,7 @@ plot(density(Galton$child))
 
 ---
 
-
+<!-- should be cut-->
 # Bandwidth Aside
 
 [Bandwidth: Smoothing Method](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/density.html)
@@ -214,6 +215,7 @@ args(density.default)
 ```
 
 ---
+
 # Bandwidth Aside
 ```{r, echo=FALSE,warning=FALSE}
 knitr::include_graphics("../img/density.png")
@@ -261,6 +263,7 @@ nottem[1:10] 			# First ten rows of data
 ```
 
 ---
+
 ## Interval (quantitative)
 
 .pull-left[
@@ -279,24 +282,28 @@ plot(density(nottem))
 ---
 
 # Ordinal (qualitative)
+
 .pull-left-narrow[
 -	Has order and identity
 - Monotonic transformations are permissible
 - These variables maintain the order of the values
 - Example: Education levels (High School, Bachelor's, Master's, PhD)
 ]
+--
 
 ```{r, echo=TRUE}
 # Ordinal Example
 library(ggplot2movies)
 data(movies)
 # First 4 rows of data, with a non-missing budget
-head(movies[!is.na(movies$budget),], n = 4) 
+head(movies[!is.na(movies$budget),], n = 14) 
 
 ```
 
 ---
+
 # Ordinal (qualitative)
+
 .pull-left[
 ```{r, echo=TRUE}
 # Histogram
@@ -327,6 +334,7 @@ plot(density(variable))
 library(vcd)
 data(Arthritis)
 head(Arthritis[, c("ID", "Treatment")], 8)
+
 ```
 
 ---
