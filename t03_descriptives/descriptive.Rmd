@@ -69,7 +69,7 @@ embed_url() %>%
 # Exploratory Data Analysis
 .pull-left[
 - Tukey (1977)
-    -	EDA
+    - EDA
     - Graphical Data Analysis
     - Numbers as summaries
     - Emphasized Robust Statistics
@@ -93,16 +93,20 @@ embed_url() %>%
 
 - Woodbridge (1845)
     
+```{r, echo=FALSE, out.width="100%", warning = FALSE}
+knitr::include_graphics("../img/woodbridge1845.png")
+```  
 
-![](../img/woodbridge1845.png)
-     
 ---
 
 # Graphs
+
   -  Minard (1869)
     
+```{r, echo=FALSE, out.width="70%", warning = FALSE}
+knitr::include_graphics("../img/minard.png")
+```  
 
-![](../img/minard.png)
 
 ---
 
@@ -112,20 +116,25 @@ embed_url() %>%
     - Measures of Central Tendency
     - Measures of Spread
     
+```{r, echo=FALSE, out.width="30%", warning = FALSE}
+knitr::include_graphics("../img/centralbears.jpg")
+``` 
 
-![](../img/centralbears.jpg)
      
-
 ---
 
 # Categorical Variable Displays (Nominal, Ordinal)
 
 - Frequency Distribution Graphs
-    - Bar Chart
-    - Pie Chart
+  - Bar Chart
+  - Pie Chart
+--
+
 - Quantitative Variables
-    - Histograms
-    - Stem plots
+  - Histograms
+  - Stem plots
+--
+
 - Time Plots  
 
 ---
@@ -139,13 +148,16 @@ embed_url() %>%
 ]
 .pull-right[
 
+```{r, echo=FALSE, out.width="95%", warning = FALSE,caption="Nicole Oresme (Bishop of Lisieus) circa 1350"}
+knitr::include_graphics("../img/oresme.jpg")
+``` 
 
-![Nicole Oresme (Bishop of Lisieus) circa 1350](../img/oresme.jpg)
 ]
 
 ---
 
 # Bar Graph/Chart
+
 .pull-left[
 ```{r, echo=TRUE}
 # Bar chart
@@ -153,7 +165,7 @@ library(car)
 counts <- table(mtcars$gear)
 ```
 ]
-.pull-right[
+.pull-right.small[
 ```{r, echo=TRUE}
 barplot(counts, main="Car Distribution",
   	xlab="Number of Gears")
@@ -162,23 +174,24 @@ barplot(counts, main="Car Distribution",
 ---
 
 # Stacked Bar Chart
-.pull-left[
+.small.pull-left[
 ```{r, echo=TRUE}
 df <- data.frame(
   group = c("Male", 
             "Female", 
             "Child"),
-  value = c(25, 25, 50)
-  )
+  value = c(25, 25, 50))
 head(df)
 ```
 ]
-.pull-right[
+.pull-right.small[
 ```{r, echo=TRUE}
 library(ggplot2)
-(bp=ggplot(df, aes(x="",y=value, fill=group))+
-geom_bar(width = 1, stat = "identity"))
-
+bp <- ggplot(df, aes(x="",
+                     y=value,
+                     fill = group))+ 
+  geom_bar(width = 1,stat = "identity")
+bp
 ```
 ]
 ---
@@ -189,30 +202,38 @@ geom_bar(width = 1, stat = "identity"))
 ]
 
 .pull-right[
-
-![A pie chart showing each state in the United States, part of Playfair's translation of A Statistical Account of the United States of America by D. F. Donnant.](../img/pieplay.jpg)
-]
+```{r, echo=FALSE, out.height="40%", warning = FALSE}
+knitr::include_graphics("../img/pieplay.jpg")
+```
+.footnote["A pie chart showing each state in the United States, part of Playfair's translation of A Statistical Account of the United States of America by D. F. Donnant."
+]]
 
 ---
 
 # Pie chart
 
-.pull-left[
+.pull-left-narrow[
 ```{r, echo=TRUE}
-slices <- c(10, 12,4, 16, 8)
-lbls <- c("US", "UK", "Australia", "Germany", "France")
+slices <- c(10,12,
+            4,16, 8)
+lbls <- c("US", "UK",
+          "Australia",
+          "Germany",
+          "France")
 ```
 ]
-.pull-right[
+.pull-right-wide[
 ```{r, echo=TRUE}
-pie(slices, labels = lbls, main="Pie Chart of Countries")
+pie(slices, labels = lbls,
+    main="Pie Chart of Countries")
 ```
 ]
 ---
 
 # Example 2
-.small[
-```{r, echo=TRUE}
+
+.small.pull-left[
+```{r example2, echo=TRUE, fig.show=FALSE}
 mytable <- table(iris$Species)
 lbls <- paste(names(mytable), "\n", mytable, sep="")
 pie(mytable, labels = lbls,
@@ -220,17 +241,29 @@ pie(mytable, labels = lbls,
 
 ```
 ]
+
+.pull-right[
+```{r ref.label = "example2",out.width = "65%", echo = FALSE, warning = FALSE}
+```
+]
+
 ---
 
 
 # Convert Bar Chart into Pie Chart
-.small[
-```{r, echo=TRUE}
+
+.small.pull-left[
+```{r, polar, echo=TRUE}
 pie <- bp + coord_polar("y", start=0)
 pie
 pie + scale_fill_manual(values=c("#999999", "#E69F00", "#56B4E9"))
 ```
 ]
+.pull-right[
+```{r ref.label = "polar",out.width = "65%", echo = FALSE, warning = FALSE}
+```
+]
+
 [Additional Resources](http://www.sthda.com/english/wiki/ggplot2-pie-chart-quick-start-guide-r-software-and-data-visualization) 
 
 ---
@@ -248,13 +281,15 @@ pie + scale_fill_manual(values=c("#999999", "#E69F00", "#56B4E9"))
 # Histogram 
 - A histogram is a graphical representation of the distribution of numerical data.
     - Approximates a probability distribution
-    - First described in @Pearson1895.
+    - First described by  Pearson in 1895.
     
 ---
+
 # Histogram
+
 .pull-left[
 ```{r echo=TRUE}
-library(MASS)
+library(MASS) # load library
 variable<-cats$Bwt
 hist(variable)
 ```
@@ -262,7 +297,9 @@ hist(variable)
 
 .pull-right[
 ```{r echo=TRUE}
-variable<-variable*2.2   #Convert to Imperial
+ #Convert to Imperial
+variable<-variable*2.2  
+
 hist(variable)
 ```
 ]
@@ -273,7 +310,7 @@ hist(variable)
 
 - Sometimes called a stem and leaf diagram
 
-```{r, echo=TRUE}
+```{r, echo=TRUE, out.width="50%"}
 # Stem and Leaf plot
 stem(faithful$eruptions,scale=1)
 ```
@@ -283,9 +320,10 @@ stem(faithful$eruptions,scale=1)
 
 # Time Plots
 
-```{r}
+```{r, echo=FALSE, out.width="30%", warning = FALSE}
 knitr::include_graphics("../img/minard.png")
 ```  
+--
 
 - Edward Tufte has said that Minard's plot: 
 
@@ -320,10 +358,11 @@ knitr::include_graphics("../img/minard.png")
 ---
 
 # Recreation in R
+
 - This plot has been recreated in R by:
     - [Andrew Heiss](https://www.andrewheiss.com/blog/2017/08/10/exploring-minards-1812-plot-with-ggplot2/)
     - [Michael Friendly](http://www.datavis.ca/gallery/re-minard.php)
-    - @Wickham2010 [link](https://www.tandfonline.com/doi/suppl/10.1198/jcgs.2009.07098?scroll=top)
+    - [Hadley Wickham](https://www.tandfonline.com/doi/suppl/10.1198/jcgs.2009.07098?scroll=top)
 
 ---
 
@@ -420,86 +459,178 @@ grid::grid.draw(both.1812.plot.simple)
 ```
 
 
-
-
+.pull-left[
 ```{r}
 knitr::include_graphics("../img/minard.png")
 ```
+]
 
-
+.pull-right[
 ```{r fig.width=10, fig.height=4.75,echo=FALSE}
 grid::grid.newpage()
 grid::grid.draw(both.1812.plot.simple)
 ```  
+]
 
 ---
 
 # More Accessible Resources
 
 - [R Graph Catalog](http://shinyapps.stat.ubc.ca/r-graph-catalog/)
-
 - [intRo](http://www.intro-stats.com/)
+- .hand-pink[[Data Science for Psychologists](https://datascience4psych.github.io/DataScience4Psych/)]
+
+---
+
+class: center, middle
+
+# Wrapping Up...
 
 ---
 
 # R Basics
 
-- Installation
-  - R can be downloaded from one of the mirror sites in http://cran.r-project.org/mirrors.html. You should pick your nearest location.
+---
 
-- Using External Data
-  - R offers plenty of options for loading external data, including Excel, Minitab and SPSS files.
+# R Basics
 
-- R Session
-  - After R is started, there is a console awaiting for input. At the prompt (>), you can enter numbers and perform calculations.
+- R is a powerful language for statistical computing and graphics
+- It's free, open-source, and has a large community of users and developers
 
-> 1 + 2 
-[1] 3
+---
+
+# R Installation and Setup
+
+- Download R from CRAN (Comprehensive R Archive Network): https://cran.r-project.org/
+- Choose the version for your operating system
+- RStudio is a popular IDE for R, available at: https://www.rstudio.com/products/rstudio/download/
+
+---
+
+# R Console
+
+- After installation, you can start R or RStudio
+- You'll see a console where you can enter commands
+- Try a simple calculation:
+
+```{r, echo=TRUE}
+2 + 3
+
+```
 
 ---
 
 # Variable Assignment
 
-We assign values to variables with the assignment operator "=". Just typing the variable by itself at the prompt will print out the value. We should note that another form of assignment operator "<-" is also in use.
+- Use `<-` or `=` to assign values to variables
 
-```{r}
-x = 1 
-x 
-```
+Variable names should be descriptive and use `under_scores` or `camelCase`
 
-# Functions
-
-R functions are invoked by its name, then followed by the parenthesis, and zero or more arguments. The following apply the function c to combine three numeric values into a vector.
-
-```{r}
-c(1, 2, 3) 
+```{r, echo= TRUE}
+x <- 10
+y = 20
+total_sum <- x + y
+totalSum <- x + y
+print(total_sum)
 
 ```
+
+---
+
+# Basic Data Types
+
+- Numeric: 1.5, 2, 3.14
+- Character: "hello", 'world'
+- Logical: TRUE, FALSE
+
+```{r}
+num_var <- 1.5
+char_var <- "hello"
+log_var <- TRUE
+```
+
+---
+
+# Vectors
+
+
+- Create vectors using `c()` function
+- Vectors can contain elements of the same type
+
+```{r,echo=TRUE}
+
+numeric_vector <- c(1, 2, 3, 4, 5)
+character_vector <- c("a", "b", "c")
+print(numeric_vector)
+
+```
+
+---
+
+# Basic Plotting in R
+
+.pull-left[
+- R has built-in plotting functions
+- These are useful for quick visualizations
+]
+.pull-right[
+```{r, echo=TRUE}
+x <- 1:10
+y <- x^2
+plot(x, y, main="Simple Plot", xlab="X axis", ylab="Y axis")
+```
+]
+
+
+---
+
+# Using Functions
+
+.pull-left-narrow[
+- R has many built-in functions
+- You can also create your own functions
+]
+.pull-right-wide[
+```{r, echo=TRUE}
+# Built-in function
+mean(c(1, 2, 3, 4, 5))
+
+# Custom function
+square <- function(x) {
+  return(x^2)
+}
+square(4)
+
+```
+]
+
 ---
 
 # Comments
 
-All text after the pound sign "#" within the same line is considered a comment.
+- All text after the pound sign "#" within the same line is considered a comment.
 
 > 1 + 1      # this is a comment 
 [1] 2
 
 ---
 
-# Extension Package
+# Getting Help
 
-Sometimes we need additional functionality beyond those offered by the core R library. In order to install an extension package, you should invoke the install.packages function at the prompt and follow the instruction.
+- R provides extensive documentation. 
+- Use `?` or `help()` to get information about functions
+- For example, entering `?c` or `help(c)` at the prompt gives documentation of the function `c` in R.
+- Example:
+```{r}
+?mean
+help(plot)
+```
+
 
 ---
 
-#
-> install.packages()
-Getting Help
-R provides extensive documentation. For example, entering ?c or help(c) at the prompt gives documentation of the function c in R. Please give it a try.
+# Getting Help
 
----
-
-#
 > help(c)
 If you are not sure about the name of the function you are looking for, you can perform a fuzzy search with the apropos function.
 
@@ -508,14 +639,12 @@ If you are not sure about the name of the function you are looking for, you can 
    ....
 
 
-# References
 
 ---
 
 # Wrapping Up...
 
-<br><br>
-![](../img/validreliable.gif)
+
 
 
 
