@@ -126,8 +126,8 @@ knitr::include_graphics("../img/centralbears.jpg")
 # Categorical Variable Displays (Nominal, Ordinal)
 
 - Frequency Distribution Graphs
-  - Bar Chart
-  - Pie Chart
+  - Bar Chart  (appropriate for nominal and ordinal data)
+  - Pie Chart (best for nominal data with few categories)
 --
 
 - Quantitative Variables
@@ -135,7 +135,8 @@ knitr::include_graphics("../img/centralbears.jpg")
   - Stem plots
 --
 
-- Time Plots  
+- Time Plots
+  - (can be used for any level, often interval or ratio)
 
 ---
 
@@ -144,43 +145,67 @@ knitr::include_graphics("../img/centralbears.jpg")
 .pull-left[
 - Bar Chart
     - Graphs of variables with categories of outcomes on the x axis; and the frequency or percent of each category on the Y axis.
+    - Appropriate for nominal and ordinal data
  
 ]
 .pull-right[
 
-```{r, echo=FALSE, out.width="95%", warning = FALSE,caption="Nicole Oresme (Bishop of Lisieus) circa 1350"}
+```{r, echo=FALSE, out.width="35%", warning = FALSE,caption="Nicole Oresme (Bishop of Lisieus) circa 1350"}
 knitr::include_graphics("../img/oresme.jpg")
 ``` 
-
+.footnote[Nicole Oresme (Bishop of Lisieus) circa 1350]
 ]
 
 ---
 
 # Bar Graph/Chart
 
-.pull-left[
+.pull-left.small[
 ```{r, echo=TRUE}
 # Bar chart
-library(car)
-counts <- table(mtcars$gear)
+library(HistData)
+Minard_troops_demo <- Minard.troops
+
+Minard_troops_demo$group <- paste("Group",Minard_troops_demo$group)
+
+counts <- table(Minard_troops_demo$group)
 ```
 ]
+
+--
 .pull-right.small[
 ```{r, echo=TRUE}
-barplot(counts, main="Car Distribution",
-  	xlab="Number of Gears")
+barplot(counts, main="Bar Chart of Troops",
+        xlab="Group", ylab="Observations",
+        col="lightblue")
 ```
 ]
+
+--
+
+- Note: This example uses nominal data (Troop Group) and how many data points we have for each group.
+- Bar charts are suitable for nominal and ordinal data as they show frequency for discrete categories.
 ---
 
-# Stacked Bar Chart
-.small.pull-left[
+# Stacked Bar Chart ( Total Troops)
+
+```{r,echo=FALSE}
+descriptives <- Minard_troops_demo %>% group_by(group) %>%
+summarize(n = n(),
+          max = max(survivors,na.rm=TRUE),
+          min= min(survivors,na.rm=TRUE)) 
+
+```
+
+.pull-left.small[
 ```{r, echo=TRUE}
 df <- data.frame(
-  group = c("Male", 
-            "Female", 
-            "Child"),
-  value = c(25, 25, 50))
+  group = c("Group 1", 
+            "Group 2", 
+            "Group 3"),
+  max = c(340000,60000,22000),
+  min = c(4000,28000,6000))
+
 head(df)
 ```
 ]
@@ -188,17 +213,21 @@ head(df)
 ```{r, echo=TRUE}
 library(ggplot2)
 bp <- ggplot(df, aes(x="",
-                     y=value,
+                     y=max/1000, # to rescale
                      fill = group))+ 
   geom_bar(width = 1,stat = "identity")
 bp
 ```
 ]
+
+- Stacked bar charts can show the relationship between two categorical variables.
+
 ---
 
 # Pie Chart
 .pull-left[
 - Graphs of variables with categories of outcomes as frequency or percent of each category in the pie.
+- Best for nominal data with few categories
 ]
 
 .pull-right[
@@ -246,6 +275,8 @@ pie(mytable, labels = lbls,
 ```{r ref.label = "example2",out.width = "65%", echo = FALSE, warning = FALSE}
 ```
 ]
+
+- Pie charts are best for nominal data with few categories, showing part-to-whole relationships.
 
 ---
 
@@ -303,17 +334,50 @@ variable<-variable*2.2
 hist(variable)
 ```
 ]
+
+- Histograms are appropriate for interval and ratio data, showing the distribution of continuous variables.
+
+---
+
+# Boxplot (Ordinal predictor, Ratio outcome)
+
+.pull-left[
+- Boxplots can show the distribution of a ratio variable across categories of an ordinal variable.
+]
+.pull-right.small[
+```{r, echo=TRUE}
+boxplot(mpg ~ cyl, data=mtcars,
+        main="MPG by Number of Cylinders",
+        xlab="Number of Cylinders (Ordinal)",
+        ylab="Miles Per Gallon (Ratio)")
+```
+]
+
+
+
 ---
 
 
 # Stemplot 
 
+.pull-left-narrow[
 - Sometimes called a stem and leaf diagram
+- A way to display data that splits the data into a stem and leaf.
+- The stem is the first digit of the number and the leaf is the second digit
+- Stem and leaf plots are useful for displaying the distribution of interval or ratio data, especially for smaller datasets.
+]
+--
+.pull-right-wide.small[
+- Eruption duration is a ratio variable
+- Each leaf represents the ones digit
+- Each stem represents the tens digit
 
-```{r, echo=TRUE, out.width="50%"}
+```{r, echo=TRUE}
 # Stem and Leaf plot
 stem(faithful$eruptions,scale=1)
 ```
+]
+
 
 ---
 
@@ -326,9 +390,8 @@ knitr::include_graphics("../img/minard.png")
 --
 
 - Edward Tufte has said that Minard's plot: 
-
-    > "may well be the best statistical graphic ever drawn" 
-
+    > "may well be the best statistical graphic ever drawn"
+    
 - It packs a ton of information into one dense figure. 
 
 ---
@@ -342,18 +405,19 @@ knitr::include_graphics("../img/minard.png")
 
 ---
 
-- The plot contains six variables, each mapped to a different aesthetic:
+- The plot contains seven variables, each mapped to a different aesthetic:
 
 
 
-| Information                           | Aesthetic       |
-|---------------------------------------|-----------------|
-| Size of Napoleon's Grande Armée       | Width of path   |
-| Longitude of the army's position      | x-axis          |
-| Latitude of the army's position       | y-axis          |
-| Direction of the army's movement      | Color of path   |
-| Date of points along retreat path     | Text below plot |
-| Temperature during the army's retreat | Line below plot |
+| Information                           | Aesthetic       | Level of Measurement |
+|---------------------------------------|----------------------------------------|
+| Size of Napoleon's Grande Armée       | Width of path   | Ratio             |
+| Longitude of the army's position      | x-axis          | Ratio             |
+| Latitude of the army's position       | y-axis          | Ratio             |
+| Direction of the army's movement      | Color of path   | Nominal           |
+| Date of points along retreat path     | Text below plot | ???????  (What do you think?)         |
+| Temperature during the army's retreat | Line below plot | ??????? (What do you think?)  |
+| Geographic features                   | Map background  | ???????  (What do you think?)            |
 
 ---
 
@@ -389,7 +453,7 @@ if(download){
                      header = TRUE, stringsAsFactors = FALSE)
 }else{
 
-
+#Load from local
 cities <- read.table("dat/cities.txt",
                      header = TRUE, stringsAsFactors = FALSE)
 troops <- read.table("dat/troops.txt",
@@ -474,6 +538,13 @@ grid::grid.draw(both.1812.plot.simple)
 
 ---
 
+.tiny[
+```{r, ref.label='load-libraries-data',echo=TRUE}
+
+```
+]
+---
+
 # More Accessible Resources
 
 - [R Graph Catalog](http://shinyapps.stat.ubc.ca/r-graph-catalog/)
@@ -483,164 +554,6 @@ grid::grid.draw(both.1812.plot.simple)
 ---
 
 class: center, middle
-
-# Wrapping Up...
-
----
-
-# R Basics
-
----
-
-# R Basics
-
-- R is a powerful language for statistical computing and graphics
-- It's free, open-source, and has a large community of users and developers
-
----
-
-# R Installation and Setup
-
-- Download R from CRAN (Comprehensive R Archive Network): https://cran.r-project.org/
-- Choose the version for your operating system
-- RStudio is a popular IDE for R, available at: https://www.rstudio.com/products/rstudio/download/
-
----
-
-# R Console
-
-- After installation, you can start R or RStudio
-- You'll see a console where you can enter commands
-- Try a simple calculation:
-
-```{r, echo=TRUE}
-2 + 3
-
-```
-
----
-
-# Variable Assignment
-
-- Use `<-` or `=` to assign values to variables
-
-Variable names should be descriptive and use `under_scores` or `camelCase`
-
-```{r, echo= TRUE}
-x <- 10
-y = 20
-total_sum <- x + y
-totalSum <- x + y
-print(total_sum)
-
-```
-
----
-
-# Basic Data Types
-
-- Numeric: 1.5, 2, 3.14
-- Character: "hello", 'world'
-- Logical: TRUE, FALSE
-
-```{r}
-num_var <- 1.5
-char_var <- "hello"
-log_var <- TRUE
-```
-
----
-
-# Vectors
-
-
-- Create vectors using `c()` function
-- Vectors can contain elements of the same type
-
-```{r,echo=TRUE}
-
-numeric_vector <- c(1, 2, 3, 4, 5)
-character_vector <- c("a", "b", "c")
-print(numeric_vector)
-
-```
-
----
-
-# Basic Plotting in R
-
-.pull-left[
-- R has built-in plotting functions
-- These are useful for quick visualizations
-]
-.pull-right[
-```{r, echo=TRUE}
-x <- 1:10
-y <- x^2
-plot(x, y, main="Simple Plot", xlab="X axis", ylab="Y axis")
-```
-]
-
-
----
-
-# Using Functions
-
-.pull-left-narrow[
-- R has many built-in functions
-- You can also create your own functions
-]
-.pull-right-wide[
-```{r, echo=TRUE}
-# Built-in function
-mean(c(1, 2, 3, 4, 5))
-
-# Custom function
-square <- function(x) {
-  return(x^2)
-}
-square(4)
-
-```
-]
-
----
-
-# Comments
-
-- All text after the pound sign "#" within the same line is considered a comment.
-
-> 1 + 1      # this is a comment 
-[1] 2
-
----
-
-# Getting Help
-
-- R provides extensive documentation. 
-- Use `?` or `help()` to get information about functions
-- For example, entering `?c` or `help(c)` at the prompt gives documentation of the function `c` in R.
-- Example:
-```{r}
-?mean
-help(plot)
-```
-
-
----
-
-# Getting Help
-
-> help(c)
-If you are not sure about the name of the function you are looking for, you can perform a fuzzy search with the apropos function.
-
-> apropos("nova") 
-[1] "anova"                "anova.glm" 
-   ....
-
-
-
----
 
 # Wrapping Up...
 

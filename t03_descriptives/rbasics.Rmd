@@ -1,0 +1,212 @@
+---
+title: "R basics"
+author: "S. Mason Garrison"
+bibliography: library.bib
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+#       slideNumberFormat: ""  
+library(tidyverse)
+library(vembedr)
+library(knitr)
+if (!require("emo")) devtools::install_github("hadley/emo")
+# Installs library if missing
+if (!require("HistData")) install.packages("HistData") 
+library(emo)
+knitr::opts_chunk$set(echo = FALSE,out.width = "90%", fig.align = "center")
+
+```
+
+---
+
+# More Accessible Resources
+
+- [R Graph Catalog](http://shinyapps.stat.ubc.ca/r-graph-catalog/)
+- [intRo](http://www.intro-stats.com/)
+- .hand-pink[[Data Science for Psychologists](https://datascience4psych.github.io/DataScience4Psych/)]
+
+---
+
+class: center, middle
+
+# Wrapping Up...
+
+---
+
+# R Basics
+
+---
+
+# R Basics
+
+- R is a powerful language for statistical computing and graphics
+- It's free, open-source, and has a large community of users and developers
+
+---
+
+# R Installation and Setup
+
+- Download R from CRAN (Comprehensive R Archive Network): https://cran.r-project.org/
+- Choose the version for your operating system
+- RStudio is a popular IDE for R, available at: https://www.rstudio.com/products/rstudio/download/
+
+---
+
+# R Console
+
+- After installation, you can start R or RStudio
+- You'll see a console where you can enter commands
+- Try a simple calculation:
+
+```{r, echo=TRUE}
+2 + 3
+
+```
+
+---
+
+# Variable Assignment
+
+- Use `<-` or `=` to assign values to variables
+
+Variable names should be descriptive and use `under_scores` or `camelCase`
+
+```{r, echo= TRUE}
+x <- 10
+y = 20
+total_sum <- x + y
+totalSum <- x + y
+print(total_sum)
+
+```
+
+---
+
+# Basic Data Types
+
+- Numeric: 1.5, 2, 3.14
+- Character: "hello", 'world'
+- Logical: TRUE, FALSE
+
+```{r}
+num_var <- 1.5
+char_var <- "hello"
+log_var <- TRUE
+```
+
+---
+
+# Vectors
+
+
+- Create vectors using `c()` function
+- Vectors can contain elements of the same type
+
+```{r,echo=TRUE}
+
+numeric_vector <- c(1, 2, 3, 4, 5)
+character_vector <- c("a", "b", "c")
+print(numeric_vector)
+
+```
+
+---
+
+# Basic Plotting in R
+
+.pull-left[
+- R has built-in plotting functions
+- These are useful for quick visualizations
+]
+.pull-right[
+```{r, echo=TRUE}
+x <- 1:10
+y <- x^2
+plot(x, y, main="Simple Plot", xlab="X axis", ylab="Y axis")
+```
+]
+
+
+---
+
+# Using Functions
+
+.pull-left-narrow[
+- R has many built-in functions
+- You can also create your own functions
+]
+.pull-right-wide[
+```{r, echo=TRUE}
+# Built-in function
+mean(c(1, 2, 3, 4, 5))
+
+# Custom function
+square <- function(x) {
+  return(x^2)
+}
+square(4)
+
+```
+]
+
+---
+
+# Comments
+
+- All text after the pound sign "#" within the same line is considered a comment.
+
+> 1 + 1      # this is a comment 
+[1] 2
+
+---
+
+# Getting Help
+
+- R provides extensive documentation. 
+- Use `?` or `help()` to get information about functions
+- For example, entering `?c` or `help(c)` at the prompt gives documentation of the function `c` in R.
+- Example:
+```{r}
+?mean
+help(plot)
+```
+
+
+---
+
+# Getting Help
+
+> help(c)
+If you are not sure about the name of the function you are looking for, you can perform a fuzzy search with the apropos function.
+
+> apropos("nova") 
+[1] "anova"                "anova.glm" 
+   ....
+
+
+
+---
+
+# Wrapping Up...
+
+
+
+
+
+
