@@ -40,18 +40,40 @@ class: middle
 ---
 
 ## Describing distributions with numbers 
+.pull-left[
+- Hundreds of descriptive statistics exist
+- Goal: Describe the data with a single number that represents an entire distribution
+- Taxonomy of descriptive statistics (a.k.a. Key characteristics)
+  - Shape
+  - Center
+  - Spread
+  - Unusual observations
+] .pull-right[
 
-- Hundreds of descriptive statistics
-- Goal is to describe the data with a single number that represents an entire distribution
-- Taxonomy
---
+```{r, echo=FALSE}
+library(ggplot2)
+set.seed(123)
+data <- data.frame(x = c(rnorm(1000), rnorm(1000, mean = 3, sd = 0.5)))
+ggplot(data, aes(x)) +
+  geom_density(fill = "lightblue", alpha = 0.7) +
+  theme_minimal() +
+  labs(title = "Example: Two Overlapping Distributions",
+       x = "Value", y = "Density")
+```
 
-    - shape:
-        - skewness: right-skewed, left-skewed, symmetric (skew is to the side of the longer tail)
-        - modality: unimodal, bimodal, multimodal, uniform
-    - center: mean (`mean`), median (`median`), mode (not always useful)
-    - spread: range (`range`), standard deviation (`sd`), inter-quartile range (`IQR`)
-    - unusual observations
+]
+
+---
+
+# Taxonomy
+
+- shape:
+  - skewness: right-skewed, left-skewed, symmetric (skew is to the side of the longer tail)
+  - modality: unimodal, bimodal, multimodal, uniform
+- center: mean (`mean`), median (`median`), mode (not always useful)
+- spread: range (`range`), standard deviation (`sd`), inter-quartile range (`IQR`)
+- unusual observations: outliers, extreme values
+
 ---
 
 # Center
@@ -90,7 +112,7 @@ legend("topright", inset=.05, title="Distributions",
 
 ---
 
-# spread
+# Spread
 
 - Spread (a.k.a. Variability ) describes how spread out the data are from that center
     - Low variance has a less wide distribution, with the bulk of the mass in the center
@@ -101,7 +123,7 @@ legend("topright", inset=.05, title="Distributions",
 # Normal distributions with various standard deviations
 
 .small[
-```{r spread, echo=FALSE,out.width = "60%"}
+```{r spread, echo=FALSE,out.width = "80%"}
 plot(x, hx, type="l", lty=2, xlab="x value",
 		 ylab="Density", main="Distributions with Different Standard Deviations",xlim=c(-7, 7))
 spread=c(.5,2,4)
@@ -186,11 +208,11 @@ knitr::include_graphics("../img/KurtosisPict.jpg")
 # Central tendency: Mean
 
 - Mean 
-  ($\mu$; $\bar{X}$)
+  $(\mu; \bar{X})$
     - arithmetic average
     - $\bar{X}$ is used for samples
     - Mu ($\mu$) is used for population
-    
+
     $\bar{X}= \frac{1}{n}  \sum^{n}_{i=1}x_{i}$
 
 ---
@@ -202,11 +224,11 @@ knitr::include_graphics("../img/KurtosisPict.jpg")
     $\sum^{n}_{i=1}(x_{i}-\bar{x})=0$
 --
     - Least squares property
-        - The sum of squared deviations about the mean is small
+      - The sum of squared deviations about the mean is small
 --    
-    - highly sensitive to outliers (extreme scores)
-        - (weakness; it means that the mean is not so good as a measure of central tendency in highly skewed distributions)
-        - Is not a robust statistic (low robust = sensitive to outliers; high robust = not sensitive to outliers)
+      - highly sensitive to outliers (extreme scores)
+      - (weakness; it means that the mean is not so good as a measure of central tendency in highly skewed distributions)
+      - Is not a robust statistic (low robust = sensitive to outliers; high robust = not sensitive to outliers)
         
 ---
 
@@ -263,18 +285,19 @@ median(variable)
 
 ---
 
-# Calculating By hand
+# Calculating by "hand"
 
 .pull-left.small[
 - Sample Size?
 ```{r}
-(sample.size=length(variable))
+(sample.size <- length(variable))
 ```
 
 - Even or Odd?
   - Test if number is divisible by 2.
   - If yes, then even
   - Else, is odd
+
 ```{r}
 sample.size %% 2 == 0 
 ```
@@ -282,7 +305,7 @@ sample.size %% 2 == 0
 .pull-right.small[
 - Sort our values
 ```{r}
-variable=sort(variable)
+variable <- sort(variable)
 ```
 
 - if odd, grab the midpoint value sample size / 2

@@ -106,6 +106,7 @@ library(qrcode)
 
 share_link <- "https://docs.google.com/spreadsheets/d/1D4i8e0pTrqwLk_FjMFtkimqhmtOrBf-X6OU9RT57m_Q"
 code <- qr_code(share_link)
+
 plot(code)
 ```
 
