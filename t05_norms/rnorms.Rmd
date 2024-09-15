@@ -91,14 +91,14 @@ for (i in 1:3){
 # Plots of the Standard Normal with multiple standard deviations
 .pull-left[
 - The standard deviation $\sigma$ controls the variability of a Normal curve. 
--When the standard deviation is larger, the area under the normal curve is less concentrated about the mean.
+- When the standard deviation is larger, the area under the normal curve is less concentrated about the mean.
 - The standard deviation is the distance from the center to the change-of-curvature points on either side.
 ]
 .pull-right.small[
 ```{r zsd, echo=FALSE}
 # Display the normal distributions with various standard deviations
 plot(x, hx, type="l", lty=2, xlab="x value",
-		 ylab="Density", main="Comparison of normal Distributions",xlim=c(-10, 10))
+		 ylab = "Density", main="Comparison of Normal Distributions",xlim=c(-10, 10))
 
 for (i in c(.5,2,4,6)){
 	lines(x, dnorm(x,sd=i), lwd=1, col=colors[i])
@@ -118,10 +118,10 @@ for (i in c(.5,2,4,6)){
 
 .pull-left[
 - In the Normal distribution, with mean $\mu$  and standard deviation $\sigma$:
-    - approximately 68\% of the observations fall within 1 $\sigma$ of $\mu$
-    - approximately 95\% of the observations fall within 2 $\sigma$ of $\mu$
-    - approximately 99.7\% of the observations fall within 3 $\sigma$ of $\mu$
-- This property is sometimes called: The 68-95-99.7 Rule
+    - approximately $68\%$ of the observations fall within 1 $\sigma$ of $\mu$
+    - approximately $95\%$ of the observations fall within 2 $\sigma$ of $\mu$
+    - approximately $99.7\%$ of the observations fall within 3 $\sigma$ of $\mu$
+- This property is sometimes called: The `68-95-99.7 Rule`
 ]
 .pull-right[
 ```{r,echo=FALSE,out.width = "95%"}
@@ -130,29 +130,57 @@ knitr::include_graphics("../img/normal.png")
 ]
 
 ---
+
 ```{r,echo=FALSE,out.width = "70%"}
 knitr::include_graphics("../img/normal.png")
 ```
+
 ---
 
 # Worked Example
 
 .pull-left[
 - The distribution of Iowa Test of Basic Skills (ITBS) vocabulary scores for seventh-grade students in Gary, Indiana, is close to Normal. 
-- Suppose the distribution is N(6.84, 1.55).
+- Suppose the distribution is `N(6.84, 1.55)`.
 ]
 --
+
+.pull-right[
+.question[
+  - Q. What is the mean of the distribution?
+  - Q. What is the standard deviation of the distribution?]
+]
+
+--
+```{r,echo=FALSE,out.width = "55%"}
+knitr::include_graphics("../img/norms.png")
+```
+---
+
+
+# Worked Example
+
+.pull-left[
+- The distribution of Iowa Test of Basic Skills (ITBS) vocabulary scores for seventh-grade students in Gary, Indiana, is close to Normal. 
+- Suppose the distribution is `N(6.84, 1.55)`.
+]
+--
+
 .pull-right[
 - Sketch the Normal density curve for this distribution.
-- What percent of ITBS scores is between 3.74 and 9.94?
-- What percent of the scores is above 5.29?
+  - Q. What percent of ITBS scores is between 3.74 and 9.94?
+  - Q. What percent of the scores is below 3.74?
 ]
+
 --
 ```{r,echo=FALSE,out.width = "55%"}
 knitr::include_graphics("../img/norms.png")
 ```
 
 ---
+.question[Check your understanding: What percent of the scores is above 5.29?]
+
+
 <br>
 ```{r,echo=FALSE,out.width = "100%"}
 knitr::include_graphics("../img/norms.png")
@@ -181,11 +209,12 @@ knitr::include_graphics("../img/norms.png")
 ]
 --
 .small.pull-right[
-```{r example,echo=FALSE, warning=FALSE}
+```{r example,echo=FALSE, warning=FALSE, message=FALSE}
 library(HistData)
 library(ggplot2)
-
-ggplot(Galton, aes(x = child)) + 
+library(tidyverse)
+Galton %>%
+ggplot(aes(x = child)) + 
 	geom_histogram(fill = "red") + 
 	stat_function(
 		fun = function(x, mean, sd, n){
@@ -194,7 +223,7 @@ ggplot(Galton, aes(x = child)) +
 		args = with(Galton, c(mean = mean(child), sd = sd(child), n
 = length(child)))
 	) + 
-	scale_x_continuous("Heights of Children") 
+	scale_x_continuous("Heights of Children") + theme_minimal()
 
 ```
 ]
@@ -214,17 +243,14 @@ ggplot(Galton, aes(x = child)) +
 library(ggplot2movies)
 data(movies)
 
-plotted_dataset=movies
-plotted_dataset$variablex=movies$rating
-variablex=movies$rating
-
-ggmovie=ggplot(plotted_dataset, 
-               aes(x =variablex)) + 
+ggmovie <- ggplot(movies, 
+               aes(x = rating)) + 
 	geom_histogram(fill = "blue") +
 	geom_freqpoly(aes(
-	  x=rnorm(length(variablex))*sd(variablex)+mean(variablex)),
+	  x = rnorm(length(rating))*sd(rating) + mean(rating)),
 	              fill = "black")  +
-	scale_x_continuous("IMBD Movie Ratings")  
+	scale_x_continuous("IMBD Movie Ratings") + 
+  theme_minimal()
 
 ```
 ]
@@ -237,22 +263,25 @@ ggmovie
 
 # Temperature in Nottingham (nottem dataset)
 
-```{r nottem,echo=FALSE, warning=FALSE,out.width = "80%"}
+```{r nottem,echo=FALSE, warning=FALSE,out.width = "70%"}
 library(datasets)
 library(ggplot2)
 
-plotted_dataset=as.data.frame(nottem)
-plotted_dataset$variablex=nottem
+plotted_dataset <- as.data.frame(nottem)
+plotted_dataset$variablex <- nottem
 ggplot(plotted_dataset, aes(x =variablex)) + 
 	geom_histogram(fill = "red") + 
 	stat_function(
 		fun = function(x, mean, sd, n){
 			n * dnorm(x = x, mean = mean, sd = sd)
 		}, 
-		args = with(plotted_dataset, c(mean = mean(variablex), sd = sd(variablex), n
+		args = with(plotted_dataset, 
+		            c(mean = mean(variablex), 
+		              sd = sd(variablex), n
 = length(variablex)))
 	) + 
-	scale_x_continuous("Temperature in Nottingham") 
+	scale_x_continuous("Temperature in Nottingham") + 
+  theme_minimal()
 
 ```
 
@@ -319,6 +348,7 @@ class: middle
 ]
 
 --
+
 .pull-right[
 - We can compare across measurement scales
     - Shape of the distribution does NOT CHANGE
@@ -326,14 +356,39 @@ class: middle
 ]
 
 ---
+
 # Demo
 
+.pull-left[
+.small[
 ```{r,echo=TRUE}
 library(ggplot2movies)
+
+# Raw data
+movies$rating[1:10]
 # Rescaling
-variable<-movies$rating
+variable <- movies$rating
 scale(variable)[1:10]
 ```
+]
+
+- Mean = `r round(mean(variable,na.rm = TRUE),digits=2)` (SD  = `r round(sd(variable,na.rm = TRUE),digits=2)`)
+]
+
+--
+
+.pull-right[
+
+.midi[
+```{r,echo=FALSE}
+library(knitr)
+#create a table to show the first 10 raw scores and their z-scores
+data.frame(Raw = variable[1:10], Z_Score = round(scale(variable)[1:10],digits=2)) %>%
+  kable()
+
+```
+]
+]
 
 ---
 
@@ -390,10 +445,11 @@ B) Find the mean and standard deviation
 # Worked Z-Score Problem
 
 C) What proportion of scores are within one standard deviation of the mean?
-- One SD above mean = 105.84+14.27 = 120.11
-- One SD below mean = 105.84 -14.27 = 91.57
-- 23/31 = .74
+- One SD above mean = 105.84 + 14.27 = 120.11
+- One SD below mean = 105.84 - 14.27 = 91.57
+- 23/31 = `r round(23/31,digits=2)`
 --
+
 ```{r, echo=FALSE,out.width = "65%"}
 knitr::include_graphics("../img/workz.png")
 ```
@@ -402,16 +458,18 @@ knitr::include_graphics("../img/workz.png")
 # Worked Z-score Problem
 
 B) What proportion of scores are within TWO standard deviations of the mean?
-- TWO SD above mean = 105.84+2(14.27) = 134.38
-- TWO SD below mean = 105.84 - 2(14.27) = 77.3
-- 29/31 = .935
+- TWO SD above mean = 105.84 + 2*(14.27) = 134.38
+- TWO SD below mean = 105.84 - 2*(14.27) = 77.3
+- 29/31 = `r round(29/31,digits=3)`
 
 ---
 
 # Worked Z-score Problem
+
 B) What would these proportions be in an exactly Normal distribution?
--  +/- One SD
-- Continued in Power Point...
+
+-  +/- One SD?
+
 
 
 ```{r, echo=FALSE}
@@ -422,5 +480,6 @@ knitr::include_graphics("../img/table.png")
 
 ---
 
-# Wrapping Up...
+class:middle
+# Continued in Power Point...
 

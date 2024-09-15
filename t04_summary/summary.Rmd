@@ -408,14 +408,14 @@ summary(variable)# 5 Number Summary / Quartiles
 # Spread around the Mean
 
 - Variance 
-($\sigma^{2}; s^{2}$)
+$(\sigma^{2}; s^{2})$
     - Measure of spread around the mean
     - Goal of the measure to use every score
 
     $\sigma^{2}$ = $\frac{\sum^{n}_{i=1}(x_{i}-\mu)^{2}}{N}$
     $s^{2}$ = $\frac{\sum^{n}_{i=1}(x_{i}-\bar{x})^{2}}{n-1}$
 - Standard Deviation 
-($\sigma$;s)
+$(\sigma; s)$
     - $\sigma$ = $\sqrt{\sigma^{2}}$
     - s = $\sqrt{s^{2}}$
     
@@ -428,10 +428,12 @@ summary(variable)# 5 Number Summary / Quartiles
     - This adjustment is called Bessel's correction
 - In our formula, we are using the sample mean (x) instead of the true mean ($\mu$)
     - this results in underestimating each $x_{i} − \mu$ by $x − \mu$. 
+    - This is why we divide by n − 1 instead of n.
 ---
+
 # Properties
-    - Std is in raw score units
-    - Both the variance and standard deviation are highly NOT robust
+- Std is in raw score units
+- Both the variance and standard deviation are highly NOT robust
    
 ---
 
