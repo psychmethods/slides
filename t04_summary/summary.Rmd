@@ -368,7 +368,7 @@ knitr::include_graphics("../img/mmmskew.jpg")
 hist(variable)
 ```
 ]
-.pull-right-wide[
+.pull-right-wide.small[
 ```{r hist2, echo=TRUE}
 library(Hmisc)
 describe(variable)
