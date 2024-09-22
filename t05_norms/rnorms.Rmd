@@ -539,6 +539,8 @@ image_write(img, path = "annotated_image.jpg")
 
 ```
 
+
+
 ## Worked Z-Score Problem
 
 ### Example 1: Within One Standard Deviation
