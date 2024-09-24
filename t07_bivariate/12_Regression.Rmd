@@ -53,7 +53,7 @@ class: middle
 - Residuals and Residual Plots
 - Assumptions and Limitations
 - Real-World Applications
-- Practice and Hands-on Analysis
+- Practice and Hands-on Analysis?
 
 ---
 
@@ -69,6 +69,7 @@ class: center, middle, inverse
 - However, we haven't considered these variables within a system where we have:
     - DV (dependent variable): The outcome we're interested in
     - IV (independent variable): The predictor or factor we think influences the DV.
+--
 - Regression is a useful statistical method that allows us to understand how the DV changes as the IV changes.
   - It helps in modeling and analyzing relationships between variables.
 
@@ -82,7 +83,9 @@ class: center, middle, inverse
 - We're interested in how the number of cigarettes smoked affects lung capacity.
 ```{r,echo=TRUE,include=TRUE}
 # Create the data frame
-smoking<-data.frame(cigarettes=c(0,5,10,15,20),lung_capacity=c(45,42,33,31,29))
+smoking <- data.frame(
+  cigarettes=c(0,5,10,15,20),
+  lung_capacity=c(45,42,33,31,29))
 ```
 ]
 
@@ -99,14 +102,15 @@ kable(smoking)%>%
 
 .pull-left[
 - When we plot these data, we observe a **negative linear association between** the number of cigarettes smoked and lung capacity.
-- The **correlation coefficient** between lung capacity and cigarette consumption is `r round(cor(smoking)[1,2], digits=3)`.
+- The **correlation coefficient** between lung capacity and cigarette consumption is $`r round(cor(smoking)[1,2], digits=3)`$.
   - This value indicates a strong negative relationship.
-- The **coefficient of determination** (r-squared) is `r round(cor(smoking)[1,2]^2, digits=3)`, meaning that approximately `r round(cor(smoking)[1,2]^2 * 100, digits=1)`% of the variation in lung capacity can be explained by cigarette consumption.
+- The **coefficient of determination** (r-squared) is $`r round(cor(smoking)[1,2]^2, digits=3)`$, meaning that approximately $`r round(cor(smoking)[1,2]^2 * 100, digits=1)`%$ of the variation in lung capacity can be explained by cigarette consumption.
+]
+--
+.pull-right[
 - Knowing the number of cigarettes someone smokes allows us to predict their lung capacity.
 - The higher the correlation (and by extension, variance explained) the more accurate our predictions *ought* to be.
-]
 
-.pull-right[
 ```{r scatterplot, echo=FALSE,message=FALSE, warning=FALSE}
 library(car)
 scatterplot(lung_capacity~cigarettes,data=smoking)
@@ -127,8 +131,12 @@ class: center, middle, inverse
 
 - Simple explanation:
   - We draw a line through the points in a scatter plot to summarize the relationship.
+--
+
 - Technical explanation:
    - We fit a linear model of the relationship between $x$ and $y$.
+--
+
 - A regression line is a straight line that describes how a response variable $y$ changes as an explanatory variable $x$ changes.
 - We often use a regression line to predict the value of $y$ for a given value of $x$, 
     - when we believe the relationship between $x$ and $y$ is linear.
@@ -136,23 +144,64 @@ class: center, middle, inverse
 ---
 
 # Equation of a Line
-
+.pull-left[
 - We can describe this line in a familiar equation
 - Suppose that $y$ is a response variable (plotted on the vertical axis) and $x$ is an explanatory variable (plotted on the horizontal axis). 
 - A straight line relating $x$ to $y$ has an equation of the form
 
-$y = a + bx$; (or $y = mx + b$)
+$y = a + bx; (\text{or} y = mx + b)$
 
+]
+.pull-right[
+
+- Example where a = 1 and b = 3
+
+```{r line-plot-ggplot, echo=FALSE, fig.width=6, fig.height=4,warning=FALSE}
+# Load the ggplot2 library
+library(ggplot2)
+
+# Define the slope (b) and intercept (a)
+a <- 1  # intercept
+b <- 3  # slope
+
+# Generate a sequence of x values and calculate y values
+x <- seq(-10, 10, by = 0.1)
+y <- a + b * x
+
+# Create a data frame for ggplot
+data <- data.frame(x = x, y = y)
+
+# Plot the line using ggplot
+ggplot(data, aes(x = x, y = y)) +
+  geom_line(color = "blue", linewidth = 1.2) +  # Use linewidth instead of size
+  labs(title = "Graph of the Line y = a + bx",
+       x = "Explanatory Variable (x)",
+       y = "Response Variable (y)") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_hline(yintercept = 0, linetype="dashed") + 
+  geom_vline(xintercept = 0, linetype="dashed") +
+  
+  # Annotate the intercept 'a'
+  annotate("text", x = 0.5, y = a + 0.5, label = paste("intercept: a =", a), color = "red", size = 5, hjust = 0) +
+  
+  # Annotate the slope 'b' showing rise/run
+  annotate("segment", x = 2, xend = 4, y = a + b * 2, yend = a + b * 4, 
+           arrow = arrow(length = unit(0.2, "cm")), color = "deeppink", size  = 1) +
+  annotate("text", x = 5- 1.0, y = a + b * 5 - 1.0, label = paste("Slope: b =", b), color = "deeppink2", linewidth  = 5, hjust = 0)
+
+```
+]
 
 ---
 # Components of the Equation
 
-$y = a + bx$; (or $y = mx + b$)
+$y = a + bx; (\text{or} y = mx + b)$
 
 - In this equation, 
-  - $b$ ($m$) is the slope: 
+  - $b$ $(m)$ is the slope: 
       - The amount by which $y$ changes when $x$ increases by one unit. 
-- $a$ ($b$) is the intercept:
+- $a$ $(b)$ is the intercept:
     - The value of $y$ when $x$ = 0.
 - With those two points, any straight line can be defined 
   -  within the Cartesian plane (except lines parallel to the $y$-axis).
@@ -173,7 +222,7 @@ $y = a + bx$; (or $y = mx + b$)
 
 # Understanding the Intercept
 
-- The intercept ($a$) represents the starting value of $y$ when $x = 0$.
+- The intercept (a) represents the starting value of $y$ when $x = 0$.
 - It determines where the line crosses the y-axis.
 - Changing the intercept shifts the line up or down without altering its slope.
 
@@ -243,7 +292,6 @@ legend("topright",
 .pull-left[
 - This plot demonstrates how changes in the intercept shift the line vertically.
   - A higher intercept means the line starts higher on the y-axis.
-]
 
 ```{r, echo=FALSE, out.width='90%', fig.align='center'}
 
@@ -308,11 +356,14 @@ class: center, middle, inverse
 
 # Objective: Find the "best-fitting" line
 
+.pull-left-narrow[
 - When we have a set of data points, we often want to find a line that **best fits** the data.
 - To eliminate the subjectivity of creating a line to fit the data,
-  – we need an objective way to draw the line.
-- The least squares method is the most popular approach.
-
+  - we need an objective way to draw the line.
+  
+]
+--
+.pull-right-wide[
 ```{r, echo=FALSE, out.width='90%', fig.align='center'}
 
 set.seed(5)
@@ -337,7 +388,10 @@ legend("bottomright",
   horiz = F )#, 
   #inset = c(0.1, 0.1))
 ```
+]
+--
 
+- The least squares method is the most popular approach.
 
 ---
 
@@ -357,25 +411,25 @@ $$
 
 
 ---
-
-- In other words, the least squares method determines the line that minimizes the sum of the squared differences (residuals) between the observed values and the values predicted by the line.
-
-
-
----
-
 # In other words...
 
 - The least-squares regression line of $y$ on $x$ is the line that makes 
     - the sum of the squares of the vertical distances of the data points from the line as small as possible.
+--
 - The goal is to minimize the difference between actual and predicted values of the dependent variable $y$
-    - min($\sum\limits^{n}_{i=1}(y_{i}-(a+bx_{i}))^{2}$)
-    - min($\sum\limits^{n}_{i=1}(y_{i}-\widehat{y}_{i})^{2}$)
-    - min($\sum\limits^{n}_{i=1}(e_{i})^{2}$)
+    - $min(\sum\limits^{n}_{i=1}(y_{i}-(a+bx_{i}))^{2})$
+    - $min(\sum\limits^{n}_{i=1}(y_{i}-\widehat{y}_{i})^{2})$
+    - $min(\sum\limits^{n}_{i=1}(e_{i})^{2})$
+--
 - This method ensures that the total error between the data points and the regression line is as small as possible.
-- Why squares?
-  - Squaring emphasizes larger errors and avoids negative residuals canceling out positive ones.
+
 ---
+
+.question[Why squares?]
+  - Squaring emphasizes larger errors and avoids negative residuals canceling out positive ones.
+
+---
+
 
 # Mathematical Formulation
 
@@ -385,16 +439,38 @@ $$
     - their correlation r. 
 - The least-squares regression line is the line:
 
-$\widehat{y}= a + bx$
+$$
+\begin{align*}
+\widehat{y}= a + bx
+\end{align*}
+$$
 
+.pull-left[
 - with slope:
 
-$b=r \frac{s_{y}}{s_{x}}$
+$$
+\begin{align*}
+b&=r \frac{s_{y}}{s_{x}}
+\end{align*}
+$$
 
+]
+
+--
+
+.pull-right[
 - and intercept:
 
-$a=\bar{y}-b\bar{x}$
+$$
+\begin{align*}
+a&=\bar{y}-b\bar{x}
+\end{align*}
+$$
+]
 
+--
+
+- The least-squares regression line always passes through $(\bar{x}\text{,}\bar{y})$ and $(0, a)$ on the graph of $y$ against $x$.
 
 ---
 
@@ -406,9 +482,7 @@ class: center, middle, inverse
 
 # Calculating Regression Line for Smoking Data
 
-
 - Using our smoking data, we can estimate the slope and intercept
-
 - **Compute the necessary statistics**:
 
 ```{r compute_stats, echo=TRUE}
@@ -424,43 +498,41 @@ sd_y <- sd(smoking$lung_capacity)
 r_xy <- cor(smoking$cigarettes, smoking$lung_capacity)
 ```
 
+```{r, echo=FALSE}
+b_xy <- round(cor(smoking)[1,2]*sd(smoking$lung_capacity)/sd(smoking$cigarettes),digits=3)
+a_xy <- round(mean(smoking$lung_capacity) - cor(smoking)[1,2]*sd(smoking$lung_capacity)/sd(smoking$cigarettes)*mean(smoking$cigarettes),digits=3)
+```
+
+
 ---
+
 # Calculating Regression Line for Smoking Data
 
-- **Calculate slope ($b$)**:
-
-- $b=r \frac{s_{y}}{s_{x}}$
-- $b=r_{lung capacity,cigarettes} \frac{s_{lung capacity}}{s_{cigarettes}}$
-- `r round(cor(smoking)[1,2],digits=3)`* $\frac{`r round(sd(smoking$lung_capacity),digits=3)`}{`r round(sd(smoking$cigarettes),digits=3)`}$
-- `r round(cor(smoking)[1,2],digits=3)`* `r round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3)`
-- $b=$`r round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)`
+- Calculate slope (b):
 
 $$
 \begin{align*}
 b &= r \left( \dfrac{s_y}{s_x} \right) \\
+  &= r_{\text{lung capacity,cigarettes}} \frac{s_{lung capacity}}{s_{cigarettes}}\\
   &= `r round(r_xy, 3)` \times \dfrac{`r round(sd_y, 3)`}{`r round(sd_x, 3)`} \\
-  &= `r round(r_xy, 3)` \times `r round(sd_y / sd_x, 3)` \\
+  &= `r round(r_xy, 3)` \times `r round(sd_y / sd_x, 3)`\\
   &= `r round(r_xy * (sd_y / sd_x), 3)`
 \end{align*}
 $$
+
+
 ---
 
 ### Calculating Regression Line for Smoking Data: Intercept
 
-- **Calculate intercept ($a$)**:
-- $a=\bar{y}-b\bar{x}$
-- $a=\bar{lung capacity}-b\bar{cigarettes}$
-- $a=\bar{lung capacity}-$`r round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)`$\bar{cigarettes}$
-- $a=$ `r round(mean(smoking$lung_capacity),digits=3)`- `r round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)`*`r round(mean(smoking$cigarettes),digits=3)`
-- $a=$ `r round(mean(smoking$lung_capacity),digits=3)`- `r round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3)`
-- $a=$ `r round(round(mean(smoking$lung_capacity),digits=3)- round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3),digits=3)`
-
-
+- **Calculate intercept (a)**:
 $$
 \begin{align*}
 a &= \bar{y} - b \bar{x} \\
-  &= `r round(mean_y, 3)` - `r round(b, 3)` \times `r round(mean_x, 3)` \\
-  &= `r round(mean_y - b * mean_x, 3)`
+&= \bar{lung capacity}-b\bar{cigarettes}\\
+&= \bar{lung capacity}-`r round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)`*\bar{cigarettes}\\
+  &= `r round(mean_y, 3)` - `r round(round(cor(smoking)[1,2]*sd(smoking$lung_capacity)/sd(smoking$cigarettes),digits=3), 3)` \times `r round(mean_x, 3)` \\
+  &= `r round(mean_y - round(cor(smoking)[1,2]*sd(smoking$lung_capacity)/sd(smoking$cigarettes),digits=3) * mean_x, 3)`
 \end{align*}
 $$
 
@@ -472,14 +544,12 @@ $$
 
 
 $$
-\hat{y} = a + bx = `r round(a, 3)` + `r round(b, 3)` x
+\hat{y} = a + bx = `r round(a_xy, 3)` + `r round(b_xy, 3)` x
 $$
 
-$\widehat{y}=$ `r round(round(mean(smoking$lung_capacity),digits=3)- round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3),digits=3)` $+$ `r round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)`$x$
-
 - Interpretation
-  - **Intercept ($a$)**: Predicted lung capacity when no cigarettes are smoked  `r round(round(mean(smoking$lung_capacity),digits=3)- round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3),digits=3)`
-  - **Slope ($b$)**: For each additional cigarette smoked, , we would expect a  `r round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)` liter decline in lung capacity
+  - **Intercept (a)**: Predicted lung capacity when no cigarettes are smoked  `r round(round(mean(smoking$lung_capacity),digits=3)- round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3),digits=3)`
+  - **Slope (b)**: For each additional cigarette smoked, we would expect a  `r -1*round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)` liter decline in lung capacity
 
 ---
 
@@ -495,52 +565,99 @@ $\widehat{y}=$ `r round(round(mean(smoking$lung_capacity),digits=3)- round(round
 ### Using the Regression Equation to Make Predictions
 
 - **Predict lung capacity for a 5-cigarette smoker**:
+- If we want to predict lung capacity for a 5 cigarette smoker, we use the regression equation to predict y.
 
-- If we want to predict lung capacity for a 5 cigarette smoker, we use the regression equation to predict $y$.
+$$
+\begin{align*}
+\widehat{y} &= `r round(round(mean(smoking$lung_capacity),digits=3)- round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3),digits=3)` + `r round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)`x\\
+&= `r round(round(mean(smoking$lung_capacity),digits=3)- round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3),digits=3)` + `r round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)`*5\\
+&= `r round(round(mean(smoking$lung_capacity),digits=3)- round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3),digits=3)` + `r round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*5`\\
+&= `r round(round(mean(smoking$lung_capacity),digits=3)- round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3),digits=3)+ round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*5`
+\end{align*}
+$$
 
-$\widehat{y}=$ `r round(round(mean(smoking$lung_capacity),digits=3)- round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3),digits=3)` $+$ `r round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)`$x$
-
-$\widehat{y}=$ `r round(round(mean(smoking$lung_capacity),digits=3)- round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3),digits=3)` $+$ `r round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)`$*5$
-
-$\widehat{y}=$ `r round(round(mean(smoking$lung_capacity),digits=3)- round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3),digits=3)` $+$ `r round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*5`
-
-$\widehat{y}=$ `r round(round(mean(smoking$lung_capacity),digits=3)- round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3),digits=3)+ round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*5`
-
-Given our equation, we would predict that a 5-cigarette smoker would have a lung capicity of `r round(round(mean(smoking$lung_capacity),digits=3)- round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3),digits=3)+ round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*5`  liters.
-
----
-
-# Bonus Facts
-
-- Along the regression line, a change of 1 standard deviation in $x$ corresponds to an $r$ change of standard deviations in $y$
-- The least-squares regression line always passes through ($\bar{x}$,$\bar{y}$) and ($0$, $a$) on the graph of $y$ against $x$.
+- Given our equation, we would predict that a 5-cigarette smoker would have a lung capacity of `r round(round(mean(smoking$lung_capacity),digits=3)- round(round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*round(mean(smoking$cigarettes),digits=3),digits=3),digits=3)+ round(round(cor(smoking)[1,2],digits=3)*round(round(sd(smoking$lung_capacity),digits=3)/round(sd(smoking$cigarettes),digits=3),digits=3),digits=3)*5`  liters.
 
 ---
 
+# Two Regression Lines
 
-### Verification with Actual Data
+- The distinction between explanatory variables (x) and response variables (y) is essential in regression.
 
-- Let's compare the predicted values with actual data:
+$\widehat{y}=a+b_{yx}x$
 
-```{r comparison_table, echo=FALSE}
-# Predicted lung capacities
-smoking$predicted_lung_capacity <- a + b * smoking$cigarettes
+$\widehat{x}=a+b_{xy}y$
 
-# Residuals
-smoking$residuals <- smoking$lung_capacity - smoking$predicted_lung_capacity
+$b_{yx} \neq b_{xy}$
 
-# Display the data
-kable(smoking, digits = 3, caption = "Actual vs. Predicted Lung Capacity") %>%
-  kable_styling(bootstrap_options = c("striped", "hover"))
-```
+- These b coeffiecents are *not* the same
+    - The equation in not symmetric
+    - The slope of the regression line for predicting $y$ from $x$ is not the same as the slope of the regression line for predicting $x$ from $y$.
+    
+    
+---
+
+### Relationship Between Regression and Correlation
+
+
+- There is a close connection between **correlation** and the **slope** of the least-squares regression line.
+- The **slope** is calculated using the correlation coefficient:
+
+$$
+b = r \left( \dfrac{s_y}{s_x} \right)
+$$
+
+- **Key Points**:
+  - The **slope $(b)$** and the **correlation coefficient $(r)$** always have the **same sign**.
+    - A positive correlation results in a positive slope.
+    - A negative correlation results in a negative slope.
+  - The magnitude of the slope depends on both the correlation and the standard deviations of $x$ and $y$.
 
 ---
+
+### Standardizing Variables
+
+- If we **standardize** $x$ and $y$ (convert them to z-scores):
+  - **Standardized variables**:
+     $$( z_{x} = \dfrac{x - \bar{x}}{s_x} )$$
+     $$( z_{y} = \dfrac{y - \bar{y}}{s_y} )$$
+- The regression equation becomes:
+
+$$
+\hat{z}_y = r z_x
+$$
+
+- **Interpretation**:
+  - The slope of the regression line of standardized variables is the **correlation coefficient** $(r)$.
+  - The intercept is **zero** because standardized variables have a mean of zero.
+
+---
+
+### Geometric Interpretation
+
+- **Standardizing** shifts the origin to the mean and  the $x$ and $y$ axis are stretched so that $sd = 1$
+- In the standardized coordinate system:
+  - The regression line passes through the origin (0,0).
+  - The slope is equal to the correlation coefficient $(r)$.
+  - $\widehat{z_{y}} = r_{xy}$
+
+---
+
+### Implications
+
+- The correlation coefficient not only measures the strength and direction of a linear relationship but also directly influences the slope of the regression line.
+- Understanding this relationship helps in interpreting the regression results and in assessing how changes in $x$ are associated with changes in $y$.
+  - Along the regression line, a change of 1 standard deviation in $x$ corresponds to an $r$ change of standard deviations in $y$
+
+---
+
 
 class: center, middle, inverse
 
 
 ## Residuals and Residual Plots
-----
+
+---
 
 
 ### Residual Calculation
@@ -550,7 +667,7 @@ class: center, middle, inverse
     - residual = observed $y$ - predicted $y$
     - residual = $y$ - $\widehat{y}$
 - Residuals represent ''leftover'' variation in the response after fitting the regression line.
-
+--
 - Calculated for each data point, residuals help assess the fit of the regression model.
 - The residuals from the least-squares line have a special property:
   - The **mean** of the least-squares residuals is always **zero**.
@@ -559,9 +676,8 @@ class: center, middle, inverse
 
 # Residual Calculation
 
-.small[
+.small[.pull-left[
 ```{r, echo=TRUE}
-
 # Recall 
 (smoke_regression=lm(lung_capacity~cigarettes,data=smoking))
 prediction <- data.frame(cigarettes = 5)
@@ -574,7 +690,10 @@ prediction <- data.frame(cigarettes = 5)
 
 #Difference is the Residual
 yact-yhat
-
+```
+]]
+.small[.pull-right[
+```{r, echo=TRUE}
 
 # Get the Residuals for all the values
 (smoke_regression.resid=resid(smoke_regression))
@@ -585,21 +704,38 @@ ylab="Residuals", xlab="Cigarettes",
 main="Residual Plot of Smoking Data") 
 abline(0, 0)
 ```
+]]
 
-]
+---
+
+### Verification with Actual Data
+
+- Let's compare the predicted values with actual data:
+
+```{r comparison_table, echo=FALSE}
+# Predicted lung capacities
+smoking$predicted_lung_capacity <- a_xy + b_xy * smoking$cigarettes
+
+# Residuals
+smoking$residuals <- smoking$lung_capacity - smoking$predicted_lung_capacity
+
+# Display the data
+kable(smoking, digits = 3, caption = "Actual vs. Predicted Lung Capacity") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
 
 ---
 
 # Residual Plots
 
-- Plot the residual ($y-\widehat{y}$) against the $x$ value
+- Plot the residual $y-\widehat{y}$ against the $x$ value
 
 .pull-left[
 
 - A good residual plot, creates a flat line
 - The residuals are randomly scattered around the line $y=0$
 
-```{r}
+```{r, echo=FALSE}
 set.seed(5)
 var_x=rnorm(1000)
 var_y=var_x*.5+rnorm(1000,1,.1)
@@ -620,7 +756,7 @@ abline(0, 0)
 .pull-right[
 - A concerning residual plot, shows a relationship
 
-```{r}
+```{r, echo=FALSE}
 eruption.lm = lm(eruptions ~ waiting, data=faithful) 
 eruption.res = resid(eruption.lm)
 
@@ -630,61 +766,71 @@ abline(0, 0)
 
 ]
 
-
-
-
-# Alternative Line Estimates
-
-- MAD Regression
-    - Minimizes the Median Absolute Deviations $min(\sum\limits^{n}_{i=1}\lvert y_{i}-\widehat{y_{i}}\rvert)$
-- LMS
-    - Least Median of Squares
-- Ridge Regression
-- Maximum Likelihood Methods
-
 ---
 
-# Two Regression Lines
-
-- The distinction between explanatory variables ($x$) and response variables ($y$) is essential in regression.
-
-$\widehat{y}=a+b_{yx}x$
-
-$\widehat{x}=a+b_{xy}y$
-
-$b_{yx} \neq b_{xy}$
-
-- These b coeffiecents are *not* the same
-    - The equation in not symmetric
-
----
-
-# Relation between regression and correlation
-
-- There is a close connection between correlation and the slope of the least-squares line. The slope is
-    - $b_{y,x}=r_{xy} \frac{s_{y}}{s_{x}}$
-- The slope $b$ and correlation $r$ always have the same sign.
-
-- If you standardize $x$ and $y$;
-    - $b_{z_{y},z_{x}}=r_{xy}$
-    - $a = 0$
-    - geometrically, the standardizating shifts the origin to the mean, and the $x$ and $y$ axis are streched so that $sd = 1$
-    - \widehat{z_{y}} = r_{xy}
+class: center, middle, inverse
+## Assumptions and Limitations
 
 ---
 
 
+### Assumptions of Linear Regression
+
+1. **Linearity**:
+   - The relationship between the independent and dependent variables is linear.
+2. **Independence**:
+   - Observations are independent of each other.
+3. **Homoscedasticity**:
+   - The residuals have constant variance at every level of $x$.
+4. **Normality of Residuals**:
+   - The residuals are normally distributed.
+
+- **Violations** of these assumptions can affect the validity of the regression results.
 
 ---
 
-# Beyond two variables
+### Alternative Line Estimates
 
-- The residual plot for old faithful eruptions suggests that there are other variables are work.
-- Regression can be used to predict $y$ from multiple $x$s. 
-- However, that is beyond the scope of our class.
+- **MAD Regression**:
+  - Minimizes the **Median Absolute Deviations**:
+
+$min(\sum\limits^{n}_{i=1}\lvert y_{i}-\widehat{y_{i}}\rvert)$
+
+- **LMS (Least Median of Squares)**:
+  - Minimizes the median of the squared residuals.
+- **Ridge Regression**:
+  - Adds a penalty term to the least squares to prevent overfitting.
+- **Maximum Likelihood Methods**:
+  - Estimates parameters by maximizing the likelihood function.
 
 ---
 
-# Wrapping up...
+
+class: center, middle, inverse
+
+## Real-World Applications
+
+---
+
+
+### Beyond Two Variables
+
+- The residual plot may suggest that other variables are at play.
+- **Multiple Regression**:
+  - Regression can be used to predict $y$ from multiple $x$ variables.
+  - Allows for modeling more complex relationships.
+  - Example:
+    - Predicting lung capacity based on cigarettes smoked, age, and exercise level.
+- While multiple regression is powerful, it is beyond the scope of our class.
+
+---
+
+# Next time is a hands-on lab using...
+
+---
+
+class: center, middle, inverse
+
+## Excel
 
 
