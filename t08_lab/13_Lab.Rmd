@@ -156,11 +156,11 @@ img <- image_read(image_path) %>%
 img
 ```
 
-
+.medi[
 **Explanation**:
 - **Fill Handle**: A small square at the bottom-right corner of the selected cell that allows you to drag and apply the same formula to other cells.
 - **Relative References**: The formula updates the cell references automatically when dragging down. Use `$` signs (e.g., `$F$152`) to fix a cell reference.
-
+]
 ]
 ---
 
@@ -186,7 +186,7 @@ img
 ```
 
 **Explanation**:
-- **NORM.S.DIST()**: This Excel function calculates the cumulative probability of a Z-score. The `TRUE` argument tells Excel to return the cumulative probability.
+- **NORM.S.DIST()**: calculates the cumulative probability of a Z-score. The `TRUE` argument tells Excel to return the cumulative probability.
 ]
 
 ---
@@ -216,9 +216,10 @@ img<- image_read(image_path) %>%
   image_annotate("=NORM.INV(0.90, Mean, Std Dev)", size = 30, color = "purple", location = "+550+475")
 img
 ```
-
+.medi[
 **Explanation**:
-- **NORM.INV()** calculates the inverse of the normal cumulative distribution for a given probability. Here, the probability is `0.90`, representing the 90th percentile, and the function will return the raw score (in this case, a `Sepal.Length` value) that corresponds to that percentile.
+- **NORM.INV()** calculates the inverse of the normal cumulative distribution for a given probability. Here, the probability is `0.90`, representing the 90th percentile, and returns the raw score (in this case, a `Sepal.Length` value) that aligns  to that percentile.
+]
 ]
 ---
 
@@ -269,7 +270,6 @@ write.xlsx(iris_data, "IrisData_Bivariate.xlsx")
 
 ## Step 2: Create a Scatter Plot in Excel
 
-### Objective: Visualize the Relationship Between Sepal Length and Petal Length
 
 .pull-left[
 1. **Open the dataset** `IrisData_bivariate.xlsx` in Excel.
