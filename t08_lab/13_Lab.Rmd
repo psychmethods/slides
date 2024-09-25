@@ -1,5 +1,5 @@
 ---
-title: "Excel Lab: Z-Scores and Normal Distribution"
+title: "Excel Lab"
 author: "S. Mason Garrison"
 bibliography: library.bib
 output:
@@ -27,107 +27,491 @@ knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
 
 class: middle
 
-# Excel Lab: Z-Scores and Normal Distribution
+# Excel Lab
 
 ---
 
+# Overview and Road Map
+
+.pull-left[
+- In this lab, you will use Excel to explore Z-scores, correlation, and regression with the Iris dataset.
+- The Iris dataset, introduced by statistician Ronald A. Fisher in 1936, is a classic dataset in statistics and machine learning.
+]
+
+--
+.pull-right[
+### Dataset Features:
+- The dataset contains 150 observations of iris flowers.
+  - It includes four numeric features:
+      - Sepal.Length
+      - Sepal.Width
+      - Petal.Length
+      - Petal.Width
+  - The flowers belong to three species:
+    - Setosa
+    - Versicolor
+    - Virginica
+]
+
+
+---
+
+
 ## Download the Dataset
 
-We will use the famous **Iris** dataset for this lab. You’ll use the `Sepal.Length` column for Z-scores and percentile calculations.
+We will use the famous **Iris** dataset for this lab. 
 
-```{r}
-# Load Iris dataset and select Sepal.Length
-iris_data <- iris %>% select(Sepal.Length)
+```{r, echo=TRUE}
 
 # Save the dataset as an Excel file
-write.xlsx(iris, "../slides/slides/t08_lab/IrisData.xlsx")
+write.xlsx(iris, "IrisData.xlsx")
 ```
 
-[Download the Excel file here](IrisData.xlsx)
+[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData.xlsx)
+
+---
+
+# Task 1: Working with Z-Scores in Excel
+
+
+- You’ll work with the Sepal.Length column to calculate Z-scores, percentiles, and inverse normal values.
 
 ---
 
 ## Step 1: Calculate the Mean in Excel
 
-1. Open the Excel file `IrisData_ZScores.xlsx`.
-2. **Calculate the Mean** for the `Sepal.Length` column using the following formula in Excel:
+.pull-left[
+1. Open the Excel file `IrisData.xlsx`.
+
+2. Select the cell where you want to calculate the mean (e.g., cell B152).
+
+3. Click the cell and observe the Formula Bar at the top of the screen, where you’ll enter the formula.
+
+4. In the Formula Bar, enter the formula to calculate the mean:
+
    - `=AVERAGE(A2:A151)`
    
-![Insert Screenshot of Mean Calculation here]
+5. Press Enter to execute the formula, and the mean value will appear in the selected cell.
 
-```{r, eval=FALSE}
-image_path <- "path_to_mean_screenshot.png"
+]
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_1.png"
 img <- image_read(image_path) %>%
-  image_annotate("Calculate Mean: =AVERAGE(A2:A151)", size = 20, color = "red", location = "+50+50")
+  image_annotate("=AVERAGE(A2:A151)", size = 30, color = "red", location = "+550+475")
 img
 ```
 
+**Explanation**:
+- **Formula Bar**: This is where you can enter or edit formulas for the selected cell.
+- **Formula Entry**: You can type any valid Excel formula here. In this case, `=STDEV.S()` calculates the sample standard deviation.
+
+]
 ---
 
 ## Step 2: Calculate the Standard Deviation in Excel
 
-1. **Calculate the Standard Deviation** for the `Sepal.Length` column in Excel:
-   - Use the formula:  
-   `=STDEV.S(A2:A151)`
+.pull-left[
+1. **Select a new cell** (e.g., B153) to store the standard deviation result.
+   - Click on the cell and use the **Formula Bar** to enter the formula.
 
-![Insert Screenshot of Std Dev Calculation here]
+2. **In the Formula Bar**, type the following formula to calculate the standard deviation for `Sepal.Length`:
+   - `=STDEV.S(A2:A151)`
 
-```{r, eval=FALSE}
-image_path_sd <- "path_to_stddev_screenshot.png"
-img_sd <- image_read(image_path_sd) %>%
-  image_annotate("Calculate Std Dev: =STDEV.S(A2:A151)", size = 20, color = "blue", location = "+50+50")
-img_sd
+3. Press **Enter**, and Excel will compute the standard deviation in the selected cell.
+]
+--
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_1.png"
+img <- image_read(image_path) %>%
+  image_annotate("=STDEV.S(A2:A151)", size = 30, color = "blue", location = "+550+475")
+img
 ```
+]
 
 ---
 
 ## Step 3: Calculate Z-Scores in Excel
 
-1. **Calculate Z-Scores** for each value in the `Sepal.Length` column using:
-   - Formula: `=(A2 - [Mean]) / [Standard Deviation]`
-   - Drag down to fill for all rows.
+.pull-left[
+1. **Select cell F2** (next to the 1st value in the `Sepal.Length` column) to enter the formula.
 
-![Insert Screenshot of Z-Score Calculation here]
+2. **In the Formula Bar**, enter the Z-score formula:
+   - `=(A2 - [Mean Cell]) / [Standard Deviation Cell]`
+   - Replace `[Mean Cell]` with the cell where you calculated the mean (e.g., `$F$152`) and `[Standard Deviation Cell]` with the cell containing the standard deviation (e.g., `$F$153`).
 
-```{r, eval=FALSE}
-image_path_zscore <- "path_to_zscore_screenshot.png"
-img_zscore <- image_read(image_path_zscore) %>%
-  image_annotate("Calculate Z-Scores: =(A2 - Mean) / Std Dev", size = 20, color = "green", location = "+50+50")
-img_zscore
+3. Press **Enter** to get the Z-score for the 1st value.
+
+4. **Fill down the formula**: Click on the small square at the bottom-right corner of the cell (called the **fill handle**) and drag down to copy the formula for the rest of the column.
+]
+--
+
+.pull-right[
+
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_1.png"
+img <- image_read(image_path) %>%
+  image_annotate(" =(A2 - Mean) / Std Dev", size = 30, color = "darkgreen", location = "+550+475")
+img
 ```
 
+
+**Explanation**:
+- **Fill Handle**: A small square at the bottom-right corner of the selected cell that allows you to drag and apply the same formula to other cells.
+- **Relative References**: The formula updates the cell references automatically when dragging down. Use `$` signs (e.g., `$F$152`) to fix a cell reference.
+
+]
 ---
 
 ## Step 4: Calculate Percentiles in Excel
 
-1. **Use the `NORM.S.DIST()` function** to calculate cumulative probabilities:
-   - Formula: `=NORM.S.DIST([Z-Score Cell], TRUE)`
-   - Drag down to fill for all Z-scores.
-   
-2. **Interpret the result**: These values represent the percentile rank of each `Sepal.Length` value.
+.pull-left[
 
-![Insert Screenshot of Percentile Calculation here]
+1. **Select cell G2** to calculate the cumulative percentile for the first Z-score.
 
-```{r, eval=FALSE}
-image_path_percentile <- "path_to_percentile_screenshot.png"
-img_percentile <- image_read(image_path_percentile) %>%
-  image_annotate("Calculate Percentile: =NORM.S.DIST(Z-Score, TRUE)", size = 20, color = "red", location = "+50+50")
-img_percentile
+2. **In the Formula Bar**, type the following formula:
+   - `=NORM.S.DIST(F2, TRUE)`
+
+3. Press **Enter** to calculate the percentile for the Z-score.
+
+4. **Fill down the formula**: Use the **fill handle** to drag down and calculate percentiles for all Z-scores in the column.
+
+] .pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_1.png"
+img <- image_read(image_path) %>%
+  image_annotate("=NORM.S.DIST(Z-Score, TRUE)", size = 30, color = "red", location = "+550+475")
+img
 ```
 
+**Explanation**:
+- **NORM.S.DIST()**: This Excel function calculates the cumulative probability of a Z-score. The `TRUE` argument tells Excel to return the cumulative probability.
+]
+
 ---
 
-## Conclusion
+## Step 5: Use `NORM.INV()` to Find Raw Scores for Given Percentiles
+
+- Now, let's reverse the process: Suppose you want to know the raw score (e.g., the `Sepal.Length`) corresponding to a specific percentile, such as the **90th percentile**. 
+- We will use the **`NORM.INV()`** function in Excel to do this.
+
+---
+
+## Step 5: Use `NORM.INV()` to Find Raw Scores for Given Percentiles
+
+.pull-left[
+1. **Select a new cell** (e.g., B154) where you want to calculate the raw score for the 90th percentile.
+
+2. **In the Formula Bar**, enter the following formula:
+   - `=NORM.INV(0.90, [Mean Cell], [Standard Deviation Cell])`
+   - Replace `[Mean Cell]` and `[Standard Deviation Cell]` with the cell references for the mean (e.g., `$B$152`) and standard deviation (e.g., `$B$153`), respectively.
+
+3. Press **Enter**, and Excel will calculate the raw score corresponding to the 90th percentile.
+
+] .pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_1.png"
+img<- image_read(image_path) %>%
+  image_annotate("=NORM.INV(0.90, Mean, Std Dev)", size = 30, color = "purple", location = "+550+475")
+img
+```
+
+**Explanation**:
+- **NORM.INV()** calculates the inverse of the normal cumulative distribution for a given probability. Here, the probability is `0.90`, representing the 90th percentile, and the function will return the raw score (in this case, a `Sepal.Length` value) that corresponds to that percentile.
+]
+---
+
+## Conclusion: Task 1
 
 In this section, you:
-- Calculated Z-scores in Excel.
-- Used Excel functions to calculate cumulative probabilities and percentiles.
+- Calculated the **mean** and **standard deviation** of `Sepal.Length`.
+- Computed **Z-scores** and **percentiles** using Excel.
+- Used the **`NORM.INV()`** function to find the raw score corresponding to a given percentile (e.g., the 90th percentile).
 
-Be sure to save your Excel file with Z-scores and percentiles for future reference in this lab.
 
 ---
 
-class: center, middle
+class: center, middle, inverse
+# Task 2: Bivariate Relationships and Correlation
 
-# Wrapping Up
-``` 
+---
+
+# Task 2: Bivariate Relationships and Correlation
+
+- **Visualize the relationship** between two variables using scatter plots.
+- **Calculate the correlation coefficient** to measure the strength and direction of the linear relationship between two variables.
+
+We will work with two columns from the **Iris dataset**:
+- **Sepal.Length** (the length of the sepal).
+- **Petal.Length** (the length of the petal).
+
+---
+
+## Step 1: Download the Iris Dataset
+
+- You’ll continue to work with the **Iris dataset**, but this time using two columns: `Sepal.Length` and `Petal.Length` for correlation analysis.
+
+```{r}
+# Load Iris dataset and select Sepal.Length and Petal.Length
+iris_data <- iris %>% select(Sepal.Length, Petal.Length)
+
+# Save the dataset as an Excel file
+write.xlsx(iris_data, "IrisData_Bivariate.xlsx")
+```
+
+[Download the Excel file here](IrisData_Bivariate.xlsx)
+
+- This way easily refer to the data in Excel for the next steps.
+
+---
+
+
+## Step 2: Create a Scatter Plot in Excel
+
+### Objective: Visualize the Relationship Between Sepal Length and Petal Length
+
+.pull-left[
+1. **Open the dataset** `IrisData_bivariate.xlsx` in Excel.
+
+2. **Select the data** for the scatter plot:
+   - Click and drag to highlight both the `Sepal.Length` and `Petal.Length` columns (A1:B151).
+
+3. **Insert a Scatter Plot**:
+   - Go to the **Insert** tab in Excel.
+   - In the **Charts** section, click on **Scatter Plot** and select the option for a **simple scatter plot**.
+]
+
+.pull-right[
+4. **Format the Scatter Plot**:
+   - Add axis labels:  
+     - **X-axis**: Sepal Length  
+     - **Y-axis**: Petal Length
+   - Give the chart a title, such as “Scatter Plot of Sepal Length vs. Petal Length.”
+]
+
+---
+
+## Step 3: Calculate the Correlation Coefficient in Excel
+
+.pull-left[
+1. **Select a new cell** (e.g., B152) where you want to display the correlation coefficient.
+
+2. **Use the `CORREL()` function** to calculate the correlation:
+   - In the **Formula Bar**, enter the following formula:
+     - `=CORREL(A2:A151, B2:B151)`
+
+3. Press **Enter** to calculate the correlation coefficient between `Sepal.Length` and `Petal.Length`.
+
+] .pull-right[    
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_1.png"
+img <- image_read(image_path ) %>%
+  image_annotate("Calculate Correlation: =CORREL(A2:A151, B2:B151)", size = 30, color = "green",  location = "+550+475")
+img
+```
+]
+---
+
+## Conclusion: Task 2
+
+- In this section, you:
+  - Created a **scatter plot** to visualize the relationship between Sepal Length and Petal Length in the Iris dataset.
+  - Calculated the **correlation coefficient** to quantify the strength and direction of the linear relationship between these two variables.
+
+.reminder[Be sure to save your Excel file with the scatter plot and correlation results for future reference.]
+
+---
+
+class: middle
+
+# Task 3: Regression Analysis
+
+---
+
+# Task 3: Regression Analysis
+
+- In this task, we will:
+  - **Fit a linear regression model** to the data.
+  - **Interpret the slope and intercept** of the regression line.
+  - **Use the regression equation** to predict new values based on the relationship between Sepal Length and Petal Length.
+
+---
+
+## Step 1: Download the Iris Dataset
+
+- You will continue to work with the Iris dataset for the regression analysis. 
+- This time, you’ll use `Sepal.Length` as the independent variable (X) and `Petal.Length` as the dependent variable (Y).
+
+```{r}
+# Load Iris dataset and select Sepal.Length and Petal.Length
+iris_data <- iris %>% select(Sepal.Length, Petal.Length)
+
+# Save the dataset as an Excel file
+write.xlsx(iris_data, "IrisData_Regression.xlsx")
+```
+
+[Download the Excel file here](IrisData_Regression.xlsx)
+
+---
+
+## Step 2: Calculate the Slope Using `SLOPE()` in Excel
+
+### Objective: Fit a Linear Regression Model to Predict Petal Length Based on Sepal Length
+
+.pull-left[
+1. **Open the dataset** `IrisData_Regression.xlsx` in Excel.
+
+2. **Select a new cell** (e.g., C152) to calculate the slope.
+
+3. **In the Formula Bar**, enter the following formula to calculate the slope:
+   - `=SLOPE(B2:B151, A2:A151)`  
+   This calculates the slope of the regression line, where `Sepal.Length` (A2:A151) is the independent variable and `Petal.Length` (B2:B151) is the dependent variable.
+]
+--
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_1.png"
+img <- image_read(image_path) %>%
+  image_annotate("=SLOPE(B2:B151, A2:A151)", size = 30, color = "blue", location = "+550+475")
+img
+```
+
+**Explanation**:
+- The **slope** tells us how much `Petal.Length` is expected to change for each unit increase in `Sepal.Length`.
+
+]
+---
+
+## Step 3: Calculate the Intercept Using `INTERCEPT()`
+
+### Objective: Calculate the Intercept of the Regression Line
+
+.pull-left[
+1. **Select a new cell** (e.g., C153) to calculate the intercept.
+
+2. **In the Formula Bar**, enter the following formula:
+   - `=INTERCEPT(B2:B151, A2:A151)`
+
+3. Press **Enter** to calculate the intercept.
+]
+--
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_1.png"
+img <- image_read(image_path) %>%
+  image_annotate("=INTERCEPT(B2:B151, A2:A151)", size = 30, color = "green", location = "+550+475")
+img
+```
+
+**Explanation**:
+- The **intercept** represents the predicted value of `Petal.Length` when `Sepal.Length` is zero.
+
+]
+---
+
+## Step 4: Calculate the R-squared Value Using `RSQ()`
+
+### Objective: Assess the Fit of the Regression Line
+
+.pull-left[
+1. **Select a new cell** (e.g., C154) to calculate the R-squared value.
+
+2. **In the Formula Bar**, enter the following formula:
+   - `=RSQ(B2:B151, A2:A151)`
+
+3. Press **Enter** to calculate the R-squared value.
+]
+--
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_1.png"
+img <- image_read(image_path) %>%
+  image_annotate("=RSQ(B2:B151, A2:A151)", size = 30, color = "red", location = "+550+475")
+img
+```
+
+**Explanation**:
+- The **R-squared value** tells us how well the regression line fits the data. Values closer to 1 indicate more variance explained
+]
+---
+
+## Step 5 (Optional): Use `LINEST()` for Multiple Outputs
+
+### Objective: Calculate Slope, Intercept, and R-Squared Together
+
+.pull-left[
+1. **Select a new cell** (e.g., C155) to calculate multiple regression outputs at once.
+
+2. **In the Formula Bar**, enter the following formula to calculate the slope, intercept, and R-squared together:
+   - `=LINEST(B2:B151, A2:A151, TRUE, TRUE)`
+
+3. Press **Enter**, and Excel will return the slope, intercept, and additional statistical information, including the R-squared value.
+]
+
+--
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_1.png"
+img <- image_read(image_path) %>%
+  image_annotate("=LINEST(B2:B151, A2:A151, TRUE, TRUE)", size = 30, color = "purple", location = "+550+475")
+img
+```
+
+**Explanation**:
+- The **`LINEST()` function** allows you to calculate multiple regression statistics in one step, including slope, intercept, and R-squared.
+
+]
+
+---
+
+## Step 6: Use the Regression Equation to Predict Values
+
+
+```{r}
+iris_data <- iris %>% select(Sepal.Length, Petal.Length)
+lm_fit <- lm(Petal.Length ~ Sepal.Length, data = iris_data)
+
+sepal_int <- round(lm_fit$coefficient[1],digits=2)
+sepal_slope <- round(lm_fit$coefficient[2],digits=2)
+```
+
+.pull-left[
+1. **Use the regression equation** you generated from the slope and intercept to predict values of `Petal.Length` for new values of `Sepal.Length`.
+
+2. **Example**: 
+   - If your equation is \( Y = `r sepal_slope`X + `r sepal_int` \), and you want to predict the `Petal.Length` for a `Sepal.Length` of 7, substitute \( X = 7 \) into the equation:
+     \[
+     Y = `r sepal_slope`(7) + `r sepal_int` = `r sepal_slope*3.5` + `r sepal_int` = `r  sepal_slope*3.5+sepal_int`
+     \]
+   - The predicted `Petal.Length` for a `Sepal.Length` of 7 is `r  sepal_slope*3.5+sepal_int`.
+]
+--
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_1.png"
+img <- image_read(image_path) %>%
+  image_annotate("Predicted value = 0.5X + `r sepal_int`", size = 30, color = "darkgreen", location = "+550+475")
+img
+```
+
+**Practical Task**:
+- Try predicting the `Petal.Length` for a `Sepal.Length` of 6.5 using your own regression equation from the Excel output.
+
+]
+---
+
+## Conclusion: Task 3
+
+- In this section, you:
+  - Performed linear regression using Excel’s **SLOPE()**, **INTERCEPT()**, **RSQ()**, and optionally **LINEST()** functions.
+  - Interpreted the **slope** and **intercept** of the regression equation.
+  - Used the regression equation to **predict new values** for `Petal.Length`.
+
+.reminder[Be sure to save your Excel file with the regression output and predicted values for future reference.]
+
+---
+
+class: center, middle, inverse
+
+# Wrapping Up...
