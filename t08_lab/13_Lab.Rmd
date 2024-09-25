@@ -40,7 +40,7 @@ We will use the famous **Iris** dataset for this lab. You’ll use the `Sepal.Le
 iris_data <- iris %>% select(Sepal.Length)
 
 # Save the dataset as an Excel file
-write.xlsx(iris, "IrisData.xlsx")
+write.xlsx(iris, "../slides/slides/t08_lab/IrisData.xlsx")
 ```
 
 [Download the Excel file here](IrisData.xlsx)
