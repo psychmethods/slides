@@ -1,0 +1,133 @@
+---
+title: "Excel Lab: Z-Scores and Normal Distribution"
+author: "S. Mason Garrison"
+bibliography: library.bib
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(openxlsx)
+library(magick)  # For image annotations
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle
+
+# Excel Lab: Z-Scores and Normal Distribution
+
+---
+
+## Download the Dataset
+
+We will use the famous **Iris** dataset for this lab. You’ll use the `Sepal.Length` column for Z-scores and percentile calculations.
+
+```{r}
+# Load Iris dataset and select Sepal.Length
+iris_data <- iris %>% select(Sepal.Length)
+
+# Save the dataset as an Excel file
+write.xlsx(iris, "IrisData.xlsx")
+```
+
+[Download the Excel file here](IrisData.xlsx)
+
+---
+
+## Step 1: Calculate the Mean in Excel
+
+1. Open the Excel file `IrisData_ZScores.xlsx`.
+2. **Calculate the Mean** for the `Sepal.Length` column using the following formula in Excel:
+   - `=AVERAGE(A2:A151)`
+   
+![Insert Screenshot of Mean Calculation here]
+
+```{r, eval=FALSE}
+image_path <- "path_to_mean_screenshot.png"
+img <- image_read(image_path) %>%
+  image_annotate("Calculate Mean: =AVERAGE(A2:A151)", size = 20, color = "red", location = "+50+50")
+img
+```
+
+---
+
+## Step 2: Calculate the Standard Deviation in Excel
+
+1. **Calculate the Standard Deviation** for the `Sepal.Length` column in Excel:
+   - Use the formula:  
+   `=STDEV.S(A2:A151)`
+
+![Insert Screenshot of Std Dev Calculation here]
+
+```{r, eval=FALSE}
+image_path_sd <- "path_to_stddev_screenshot.png"
+img_sd <- image_read(image_path_sd) %>%
+  image_annotate("Calculate Std Dev: =STDEV.S(A2:A151)", size = 20, color = "blue", location = "+50+50")
+img_sd
+```
+
+---
+
+## Step 3: Calculate Z-Scores in Excel
+
+1. **Calculate Z-Scores** for each value in the `Sepal.Length` column using:
+   - Formula: `=(A2 - [Mean]) / [Standard Deviation]`
+   - Drag down to fill for all rows.
+
+![Insert Screenshot of Z-Score Calculation here]
+
+```{r, eval=FALSE}
+image_path_zscore <- "path_to_zscore_screenshot.png"
+img_zscore <- image_read(image_path_zscore) %>%
+  image_annotate("Calculate Z-Scores: =(A2 - Mean) / Std Dev", size = 20, color = "green", location = "+50+50")
+img_zscore
+```
+
+---
+
+## Step 4: Calculate Percentiles in Excel
+
+1. **Use the `NORM.S.DIST()` function** to calculate cumulative probabilities:
+   - Formula: `=NORM.S.DIST([Z-Score Cell], TRUE)`
+   - Drag down to fill for all Z-scores.
+   
+2. **Interpret the result**: These values represent the percentile rank of each `Sepal.Length` value.
+
+![Insert Screenshot of Percentile Calculation here]
+
+```{r, eval=FALSE}
+image_path_percentile <- "path_to_percentile_screenshot.png"
+img_percentile <- image_read(image_path_percentile) %>%
+  image_annotate("Calculate Percentile: =NORM.S.DIST(Z-Score, TRUE)", size = 20, color = "red", location = "+50+50")
+img_percentile
+```
+
+---
+
+## Conclusion
+
+In this section, you:
+- Calculated Z-scores in Excel.
+- Used Excel functions to calculate cumulative probabilities and percentiles.
+
+Be sure to save your Excel file with Z-scores and percentiles for future reference in this lab.
+
+---
+
+class: center, middle
+
+# Wrapping Up
+``` 
