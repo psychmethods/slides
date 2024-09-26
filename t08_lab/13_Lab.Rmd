@@ -341,7 +341,7 @@ plot(code)
 
 ---
 
-# Step 3: Calculate the Correlation Coefficient
+# Step 2: Calculate the Correlation Coefficient
 
 .pull-left[
 1. **Select a new cell** (e.g., `B152`) where you want to display the correlation coefficient.
