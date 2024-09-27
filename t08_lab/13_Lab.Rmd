@@ -66,13 +66,18 @@ class: middle, inverse
 ---
 
 # Task 1: Overview
-
+.pull-left[
 In this task, we will:
 - Work with the **Sepal.Length** column to calculate:
   - Z-scores
   - Percentiles
   - Inverse normal values (`NORM.INV`)
-
+]
+.pull-right[
+```{r, echo=FALSE, out.width="90%", warning = FALSE}
+knitr::include_graphics("../img/DALLE_exceldoodle.png")
+```
+]
 ---
 
 ## Step 0: Download the Iris Dataset
@@ -280,7 +285,7 @@ class: center, middle, inverse
 
 ## Step 0: Download the Iris Dataset
 
-.pull-left-wide[
+.pull-left[
 
 We'll continue to work with two columns from the **Iris dataset**:
 - **Sepal.Length** (the length of the sepal).
@@ -295,12 +300,7 @@ write.xlsx(iris_data, "IrisData_Bivariate.xlsx")
 ```
 
 [Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData_Bivariate.xlsx)
-
-]
-
-.pull-right-narrow[
-.center[
-```{r, echo=FALSE, out.width="100%", warning = FALSE}
+```{r, echo=FALSE, out.width="50%", warning = FALSE}
 library(qrcode)
 
 share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData_Bivariate.xlsx"
@@ -308,6 +308,17 @@ code <- qr_code(share_link)
 
 plot(code)
 ```
+
+]
+
+.pull-right[
+.center[
+
+
+```{r, echo=FALSE, out.width="70%", warning = FALSE,align = "right"}
+knitr::include_graphics("../img/DALLE_Fisher_looking_at_flowers.png")
+```
+
 ]]
 
 
@@ -319,24 +330,34 @@ plot(code)
 # Step 1: Create a Scatter Plot
 
 
-.pull-left[
-1. **Open the dataset** `IrisData_bivariate.xlsx` in Excel.
-
+.pull-left.medi[
 2. **Select the data** for the scatter plot:
    - Click and drag to highlight both the `Sepal.Length` and `Petal.Length` columns (A1:B151).
 
 3. **Insert a Scatter Plot**:
    - Go to the **Insert** tab in Excel.
    - In the **Charts** section, click on **Scatter Plot** and select the option for a **simple scatter plot**.
-]
-
-.pull-right[
+   
 4. **Format the Scatter Plot**:
    - Add axis labels:  
      - **X-axis**: Sepal Length  
      - **Y-axis**: Petal Length
    - Title the chart: "Scatter Plot: Sepal Length vs. Petal Length."
 
+]
+--
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+library(ggplot2)
+library(ggthemes)
+#i'm making a scatter plot for Sepal Length vs. Petal Length
+# can we make it excel colors
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color=Species)) +
+  geom_point(size=2) +
+  labs(title = "Scatter Plot: Sepal Length vs. Petal Length", x = "Sepal Length", y = "Petal Length") +
+  theme_excel_new(base_size = 12, base_family = "") + scale_fill_excel_new()+ scale_color_excel_new() +
+  xlim(0, 8) + ylim(0, 8) + theme(legend.position = "none") 
+```
 ]
 
 ---
@@ -418,7 +439,7 @@ write.xlsx(iris_data, "IrisData_Regression.xlsx")
 ]
 --
 .pull-right[
-```{r, echo=FALSE, out.width="90%", fig.align='center'}
+```{r, echo=FALSE, out.width="50%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_zoom.png"
 img <- image_read(image_path) %>%
   image_annotate("=SLOPE(B2:B151, A2:A151)", size = 30, color = "blue", location = "+550+475")
@@ -443,7 +464,7 @@ img
 ]
 --
 .pull-right[
-```{r, echo=FALSE, out.width="90%", fig.align='center'}
+```{r, echo=FALSE, out.width="50%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_1.png"
 img <- image_read(image_path) %>%
   image_annotate("=INTERCEPT(B2:B151, A2:A151)", size = 30, color = "green", location = "+550+475")
@@ -525,21 +546,21 @@ sepal_slope <- round(lm_fit$coefficient[2],digits=2)
 2. **Example**: 
    - If your equation is \( Y = `r sepal_slope`X + `r sepal_int` \), and you want to predict `Petal.Length` for a `Sepal.Length` of 7, substitute \( X = 7 \) into the equation:
      \[
-     Y = `r sepal_slope`(7) + `r sepal_int` = `r sepal_slope*3.5` + `r sepal_int` = `r  sepal_slope*3.5+sepal_int`
+     Y = `r sepal_slope`(7) + `r sepal_int` = `r sepal_slope*7` + `r sepal_int` = `r  sepal_slope*7+sepal_int`
      \]
-   - The predicted `Petal.Length` for a `Sepal.Length` of 7 is `r  sepal_slope*3.5+sepal_int`.
+   - The predicted `Petal.Length` for a `Sepal.Length` of 7 is `r  sepal_slope*7+sepal_int`.
 ]
 --
 .pull-right[
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_zoom.png"
 img <- image_read(image_path) %>%
-  image_annotate("Predicted value = 0.5X + `r sepal_int`", size = 30, color = "darkgreen", location = "+550+475")
+  image_annotate(" = 0.5X + `r sepal_int`", size = 30, color = "darkgreen", location = "+550+475")
 img
 ```
 
 **Practical Task**:
-- Try predicting the `Petal.Length` for a `Sepal.Length` of 6.5 using your own regression equation from the Excel output.
+- Try predicting the `Petal.Length` for a `Sepal.Length` of 3.5 using your own regression equation from the Excel output.
 
 ]
 ---
