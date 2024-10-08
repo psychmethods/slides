@@ -1,0 +1,354 @@
+---
+title: "Bayes' Theorem <br> `r emo::ji('detective')`"
+author: "S. Mason Garrison"
+bibliography: library.bib
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+#       slideNumberFormat: ""  
+library(tidyverse)
+library(vembedr)
+library(knitr)
+if (!require("emo")) devtools::install_github("hadley/emo")
+# Installs library if missing
+if (!require("HistData")) install.packages("HistData") 
+library(emo)
+knitr::opts_chunk$set(echo = FALSE,out.width = "90%", fig.align = "center")
+library(kableExtra)
+```
+
+
+class: middle
+
+# Bayes' Theorem (Revisted)
+
+---
+
+#  Introduction to Bayes' Rule
+
+- Bayes' Rule is a foundational concept in statistics that provides a framework for updating our beliefs based on new evidence.
+
+- It is widely used in fields such as medicine, finance, and social sciences to help make decisions under uncertainty.
+
+- The general formula for Bayes' Rule helps to calculate posterior probabilities by combining prior knowledge and new data.
+
+---
+
+
+## Bayes' Theorem Formula
+
+- Bayes' Theorem allows us to "flip" conditional probabilities:
+
+$$
+P(A \mid B) = \frac{P(B \mid A) \times P(A)}{P(B)}
+$$
+.pull-left[
+It relates:
+- What we want to know: P(A|B)  
+- What we know: P(B|A), P(A), and P(B)
+]
+
+--
+
+.pull-right[
+```{r echo=FALSE, out.width="50%"}
+# Create a more intuitive diagram using Venn diagram
+library(eulerr)
+fit <- euler(c("A" = 0.4, "B" = 0.5, "A&B" = 0.2))
+plot(fit, fills = c("#FFDDC1", "#C1DFF4"), labels = TRUE)
+```
+]
+
+---
+
+## Bayes' Theorem: Intuition
+
+.pull-left-narrow[
+- Starts with our initial belief about A: P(A)
+- Updates that belief based on new evidence B
+- Gives us a new, updated belief: P(A|B)
+
+
+This mirrors the scientific process of updating hypotheses based on evidence!
+]
+
+.pull-right-wide[
+```{r echo=FALSE, out.width="65%"}
+knitr::include_graphics("../img/bayes_science.png")
+```
+]
+.footnote[van de Schoot, R., Depaoli, S., King, R. et al. Bayesian statistics and modelling. Nat Rev Methods Primers 1, 1 (2021). https://doi.org/10.1038/s43586-020-00001-2]
+
+---
+
+class: middle
+
+# Gardner's Boy or Girl Paradox
+
+---
+
+## The Paradox
+
+Martin Gardner presented two seemingly similar problems in Scientific American (1959):
+
+1. "Mr. Jones has two children. The older child is a girl. What is the probability that both children are girls?"
+
+2. "Mr. Smith has two children. At least one of them is a boy. What is the probability that both children are boys?"
+
+- Gardner gave the answers as 1/2 and 1/3 respectively, leading to much debate.
+
+---
+
+## Problem 1: The Older Child is a Girl
+
+.pull-left[
+"Mr. Jones has two children. The older child is a girl. What is the probability that both children are girls?"
+
+
+- Only the outcomes where the older child is a girl are considered:
+  - Girl, Girl (GG)
+  - Girl, Boy (GB)
+
+P(both girls | older is girl) = 1/2
+]
+
+.pull-right[
+
+Sample space outcomes:
+
+| Option 1 | Option 2 |
+|----------|----------|
+| Girl     | Girl     |
+| Girl     | Boy      |
+
+| Option 3 | Option 4 |
+|----------|----------|
+| Boy      | Girl     |
+| Boy      | Boy      |
+
+
+]
+
+---
+
+## Problem 2: At Least One Boy
+
+.pull-left[
+"Mr. Smith has two children. At least one of them is a boy. What is the probability that both children are boys?"
+
+- Possible outcomes:
+  - Boy, Boy (BB)
+  - Boy, Girl (BG)
+  - Girl, Boy (GB)
+
+P(both boys | at least one boy) = 1/3
+]
+
+.pull-right[
+```{r echo=FALSE}
+matrix_boys <- matrix(c("Boy", "Boy", "Boy", "Girl", "Girl", "Boy", "Boy", "Boy"), ncol = 2, byrow = TRUE)
+
+# Generate the table using kableExtra in the same way as Table 1
+matrix_boys %>%
+  kbl(col.names = c("Child 1", "Child 2"), format = "html", caption = "All Outcomes") %>%
+  kable_styling(full_width = FALSE)
+```
+]
+
+---
+
+## The Paradox Explained
+
+The key difference lies in the information given:
+
+1. In the first problem, we know the order (older child is a girl), which eliminates two possibilities (BB and BG).
+
+2. In the second problem, we don't know which child is a boy, so we only eliminate one possibility (GG).
+
+This subtle difference in information leads to different sample spaces and thus different probabilities.
+
+---
+
+## Bayesian Perspective
+
+We can also approach these problems using Bayes' Theorem:
+
+
+For Problem 1:
+
+$$P(GG \mid \text{older is G}) = \frac{P(\text{older is G} \mid GG) \cdot P(GG)}{P(\text{older is G})} = \frac{1 \times \frac{1}{4}}{\frac{1}{2}} = \frac{1}{2}$$
+
+
+--
+
+For Problem 2:
+
+$$P(BB \mid \text{at least one B}) = \frac{P(\text{at least one B} \mid BB) \cdot P(BB)}{P(\text{at least one B})} = \frac{1 \times \frac{1}{4}}{\frac{3}{4}} = \frac{1}{3}$$
+
+
+---
+
+class: middle
+
+# Applying Bayes' Theorem
+
+---
+
+## Example: Testing for a Rare Disease
+
+Imagine a test for a disease that affects 1% of the population:
+- 99% accurate for people who have the disease (sensitivity)
+- 99% accurate for people who don't have the disease (specificity)
+
+.question[
+If someone tests positive, what's the probability they actually have the disease?
+]
+
+---
+
+## Setting Up the Problem
+
+Let's define our events:
+- D: Having the disease (Case of the Mondays)
+- T: Testing positive
+
+We want to know: P(D|T)
+
+--
+
+We know:
+- P(D) = 0.01 (1% of population has the disease)
+- P(T|D) = 0.99 (99% sensitivity)
+- P(T|not D) = 0.01 (1 - 99% specificity)
+
+---
+
+## Applying Bayes' Theorem
+
+.pull-left[
+$$P(D \mid T) = \frac{P(T \mid D) \cdot P(D)}{P(T)}$$
+
+$$P(T) = P(T \mid D) \cdot P(D) + P(T \mid \neg D) \cdot P(\neg D) = 0.99 \times 0.01 + 0.01 \times 0.99 = 0.0198$$
+
+$$P(D \mid T) = \frac{0.99 \times 0.01}{0.0198} \approx 0.50 \text{ or 50\%}$$
+]
+
+.pull-right[
+```{r echo=FALSE}
+library(ggplot2)
+# Calculate probabilities
+p_d <- 0.01
+p_t_given_d <- 0.99
+p_t_given_not_d <- 0.01
+p_not_d <- 1 - p_d
+
+p_t <- p_t_given_d * p_d + p_t_given_not_d * p_not_d
+p_d_given_t <- (p_t_given_d * p_d) / p_t
+
+# Create data frame for plotting
+df <- data.frame(
+  Category = c("P(D)", "P(D|T)"),
+  Probability = c(p_d, p_d_given_t)
+)
+
+# Create bar plot
+ggplot(df, aes(x = Category, y = Probability, fill = Category)) +
+  geom_bar(stat = "identity") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Prior vs Posterior Probability",
+       y = "Probability",
+       x = "") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+]
+
+---
+
+class: middle
+
+# Bayesian Thinking in Psychology
+
+---
+
+## Fun Example: Updating a Belief
+- A pet owner initially thinks their cat is limping due to an injury (80% sure).
+- After observing the cat immediately stop limping when the door opens, how should they update their belief?
+
+$$P(\text{injury} \mid \text{cat stops limping when door opens}) = $$
+$$\frac{P(\text{cat stops limping when door opens} \mid \text{injury}) \cdot P(\text{injury})}{P(\text{cat stops limping when door opens})}$$
+]
+--
+.pull-right[
+```{r, echo=FALSE}
+"https://www.youtube.com/watch?v=OHwQedAx8jM" %>%
+embed_url() %>%
+  use_align("center")
+```
+]
+
+
+---
+
+## Research Example: P-hacking
+
+- P-hacking: Trying multiple analyses until you get a "significant" p-value
+- Bayesian perspective: This is like ignoring your prior probabilities and only focusing on P(data | hypothesis)
+- Better approach: Consider P(hypothesis) and calculate P(hypothesis | data)
+
+---
+
+## Pros and Cons of Bayesian Approaches
+
+.pull-left[
+Pros:
+- Allows incorporation of prior knowledge
+- Provides direct probabilities of hypotheses
+- Handles small samples and rare events well
+]
+
+.pull-right[
+Cons:
+- Selecting priors can be subjective
+- Computationally intensive for complex problems
+- Not as widely used (yet) in psychology
+]
+
+
+---
+
+## Ethical Considerations in Bayesian Analysis
+
+- Transparency in specifying prior beliefs
+- Avoiding bias in selection of priors
+- Conducting sensitivity analyses with different priors
+- Clear reporting of both prior and posterior probabilities
+- Acknowledging limitations and potential for subjectivity
+
+---
+
+class: center, middle
+
+# Wrapping Up...
+
+
+
+
+
+
