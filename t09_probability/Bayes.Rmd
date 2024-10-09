@@ -220,6 +220,9 @@ Imagine a test for a disease that affects 1% of the population:
 If someone tests positive, what's the probability they actually have the disease?
 ]
 
+- We can use two approaches: a **tree diagram** to break down all possible outcomes and **Bayes' Theorem** mathematically.
+
+
 ---
 
 ## Setting Up the Problem
@@ -239,7 +242,7 @@ We know:
 
 ---
 
-## Applying Bayes' Theorem
+## Applying Bayes' Theorem mathematically
 
 .pull-left[
 $$P(D \mid T) = \frac{P(T \mid D) \cdot P(D)}{P(T)}$$
@@ -248,8 +251,18 @@ $$P(T) = P(T \mid D) \cdot P(D) + P(T \mid \neg D) \cdot P(\neg D) = 0.99 \times
 
 $$P(D \mid T) = \frac{0.99 \times 0.01}{0.0198} \approx 0.50 \text{ or 50\%}$$
 ]
-
+--
 .pull-right[
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<br/>
+
+
 ```{r echo=FALSE}
 library(ggplot2)
 # Calculate probabilities
@@ -277,7 +290,86 @@ ggplot(df, aes(x = Category, y = Probability, fill = Category)) +
   theme_minimal() +
   theme(legend.position = "none")
 ```
+
 ]
+---
+
+## Applying Tree Diagrams for Rare Disease Testing
+
+.pull-left[
+- A **tree diagram** is a graphical way to represent all possible outcomes of an event, making it easier to understand conditional probabilities.
+- Let's define the population for simplicity:
+  - **D**: Having the disease (1%)
+  - **No D**: Not having the disease (99%)
+- We will branch out from each state (having the disease or not) to show the possible test outcomes (Positive or Negative), which depend on sensitivity and specificity.
+]
+
+.pull-right[
+
+```{r echo=FALSE}
+# Load library for creating tree diagram
+library(DiagrammeR)
+library(rsvg)
+library(DiagrammeRsvg)
+graph <- grViz("digraph G {
+
+  node [shape = box, style = filled, fillcolor = lightyellow];
+
+  Population -> Disease [label = \"1%\"];
+  Population -> No_Disease [label = \"99%\"];
+
+  Disease -> Positive [label = \"99%\", color = green];
+  Disease -> Negative [label = \"1%\", color = red];
+
+  No_Disease -> Positive [label = \"1%\", color = green];
+  No_Disease -> Negative [label = \"99%\", color = red];
+
+  Population [label = \"Population\"];
+  Disease [label = \"Has Disease\"];
+  No_Disease [label = \"No Disease\"];
+  Positive [label = \"Tests Positive\"];
+  Negative [label = \"Tests Negative\"];
+}")
+# Export the graph to SVG format
+svg_code <- export_svg(graph)
+
+# Convert the SVG to PNG and save it
+rsvg_png(charToRaw(svg_code), file = "tree_diagram.png", width = 800, height = 600)
+
+knitr::include_graphics("tree_diagram.png")
+
+```
+]
+
+---
+
+## Interpretation Using the Tree Diagram
+
+.pull-left[
+The **tree diagram** helps us visualize all possible outcomes:
+
+- **Path 1 (Disease -> Positive Test):** Probability is **0.01 * 0.99 = 0.0099**
+- **Path 2 (Disease -> Negative Test):** Probability is **0.01 * 0.01 = 0.0001**
+- **Path 3 (No Disease -> Positive Test):** Probability is **0.99 * 0.01 = 0.0099**
+- **Path 4 (No Disease -> Negative Test):** Probability is **0.99 * 0.99 = 0.9801**
+]
+
+.pull-right[
+Using Bayes' Theorem to find P(Disease | Positive Test):
+$$P(D \mid T) = \frac{P(T \mid D) \cdot P(D)}{P(T)}$$
+
+$$P(T) = P(T \mid D) \cdot P(D) + P(T \mid Not D) \cdot P(Not D) = 0.0099 + 0.0099 = 0.0198$$
+
+$$P(D \mid T) = \frac{0.0099}{0.0198} \approx 0.50 \text{ or 50\%}$$
+]
+
+---
+
+## Wrapping Up
+
+- Both approaches—the tree diagram and Bayes' Theorem—help arrive at the same conclusion: there's a 50% chance that someone who tests positive actually has the disease.
+- The tree diagram provides a visual breakdown, while Bayes' Theorem offers a mathematical perspective.
+- This example demonstrates how rare diseases can lead to high rates of false positives, even when the test accuracy is high.
 
 ---
 
@@ -288,6 +380,8 @@ class: middle
 ---
 
 ## Fun Example: Updating a Belief
+
+.pull-left[
 - A pet owner initially thinks their cat is limping due to an injury (80% sure).
 - After observing the cat immediately stop limping when the door opens, how should they update their belief?
 
@@ -333,22 +427,38 @@ Cons:
 
 ---
 
-## Ethical Considerations in Bayesian Analysis
+Wrapping Up...
 
-- Transparency in specifying prior beliefs
-- Avoiding bias in selection of priors
-- Conducting sensitivity analyses with different priors
-- Clear reporting of both prior and posterior probabilities
-- Acknowledging limitations and potential for subjectivity
+
+
+
+
 
 ---
+
+## Simulations
+
+- Simulations are used to understand probabilities in complex situations.
+
+### Examples
+
+- **Blackjack**: Understanding dealer's odds.
+  - [Dealer’s Odds in Blackjack](http://demonstrations.wolfram.com/DealersOddsInBlackjack/)
+
+- **Rock Paper Scissors**: Using AI Player.
+  - [Rock Paper Scissors with AI Player](http://demonstrations.wolfram.com/RockPaperScissorsWithAIPlayer/)
+
+- **Texas Hold'em**: Exploring probabilities of winning.
+  - [Probabilities of Winning in Texas Hold'em](http://demonstrations.wolfram.com/ProbabilitiesOfWinningInTexasHoldEm/)
+
+- **Lottery (Adam Lamers)**: Running simulations to determine lottery odds.
+  - [Lottery Simulator by Adam Lamers](http://adamlamers.com/lottery_simulator)
+
+- **Lottery (Ian Neath)**: Another lottery simulation.
+  - [Lottery Simulator by Ian Neath](https://memory.psych.mun.ca/models/lottery/index.shtml)
 
 class: center, middle
 
 # Wrapping Up...
-
-
-
-
 
 
