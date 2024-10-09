@@ -440,8 +440,6 @@ Wrapping Up...
 
 - Simulations are used to understand probabilities in complex situations.
 
-### Examples
-
 - **Blackjack**: Understanding dealer's odds.
   - [Dealer’s Odds in Blackjack](http://demonstrations.wolfram.com/DealersOddsInBlackjack/)
 
