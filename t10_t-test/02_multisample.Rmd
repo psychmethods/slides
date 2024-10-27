@@ -41,7 +41,7 @@ class: middle
 - t-test logic
 - one sample t-tests
 - two sample t-tests
-- robustness of t-tests
+- confidence intervals
 ]
 
 ---
@@ -117,7 +117,7 @@ class: middle
 - The procedure for a matched pair t-test is same as the one-sample t-test.
 - But, we the difference score to denote change.
 - For the paired t-test, we have the sampling distribution of the difference score $^{a}$ 
-  - ( $H_{0}: \mu_{\Delta} = 0$ )
+  -  $H_{0}: \mu_{\Delta} = 0$
 ]
 
 .footnote[a: In one sample t-test, we have the sampling distribution of the mean.]
@@ -257,11 +257,10 @@ kable(paired_df)
 
 ## Testing the Power of Lyric Therapy
 
-- We're testing a new intervention: Sabrina Carpenter’s music as therapy for fans with high systolic blood pressure.:
+- We're testing a new intervention: Sabrina Carpenter’s music as therapy for fans with high systolic blood pressure.
 - We find 100 individuals with a high systolic blood pressure 
   - (x=  145; mmHg, SD=9 mmHg),
 - These individuals listen to Carpenter’s soothing tracks, curated specifically from her Short n' Sweet album, for one month. 
-
 - After a month, we measure their blood pressure again and find that the mean systolic blood pressure has decreased  to 142mmHg 
   - with standard deviation 8mmHg.
 
@@ -305,8 +304,7 @@ t.test(preTreat, postTreat, paired = TRUE)
   - As part of Taylor Swift’s new philanthropic endeavor, she has launched a medical research initiative focused on using advanced imaging techniques to improve personalized cancer care.
 - Study design:
   - Twenty patients with ovarian cancer were recruited, and MRI imaging was used to measure cellularity at two distinct sites of disease for each patient.
- 
-- *Goal*: Taylor's research team wants to determine whether the cellularity differs between these two sites, which could inform future strategies for targeted treatment and personalized care.
+- **Goal**: Taylor's research team wants to determine whether the cellularity differs between these two sites, which could inform future strategies for targeted treatment and personalized care.
 
 ---
 
@@ -441,6 +439,7 @@ ggplot(data.frame(x = c(-4, 4)),
 - There is evidence of a difference in cellularity between the two sites. 
 - t=`r stat`, df=`r degfree`, p=`r pval`.
 
+---
 
 ## Paired two-sample t-test; Impications
 
@@ -460,7 +459,6 @@ ggplot(data.frame(x = c(-4, 4)),
 .pull-right-wide[
 - Research question
   - A forestry company is interested in the growth of trees in two different locations.
-  
 
 ```{r pairedsample, results="hide", echo=TRUE}
 set.seed(0)
@@ -473,13 +471,10 @@ treeVolume_t2 = treeVolume_t1 +
                       mean = 0, 
                       sd = 1))
 
-t.test(treeVolume_t1,treeVolume_t2,paired=TRUE ) # Ho: mu1 = mu2
+# Ho: mu1 = mu2
+t.test(treeVolume_t1,treeVolume_t2,paired=TRUE )
 
 ```
-
-
-
-.center.footnote[Source Code: https://datascienceplus.com/t-tests/]
 ]
 
 
@@ -650,7 +645,7 @@ geom_rect(data=rect1, aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),
 ---
 
 
-## Summary
+## Recap
 
 - One-sample t-test 
     + Use when we have one group.
@@ -706,6 +701,7 @@ class: middle
   - even for clearly skewed distribution
   
 ---
+
 ## For two independent t-test
 
 - More robust than the one-sample t methods, particularly when the distributions are not symmetric.

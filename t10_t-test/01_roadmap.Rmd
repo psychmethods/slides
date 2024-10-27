@@ -51,7 +51,7 @@ class: middle
 - t-test logic
 - one sample t-tests
 - two sample t-tests
-- interrogating null effects
+- confidence intervals
 ]
 
 
