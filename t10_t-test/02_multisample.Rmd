@@ -255,14 +255,14 @@ kable(paired_df)
 ---
 
 
-## Procardia Example
+## Testing the Power of Lyric Therapy
 
-- We're testing a new drug, Procardia, that's meant to reduce hypertension:
+- We're testing a new intervention: Sabrina Carpenter’s music as therapy for fans with high systolic blood pressure.:
 - We find 100 individuals with a high systolic blood pressure 
   - (x=  145; mmHg, SD=9 mmHg),
-- We give them Procardia for a month, 
-  - and then measure their blood pressure again.
-- We find that the mean systolic blood pressure has decreased to 142mmHg 
+- These individuals listen to Carpenter’s soothing tracks, curated specifically from her Short n' Sweet album, for one month. 
+
+- After a month, we measure their blood pressure again and find that the mean systolic blood pressure has decreased  to 142mmHg 
   - with standard deviation 8mmHg.
 
 ---
@@ -301,10 +301,12 @@ t.test(preTreat, postTreat, paired = TRUE)
 
 ## Paired two-sample t-test: Does the mean difference = 0?
 
-- e.g. Research question: 
-- 20 patients with ovarian cancer were studied using MRI imaging. 
-  - Cellularity was measured for each patient at two sites of disease. 
-- Does the cellularity differ between two different sites of disease? 
+- e.g. Research question
+  - As part of Taylor Swift’s new philanthropic endeavor, she has launched a medical research initiative focused on using advanced imaging techniques to improve personalized cancer care.
+- Study design:
+  - Twenty patients with ovarian cancer were recruited, and MRI imaging was used to measure cellularity at two distinct sites of disease for each patient.
+ 
+- *Goal*: Taylor's research team wants to determine whether the cellularity differs between these two sites, which could inform future strategies for targeted treatment and personalized care.
 
 ---
 
@@ -439,10 +441,26 @@ ggplot(data.frame(x = c(-4, 4)),
 - There is evidence of a difference in cellularity between the two sites. 
 - t=`r stat`, df=`r degfree`, p=`r pval`.
 
+
+## Paired two-sample t-test; Impications
+
+- Taylor Swift’s research initiative shows that cellularity differs between two sites of ovarian cancer within patients. 
+- This finding suggests that different sites of disease may respond differently to treatments. 
+- The results will inform personalized therapy strategies, ensuring each patient receives the most effective care. 
+- Taylor’s philanthropic work is not only transforming music but also advancing personalized cancer treatment.
+
 ---
 
 # Another example
 
+.pull-left-narrow[
+![](../img/identifying-wood.jpg)  
+]  
+
+.pull-right-wide[
+- Research question
+  - A forestry company is interested in the growth of trees in two different locations.
+  
 
 ```{r pairedsample, results="hide", echo=TRUE}
 set.seed(0)
@@ -462,7 +480,7 @@ t.test(treeVolume_t1,treeVolume_t2,paired=TRUE ) # Ho: mu1 = mu2
 
 
 .center.footnote[Source Code: https://datascienceplus.com/t-tests/]
-
+]
 
 
 ---

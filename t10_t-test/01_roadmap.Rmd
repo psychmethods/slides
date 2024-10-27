@@ -40,8 +40,8 @@ class: middle
 ## Roadmap: Last Week 
 .large[
 - p-values
-- Hypothesis Testing
-- Experimental Designs
+- hypothesis testing
+- experimental designs
 ]
 
 ---
@@ -51,65 +51,127 @@ class: middle
 - t-test logic
 - one sample t-tests
 - two sample t-tests
-- Interrogating Null Effects
+- interrogating null effects
 ]
+
 
 ---
 
 class: middle
 
-# t-tests
-
-
----
-
-## Context
-
-- We studied the characteristics of the $Z$-statistic 
-  - for comparing a mean with a null-hypothesized value. 
---
-
-- In the process, we learned a number of general principles about 
-	- hypothesis testing, 
-	- power, and the factors affecting power and 
-	- the sample size n needed to achieve it. 
+# Recall: Z-scores
 
 ---
 
-## Z-Test to T-Test
+## From Z to t
 
-- The Z statistic itself is virtually never used in practice.
-
---
-- .hand-blue[Why?]
-
---
-- Because the population standard deviation $\sigma$ is not known, 
-  - anymore than the population mean is.
-
---
-- .hand-blue[So, what do we do?]
-
----
-
-## Solution?
-
-- We could substitute an estimate of $\sigma$ (*i.e.*,  $\hat{\sigma}$ )
-  - in place of $\sigma$.
---
-  
-- Could we replace it with... 
-  - the sample standard deviation (*s*)?
---
-
-- Thus, creating a modified $Z$ statistic?
---
-
-
-<br><br>
-.center.large[
-$Z_{modified} = \frac{M- \mu_{0} }{s/\sqrt{n}}$
+.pull-left[
+Remember $Z$-scores? We use them to:
+- Standardize values
+- Compare sample means to populations (Ok, more like a null-hypothesized value)
+- Calculate probabilities
 ]
+--
+.pull-right[
+
+- Through this process, we learned several key principles about:
+	- hypothesis testing, 
+	- statistical power, the factors that influence it, and
+	- the sample size `n` needed to achieve it.
+	
+
+]
+
+---
+
+## From Z to t
+
+.pull-left[
+There's a catch...
+]
+--
+.pull-right[
+For Z-scores we need:
+- Population mean $\mu$
+- Population standard deviation $\sigma$
+- Sample mean $\bar{X}$
+- Sample size (`n`)
+]
+
+---
+
+## The real world problem
+
+.question[
+In real research, which of these values do we usually know?
+]
+
+--
+
+.pull-left[
+.hand[What we usually have]:
+- Sample mean $\bar{X}$
+- Sample standard deviation (s)
+- Sample size (n)
+]
+
+.pull-right[
+.hand[What we often don't have:]
+- Population mean $\mu$
+- Population standard deviation $\sigma$
+]
+
+---
+
+## Enter the t-statistic
+
+We can modify our Z-score formula to work with what we actually have:
+
+$$
+\begin{align*}
+Z = \frac{\bar{X}- \mu}{\sigma/\sqrt{n}}
+\end{align*}
+$$
+
+---
+
+## Enter the t-statistic
+
+We can modify our Z-score formula to work with what we actually have:
+
+$$
+\begin{align*}
+Z &= \frac{\bar{X}- \mu}{\sigma/\sqrt{n}}
+\end{align*}
+$$
+
+$$
+\begin{align*}
+Z_{modified} &= \frac{M- \mu_{0} }{s/\sqrt{n}}
+\end{align*}
+$$
+
+.question[
+What's the difference between these formulas?
+]
+
+---
+
+.question[
+What's the difference between these formulas?
+]
+
+--
+
+- The only change is using substitute an estimate of $\sigma$ (*i.e.*,  $\hat{\sigma}$ ) instead of $\sigma$
+- Seems simple to replace the sample standard deviation (*s*), but this has big implications...
+
+--
+
+.question[
+Why does this small change matter? But let's walk thru it...
+]
+
 
 ---
 
@@ -135,12 +197,14 @@ $Z_{modified} = \frac{M- \mu_{0} }{s/\sqrt{n}}$
   - these modifications matter less and less, 
   - because $s$ starts acting more and more like the constant that it is estimating.
 ]
-.center.pull-right.large[
-<br>
-<br>
-<br>
-$Z_{modified} = \frac{M- \mu_{0} }{s/\sqrt{n}}$
+.pull-right[
+$$
+\begin{align*}
+Z_{modified} &= \frac{M- \mu_{0} }{s/\sqrt{n}}
+\end{align*}
+$$
 ]
+
 ---
 
 ## Thinking Intuitively
@@ -176,6 +240,9 @@ knitr::include_graphics("../img/William_Sealy_Gosset.jpg")
 
 ## Student's T
 
+
+
+
 .pull-left[
 - Thus, the modified $Z$ statistic became known as
   - “Student's t statistic” in his honor.
@@ -183,9 +250,14 @@ knitr::include_graphics("../img/William_Sealy_Gosset.jpg")
   - “Student’s t distribution,” 
 - This statistic and distribution has many applications 
   - beyond what we are reviewing here
+  
+$$
+t = \frac{\bar{X}- \mu}{s/\sqrt{n}}
+$$
 ]
 
 .pull-right[
+
 ```{r ref.label = "studentt", echo=FALSE, out.width="65%"}
 ```
 
@@ -196,6 +268,7 @@ knitr::include_graphics("../img/William_Sealy_Gosset.jpg")
 ---
 
 ## t-distribution facts
+
 .pull-left[
 - the t-distribution varies as a function of:
    - degrees of freedom (df)
@@ -295,13 +368,13 @@ class: middle
 --
 
 - Example:
-- We had a group of 28 students taking a reading quiz, but had not seen the passage on which the questions were based (sample mean: 46.21, sample sd: 6.73). 
-- If the students had really guessed blindly, without even looking at the possible answers, 
-  - we would expect that they would get 20 items correct (OUT OF 100) by chance.
+- We had a group of 28 psychology minors who took a quiz on 1990s music, but clearly had no idea about the era (sample mean: 46.21, sample sd: 6.73). 
+- If the students were simply guessing—like they'd never even heard of Nirvana or the Spice Girls—
+  - we would expect they’d score about 20 (OUT OF 100) by pure chance.
 --
 
 - Question:
-  - Did the students guess by chance?
+  - Did the students just guess by chance, or do they know a little more than expected?
 
 ---
 
@@ -341,25 +414,25 @@ class: middle
 - `6`. Compare t-statistic to t* (we can also calculate p and compare to $\alpha$)
   - 20.61 > 2.051
 - `7`. Make decision: reject null or not, and draw conclusion
-   - We reject null hypothesis based on the results, the group of students are not guessing. 
+   - We reject null hypothesis based on the results, the students are not guessing. 
 
 
 ---
 
 ## One-sample t-test: does mean = X?
 
-- e.g. Question: Published data suggests that the microarray failure rate for a particular supplier is 2.1%
-- **Genomics Core want to know if this holds true in their own lab?**
+- e.g. Taylor Swift’s latest album, The Tortured Poets Department, is said to average 2.1 million streams per track each month.
+**Swifties want to know if this album really lives up to the expectations.**
 
 ---
 
 
-## One-sample t-test: does mean = X?
+## One-sample t-test: Does The Tortured Poets Department Hit the Right Note?
 
 - Null hypothesis, $H_0$:
-    + Mean monthly failure rate = 2.1%
+    + Average monthly plays per track = 2.1 million
 - Alternative hypothesis: $H_1$:
-    + Mean monthly failure rate $\ne$ 2.1%
+    + Average monthly plays per track $\ne$ 2.1 million
 - Tails: *two-tailed*
 - Either *reject* or *do not reject* the null hypothesis 
 <!-- - ***Never accept the alternative hypothesis*** -->
@@ -367,20 +440,21 @@ class: middle
 ---
 
 ## One sample t-test; the data
+
 .small.pull-left[
 ```{r results='as.is'}
 library(knitr)
-failure <- data.frame(Month = month.name, "Monthly failure rate" = c(2.9,2.99,2.48,1.48,2.71,4.17,3.74,3.04,1.23,2.72,3.23,3.4))
-kable(failure)
-me <- round(mean(failure$Monthly.failure.rate),3)
-sd <- round(sd(failure$Monthly.failure.rate),3)
+plays <- data.frame(Month = month.name, "Monthly play count"  = c(2.9,2.99,2.48,1.48,2.71,4.17,3.74,3.04,1.23,2.72,3.23,3.4))
+kable(plays)
+me <- round(mean(plays$Monthly.play.count),3)
+sd <- round(sd(plays$Monthly.play.count),3)
 ```
 ]
 .pull-right[
 
 - mean = $(2.9 + \dots + 3.40) / 12$ = `r me`
-- Standard deviation = `r sd`
-- Hypothesized Mean = 2.1
+- Standard deviation = `r sd` million plays
+- Hypothesized Mean = 2.1 million
 ]
 
 ---
@@ -393,14 +467,14 @@ sd <- round(sd(failure$Monthly.failure.rate),3)
 ]
 .pull-right-wide[
 ```{r}
-hist(failure$Monthly.failure.rate,col="steelblue",xlab="Monthly Failure Rate",main="")
+hist(plays$Monthly.play.count,col="steelblue",xlab="Monthly play count (millions)",main="")
 ```
 ]
 
 
 
 ```{r}
-test <- t.test(failure$Monthly.failure.rate,mu=2.1)
+test <- t.test(plays$Monthly.play.count,mu=2.1)
 stat <- round(test$statistic,3)
 pval <- round(test$p.value,3)
 degfree <- test$parameter
@@ -449,14 +523,13 @@ geom_rect(data=rect1,aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),fill="steel
 - df = 11
 - P = 0.01
 - ***Reject*** $H_0$
-- Evidence that mean monthly failure rate $\ne$ 2.1%
-
+- Evidence that Taylor’s monthly play count $\ne$ 2.1 million.
 ---
 
 ## One-sample t-test; results
 
-- The mean monthly failure rate of microarrays in the Genomics core is 2.84 (95% CI: 2.30, 3.37).
-- It is not equal to the hypothesized mean proposed by the company of 2.1.
+- Taylor’s average monthly play count per track is 2.84 million (95% CI: 2.30, 3.37).
+- It is not equal to the hypothesized mean told to the Swifies of 2.1.
 - t=3.07, df=11, p=0.01
 
 ---
