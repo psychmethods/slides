@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
 class: middle
 
 # Excel Lab 
-## Z-Scores, Correlation, and Regression with the Iris Dataset
+## One Sample, Two-Sample, and ANOVA with the Iris Dataset
 
 ---
 
@@ -36,13 +36,13 @@ class: middle
 
 .pull-left[
 ## Overview
-- In this lab, you will use Excel to explore **Z-scores**, **correlation**, and **regression analysis** with the famous Iris dataset.
-- The Iris dataset, introduced by statistician Ronald A. Fisher in 1936, is a classic dataset in statistics and machine learning.
+- In this lab, you will use Excel to perform **One-Sample**, **Two-Sample**, and **ANOVA** analyses with the famous Iris dataset.
+- Recall that the Iris dataset, introduced by statistician Ronald A. Fisher in 1936, is a classic dataset in statistics and machine learning.
 ]
 
 --
 .pull-right[
-## Key Features:
+## Recall: Key Features:
 - 150 observations of iris flowers.
 - It includes four numeric features:
   - Sepal.Length
@@ -61,26 +61,29 @@ class: middle
 class: middle, inverse
 
 # Task 1
-## Working with Z-Scores in Excel
+## Conducting a One-Sample T-Test in Excel
 
 ---
 
 # Task 1: Overview
+
 .pull-left[
-In this task, we will:
-- Work with the **Sepal.Length** column to calculate:
-  - Z-scores
-  - Percentiles
-  - Inverse normal values (`NORM.INV`)
+In this task, you will:
+- Test if the average `Sepal.Length` in the dataset is equal to 5.5.
+- Use core Excel functions to:
+  - Calculate the t-statistic for a one-sample t-test.
+  - Obtain the p-value using `T.DIST.2T()`.
+  - Draw conclusions based on the significance of the result. 
 ]
+
 .pull-right[
 ```{r, echo=FALSE, out.width="90%", warning = FALSE}
-knitr::include_graphics("../img/DALLE_exceldoodle.png")
+knitr::include_graphics("../img/playful data.png")
 ```
 ]
 ---
 
-## Step 0: Download the Iris Dataset
+## Step -1: Download the Iris Dataset
 
 .pull-left-wide[
 ```{r, echo=TRUE}
@@ -89,21 +92,30 @@ knitr::include_graphics("../img/DALLE_exceldoodle.png")
 write.xlsx(iris, "IrisData.xlsx")
 ```
 
-[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData.xlsx)
+[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/IrisData.xlsx)
 ]
 .pull-right-narrow[
 .center[
 ```{r, echo=FALSE, out.width="100%", warning = FALSE}
 library(qrcode)
 
-share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData.xlsx"
+share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/IrisData.xlsx"
 code <- qr_code(share_link)
 
 plot(code)
 ```
 ]]
 
-.footnote[or here https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData.xlsx]
+.footnote[or here https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/IrisData.xlsx]
+
+
+---
+
+## Step 0: Set up hypotheses
+
+
+- **Null Hypothesis (H₀)**: The mean `Sepal.Length` is equal to 5.5.
+- **Alternative Hypothesis (H₁)**: The mean `Sepal.Length` is not equal to 5.5.
 
 
 ---
@@ -164,126 +176,171 @@ img
 
 ---
 
-# Step 3: Calculate Z-Scores
+
+# Step 3: Calculate the sample size
+.pull-left[
+   - Select another empty cell (e.g., B154) to store the sample size.
+   - In the **Formula Bar**, type `=COUNT(A2:A151)`.
+   - Press **Enter** to display the sample size in the selected cell.
+]
+--
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_zoom.png"
+img <- image_read(image_path) %>%
+  image_annotate("=COUNT(A2:A151)", size = 30, color = "darkgreen", location = "+550+475")
+
+img
+```
+]
+
+---
+
+# Step 4: Calculate T-Statistic
 
 .pull-left[
-1. **Select cell F2** (next to the 1st value in the `Sepal.Length` column) to enter the formula.
+0. Use the formula for a one-sample t-test:  
+   \[
+   t = \frac{\bar{x} - \mu}{s / \sqrt{n}}
+   \]
+   
+1. **Select cell B155** to enter the formula.
 
-2. In the **Formula Bar**, enter the Z-score formula:
-   - `=(A2 - [Mean Cell]) / [Standard Deviation Cell]`
-   - Replace `[Mean Cell]` with the cell where you calculated the mean (e.g., `$F$152`) and `[Standard Deviation Cell]` with the cell containing the standard deviation (e.g., `$F$153`).
+2. In the **Formula Bar**, enter the T-score formula:
+   - `=(B152 - 5.5) / (B153 / SQRT(B154))`.
+   - Ensure you are referencing the correct cells:
+     - `[Mean Cell]` (e.g., B152) is where the mean was calculated.
+     - `[Standard Deviation Cell]` (e.g., B153) is where the standard deviation was calculated.
+     - `[Sample Size Cell]` (e.g., B154) contains the sample size.
 
-3. Press **Enter** to get the Z-score for the 1st value.
+3. **Press Enter** to calculate the T-statistic, which will appear in cell B155.
 
-4. **Fill down the formula**: Click on the small square at the bottom-right corner of the cell (called the **fill handle**) and drag down to copy the formula for the rest of the column.
 ]
 
 --
 
 .pull-right[
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
-image_path <- "../img/excel_lab/excel screenshot_1.png"
-img <- image_read(image_path) %>%
-  image_annotate(" =(A2 - Mean) / Std Dev", size = 30, color = "darkgreen", location = "+550+475")
-img
-```
-
-.medi[
-**Explanation**:
-- **Fill Handle**: A small square at the bottom-right corner of the selected cell that allows you to drag and apply the same formula to other cells.
-- **Relative References**: The formula updates the cell references automatically when dragging down. Use `$` signs (e.g., `$F$152`) to fix a cell reference.
-]
-]
----
-
-# Step 4: Calculate Percentiles
-
-.pull-left[
-
-1. **Select cell G2** to calculate the cumulative percentile for the first Z-score.
-
-2. **In the Formula Bar**, type the following formula:
-   - `=NORM.S.DIST(F2, TRUE)`
-
-3. Press **Enter** to calculate the percentile for the Z-score.
-
-4. **Fill down the formula**: Use the **fill handle** to drag down and calculate percentiles for all Z-scores in the column.
-
-] .pull-right[
-```{r, echo=FALSE, out.width="60%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_zoom.png"
 img <- image_read(image_path) %>%
-  image_annotate("=NORM.S.DIST(Z-Score, TRUE)", size = 30, color = "red", location = "+550+475")
+  image_annotate("=(B152 - 5.5) / (B153 / SQRT(B154))", size = 30, color = "darkgreen", location = "+550+475")
 img
-```
 
-**Explanation**:
-- **NORM.S.DIST()**: calculates the cumulative probability of a Z-score. The `TRUE` argument tells Excel to return the cumulative probability.
+```
 ]
 
 ---
 
-# Step 5.0: Use `NORM.INV()` to Find Raw Scores
-
-- Now, let's reverse the process: Suppose you want to find the raw score (e.g., `Sepal.Length`) that corresponds to a specific percentile, like the **90th percentile**.
-- We will use the **`NORM.INV()`** function in Excel to do this.
-
----
-
-# Step 5.1: Use `NORM.INV()` to Find Raw Scores
+# Step 5: Calculate the P-Value and Interpret Results
 
 .pull-left[
-1. **Select a new cell** (e.g., B154) where you want to calculate the raw score for the 90th percentile.
+1. **Select cell B156** to display the p-value.
 
-2. **In the Formula Bar**, enter the following formula:
-   - `=NORM.INV(0.90, [Mean Cell], [Standard Deviation Cell])`
-   - Replace `[Mean Cell]` and `[Standard Deviation Cell]` with the cell references for the mean (e.g., `$B$152`) and standard deviation (e.g., `$B$153`), respectively.
+2. **Calculate the Two-Tailed P-Value**:
+   - Go to the **Formula Bar** and type `=T.DIST.2T(ABS(B155), B154 - 1)`.
+   - This formula uses the calculated T-statistic and degrees of freedom to return the p-value.
+   - Press **Enter** to see the p-value in cell B156.
 
-3. Press **Enter**, and Excel will calculate the raw score corresponding to the 90th percentile.
+**Explanation**:
+- The **p-value** represents the probability of observing a test statistic as extreme as ours if the null hypothesis is true.
+- In this case, a lower p-value (typically < 0.05) would indicate a statistically significant difference from the hypothesized mean of 5.5.
 
-] .pull-right[
+3. **Interpretation**:
+   - Compare the p-value to the significance level (usually 0.05):
+      - **If p < 0.05**: Reject the null hypothesis, suggesting that the mean `Sepal.Length` differs significantly from 5.5.
+      - **If p ≥ 0.05**: Do not reject the null hypothesis, indicating no significant difference.
+]
+
+--
+
+.pull-right[
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
-image_path <- "../img/excel_lab/excel screenshot_1.png"
-img<- image_read(image_path) %>%
-  image_annotate("=NORM.INV(0.90, Mean, Std Dev)", size = 30, color = "purple", location = "+550+475")
+image_path <- "../img/excel_lab/excel screenshot_zoom.png"
+img <- image_read(image_path) %>%
+  image_annotate("=T.DIST.2T(ABS(T), df)", size = 30, color = "purple", location = "+550+475")
 img
 ```
+]
+
+
+
+# Step 5: Calculate the P-Value and Interpret Results
+
+.pull-left[
+
 .medi[
 **Explanation**:
-- **NORM.INV()** calculates the inverse of the normal cumulative distribution for a given probability. Here, the probability is `0.90`, representing the 90th percentile, and returns the raw score (in this case, a `Sepal.Length` value) that aligns  to that percentile.
+
+- **T.DIST.2T()**: This function calculates the two-tailed p-value using the T-statistic and degrees of freedom.
+- **Degrees of Freedom (df)**: Calculated as \( n - 1 \), where \( n \) is the sample size.
+
 ]
+
+
+3. **Interpretation**:
+   - Compare the p-value to the significance level (usually 0.05):
+      - **If p < 0.05**: Reject the null hypothesis, suggesting that the mean `Sepal.Length` differs significantly from 5.5.
+      - **If p ≥ 0.05**: Do not reject the null hypothesis, indicating no significant difference.
 ]
+
+--
+
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_zoom.png"
+img <- image_read(image_path) %>%
+  image_annotate("=T.DIST.2T(ABS(T), df)", size = 30, color = "purple", location = "+550+475")
+img
+```
+]
+
+
+.medi[
+**Explanation**:
+
+- **T.DIST.2T()**: This function calculates the two-tailed p-value using the T-statistic and degrees of freedom.
+- **Degrees of Freedom (df)**: Calculated as \( n - 1 \), where \( n \) is the sample size.
+
+]
+
+
 ---
 
-# Task 1 Recap: Working with Z-Scores in Excel
+# Task 1 Recap: One-Sample T-Test in Excel
 
-In this section, you:
-- Calculated the **mean** and **standard deviation** of `Sepal.Length`.
-- Computed **Z-scores** and **percentiles** using Excel.
-- Used **`NORM.INV()`** to find the raw score corresponding to a given percentile (e.g., the 90th percentile).
-
+In this task, you:
+- Set up hypotheses for a one-sample t-test.
+- Calculated the **mean**, **standard deviation**, and **sample size** of `Sepal.Length`.
+- Computed the **T-statistic** and **two-tailed p-value** using Excel functions.
+- Interpreted results to determine if the mean `Sepal.Length` differs from 5.5.
 
 ---
+
 
 class: center, middle, inverse
 
 # Task 2
-## Explore Bivariate Relationships and Correlation
+## Conducting a Two-Sample T-Test in Excel
+
 
 ---
 
 # Task 2: Overview
 
 .pull-left[
-- **Visualize the relationship** between two variables using scatter plots.
-- **Calculate the correlation coefficient** to measure the strength and direction of the linear relationship between two variables.
+In this task, you will:
+- Compare the means of `Sepal.Length` between two species, `Virginica` and `Versicolor`.
+- Use Excel functions to:
+  - Set up data for two groups.
+  - Calculate the two-sample t-statistic
+  - Obtain the p-value and interpret the result to determine if the means significantly differ.
 ]
 
 
 
 ---
 
-## Step 0: Download the Iris Dataset
+## Step 0: Download a Reshaped Iris Dataset
 
 .pull-left[
 
@@ -292,18 +349,21 @@ We'll continue to work with two columns from the **Iris dataset**:
 - **Petal.Length** (the length of the petal).
 
 ```{r}
-# Load Iris dataset and select Sepal.Length and Petal.Length
-iris_data <- iris %>% select(Sepal.Length, Petal.Length)
+# Prepare dataset for Two-Sample T-Test
 
-# Save the dataset as an Excel file
-write.xlsx(iris_data, "IrisData_Bivariate.xlsx")
+two_sample_data <- iris %>%
+  filter(Species %in% c("virginica", "versicolor")) %>%
+  select(Sepal.Length, Species) %>%
+  arrange(Species) # Sort by species for Excel clarity
+
+write.xlsx(two_sample_data, "Iris_TwoSample_TTest.xlsx")
 ```
 
-[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData_Bivariate.xlsx)
+[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/Iris_TwoSample_TTest.xlsx)
 ```{r, echo=FALSE, out.width="50%", warning = FALSE}
 library(qrcode)
 
-share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData_Bivariate.xlsx"
+share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/Iris_TwoSample_TTest.xlsx"
 code <- qr_code(share_link)
 
 plot(code)
@@ -327,8 +387,7 @@ knitr::include_graphics("../img/DALLE_Fisher_looking_at_flowers.png")
 ---
 
 
-# Step 1: Create a Scatter Plot
-
+# Step 1: Calculate Means for Each Group
 
 .pull-left.medi[
 2. **Select the data** for the scatter plot:
@@ -422,7 +481,7 @@ iris_data <- iris %>% select(Sepal.Length, Petal.Length)
 write.xlsx(iris_data, "IrisData_Regression.xlsx")
 ```
 
-[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData_Regression.xlsx)
+[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/IrisData_Regression.xlsx)
 
 ---
 
