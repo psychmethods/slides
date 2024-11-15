@@ -200,9 +200,9 @@ img
 
 .pull-left[
 0. Use the formula for a one-sample t-test:  
-   \[
+   $$
    t = \frac{\bar{x} - \mu}{s / \sqrt{n}}
-   \]
+   $$
    
 1. **Select cell B155** to enter the formula.
 
@@ -240,16 +240,12 @@ img
    - Go to the **Formula Bar** and type `=T.DIST.2T(ABS(B155), B154 - 1)`.
    - This formula uses the calculated T-statistic and degrees of freedom to return the p-value.
    - Press **Enter** to see the p-value in cell B156.
-
+.medi[
 **Explanation**:
 - The **p-value** represents the probability of observing a test statistic as extreme as ours if the null hypothesis is true.
 - In this case, a lower p-value (typically < 0.05) would indicate a statistically significant difference from the hypothesized mean of 5.5.
 
-3. **Interpretation**:
-   - Compare the p-value to the significance level (usually 0.05):
-      - **If p < 0.05**: Reject the null hypothesis, suggesting that the mean `Sepal.Length` differs significantly from 5.5.
-      - **If p ≥ 0.05**: Do not reject the null hypothesis, indicating no significant difference.
-]
+]]
 
 --
 
@@ -262,7 +258,7 @@ img
 ```
 ]
 
-
+---
 
 # Step 5: Calculate the P-Value and Interpret Results
 
@@ -274,14 +270,12 @@ img
 - **T.DIST.2T()**: This function calculates the two-tailed p-value using the T-statistic and degrees of freedom.
 - **Degrees of Freedom (df)**: Calculated as \( n - 1 \), where \( n \) is the sample size.
 
-]
-
 
 3. **Interpretation**:
    - Compare the p-value to the significance level (usually 0.05):
       - **If p < 0.05**: Reject the null hypothesis, suggesting that the mean `Sepal.Length` differs significantly from 5.5.
       - **If p ≥ 0.05**: Do not reject the null hypothesis, indicating no significant difference.
-]
+]]
 
 --
 
@@ -331,22 +325,23 @@ class: center, middle, inverse
 In this task, you will:
 - Compare the means of `Sepal.Length` between two species, `Virginica` and `Versicolor`.
 - Use Excel functions to:
-  - Set up data for two groups.
-  - Calculate the two-sample t-statistic
-  - Obtain the p-value and interpret the result to determine if the means significantly differ.
+  - Calculate the means and standard deviations for each group.
+  - Compute the two-sample t-statistic.
+  - Calculate the degrees of freedom.
+  - Obtain the two-tailed p-value.
+  - Interpret results to determine if the means significantly differ.
 ]
 
 
 
 ---
 
-## Step 0: Download a Reshaped Iris Dataset
+## Step -1: Download a Reshaped Iris Dataset
 
 .pull-left[
 
-We'll continue to work with two columns from the **Iris dataset**:
-- **Sepal.Length** (the length of the sepal).
-- **Petal.Length** (the length of the petal).
+To perform a two-sample t-test, download the dataset filtered to only include `Sepal.Length` for `Virginica` and `Versicolor`.
+
 
 ```{r}
 # Prepare dataset for Two-Sample T-Test
@@ -360,6 +355,7 @@ write.xlsx(two_sample_data, "Iris_TwoSample_TTest.xlsx")
 ```
 
 [Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/Iris_TwoSample_TTest.xlsx)
+
 ```{r, echo=FALSE, out.width="50%", warning = FALSE}
 library(qrcode)
 
@@ -386,262 +382,371 @@ knitr::include_graphics("../img/DALLE_Fisher_looking_at_flowers.png")
 
 ---
 
+## Step 0: Set Up Hypotheses
 
-# Step 1: Calculate Means for Each Group
+.pull-left[
+1. **Define Hypotheses**:
 
-.pull-left.medi[
-2. **Select the data** for the scatter plot:
-   - Click and drag to highlight both the `Sepal.Length` and `Petal.Length` columns (A1:B151).
-
-3. **Insert a Scatter Plot**:
-   - Go to the **Insert** tab in Excel.
-   - In the **Charts** section, click on **Scatter Plot** and select the option for a **simple scatter plot**.
-   
-4. **Format the Scatter Plot**:
-   - Add axis labels:  
-     - **X-axis**: Sepal Length  
-     - **Y-axis**: Petal Length
-   - Title the chart: "Scatter Plot: Sepal Length vs. Petal Length."
-
+   - **Null Hypothesis (H₀)**: The mean `Sepal.Length` of `Virginica` and `Versicolor` species are equal.
+   - **Alternative Hypothesis (H₁)**: The mean `Sepal.Length` of `Virginica` and `Versicolor` species are not equal.
 ]
---
+
 .pull-right[
-```{r, echo=FALSE, out.width="90%", fig.align='center'}
-library(ggplot2)
-library(ggthemes)
-#i'm making a scatter plot for Sepal Length vs. Petal Length
-# can we make it excel colors
-ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color=Species)) +
-  geom_point(size=2) +
-  labs(title = "Scatter Plot: Sepal Length vs. Petal Length", x = "Sepal Length", y = "Petal Length") +
-  theme_excel_new(base_size = 12, base_family = "") + scale_fill_excel_new()+ scale_color_excel_new() +
-  xlim(0, 8) + ylim(0, 8) + theme(legend.position = "none") 
+```{r, echo=FALSE, out.width="50%", warning = FALSE}
+knitr::include_graphics("../img/hypthlab.png")
 ```
 ]
 
 ---
 
-# Step 2: Calculate the Correlation Coefficient
+# Step 1: Calculate Means for Each Group
+
 
 .pull-left[
-1. **Select a new cell** (e.g., `B152`) where you want to display the correlation coefficient.
+1. **Open the Excel file** `Iris_TwoSample_TTest.xlsx`.
+2. **Calculate the mean for each group**:
 
-2. **Use the `CORREL()` function** to calculate the correlation:
-   - In the **Formula Bar**, enter the following formula:
-     - `=CORREL(A2:A151, B2:B151)`
+   - **Virginica**: Select an empty cell (e.g., B152) and type:
+     - `=AVERAGE(A2:A75)`
+   - **Versicolor**: Select another cell (e.g., B153) and type:
+     - `=AVERAGE(A76:A150)`
 
-3. Press **Enter** to calculate the correlation coefficient between `Sepal.Length` and `Petal.Length`.
+3. **Press Enter** to calculate the means, which will appear in cells B152 and B153.
+
+**Explanation**:
+- The `AVERAGE()` function calculates the mean for a specified range. Here, the ranges represent the `Sepal.Length` for each species group.
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_zoom.png"
+img <- image_read(image_path) %>%
+  image_annotate("=AVERAGE(A2:A75)", size = 30, color = "blue", location = "+550+475")
+img
+```
+]
+
+
+---
+
+# Step 2: Calculate the Standard Deviations for Each Group
+
+.pull-left[
+1. **Select a new cell** (e.g., B154) to calculate the standard deviation for **Virginica**.
+   - In the **Formula Bar**, type:
+     - `=STDEV.S(A2:A75)`
+   - Press **Enter** to display the standard deviation.
+
+2. **Select another cell** (e.g., B155) to calculate the standard deviation for **Versicolor**.
+   - Type:
+     - `=STDEV.S(A76:A150)`
+
+3. **Press Enter** to compute the standard deviation for each group.
+
+**Explanation**:
+- The `STDEV.S()` function calculates the sample standard deviation, giving a measure of variation for `Sepal.Length` within each species.
+]
 
 ] .pull-right[    
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_zoom.png"
 img <- image_read(image_path ) %>%
-  image_annotate(" =CORREL(A2:A151, B2:B151)", size = 30, color = "darkgreen",  location = "+550+475")
+  image_annotate("=STDEV.S(A2:A75)", size = 30, color = "red", location = "+550+475")
+
 img
 ```
 ]
 ---
 
-# Task 2 Recap: Scatter Plot and Correlation Coefficient
+# Step 3: Calculate Sample Sizes for Each Group
 
-- In this section, you:
-  - Created a **scatter plot** to visualize the relationship between Sepal Length and Petal Length in the Iris dataset.
-  - Calculated the **correlation coefficient** to quantify the strength and direction of the linear relationship between these two variables.
+.pull-left[
+1. **Select a cell** (e.g., B156) to calculate the sample size of **Virginica**:
+   - In the **Formula Bar**, type `=COUNT(A2:A75)`.
+   - Press **Enter** to display the sample size for `Virginica`.
 
-.reminder[Be sure to save your Excel file with the scatter plot and correlation results for future reference.]
+2. **Select another cell** (e.g., B157) for the **Versicolor** sample size:
+   - Type `=COUNT(A76:A150)`.
+   - Press **Enter** to display the sample size for `Versicolor`.
+
+**Explanation**:
+- The `COUNT()` function provides the number of entries in a specified range, which corresponds to the sample size of each species.
+]
+
+ .pull-right[    
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_zoom.png"
+img <- image_read(image_path ) %>%
+  image_annotate("=COUNT(A2:A75)", size = 30, color = "darkgreen", location = "+550+475")
+
+img
+```
+]
+---
+
+
+
+# Step 4: Calculate the Two-Sample T-Statistic
+
+.pull-left[
+To calculate the t-statistic, use the formula for a two-sample t-test:
+
+$$
+t = \frac{(\bar{X}_1 - \bar{X}_2)}{\sqrt{\frac{\text{SD}_1^2}{n_1} + \frac{\text{SD}_2^2}{n_2}}}
+$$
+
+1. **Select cell B158** to enter the formula for the t-statistic.
+2. In the **Formula Bar**, type:
+   - `=(B152 - B153) / SQRT((B154^2 / B156) + (B155^2 / B157))`
+3. **Press Enter** to display the calculated t-statistic in cell B158.
+
+**Explanation**:
+- The formula calculates the t-statistic based on the difference between the two group means, adjusting for the standard deviations and sample sizes.
+]
+
+
+ .pull-right[    
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_zoom.png"
+img <- image_read(image_path ) %>%
+  image_annotate("=(B152 - B153) / SQRT((B154^2 / B156) + (B155^2 / B157))", size = 30, color = "purple", location = "+550+475")
+
+img
+```
+]
+---
+# Step 5: Calculate Degrees of Freedom
+
+.pull-left[
+Degrees of freedom (\( df \)) for a two-sample t-test can be calculated as:
+
+$$
+df = \frac{\left(\frac{\text{SD}_1^2}{n_1} + \frac{\text{SD}_2^2}{n_2}\right)^2}{\frac{\left(\frac{\text{SD}_1^2}{n_1}\right)^2}{n_1 - 1} + \frac{\left(\frac{\text{SD}_2^2}{n_2}\right)^2}{n_2 - 1}}
+$$
+
+1. **Select cell B159** and enter the formula for \( df \):
+   - `=(((B154^2 / B156) + (B155^2 / B157))^2) / (((B154^2 / B156)^2 / (B156 - 1)) + ((B155^2 / B157)^2 / (B157 - 1)))`
+2. **Press Enter** to calculate the degrees of freedom in cell B159.
+
+**Explanation**:
+- This formula determines degrees of freedom based on group variance and sample sizes.
+]
+
+
+.pull-right[    
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_zoom.png"
+img <- image_read(image_path ) %>%
+  image_annotate("=(((B154^2 / B156) + (B155^2 / B157))^2) / ...", size = 30, color = "purple", location = "+550+475")
+
+img
+```
+]
+
 
 ---
 
+# Step 6: Calculate the Two-Tailed P-Value and Interpret Results
+
+.pull-left[
+1. **Select cell B160** to display the p-value.
+2.
+
+ **Calculate the two-tailed p-value** using the t-statistic and degrees of freedom:
+   - In the **Formula Bar**, type:
+     - `=T.DIST.2T(ABS(B158), B159)`
+   - Press **Enter** to display the p-value.
+
+**Explanation**:
+- `T.DIST.2T()` calculates the probability of observing a t-value as extreme as ours under the null hypothesis.
+
+**Interpretation**:
+- **If p < 0.05**: Reject the null hypothesis, indicating a significant difference in means.
+- **If p ≥ 0.05**: Do not reject the null hypothesis.
+]
+--
+.pull-right[    
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_zoom.png"
+img <- image_read(image_path ) %>%
+  image_annotate("=T.DIST.2T(ABS(B158), B159)", size = 30, color = "red", location = "+550+475")
+
+
+img
+```
+]
+
+
+---
+
+
+# Task 2 Recap: Two-Sample T-Test in Excel
+
+In this task, you:
+
+- Set up hypotheses for comparing `Sepal.Length` means between `Virginica` and `Versicolor`.
+- Calculated the **means**, **standard deviations**, and **sample sizes** for each group using Excel functions.
+- Computed the **t-statistic** using the formula for a two-sample t-test.
+- Calculated the **degrees of freedom** for the test.
+- Used the `T.DIST.2T()` function to obtain the **two-tailed p-value**.
+- Interpreted results to determine if there was a statistically significant difference between the `Sepal.Length` of the two species.
+
+.reminder[Be sure to save your Excel file with all steps and calculations for future reference and any follow-up analysis.]
+
+---
+
+
 class: middle, inverse
 
+
 # Task 3
-## Perform Regression Analysis in Excel
+## Conducting a One-Way ANOVA in Excel
 
 ---
 
 # Task 3: Overview
 
-- In this task, we will:
-  - **Fit a linear regression model** to the data.
-  - **Interpret the slope and intercept** of the regression line.
-  - **Use the regression equation** to predict new values based on the relationship between Sepal Length and Petal Length.
+.pull-left[
+In this task, you will:
+
+- Perform a one-way ANOVA to determine if there is a significant difference in `Sepal.Length` across the three species in the Iris dataset (`Setosa`, `Versicolor`, and `Virginica`).
+- Use Excel’s built-in **Data Analysis Toolpak** to conduct the ANOVA test.
+]
 
 ---
 
-# Step 0: Redownload the Iris Dataset
+## Step -1: Download a Full Iris Dataset
 
-- You will continue to work with the Iris dataset for the regression analysis. 
-- This time, you’ll use `Sepal.Length` as the independent variable (X) and `Petal.Length` as the dependent variable (Y).
+1. Ensure you have the complete Iris dataset with all three species.
 
 ```{r}
-# Load Iris dataset and select Sepal.Length and Petal.Length
-iris_data <- iris %>% select(Sepal.Length, Petal.Length)
-
-# Save the dataset as an Excel file
-write.xlsx(iris_data, "IrisData_Regression.xlsx")
+write.xlsx(iris, "Iris_ANOVA.xlsx")
 ```
 
-[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/IrisData_Regression.xlsx)
+2. **Download the file here**: [Download Link](https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/Iris_ANOVA.xlsx).
 
----
-
-# Step 1: Calculate the Slope
-
-.pull-left[
-1. **Open the dataset** `IrisData_Regression.xlsx` in Excel.
-
-2. **Select a new cell** (e.g., C152) to calculate the slope.
-
-3. **In the Formula Bar**, enter the following formula to calculate the slope:
-   - `=SLOPE(B2:B151, A2:A151)`  
-   This calculates the slope of the regression line, where `Sepal.Length` (A2:A151) is the independent variable and `Petal.Length` (B2:B151) is the dependent variable.
-]
---
 .pull-right[
-```{r, echo=FALSE, out.width="50%", fig.align='center'}
-image_path <- "../img/excel_lab/excel screenshot_zoom.png"
-img <- image_read(image_path) %>%
-  image_annotate("=SLOPE(B2:B151, A2:A151)", size = 30, color = "blue", location = "+550+475")
-img
+```{r, echo=FALSE, out.width="50%", warning = FALSE}
+library(qrcode)
+
+share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/Iris_ANOVA.xlsx"
+code <- qr_code(share_link)
+
+plot(code)
 ```
-
-**Explanation**:
-- The **slope** tells us how much `Petal.Length` is expected to change for each unit increase in `Sepal.Length`.
-
 ]
+
 ---
 
-# Step 2: Calculate the Intercept
+## Step 0: Organize the Data by Species in Excel
 
 .pull-left[
-1. **Select a new cell** (e.g., C153) to calculate the intercept.
+To use the ANOVA tool effectively, arrange the data with `Sepal.Length` values grouped by species in separate columns.
 
-2. **In the Formula Bar**, enter the following formula:
-   - `=INTERCEPT(B2:B151, A2:A151)`
-
-3. Press **Enter** to calculate the intercept.
+1. **Open the file** `Iris_ANOVA.xlsx`.
+2. Create three columns for `Sepal.Length` values, one for each species:
+   - **Column A**: `Setosa`
+   - **Column B**: `Versicolor`
+   - **Column C**: `Virginica`
+3. Copy the `Sepal.Length` values for each species into the respective columns.
 ]
---
-.pull-right[
-```{r, echo=FALSE, out.width="50%", fig.align='center'}
-image_path <- "../img/excel_lab/excel screenshot_1.png"
-img <- image_read(image_path) %>%
-  image_annotate("=INTERCEPT(B2:B151, A2:A151)", size = 30, color = "green", location = "+550+475")
-img
-```
 
-**Explanation**:
-- The **intercept** represents the predicted value of `Petal.Length` when `Sepal.Length` is zero.
-
-]
----
-
-# Step 3: Calculate the R-squared Value
-
-
-.pull-left[
-1. **Select a new cell** (e.g., C154) to calculate the R-squared value.
-
-2. **In the Formula Bar**, enter the following formula:
-   - `=RSQ(B2:B151, A2:A151)`
-
-3. Press **Enter** to calculate the R-squared value.
-]
---
 .pull-right[
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
-image_path <- "../img/excel_lab/excel screenshot_1.png"
-img <- image_read(image_path) %>%
-  image_annotate("=RSQ(B2:B151, A2:A151)", size = 30, color = "red", location = "+550+475")
-img
+knitr::include_graphics("../img/iris_anova_data.png")
 ```
-
-**Explanation**:
-- The **R-squared value** tells us how well the regression line fits the data. Values closer to 1 indicate more variance explained
 ]
+
 ---
 
-# Step 4: Use `LINEST()` for Multiple Outputs
+# Step 1: Open the Data Analysis Toolpak
 
 .pull-left[
-1. **Select a new cell** (e.g., C155) to calculate multiple regression outputs at once.
-
-2. **In the Formula Bar**, enter the following formula to calculate the slope, intercept, and R-squared together:
-   - `=LINEST(B2:B151, A2:A151, TRUE, TRUE)`
-
-3. Press **Enter**, and Excel will return the slope, intercept, and additional statistical information, including the R-squared value.
-]
-
---
-.pull-right[
-```{r, echo=FALSE, out.width="90%", fig.align='center'}
-image_path <- "../img/excel_lab/excel screenshot_1.png"
-img <- image_read(image_path) %>%
-  image_annotate("=LINEST(B2:B151, A2:A151, TRUE, TRUE)", size = 30, color = "purple", location = "+550+475")
-img
-```
+1. Go to the **Data** tab in Excel.
+2. Select **Data Analysis** (if you don’t see this option, enable the Data Analysis Toolpak by going to **File > Options > Add-Ins > Analysis Toolpak**).
+3. From the list of analysis tools, select **ANOVA: Single Factor** and click **OK**.
 
 **Explanation**:
-- The **`LINEST()` function** allows you to calculate multiple regression statistics in one step, including slope, intercept, and R-squared.
-
+- The **ANOVA: Single Factor** tool in Excel performs a one-way ANOVA, testing for differences between the means of three or more independent groups.
 ]
 
----
-
-# Step 5: Apply the Regression Equation to Predict Values
-
-
-```{r, echo=FALSE}
-iris_data <- iris %>% select(Sepal.Length, Petal.Length)
-lm_fit <- lm(Petal.Length ~ Sepal.Length, data = iris_data)
-
-sepal_int <- round(lm_fit$coefficient[1],digits=2)
-sepal_slope <- round(lm_fit$coefficient[2],digits=2)
-```
-
-.pull-left[
-1. **Use the regression equation** you generated from the slope and intercept to predict values of `Petal.Length` for new values of `Sepal.Length`.
-
-2. **Example**: 
-   - If your equation is \( Y = `r sepal_slope`X + `r sepal_int` \), and you want to predict `Petal.Length` for a `Sepal.Length` of 7, substitute \( X = 7 \) into the equation:
-     \[
-     Y = `r sepal_slope`(7) + `r sepal_int` = `r sepal_slope*7` + `r sepal_int` = `r  sepal_slope*7+sepal_int`
-     \]
-   - The predicted `Petal.Length` for a `Sepal.Length` of 7 is `r  sepal_slope*7+sepal_int`.
-]
---
 .pull-right[
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
-image_path <- "../img/excel_lab/excel screenshot_zoom.png"
-img <- image_read(image_path) %>%
-  image_annotate(" = 0.5X + `r sepal_int`", size = 30, color = "darkgreen", location = "+550+475")
-img
+knitr::include_graphics("../img/add-in.png")
 ```
+]
 
-**Practical Task**:
-- Try predicting the `Petal.Length` for a `Sepal.Length` of 3.5 using your own regression equation from the Excel output.
+---
+
+# Step 2: Set Up the ANOVA Parameters
+
+.pull-left.med[
+1. In the **Input Range** box, select the cells containing the data for the three groups, including headers (e.g., `A1:C51`).
+2. Choose **Columns** for the **Group By** option.
+3. Check the **Labels in First Row** box if you included headers in your data selection.
+4. Set the **Alpha** value to 0.05 (for a 5% significance level).
+5. Select an **Output Range** where you want the ANOVA results to appear (e.g., `E1`).
+6. Click **OK** to run the ANOVA test.
+
+**Explanation**:
+- The **Input Range** defines the data for the three groups.
+- **Alpha** is the significance level for the test, typically set to 0.05.
+]
+
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+#knitr::include_graphics("../img/excel_lab/anova_input.png")
+```
+]
+
+---
+
+# Step 3: Interpret the ANOVA Output
+
+.pull-left.medi[
+After running the ANOVA, Excel will display the results, including the **F-value** and **p-value**.
+
+1. **ANOVA Table**:
+   - **Between Groups**: Shows variation due to differences between species.
+   - **Within Groups**: Shows variation within each species group.
+   
+2. **Key Values**:
+   - **F-value**: Test statistic for ANOVA.
+   - **p-value**: Probability of observing the F-value if the null hypothesis is true.
+
+**Interpretation**:
+- **If p < 0.05**: Reject the null hypothesis, indicating a statistically significant difference in `Sepal.Length` between species.
+- **If p ≥ 0.05**: Do not reject the null hypothesis, indicating no significant difference.
 
 ]
----
 
-# Task 3 Recap: Regression Analysis and Prediction
-
-- In this section, you:
-  - Performed linear regression using Excel’s **SLOPE()**, **INTERCEPT()**, **RSQ()**, and optionally **LINEST()** functions.
-  - Interpreted the **slope** and **intercept** of the regression equation.
-  - Used the regression equation to **predict new values** for `Petal.Length`.
-
-.reminder[Save your Excel file with the regression output and predictions for future reference.]
-
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+#knitr::include_graphics("../img/excel_lab/anova_output.png")
+```
+]
 
 ---
+
+# Task 3 Recap: One-Way ANOVA in Excel
+
+In this task, you:
+
+- Arranged the `Sepal.Length` data for each species in separate columns.
+- Used Excel’s **Data Analysis Toolpak** to conduct a one-way ANOVA.
+- Interpreted the **F-value** and **p-value** from the output to determine if there is a significant difference in `Sepal.Length` across the three species.
+
+.reminder[Save your Excel file with the ANOVA output for future reference or further analysis.]
+
+---
+
 
 class: center, middle, inverse
 
 # Recap of Recaps
 
 - In this lab, you explored various statistical concepts using Excel:
-  - **Z-scores**, **percentiles**, and **inverse normal values**.
-  - **Scatter plots** and **correlation coefficients**.
-  - **Linear regression analysis** and **prediction**.
+  - **One-Sample T-Test**: Testing the mean `Sepal.Length` against a hypothesized value.
+  - **Two-Sample T-Test**: Comparing the means of `Sepal.Length` between `Virginica` and `Versicolor`.
+  - **One-Way ANOVA**: Testing for differences in `Sepal.Length` across the three species (`Setosa`, `Versicolor`, `Virginica`).
   
