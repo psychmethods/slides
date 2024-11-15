@@ -77,9 +77,12 @@ In this task, you will:
 ]
 
 .pull-right[
-```{r, echo=FALSE, out.width="90%", warning = FALSE}
-knitr::include_graphics("../img/playful data.png")
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/playful data.png"
+img <- image_read(image_path)
+img
 ```
+
 ]
 ---
 
@@ -198,12 +201,11 @@ img
 
 # Step 4: Calculate T-Statistic
 
-.pull-left[
+.pull-left.midi[
 0. Use the formula for a one-sample t-test:  
    $$
    t = \frac{\bar{x} - \mu}{s / \sqrt{n}}
    $$
-   
 1. **Select cell B155** to enter the formula.
 
 2. In the **Formula Bar**, enter the T-score formula:
@@ -216,7 +218,6 @@ img
 3. **Press Enter** to calculate the T-statistic, which will appear in cell B155.
 
 ]
-
 --
 
 .pull-right[
@@ -231,20 +232,19 @@ img
 
 ---
 
-# Step 5: Calculate the P-Value and Interpret Results
+# Step 5: Calculate the P-Value
 
 .pull-left[
 1. **Select cell B156** to display the p-value.
 
 2. **Calculate the Two-Tailed P-Value**:
-   - Go to the **Formula Bar** and type `=T.DIST.2T(ABS(B155), B154 - 1)`.
+   - Go to the **Formula Bar** and type `=T.DIST.2T(ABS(B155), B154-1)`
    - This formula uses the calculated T-statistic and degrees of freedom to return the p-value.
    - Press **Enter** to see the p-value in cell B156.
-.medi[
+.midi[
 **Explanation**:
 - The **p-value** represents the probability of observing a test statistic as extreme as ours if the null hypothesis is true.
 - In this case, a lower p-value (typically < 0.05) would indicate a statistically significant difference from the hypothesized mean of 5.5.
-
 ]]
 
 --
@@ -260,7 +260,7 @@ img
 
 ---
 
-# Step 5: Calculate the P-Value and Interpret Results
+# Step 6: Interpret Results
 
 .pull-left[
 
@@ -286,15 +286,6 @@ img <- image_read(image_path) %>%
   image_annotate("=T.DIST.2T(ABS(T), df)", size = 30, color = "purple", location = "+550+475")
 img
 ```
-]
-
-
-.medi[
-**Explanation**:
-
-- **T.DIST.2T()**: This function calculates the two-tailed p-value using the T-statistic and degrees of freedom.
-- **Degrees of Freedom (df)**: Calculated as \( n - 1 \), where \( n \) is the sample size.
-
 ]
 
 
@@ -392,7 +383,7 @@ knitr::include_graphics("../img/DALLE_Fisher_looking_at_flowers.png")
 ]
 
 .pull-right[
-```{r, echo=FALSE, out.width="50%", warning = FALSE}
+```{r, echo=FALSE, out.width="80%", warning = FALSE}
 knitr::include_graphics("../img/hypthlab.png")
 ```
 ]
@@ -412,11 +403,8 @@ knitr::include_graphics("../img/hypthlab.png")
      - `=AVERAGE(A76:A150)`
 
 3. **Press Enter** to calculate the means, which will appear in cells B152 and B153.
-
-**Explanation**:
-- The `AVERAGE()` function calculates the mean for a specified range. Here, the ranges represent the `Sepal.Length` for each species group.
 ]
-
+--
 .pull-right[
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_zoom.png"
@@ -433,21 +421,16 @@ img
 
 .pull-left[
 1. **Select a new cell** (e.g., B154) to calculate the standard deviation for **Virginica**.
-   - In the **Formula Bar**, type:
-     - `=STDEV.S(A2:A75)`
+   - In the **Formula Bar**, type: `=STDEV.S(A2:A75)`
    - Press **Enter** to display the standard deviation.
 
 2. **Select another cell** (e.g., B155) to calculate the standard deviation for **Versicolor**.
-   - Type:
-     - `=STDEV.S(A76:A150)`
+   - Type: `=STDEV.S(A76:A150)`
 
 3. **Press Enter** to compute the standard deviation for each group.
-
-**Explanation**:
-- The `STDEV.S()` function calculates the sample standard deviation, giving a measure of variation for `Sepal.Length` within each species.
 ]
-
-] .pull-right[    
+--
+.pull-right[    
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_zoom.png"
 img <- image_read(image_path ) %>%
@@ -469,11 +452,9 @@ img
    - Type `=COUNT(A76:A150)`.
    - Press **Enter** to display the sample size for `Versicolor`.
 
-**Explanation**:
-- The `COUNT()` function provides the number of entries in a specified range, which corresponds to the sample size of each species.
 ]
 
- .pull-right[    
+.pull-right[    
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_zoom.png"
 img <- image_read(image_path ) %>%
@@ -482,8 +463,8 @@ img <- image_read(image_path ) %>%
 img
 ```
 ]
----
 
+---
 
 
 # Step 4: Calculate the Two-Sample T-Statistic
@@ -500,12 +481,14 @@ $$
    - `=(B152 - B153) / SQRT((B154^2 / B156) + (B155^2 / B157))`
 3. **Press Enter** to display the calculated t-statistic in cell B158.
 
-**Explanation**:
-- The formula calculates the t-statistic based on the difference between the two group means, adjusting for the standard deviations and sample sizes.
 ]
 
 
- .pull-right[    
+.pull-right[   
+
+.midi[**Explanation**:
+- The formula calculates the t-statistic based on the difference between the two group means, adjusting for the standard deviations and sample sizes.
+]
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_zoom.png"
 img <- image_read(image_path ) %>%
@@ -514,26 +497,30 @@ img <- image_read(image_path ) %>%
 img
 ```
 ]
+
 ---
+
 # Step 5: Calculate Degrees of Freedom
 
 .pull-left[
-Degrees of freedom (\( df \)) for a two-sample t-test can be calculated as:
+Degrees of freedom \( df \) for a two-sample t-test can be calculated as:
 
 $$
 df = \frac{\left(\frac{\text{SD}_1^2}{n_1} + \frac{\text{SD}_2^2}{n_2}\right)^2}{\frac{\left(\frac{\text{SD}_1^2}{n_1}\right)^2}{n_1 - 1} + \frac{\left(\frac{\text{SD}_2^2}{n_2}\right)^2}{n_2 - 1}}
 $$
 
-1. **Select cell B159** and enter the formula for \( df \):
+1. **Select cell B159** and enter the formula for df:
    - `=(((B154^2 / B156) + (B155^2 / B157))^2) / (((B154^2 / B156)^2 / (B156 - 1)) + ((B155^2 / B157)^2 / (B157 - 1)))`
 2. **Press Enter** to calculate the degrees of freedom in cell B159.
 
+]
+--
+
+.pull-right[
+.midi[
 **Explanation**:
 - This formula determines degrees of freedom based on group variance and sample sizes.
 ]
-
-
-.pull-right[    
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_zoom.png"
 img <- image_read(image_path ) %>%
@@ -546,17 +533,32 @@ img
 
 ---
 
-# Step 6: Calculate the Two-Tailed P-Value and Interpret Results
+# Step 6: Calculate the Two-Tailed P-Value
 
 .pull-left[
 1. **Select cell B160** to display the p-value.
-2.
-
- **Calculate the two-tailed p-value** using the t-statistic and degrees of freedom:
+2. **Calculate the two-tailed p-value** using the t-statistic and degrees of freedom:
    - In the **Formula Bar**, type:
      - `=T.DIST.2T(ABS(B158), B159)`
    - Press **Enter** to display the p-value.
+]
+--
+.pull-right[    
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_zoom.png"
+img <- image_read(image_path ) %>%
+  image_annotate("=T.DIST.2T(ABS(B158), B159)", size = 30, color = "red", location = "+550+475")
 
+
+img
+```
+]
+
+---
+
+# Step 7: Interpret Results
+
+.pull-left[
 **Explanation**:
 - `T.DIST.2T()` calculates the probability of observing a t-value as extreme as ours under the null hypothesis.
 
@@ -575,7 +577,6 @@ img <- image_read(image_path ) %>%
 img
 ```
 ]
-
 
 ---
 
@@ -687,13 +688,13 @@ knitr::include_graphics("../img/add-in.png")
 4. Set the **Alpha** value to 0.05 (for a 5% significance level).
 5. Select an **Output Range** where you want the ANOVA results to appear (e.g., `E1`).
 6. Click **OK** to run the ANOVA test.
-
-**Explanation**:
-- The **Input Range** defines the data for the three groups.
-- **Alpha** is the significance level for the test, typically set to 0.05.
 ]
 
 .pull-right[
+**Explanation**:
+- The **Input Range** defines the data for the three groups.
+- **Alpha** is the significance level for the test, typically set to 0.05.
+
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 #knitr::include_graphics("../img/excel_lab/anova_input.png")
 ```
@@ -713,14 +714,16 @@ After running the ANOVA, Excel will display the results, including the **F-value
 2. **Key Values**:
    - **F-value**: Test statistic for ANOVA.
    - **p-value**: Probability of observing the F-value if the null hypothesis is true.
+]
+
+.pull-right[
+
 
 **Interpretation**:
 - **If p < 0.05**: Reject the null hypothesis, indicating a statistically significant difference in `Sepal.Length` between species.
 - **If p ≥ 0.05**: Do not reject the null hypothesis, indicating no significant difference.
 
-]
 
-.pull-right[
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 #knitr::include_graphics("../img/excel_lab/anova_output.png")
 ```
@@ -741,7 +744,7 @@ In this task, you:
 ---
 
 
-class: center, middle, inverse
+class: middle, inverse
 
 # Recap of Recaps
 
@@ -750,3 +753,4 @@ class: center, middle, inverse
   - **Two-Sample T-Test**: Comparing the means of `Sepal.Length` between `Virginica` and `Versicolor`.
   - **One-Way ANOVA**: Testing for differences in `Sepal.Length` across the three species (`Setosa`, `Versicolor`, `Virginica`).
   
+- You used Excel functions and the Data Analysis Toolpak to perform these analyses and interpret the results.
