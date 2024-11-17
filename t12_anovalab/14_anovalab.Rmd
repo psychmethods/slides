@@ -90,7 +90,7 @@ img
 
 .pull-left-wide[
 ```{r, echo=TRUE}
-
+data(iris)
 # Save the dataset as an Excel file
 write.xlsx(iris, "IrisData.xlsx")
 ```
@@ -152,6 +152,8 @@ img
 **Explanation**:
 - **Formula Bar**: This is where you can enter or edit formulas for the selected cell.
 - **Formula Entry**: You can type any valid Excel formula here. In this case, `=AVERAGE()` calculates the sample mean.
+- The mean value should be approximately ``r iris %>% pull(Sepal.Length) %>% mean()``.
+
 
 ]
 ---
@@ -166,6 +168,8 @@ img
    - `=STDEV.S(A2:A151)`
 
 3. Press **Enter**, and Excel will compute the standard deviation in the selected cell.
+
+4. The Standard Deviation value should be about ``r iris %>% pull(Sepal.Length) %>% sd()``.
 ]
 --
 .pull-right[
