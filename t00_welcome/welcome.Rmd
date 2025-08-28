@@ -1,5 +1,5 @@
 ---
-title: "Welcome to 310 <br> `r emo::ji('raised_hands')`"
+title: "Welcome to 210 <br> `r emo::ji('raised_hands')`"
 author: "S. Mason Garrison"
 output:
   xaringan::moon_reader:
@@ -31,7 +31,7 @@ library(emo)
 class: middle
 
 # Hello world!
-## Welcome to PSY 310
+## Welcome to PSY 210
 
 ---
 
@@ -46,7 +46,7 @@ class: middle
 
 ## .large[What is this class?]
 
-- 310 is an introduction to methods in psychological research, 
+- 210 is an introduction to methods in psychological research, 
 - with an emphasis on 
   - statistical thinking, 
   - best practices, and
@@ -97,7 +97,7 @@ class: middle
 
 | Course        | Professor           | Assistant  |
 | ------------- |:-------------:| -----:|
-| PSY 310       | Prof. Mason Garrison | Tukey |
+| PSY 210       | Prof. Mason Garrison | Tukey |
 | Methods in Psychological Research      | Greene 438      |    |
 | AKA Methods for Psych Minors | Office Hours by Appointment      | ![](../img/tuk.jpg)    |
 | Officially Face2Face | [calendly.com/smasongarrison ](https://calendly.com/smasongarrison/)      |    |
