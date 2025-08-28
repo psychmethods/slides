@@ -3,8 +3,10 @@ title: "Slide Sitemap"
 output: html_document
 ---
 
+Welcome to the slide sitemap. This page contains links to all of the slides in this repository. I use this page to help me navigate the slides for the Methods in Psychological Research course.
 
-```{r message = FALSE, warning = FALSE, echo = FALSE}
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(gt)
 library(tidyverse)
 library(stringi)
@@ -18,7 +20,13 @@ make_hyperlink = function(myurl,mytext=myurl) {
   paste0('<a href="',myurl,'">',mytext,'</a>')
 }
 
-df_docs<-list.files(path="../slides/.", '[.]html$', recursive=TRUE)
+df_docs<-list.files(path="../slides/.", '[.]html$', recursive=TRUE) %>%
+  str_subset("setup.html", negate=TRUE) %>%
+  str_subset("index.html", negate=TRUE) %>%
+  str_subset("slides_old/test.html", negate=TRUE) %>%
+  str_subset("wXX_demo.html", negate=TRUE)
+
+
 #df_docs=list.files( '[.]html$', recursive=TRUE)
 
 
@@ -27,7 +35,7 @@ df <- data.frame(
       #        title = str_replace_all(str_remove(df_docs, "\\.html"),"[_-]"," "),
               title = str_remove(df_docs, "\\.html"),  
               link = make_full(df_docs)
-)
+) 
 
 
 df %>% # remove double slides/slides
