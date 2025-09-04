@@ -20,7 +20,8 @@
 /* Define color variables */
 :root {
   --dark-blue: #002b36;
-  --light-blue: #34c9f4;
+  --light-blue_nice: #34c9f4;
+    --light-blue:#2EB4DB;
   --green: #8fada7;
   --gray: #A7A7A7;
   --dark-gray: #5b5b5b;
