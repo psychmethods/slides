@@ -538,3 +538,4 @@ class: middle
 ![M&Ms](../img/reddit.png)
 .center[.footnote[Source: https://www.reddit.com/r/dataisbeautiful/comments/10wxrh9/oc_distribution_of_mms_by_color_in_3lb_mms_jar/]
 ]
+]
