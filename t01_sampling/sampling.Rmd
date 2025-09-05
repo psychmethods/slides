@@ -276,7 +276,7 @@ Checklist:
 - Submit once (no duplicates)
 
 Discussion prompts:
-- Which colors have the widest intervals? What determines the width?
+- Which colors have the widest ranges? What determines the width?
 - How would doubling N change these intervals?
 ]
 
