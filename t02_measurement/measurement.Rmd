@@ -290,7 +290,7 @@ plot(density(nottem))
 - Example: Education levels (High School, Bachelor's, Master's, PhD)
 ]
 --
-
+.pull-right-wide[
 ```{r, echo=TRUE}
 # Ordinal Example
 library(ggplot2movies)
@@ -299,7 +299,7 @@ data(movies)
 head(movies[!is.na(movies$budget),], n = 14) 
 
 ```
-
+]
 ---
 
 # Ordinal (qualitative)
@@ -441,7 +441,6 @@ class: center, middle
 
 ---
 
-# Wrapping Up...
 ## The Importance of Good Measurement
 
 <br><br>
@@ -456,3 +455,5 @@ class: center, middle
 
 
 
+---
+# Wrapping Up...

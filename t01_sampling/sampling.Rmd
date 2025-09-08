@@ -285,7 +285,7 @@ Discussion prompts:
 
 ## Analysis in action
 
-```{r, error=TRUE, warning=FALSE,message=FALSE,out.width = "65%"}
+```{r, error=TRUE, warning=FALSE,message=FALSE,out.height = "65%"}
 library(googlesheets4)
 library(tidyverse)
 share_link <- "https://docs.google.com/spreadsheets/d/1D4i8e0pTrqwLk_FjMFtkimqhmtOrBf-X6OU9RT57m_Q"
@@ -326,7 +326,7 @@ Discussion prompts:
 
 # What do our samples look like?
 
-```{r, echo=FALSE,error=TRUE, warning=FALSE,message=FALSE}
+```{r echo=FALSE, error=TRUE, message=FALSE, warning=FALSE, out.width = "65%"}
 if (nrow(df_long) > 0) {
   ggplot(df_long, aes(Name, Prop, fill = Color)) +
     geom_col() +
@@ -345,7 +345,7 @@ if (nrow(df_long) > 0) {
 # Class pooled counts
 
 
-```{r, echo=FALSE,error=TRUE, warning=FALSE,message=FALSE}
+```{r, echo=FALSE,error=TRUE, warning=FALSE,message=FALSE,out.width = "65%"}
 
 if (nrow(df_long) > 0) {
   pooled <- df_long %>% group_by(Color) %>% summarise(Total = sum(Count), .groups="drop")
@@ -391,7 +391,7 @@ kable(sample_size_df, format = "html") %>%
 
 
 
-```{r, echo=FALSE,error=TRUE, warning=FALSE,message=FALSE}
+```{r, echo=FALSE,error=TRUE, warning=FALSE,message=FALSE, out.height = "65%"}
 # Calculate overall distribution
 if (exists("df") && nrow(df) > 0) {
   overall_distribution <- df %>%
@@ -429,7 +429,7 @@ if (exists("df") && nrow(df) > 0) {
 
 # How our estimate stabilizes
 
-```{r}
+```{r, echo=FALSE,error=TRUE, warning=FALSE,message=FALSE, out.height = "65%"}
 if (nrow(df) > 0) {
   run <- map_dfr(seq_len(nrow(df)), function(k){
     slice <- df[1:k, c("Blue","Orange","Green","Red","Yellow","Brown")]
