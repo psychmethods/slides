@@ -410,11 +410,11 @@ class: center, middle
 ## Types of Validity (More on this later...)
 
 - Two Major Areas within Validity
-  - Internal Validity
-    - Is this evidence supportive of our claim, within this study?
-  - External Validity
-    - Is this evidence supportive of our claim beyond this study?
-    - Does this finding generalize to outside this study?
+  - **Internal Validity**
+      - Is this evidence supportive of our claim, within this study?
+  - **External Validity**
+      - Is this evidence supportive of our claim beyond this study?
+      - Does this finding generalize to outside this study?
 
 ---
 
@@ -456,4 +456,5 @@ class: center, middle
 
 
 ---
+class: middle
 # Wrapping Up...
