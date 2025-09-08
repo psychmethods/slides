@@ -345,7 +345,7 @@ if (nrow(df_long) > 0) {
 # Class pooled counts
 
 
-```{r, echo=FALSE,error=TRUE, warning=FALSE,message=FALSE,out.width = "65%"}
+```{r, echo=FALSE,error=TRUE, warning=FALSE,message=FALSE,out.width = "55%"}
 
 if (nrow(df_long) > 0) {
   pooled <- df_long %>% group_by(Color) %>% summarise(Total = sum(Count), .groups="drop")
