@@ -120,10 +120,10 @@ legend("topright", inset=.05, title="Distributions",
 
 ---
 
-# Normal distributions with various standard deviations
+# Normal distributions w/ various standard deviations
 
 .small[
-```{r spread, echo=FALSE,out.width = "80%"}
+```{r spread, echo=FALSE,out.width = "75%"}
 plot(x, hx, type="l", lty=2, xlab="x value",
 		 ylab="Density", main="Distributions with Different Standard Deviations",xlim=c(-7, 7))
 spread=c(.5,2,4)
@@ -207,8 +207,7 @@ knitr::include_graphics("../img/KurtosisPict.jpg")
 
 # Central tendency: Mean
 
-- Mean 
-  $(\mu; \bar{X})$
+- $Mean (\mu; \bar{X})$
     - arithmetic average
     - $\bar{X}$ is used for samples
     - Mu ($\mu$) is used for population
@@ -218,18 +217,27 @@ knitr::include_graphics("../img/KurtosisPict.jpg")
 ---
 
 # Central tendency: Mean
-- Properties
-    - Is the balance point of the distribution (in terms of center of mass)
+
+.medi[#Properties]
+
+
+- Is the balance point of the distribution (in terms of center of mass)
 --
+    
     $\sum^{n}_{i=1}(x_{i}-\bar{x})=0$
+    
 --
-    - Least squares property
+
+
+- Least squares property
       - The sum of squared deviations about the mean is small
---    
-      - highly sensitive to outliers (extreme scores)
-      - (weakness; it means that the mean is not so good as a measure of central tendency in highly skewed distributions)
-      - Is not a robust statistic (low robust = sensitive to outliers; high robust = not sensitive to outliers)
-        
+
+
+--
+- highly sensitive to outliers (extreme scores)
+  - (weakness; it means that the mean is not so good as a measure of central tendency in highly skewed distributions)
+- Is not a robust statistic (low robust = sensitive to outliers; high robust = not sensitive to outliers)
+  
 ---
 
 # Central tendency: Mean
@@ -322,7 +330,7 @@ variable[sample.size/2]
 ---
 
 # Central Tendency: Mode
-.pull-left.small[
+.pull-left-narrow.small[
 - Mode: most common score
 - Local modes are the highest point with a subset of the distribution, there can be multiple ones
 
@@ -331,7 +339,7 @@ variable[sample.size/2]
 mode(variable) # That's not mode!
 ```
 ]
-.pull-right[
+.pull-right-wide[
 ```{r mode2,echo=TRUE}
 # Function to examine mode
 Mode <- function(x) {

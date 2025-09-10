@@ -21,7 +21,7 @@
 :root {
   --dark-blue: #002b36;
   --light-blue_nice: #34c9f4;
-    --light-blue:#2EB4DB;
+  --light-blue:#2EB4DB;
   --green: #8fada7;
   --gray: #A7A7A7;
   --dark-gray: #5b5b5b;
@@ -169,6 +169,9 @@ a>code {
 }
 
 .medi {
+  font-size: 90%
+}
+.med {
   font-size: 90%
 }
 
@@ -537,7 +540,7 @@ div.my-footer a {
   font-size: 12pt;
 }
 
-/* Slide number 
+/* Slide number
 .title-slide .remark-slide-number {
   display: none;
 }
