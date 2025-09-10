@@ -187,7 +187,7 @@ barplot(counts, main="Bar Chart of Troops",
 - Bar charts are suitable for nominal and ordinal data as they show frequency for discrete categories.
 ---
 
-# Stacked Bar Chart ( Total Troops)
+# Stacked Bar Chart (Total Troops)
 
 ```{r,echo=FALSE}
 descriptives <- Minard_troops_demo %>% group_by(group) %>%
@@ -389,6 +389,7 @@ knitr::include_graphics("../img/minard.png")
 ```  
 --
 
+
 - Edward Tufte has said that Minard's plot: 
     > "may well be the best statistical graphic ever drawn"
     
@@ -547,8 +548,8 @@ grid::grid.draw(both.1812.plot.simple)
 
 # More Accessible Resources
 
-- [R Graph Catalog](http://shinyapps.stat.ubc.ca/r-graph-catalog/)
-- [intRo](http://www.intro-stats.com/)
+- [R Graph Gallery](https://r-graph-gallery.com/)
+- [Learning Statistics with R](https://learningstatisticswithr.com/)
 - .hand-pink[[Data Science for Psychologists](https://datascience4psych.github.io/DataScience4Psych/)]
 
 ---
