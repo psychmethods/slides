@@ -60,6 +60,47 @@ knitr::knit_hooks$set(output = function(x, options) {
   x <- paste(c(x, ""), collapse = "\n")
   hook_output(x, options)
 })
+
+
+
+library(magick)
+library(tools)
+
+crop_bottom_percent <- function(image_path, pct = 10, output_path = NULL) {
+  require(magick)
+  require(tools)
+
+  # Check inputs
+  stopifnot(file.exists(image_path))
+  stopifnot(is.numeric(pct), pct >= 0, pct <= 100)
+  
+  # Read and get dimensions
+  img <- image_read(image_path)
+  info <- image_info(img)
+  width <- info$width
+  height <- info$height
+  
+  # Compute new height and crop geometry
+  retain_height <- floor((100 - pct) / 100 * height)
+  geom <- paste0(width, "x", retain_height, "+0+0")
+    # Determine output path if not provided
+  if (is.null(output_path)) {
+    dir <- dirname(image_path)
+    base <- file_path_sans_ext(basename(image_path))
+    ext <- file_ext(image_path)
+    output_path <- file.path(dir, paste0(base, "_cropped.", ext))
+  }
+  # Crop
+  cropped <- image_crop(img, geometry = geom)
+  
+  # Save or return
+  if (!is.null(output_path)) {
+    image_write(cropped, path = output_path)
+    return(invisible(output_path))
+  } else {
+    return(cropped)
+  }
+}
 ```
 
 layout: true
