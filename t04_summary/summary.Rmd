@@ -411,6 +411,7 @@ max(variable) -min(variable)
 summary(variable)# 5 Number Summary / Quartiles
 ```
 ]
+
 ---
 
 # Spread around the Mean

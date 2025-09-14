@@ -22,15 +22,36 @@ output:
 # Remember to compile
 #xaringan::inf_mr(cast_from = "..")
 #       slideNumberFormat: ""  
-library(tidyverse)
-library(vembedr)
+
 library(knitr)
 if (!require("emo")) devtools::install_github("hadley/emo")
 # Installs library if missing
 if (!require("HistData")) install.packages("HistData") 
+
+
+
+
+suppressPackageStartupMessages({
+library(tidyverse)
+library(vembedr)
+library(knitr)
+library(HistData)
 library(emo)
+library(ggplot2movies)
+library(datasets)
+library(ggplot2)
+library(magick)
+})
+
 knitr::opts_chunk$set(echo = TRUE,out.width = "90%", fig.align = "center")
 
+set.seed(123)
+
+
+# Common helpers
+norm_colors <- c("#d62728", "#1f77b4", "#2ca02c", "#9467bd", "#8c564b", "#7f7f7f")
+X <- seq(-8, 8, length.out = 2000)
+HX <- dnorm(X)
 ```
 
 class: middle
@@ -41,40 +62,47 @@ class: middle
 
 ## Normal Distribution
 
-Def: a particular bell-shaped curve that has the following mathematical properties
+
+- A Normal distribution is a bell-shaped curve that models many natural and social phenomena. 
+- It is defined mathematically by the formula:
+
 
 $f(x)= \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^{2}}$
 
 - Formula has two parameters
-    - $\mu$
-    - $\sigma$
-- The standard normal $(\mu=0; \sigma=1)$ simplifies the equation
+    - $\mu$: the mean, locating the center of the distribution.
+    - $\sigma$: the standard deviation, determining the spread.
+- The *standard normal* is a special case with $\mu = 0$ and $\sigma = 1$.
+- It simplifies the equation
 
 ---
 
-# Standard Normal with multiple means
+## Visualizing the Standard Normal
 
-- The mean is located at the center of the symmetric curve and is the same as the median. 
-- Changing $\mu$ without changing $\sigma$ moves the Normal curve along the horizontal axis without changing its variability.
+
+- The mean $\mu$ is located at the center of the symmetric curve and is the same as the median. 
+- Changing $\mu$ (without changing $\sigma$) moves the Normal curve along the horizontal axis without changing its variability.
 
 .small[
 ```{r norm, echo=FALSE,out.width = "55%"}
 
 #### Normal Distribution
-
+locations<-c(2,4,-2)
 # Display the normal distributions with various means
 
-x <- seq(-80, 80, length=1000)
-hx <- dnorm(x)
-colors <- c("red", "blue","green", "green", "gold", "black")
+plot(X, HX, type="l", lty=2, xlab="x value",
+		 ylab="Density", 
+		 main = "Normal Distributions with Different Means", 
+		 xlim=c(-5, 7))
 
-plot(x, hx, type="l", lty=2, xlab="x value",
-		 ylab="Density", main="Comparison of Normal Distributions",xlim=c(-5, 7))
-location<-c(2,4,-2)
-for (i in 1:3){
-	lines(x, dnorm(x,mean=location[i]), lwd=1, col=colors[i])
+for (i in seq_along(locations)) {
+lines(X, dnorm(X, mean = locations[i]), 
+      lwd = 2, 
+      col = norm_colors[i])
 }
-
+legend("topright", 
+       legend = paste("mu =", locations), 
+       col = norm_colors[seq_along(locations)], lwd = 2, bty = "n")
 ```
 ]
 
@@ -88,7 +116,9 @@ for (i in 1:3){
 
 ---
 
-# Plots of the Standard Normal with multiple standard deviations
+## Visualizing the Standard Deviation
+
+
 .pull-left[
 - The standard deviation $\sigma$ controls the variability of a Normal curve. 
 - When the standard deviation is larger, the area under the normal curve is less concentrated about the mean.
@@ -97,11 +127,11 @@ for (i in 1:3){
 .pull-right.small[
 ```{r zsd, echo=FALSE}
 # Display the normal distributions with various standard deviations
-plot(x, hx, type="l", lty=2, xlab="x value",
+plot(X, HX, type="l", lty=2, xlab="x value",
 		 ylab = "Density", main="Comparison of Normal Distributions",xlim=c(-10, 10))
 
 for (i in c(.5,2,4,6)){
-	lines(x, dnorm(x,sd=i), lwd=1, col=colors[i])
+	lines(X, dnorm(X,sd=i), lwd=1, col=norm_colors[i])
 }
 
 ```
@@ -237,7 +267,7 @@ ggplot(aes(x = child)) +
 
 ---
 
-# IMBD movie ratings (movies dataset)
+# IMBd movie ratings (movies dataset)
 .pull-left.midi[
 ```{r movies,echo=TRUE, warning=FALSE}
 library(ggplot2movies)
@@ -288,6 +318,7 @@ ggplot(plotted_dataset, aes(x =variablex)) +
 ---
 
 # Standard Normal
+
 - Normal distribution tricks
     - Symmetric
     - 50% of area above zero
@@ -671,4 +702,4 @@ print("5 random numbers from standard normal:")
 print(rnorm(5))
 ```
 
-=
+
