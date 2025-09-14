@@ -116,13 +116,14 @@ legend("topright",
 
 ---
 
-## Visualizing the Standard Deviation
+# Standard Normal with multiple standard deviations
 
 
 .pull-left[
 - The standard deviation $\sigma$ controls the variability of a Normal curve. 
 - When the standard deviation is larger, the area under the normal curve is less concentrated about the mean.
 - The standard deviation is the distance from the center to the change-of-curvature points on either side.
+- The change-of-curvature points lie $\sigma$ units from $\mu$.
 ]
 .pull-right.small[
 ```{r zsd, echo=FALSE}
@@ -144,7 +145,8 @@ for (i in c(.5,2,4,6)){
 ]
 ---
 
-# Normal Distribution
+# Empirical rule (68–95–99.7)
+
 
 .pull-left[
 - In the Normal distribution, with mean $\mu$  and standard deviation $\sigma$:
@@ -167,11 +169,13 @@ knitr::include_graphics("../img/normal.png")
 
 ---
 
-# Worked Example
+# Worked Example (ITBS)
 
 .pull-left[
+- The Iowa Test of Basic Skills (ITBS) 
 - The distribution of Iowa Test of Basic Skills (ITBS) vocabulary scores for seventh-grade students in Gary, Indiana, is close to Normal. 
-- Suppose the distribution is `N(6.84, 1.55)`.
+- Vocabulary scores are approximately Normal: `N(6.84, 1.55)`.
+
 ]
 --
 
