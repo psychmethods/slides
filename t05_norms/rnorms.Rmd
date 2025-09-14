@@ -172,47 +172,45 @@ knitr::include_graphics("../img/normal.png")
 # Worked Example (ITBS)
 
 .pull-left[
-- The Iowa Test of Basic Skills (ITBS) 
-- The distribution of Iowa Test of Basic Skills (ITBS) vocabulary scores for seventh-grade students in Gary, Indiana, is close to Normal. 
+- The Iowa Test of Basic Skills (ITBS) is a standardized test used in many U.S. schools to assess students' academic skills.
+- We will use the vocabulary subtest scores for seventh-grade students in Gary, Indiana.
 - Vocabulary scores are approximately Normal: `N(6.84, 1.55)`.
-
+- In this distribution, $\mu = 6.84$ and $\sigma = 1.55$
 ]
+
 --
 
 .pull-right[
 .question[
-  - Q. What is the mean of the distribution?
-  - Q. What is the standard deviation of the distribution?]
+- Sketch the Normal density curve for this distribution.
+  ]
 ]
 
---
-```{r,echo=FALSE,out.width = "55%"}
-knitr::include_graphics("../img/norms.png")
-```
 ---
 
 
-# Worked Example
+# Worked Example (ITBS)
 
 .pull-left[
-- The distribution of Iowa Test of Basic Skills (ITBS) vocabulary scores for seventh-grade students in Gary, Indiana, is close to Normal. 
-- Suppose the distribution is `N(6.84, 1.55)`.
+- Sketch the Normal density curve for this distribution.
+  - Q. What percent of ITBS scores is between 3.74 and 9.94?
+  - Q. What percent of scores are below 3.74?
 ]
 --
 
 .pull-right[
-- Sketch the Normal density curve for this distribution.
-  - Q. What percent of ITBS scores is between 3.74 and 9.94?
-  - Q. What percent of the scores is below 3.74?
-]
 
---
 ```{r,echo=FALSE,out.width = "55%"}
 knitr::include_graphics("../img/norms.png")
 ```
+]
+
 
 ---
-.question[Check your understanding: What percent of the scores is above 5.29?]
+# Worked Example (ITBS)
+
+## Check your understanding
+.question[What percent of the scores is above 5.29?]
 
 
 <br>
@@ -221,26 +219,26 @@ knitr::include_graphics("../img/norms.png")
 ```
 
 ---
-# Standard Normal
+# Standard Normal in practice
 
-- Normal is a model of the real world
-- Not exact, but it is a facile model for many things
+The Normal is an approximation model—useful but not exact.
+- Often reasonable for:
     - Physical features
     - Psychological features
     - Performance measures
---
-    - Not all variables are normal
-        - Skewed variables (e.g. income)
-        - Any count variable (number of kids, mistakes on an exam)
+- Not appropriate for:
+    - Skewed variables (e.g. income)
+    - Any count variable (number of kids, mistakes on an exam)
+
 ---
 
-# Real World Data
+# Real Data Overlays
+
 .pull-left[
-- Many variables follow this distribution ( but not all)
-- I have plotted histograms of data,
-    - we have already used in this class
-    - overlaid with the standard normal.
+- Many, but not all, variables are approximately Normal.
+- Below are histograms from datasets we've used, with Normal overlays using sample mean and SD.
 ]
+
 --
 .small.pull-right[
 ```{r example,echo=FALSE, warning=FALSE, message=FALSE}
@@ -249,23 +247,21 @@ library(ggplot2)
 library(tidyverse)
 Galton %>%
 ggplot(aes(x = child)) + 
-	geom_histogram(fill = "red") + 
-	stat_function(
-		fun = function(x, mean, sd, n){
-			n * dnorm(x = x, mean = mean, sd = sd)
-		}, 
-		args = with(Galton, c(mean = mean(child), sd = sd(child), n
-= length(child)))
-	) + 
-	scale_x_continuous("Heights of Children") + theme_minimal()
+	geom_histogram(fill = "#e41a1c", bins = 30, color = "white") +
+  stat_function(
+    fun = function(x, mean, sd, n) n * dnorm(x, mean, sd),
+    args = with(Galton, c(mean = mean(child), sd = sd(child), n = length(child)))) +
+  labs(x = "Heights of children", y = "Count", 
+     title = "Galton children's heights with Normal overlay") +
+  theme_minimal()
 
 ```
 ]
 ---
 
-# Height of Children (Galton dataset)
+# Height of children (Galton)
 .small[
-```{r ref.label = "example", echo = TRUE, warning = FALSE,out.width = "40%"}
+```{r ref.label = "example", echo = TRUE, warning = FALSE, out.width = "45%"}
 ```
 ]
 
@@ -277,13 +273,13 @@ ggplot(aes(x = child)) +
 library(ggplot2movies)
 data(movies)
 
-ggmovie <- ggplot(movies, 
-               aes(x = rating)) + 
-	geom_histogram(fill = "blue") +
-	geom_freqpoly(aes(
-	  x = rnorm(length(rating))*sd(rating) + mean(rating)),
-	              fill = "black")  +
-	scale_x_continuous("IMBD Movie Ratings") + 
+ggmovie <- ggplot(movies,
+                  aes(x = rating)) +
+  geom_histogram(fill = "blue") +
+  geom_freqpoly(aes(
+    x = rnorm(length(rating))*sd(rating) + mean(rating)),
+    fill = "black") +
+  scale_x_continuous("IMBd Movie Ratings") +
   theme_minimal()
 
 ```
@@ -295,53 +291,53 @@ ggmovie
 ]
 ---
 
-# Temperature in Nottingham (nottem dataset)
+# Temperature in Nottingham (nottem)
 
 ```{r nottem,echo=FALSE, warning=FALSE,out.width = "70%"}
 library(datasets)
 library(ggplot2)
 
-plotted_dataset <- as.data.frame(nottem)
-plotted_dataset$variablex <- nottem
-ggplot(plotted_dataset, aes(x =variablex)) + 
-	geom_histogram(fill = "red") + 
-	stat_function(
-		fun = function(x, mean, sd, n){
-			n * dnorm(x = x, mean = mean, sd = sd)
-		}, 
-		args = with(plotted_dataset, 
-		            c(mean = mean(variablex), 
-		              sd = sd(variablex), n
-= length(variablex)))
-	) + 
-	scale_x_continuous("Temperature in Nottingham") + 
-  theme_minimal()
+plotted_dataset <- data.frame(temp = as.numeric(nottem))
+
+
+ggplot(plotted_dataset, aes(x = temp)) +
+geom_histogram(fill = "#4daf4a", bins = 30, color = "white") +
+stat_function(
+fun = function(x, mean, sd, n) n * dnorm(x, mean, sd),
+args = with(plotted_dataset, c(mean = mean(temp), sd = sd(temp), n = length(temp)))
+) +
+scale_x_continuous("Temperature in Nottingham") +
+labs(y = "Count", title = "Monthly temperatures with Normal overlay") +
+theme_minimal()
 
 ```
 
 ---
 
-# Standard Normal
+# Standard Normal quick facts
 
 - Normal distribution tricks
-    - Symmetric
-    - 50% of area above zero
+    - Symmetric about the mean
+        - Mean = Median = Mode
+    - 50% of area above zero 
     - Total proportion is 1.0 (or 100%)
     
 ---
 
-# Area under the Normal Distribution
+# Area under the Normal curve
 
 ```{r, echo=FALSE,out.width = "60%"}
 knitr::include_graphics("../img/normal.png")
 ```
 
 ---
+
 class: middle
 
 # Wrapping Up...
 
 ---
+
 class: middle
 
 # Rescaling
@@ -378,14 +374,13 @@ class: middle
 ---
 
 
-# Merits
+# Advantages of standardization
 .pull-left[
-- Advantages
-    - Allows us to compare scores on a common metric 
-    - Origin is 0. The mean
-        - The units are 1, the standard deviation
-        - '+' values above the mean
-        - '-' values below the mean
+- Allows us to compare scores on a common metric 
+- Origin is 0. The mean
+      - The units are 1, the standard deviation
+      - '+' values above the mean
+      - '-' values below the mean
 ]
 
 --
@@ -398,18 +393,22 @@ class: middle
 
 ---
 
-# Demo
+# Demonstration
 
 .pull-left[
 .small[
 ```{r,echo=TRUE}
 library(ggplot2movies)
 
-# Raw data
-movies$rating[1:10]
-# Rescaling
+# Raw vs scaled
+data(movies)
 variable <- movies$rating
-scale(variable)[1:10]
+# Raw data
+head(variable, 10)
+
+# Rescaling
+head(scale(variable), 10)
+
 ```
 ]
 
@@ -423,9 +422,11 @@ scale(variable)[1:10]
 .midi[
 ```{r,echo=FALSE}
 library(knitr)
-#create a table to show the first 10 raw scores and their z-scores
-data.frame(Raw = variable[1:10], Z_Score = round(scale(variable)[1:10],digits=2)) %>%
-  kable()
+# Table of first 10 raw & z
+knitr::kable(data.frame(
+Raw = head(variable, 10),
+Z_Score = round(as.numeric(scale(variable))[1:10], 2)
+))
 
 ```
 ]
@@ -433,7 +434,7 @@ data.frame(Raw = variable[1:10], Z_Score = round(scale(variable)[1:10],digits=2)
 
 ---
 
-# Demo
+# Density: raw vs scaled
 
 .pull-left[
 ```{r,echo=TRUE}
@@ -451,7 +452,7 @@ plot(density(scale(variable))) # with scaling
 ---
 
 # Z-Score
-
+- A z-score is a type of standard score
 - Gives us information about the location of that score relative to the "average" deviation of all scores
 - A z-score is the number of standard deviations a score is above or below the mean of the scores in a distribution
 - A raw score is a regular score before it has been converted into a Z score
@@ -461,9 +462,9 @@ plot(density(scale(variable))) # with scaling
 
 
 
-# Worked Z-Score Problem
+# Worked Z-Score Problem (IQ)
 
-- Here are the IQ test scores of 31 7th-grade girls in a Midwest school district. 
+- IQ test scores of 31 7th-grade girls in a Midwest school district. 
 <br>
 
 ```{r, echo=FALSE,out.width = "70%"}
@@ -472,9 +473,10 @@ knitr::include_graphics("../img/iqz.png")
 
 ---
 
-# Worked Z-Score Problem
+# Check approximate Normality
 
 A) We expect IQ scores to be approximately Normal.
+
 --
 
 - Make a stem plot to check that there are no major departures from normality.
@@ -484,9 +486,10 @@ A) We expect IQ scores to be approximately Normal.
 ```{r, echo=FALSE,out.width = "65%"}
 knitr::include_graphics("../img/iqstem.png")
 ```
+
 ---
 
-# Worked Z-Score Problem
+# Mean and SD
 
 B) Find the mean and standard deviation
 --
@@ -496,7 +499,7 @@ B) Find the mean and standard deviation
 
 ---
 
-# Worked Z-Score Problem
+# Within one SD
 
 C) What proportion of scores are within one standard deviation of the mean?
 - One SD above mean = 105.84 + 14.27 = 120.11
@@ -509,7 +512,8 @@ knitr::include_graphics("../img/workz.png")
 ```
 
 ---
-# Worked Z-score Problem
+
+# Within two SD
 
 B) What proportion of scores are within TWO standard deviations of the mean?
 - TWO SD above mean = 105.84 + 2*(14.27) = 134.38
@@ -518,71 +522,12 @@ B) What proportion of scores are within TWO standard deviations of the mean?
 
 ---
 
-# Worked Z-score Problem
+
+# Compare to exact Normal
 
 B) What would these proportions be in an exactly Normal distribution?
 
 -  +/- One SD?
-
-
-```{r, echo=FALSE}
-knitr::include_graphics("../img/table.png")
-```
-
----
-
-# Moving to powerpoint
-
----
-
-
-## Cumulative Proportions
-
-- The cumulative proportion for a value $x$ in a distribution is the proportion of observations in the distribution that are less than or equal to $Z$.
-
-```{r, echo=FALSE}
-knitr::include_graphics("../img/table.png")
-```
-
----
-
-```{r,echo=FALSE}
-# Install and load the magick package if you haven't already
-# install.packages("magick")
-library(magick)
-
-# Read the image
-img <- image_read("../img/table_com.png")
-
-# Add the first red box around the graph
-img <- image_draw(img)
-# Large box around the graph
-rect(1500, 450, 2050, 1250, border = "red", lwd = 15)
-
-# Small box around the z-score 0.00
-rect(200, 900, 300, 1200, border = "red", lwd = 10)
-
-
-# Stop drawing on the image
-dev.off()
-
-# Display the modified image
-print(img)
-
-# Optionally, save the modified image
-image_write(img, path = "annotated_image.jpg")
-
-```
-
-
-
-## Worked Z-Score Problem
-
-### Example 1: Within One Standard Deviation
-
-![Z-Score Within One SD](path/to/z_score_one_sd_image.png)
-
-The area between -1 and +1 standard deviations from the mean:
 
 ```{r}
 area_within_one_sd <- 0.8413 - 0.500
@@ -591,7 +536,7 @@ print(paste("Area within one SD:", area_within_one_sd))
 total_area <- area_within_one_sd * 2
 print(paste("Total area within ±1 SD:", total_area))
 ```
-
+---
 
 ```{r, echo=FALSE, fig.width=10, fig.height=6}
 library(ggplot2)
@@ -610,9 +555,56 @@ ggplot(data.frame(x = c(-3, 3)), aes(x)) +
 
 ---
 
-### Example 2: Within Two Standard Deviations
+## Cumulative Proportions
 
-![Z-Score Within Two SD](path/to/z_score_two_sd_image.png)
+- The table below gives cumulative proportions for the standard Normal distribution.
+- The cumulative proportion for value $x$ equals $P(Z \le z)$ under the standard Normal.
+- In other words, value $x$ in a distribution is the proportion of observations in the distribution that are less than or equal to $Z$.
+
+```{r, echo=FALSE}
+knitr::include_graphics("../img/table.png")
+```
+
+---
+
+```{r, echo=FALSE}
+knitr::include_graphics("../img/table.png")
+```
+
+---
+
+```{r echo=FALSE, fig.align='center', out.width="95%"}
+knitr::include_graphics("../img/08C_ZScore_Examples/Slide3.PNG")
+```
+
+---
+
+
+```{r echo=FALSE, fig.align='center', out.width="95%"}
+knitr::include_graphics("../img/08C_ZScore_Examples/Slide4.PNG")
+```
+
+
+---
+
+```{r echo=FALSE, fig.align='center', out.width="95%"}
+knitr::include_graphics("../img/08C_ZScore_Examples/Slide5.PNG")
+```
+
+
+---
+
+```{r echo=FALSE, fig.align='center', out.width="95%"}
+knitr::include_graphics("../img/08C_ZScore_Examples/Slide6.PNG")
+```
+
+---
+
+```{r echo=FALSE, fig.align='center', out.width="95%"}
+knitr::include_graphics("../img/08C_ZScore_Examples/Slide7.PNG")
+```
+
+---
 
 The area between -2 and +2 standard deviations from the mean in a Normal distribution:
 
@@ -626,18 +618,90 @@ print(paste("Total area within ±2 SD:", total_area_two_sd))
 
 ---
 
-## Starting from a Proportion
+```{r, echo=FALSE, fig.width=10, fig.height=6}
+library(ggplot2)
+  
+ggplot(data.frame(x = c(-3, 3)), aes(x)) +
+  stat_function(fun = dnorm, n = 101, args = list(mean = 0, sd = 1)) +
+  geom_area(stat = "function", fun = dnorm, args = list(mean = 0, sd = 1), 
+            xlim = c(-2, 2), fill = "lightgreen", alpha = 0.5) +
+  geom_vline(xintercept = c(-2, 2), linetype = "dashed", color = "red") +
+  labs(x = "Z-score", y = "Density") +
+  ggtitle("Area within 2 Standard Deviations") +
+  theme_minimal() +
+  annotate("text", x = 0, y = 0.1, label = "95%", size = 6)
+```
 
-SAT reading scores for a recent year are distributed according to an N(504, 111) distribution. How high must a student score to be in the top 10% of the distribution?
+---
 
-![SAT Score Distribution](path/to/sat_score_distribution_image.png)
 
+```{r echo=FALSE, fig.align='center', out.width="95%"}
+knitr::include_graphics("../img/08C_ZScore_Examples/Slide7.PNG")
+```
+
+---
+
+
+
+```{r echo=FALSE, fig.align='center', out.width="95%"}
+knitr::include_graphics("../img/08C_ZScore_Examples/Slide8.PNG")
+```
+
+---
+
+
+
+```{r echo=FALSE, fig.align='center', out.width="95%"}
+knitr::include_graphics("../img/08C_ZScore_Examples/Slide9.PNG")
+```
+
+
+---
+
+
+```{r echo=FALSE, fig.align='center', out.width="95%"}
+knitr::include_graphics("../img/08C_ZScore_Examples/Slide10.PNG")
+```
+
+
+---
+
+
+
+```{r echo=FALSE, fig.align='center', out.width="95%"}
+knitr::include_graphics("../img/08C_ZScore_Examples/Slide11.PNG")
+```
+
+
+---
+
+## Starting from a proportion (SAT example)
+
+- SAT reading scores for a recent year are distributed according to an N(504, 111) distribution. 
+
+- How high must a student score to be in the top 10% of the distribution?
+
+- In other words, what score corresponds to the cumulative proportion 0.90 below it?
+
+
+----
+
+```{r echo=FALSE, fig.align='center', out.width="95%"}
+knitr::include_graphics("../img/08C_ZScore_Examples/Slide12.PNG")
+```
 
 ---
 
 ### Normal Calculations
 
-```{r}
+- How high must a student score in order to be in the top 10% of the distribution?
+  - Look up the closest probability (closest to 0.10) in the table.
+  - Find the corresponding standardized score.
+  - The value you seek is that many standard deviations from the mean.
+  
+--
+
+```{r echo=FALSE}
 # Create a data frame to represent the table from the image
 z_table <- data.frame(
   z = c(1.1, 1.2, 1.3),
@@ -651,26 +715,33 @@ print(z_table)
 # Find z-score for top 10%
 z_score <- qnorm(0.90)
 print(paste("z-score for top 10%:", round(z_score, 2)))
+```
 
+---
+
+- We need to “unstandardize” the z-score to find the observed value (x):
+
+```{r echo=TRUE}
 # Calculate the actual score
 mean_score <- 504
 sd_score <- 111
+
 required_score <- mean_score + z_score * sd_score
 
 print(paste("Required score for top 10%:", round(required_score, 2)))
 ```
 
-A student would have to score at least 646.08 to be in the top 10% of the distribution of SAT reading scores for this particular year.
+- A student would have to score at least 646.08 to be in the top 10% of the distribution of SAT reading scores for this particular year.
+
+---
 
 ## "Backward" Normal Calculations
 
-Steps for using Table A given a Normal proportion:
+Steps for using Table given a Normal proportion:
 
 1. State the problem in terms of the given proportion. Draw a picture that shows the Normal value, $x$, that you want in relation to the cumulative proportion.
 2. Use the table, the fact that the total area under the curve is 1, and the given area under the standard Normal curve to find the corresponding $z$-value.
 3. Unstandardize $z$ to solve the problem in terms of a non-standard Normal variable $x$.
-
-![Backward Normal Calculation](path/to/backward_normal_calc_image.png)
 
 ---
 
@@ -683,7 +754,6 @@ Steps for using Table A given a Normal proportion:
   - Is the inverse of pnorm, give it a probability, it produces the number whose cumulative distribution matches the probability
 - `rnorm()`: generates random deviates
 
-![R Functions Illustration](path/to/r_functions_illustration_image.png)
 
 ---
 
@@ -706,4 +776,6 @@ print("5 random numbers from standard normal:")
 print(rnorm(5))
 ```
 
+---
 
+# Wrapping Up...
