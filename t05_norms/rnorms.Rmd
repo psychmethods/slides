@@ -675,12 +675,6 @@ knitr::include_graphics("../img/08C_ZScore_Examples/Slide11.PNG")
 - In other words, what score corresponds to the cumulative proportion 0.90 below it?
 
 
-----
-
-```{r echo=FALSE, fig.align='center', out.width="95%"}
-knitr::include_graphics("../img/08C_ZScore_Examples/Slide12.PNG")
-```
-
 ---
 
 ### Normal Calculations

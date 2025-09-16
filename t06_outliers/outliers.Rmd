@@ -211,7 +211,7 @@ This summary is less affected by extreme values!
 - Tukey's way: lower extreme, lower hinge, median, upper hinge, upper extreme
 - Commonly referred to as: min, q1, median, q3, max
 
-![](path/to/5_number_summary_table.png)
+
 
 ---
 
