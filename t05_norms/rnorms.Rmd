@@ -570,40 +570,40 @@ knitr::include_graphics("../img/table.png")
 
 ---
 
-```{r, echo=FALSE, fig.align='center', out.width="95%"}
+```{r, echo=FALSE, fig.align='center', out.width="90%"}
 knitr::include_graphics("../img/table.png")
 ```
 
 ---
 
-```{r echo=FALSE, fig.align='center', out.width="95%"}
+```{r echo=FALSE, fig.align='center', out.width="90%"}
 knitr::include_graphics("../img/08C_ZScore_Examples/Slide3.PNG")
 ```
 
 ---
 
 
-```{r echo=FALSE, fig.align='center', out.width="95%"}
+```{r echo=FALSE, fig.align='center', out.width="90%"}
 knitr::include_graphics("../img/08C_ZScore_Examples/Slide4.PNG")
 ```
 
 
 ---
 
-```{r echo=FALSE, fig.align='center', out.width="95%"}
+```{r echo=FALSE, fig.align='center', out.width="90%"}
 knitr::include_graphics("../img/08C_ZScore_Examples/Slide5.PNG")
 ```
 
 
 ---
 
-```{r echo=FALSE, fig.align='center', out.width="95%"}
+```{r echo=FALSE, fig.align='center', out.width="90%"}
 knitr::include_graphics("../img/08C_ZScore_Examples/Slide6.PNG")
 ```
 
 ---
 
-```{r echo=FALSE, fig.align='center', out.width="95%"}
+```{r echo=FALSE, fig.align='center', out.width="90%"}
 knitr::include_graphics("../img/08C_ZScore_Examples/Slide7.PNG")
 ```
 
@@ -637,20 +637,20 @@ ggplot(data.frame(x = c(-3, 3)), aes(x)) +
 
 ---
 
-```{r echo=FALSE, fig.align='center', out.width="95%"}
+```{r echo=FALSE, fig.align='center', out.width="90%"}
 knitr::include_graphics("../img/08C_ZScore_Examples/Slide8.PNG")
 ```
 
 ---
 
-```{r echo=FALSE, fig.align='center', out.width="95%"}
+```{r echo=FALSE, fig.align='center', out.width="90%"}
 knitr::include_graphics("../img/08C_ZScore_Examples/Slide9.PNG")
 ```
 
 ---
 
 
-```{r echo=FALSE, fig.align='center', out.width="95%"}
+```{r echo=FALSE, fig.align='center', out.width="90%"}
 knitr::include_graphics("../img/08C_ZScore_Examples/Slide10.PNG")
 ```
 
@@ -659,7 +659,7 @@ knitr::include_graphics("../img/08C_ZScore_Examples/Slide10.PNG")
 
 
 
-```{r echo=FALSE, fig.align='center', out.width="95%"}
+```{r echo=FALSE, fig.align='center', out.width="90%"}
 knitr::include_graphics("../img/08C_ZScore_Examples/Slide11.PNG")
 ```
 
