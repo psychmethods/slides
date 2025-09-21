@@ -182,7 +182,8 @@ square(4)
 - Use `?` or `help()` to get information about functions
 - For example, entering `?c` or `help(c)` at the prompt gives documentation of the function `c` in R.
 - Example:
-```{r}
+
+```{r, echo=TRUE}
 ?mean
 help(plot)
 ```
@@ -192,10 +193,11 @@ help(plot)
 
 # Getting Help
 
-> help(c)
+> `help(c)`
+
 If you are not sure about the name of the function you are looking for, you can perform a fuzzy search with the apropos function.
 
-> apropos("nova") 
+> `apropos("nova")`
 [1] "anova"                "anova.glm" 
    ....
 
