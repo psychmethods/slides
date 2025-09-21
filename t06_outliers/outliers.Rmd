@@ -69,6 +69,13 @@ class: middle
 
 ---
 
+```{r, echo=FALSE,out.width = "100%"}
+knitr::include_graphics("../img/gladwell.png")
+```
+
+
+---
+
 
 ## Types of Outliers
 
@@ -175,7 +182,50 @@ In pairs, create a dataset of 5 numbers between 1 and 10. Then:
 
 - Remove them?
 - Keep them?
+- Ignore them?
 - Use different statistical methods?
+
+---
+
+# Example
+
+- The data shows Tukey’s scores for the last 5 math tests: 88, 90, 55, 94, and 89. 
+- Identify the outlier in the data set. 
+- Then determine how the outlier affects the mean, median, and mode of the data
+
+---
+
+# Calculations: Mean
+.pull-left[
+- Mean with outlier: (88 + 90 + 55 + 94 + 89) / 5 = 83.2
+]
+.pull-right[
+- Mean without outlier (88, 90, 94, 89): (88 + 90 + 94 + 89) / 4 = 90.25
+]
+
+---
+
+# Calculations: Median
+.pull-left[
+- Median with outlier: 55, 88, *89*, 90, 94
+- The median is 89
+]
+.pull-right[
+- Median without outlier: 88, *89*, *90*, 94
+- The median is 89+90/2 = 89.5
+]
+
+---
+
+# So What DO We Do with Outliers?
+
+- Do we remove them?
+- Do we keep them?
+- Do we ignore them?
+--
+
+- It’s up to the researcher
+
 
 ---
 
@@ -185,8 +235,13 @@ In pairs, create a dataset of 5 numbers between 1 and 10. Then:
   - Document why you removed them
   - Was it a clear error? An impossible value?
 - If you keep them:
+  - Easier, but it might alter our results
   - Be aware they might change your results
   - Consider using robust statistical methods
+
+---
+
+# Robust Statistics
 
 ---
 
@@ -202,6 +257,9 @@ A robust way to summarize data:
 
 This summary is less affected by extreme values!
 
+
+
+
 ---
 
 ## 5-Number Summary Table
@@ -211,7 +269,9 @@ This summary is less affected by extreme values!
 - Tukey's way: lower extreme, lower hinge, median, upper hinge, upper extreme
 - Commonly referred to as: min, q1, median, q3, max
 
-
+```{r, echo=FALSE,out.width = "100%"}
+knitr::include_graphics("../img/hinges.gif")
+```
 
 ---
 
@@ -263,7 +323,7 @@ Potential outliers are:
 - Below: Q1 - 1.5 * IQR
 - Above: Q3 + 1.5 * IQR
 
-This creates "fences" beyond which values are considered potential outliers.
+- This creates "fences" beyond which values are considered potential outliers.
 
 ---
 
@@ -284,6 +344,15 @@ cat("Upper fence:", upper_fence, "\n")
 ```
 
 Is 200 an outlier according to this method?
+
+---
+
+# Other Rules for Identifying Outliers
+
+- 2.5 Standard Deviations beyond the mean
+- More Complex Algorithms
+- [Illustration with Rshiny](http://projects.rajivshah.com/shiny/outlier/)
+
 
 ---
 
@@ -350,10 +419,11 @@ cat("Movie B:", median(c(1,8,8,9,10)))
 ```
 ]
 
-Which method gives a better picture of typical ratings?
+- Which method gives a better picture of typical ratings?
 
 ---
 
+# If Time Permits:
 ## Class Discussion: Outliers in Different Fields
 
 In small groups, discuss:

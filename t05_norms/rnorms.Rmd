@@ -669,9 +669,7 @@ knitr::include_graphics("../img/08C_ZScore_Examples/Slide11.PNG")
 ## Starting from a proportion (SAT example)
 
 - SAT reading scores for a recent year are distributed according to an N(504, 111) distribution. 
-
 - How high must a student score to be in the top 10% of the distribution?
-
 - In other words, what score corresponds to the cumulative proportion 0.90 below it?
 
 
@@ -755,6 +753,12 @@ dnorm(0)
 # Cumulative probability at 1 SD above the mean
 pnorm(1)
 ```
+---
+
+## Illustrations with R
+
+Let's demonstrate these functions:
+
 ```{r}
 # Value at the 90th percentile of a standard normal
 qnorm(0.9)
@@ -766,5 +770,6 @@ rnorm(5)
 ```
 
 ---
-
+class: middle
 # Wrapping Up...
+

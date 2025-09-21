@@ -165,6 +165,15 @@ legend("topright", inset=.05, title="Distributions",
 knitr::include_graphics("../img/skew.gif")
 ```
 
+---
+
+# Cowardly Skier
+
+```{r echo=FALSE, fig.align='center', out.width="90%"}
+knitr::include_graphics("../img/09_Robustness/Slide13.PNG")
+```
+
+
 
 ---
 

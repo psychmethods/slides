@@ -91,7 +91,7 @@ plot(smoking)
     - Each individual in the data appears as the point in the plot fixed by the values of both variables for that individual.
 ]
 .pull-right[
-```{r,echo=T,warning=FALSE}
+```{r,echo=T,warning=FALSE, message=FALSE}
 library(car)
 scatterplot(lung_capacity~cigarettes, data=smoking)
 ```
@@ -108,10 +108,9 @@ scatterplot(lung_capacity~cigarettes, data=smoking)
   - either variable can go on the horizontal axis.
 
 .small[
-```{r ggplot, echo=TRUE, warning=FALSE,fig.show=FALSE}
+```{r ggplot, echo=TRUE, fig.show=FALSE, warning=FALSE}
 library(ggplot2)
 library(ggExtra)
-
 # classic plot
 p <- ggplot(smoking, aes(x=cigarettes,
                          y=lung_capacity, 
@@ -119,13 +118,13 @@ p <- ggplot(smoking, aes(x=cigarettes,
                          size=cigarettes)) +
       geom_point() + theme_minimal() +
       theme(legend.position="none") 
-p
 ```
 ]
 ]
 
 .pull-right[
-```{r ref.label = "ggplot", echo=FALSE,out.width="85%"}
+```{r, echo=FALSE,out.width="85%"}
+p
 ```
 ]
 
@@ -182,7 +181,7 @@ ggMarginal(p, type="boxplot")
 
 --
 .pull-right[
-```{r direction_association_plot, fig.width=10, fig.height=5, warning=FALSE, message=FALSE, echo=FALSE}
+```{r direction_association_plot, fig.width=10, fig.height=5, warning=FALSE, message=FALSE, echo=FALSE,out.width="65%"}
 library(ggplot2)
 library(gridExtra)
 
@@ -228,7 +227,7 @@ grid.arrange(pos_plot, neg_plot, ncol = 2)
   - correlation.
 --
 
-```{r strength, fig.width=10, fig.height=5, warning=FALSE, message=FALSE, echo=FALSE,out.width="65%"}
+```{r strength, fig.width=10, fig.height=5, warning=FALSE, message=FALSE, echo=FALSE,out.width="55%"}
 library(ggplot2)
 library(gridExtra)
 
@@ -543,7 +542,7 @@ grid.arrange(grobs = plots, ncol = 4)
 
 # Correlation Interpretation
 
-.pull-left-wide[.medi[
+.pull-left-wide.medi[
 - Perfect
     - Exactly –1. A perfect downhill (negative) linear relationship
     - Exactly +1. A perfect uphill (positive) linear relationship
@@ -556,11 +555,12 @@ grid.arrange(grobs = plots, ncol = 4)
 - Small
     - –0.30. A small downhill (negative) linear relationship
     - +0.30. A small uphill (positive) linear relationship
-]]
-
-.pull-right-narrow[.medi[
-- Develop your correlation intuition  [http://guessthecorrelation.com/](guessthecorrelation.com)
 ]
+
+.pull-right-narrow.medi[
+- Develop your correlation intuition
+- [http://guessthecorrelation.com/](guessthecorrelation.com)
+
 ]
 ---
 
