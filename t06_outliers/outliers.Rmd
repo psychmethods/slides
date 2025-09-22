@@ -26,6 +26,7 @@ library(emo)
 knitr::opts_chunk$set(echo = FALSE,out.width = "90%", fig.align = "center")
 ```
 
+
 class: middle
 
 # Understanding Outliers and Robust Statistics
@@ -42,14 +43,6 @@ class: middle
 6. Visualizing Data and Outliers
 7. Real-world Examples
 8. Wrap-up and Discussion
-
----
-
-## What is an Outlier?
-
-class: middle
-
-# Robust Statistics and Outliers
 
 ---
 
@@ -114,6 +107,13 @@ knitr::include_graphics("../img/gladwell.png")
 
 ![](../img/huff.jpg){}
 </div>
+
+---
+
+```{r, echo=FALSE,out.width = "50%"}
+knitr::include_graphics("../img/huff.jpg")
+```
+
 
 ---
 
@@ -241,7 +241,10 @@ In pairs, create a dataset of 5 numbers between 1 and 10. Then:
 
 ---
 
+class: middle
+
 # Robust Statistics
+
 
 ---
 
@@ -368,10 +371,11 @@ A fun variant of the boxplot that shows individual data points:
 ```{r, fig.height=5}
 if(!require(beeswarm)) install.packages("beeswarm")
 library(beeswarm)
-
-beeswarm(scores2, pch=16, col="blue", 
+plotdata <- rnorm(100, mean=75, sd=10)
+#boxplot(plotdata, add=TRUE, outline=FALSE)
+beeswarm(plotdata, pch=16, col="blue", 
          main="Exam Scores Beeswarm Plot")
-boxplot(scores2, add=TRUE, outline=FALSE)
+#
 ```
 
 ---
