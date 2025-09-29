@@ -647,7 +647,7 @@ $$
 
 - The correlation coefficient not only measures the strength and direction of a linear relationship but also directly influences the slope of the regression line.
 - Understanding this relationship helps in interpreting the regression results and in assessing how changes in $x$ are associated with changes in $y$.
-  - Along the regression line, a change of 1 standard deviation in $x$ corresponds to an $r$ change of standard deviations in $y$
+- Along the regression line, a change of 1 standard deviation in $x$ corresponds to an $r$ change of standard deviations in $y$
 
 ---
 
