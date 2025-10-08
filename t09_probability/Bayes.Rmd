@@ -430,33 +430,22 @@ Cons:
 
 ---
 
-Wrapping Up...
-
-
-
-
-
-
----
-
 ## Simulations
 
-- Simulations are used to understand probabilities in complex situations.
+Simulations are used to understand probabilities in complex situations.
 
 - **Blackjack**: Understanding dealer's odds.
   - [Dealer’s Odds in Blackjack](http://demonstrations.wolfram.com/DealersOddsInBlackjack/)
-
 - **Rock Paper Scissors**: Using AI Player.
   - [Rock Paper Scissors with AI Player](http://demonstrations.wolfram.com/RockPaperScissorsWithAIPlayer/)
-
 - **Texas Hold'em**: Exploring probabilities of winning.
   - [Probabilities of Winning in Texas Hold'em](http://demonstrations.wolfram.com/ProbabilitiesOfWinningInTexasHoldEm/)
-
 - **Lottery (Adam Lamers)**: Running simulations to determine lottery odds.
   - [Lottery Simulator by Adam Lamers](http://adamlamers.com/lottery_simulator)
-
 - **Lottery (Ian Neath)**: Another lottery simulation.
   - [Lottery Simulator by Ian Neath](https://memory.psych.mun.ca/models/lottery/index.shtml)
+
+---
 
 class: center, middle
 
