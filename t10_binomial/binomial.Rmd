@@ -1,0 +1,497 @@
+---
+title: "Binomial Distributions <br> `r emo::ji('camel')`"
+author: "S. Mason Garrison"
+bibliography: library.bib
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+#       slideNumberFormat: ""  
+library(tidyverse)
+library(vembedr)
+library(knitr)
+if (!require("emo")) devtools::install_github("hadley/emo")
+# Installs library if missing
+if (!require("HistData")) install.packages("HistData") 
+library(emo)
+knitr::opts_chunk$set(echo = FALSE,out.width = "90%", fig.align = "center")
+library(kableExtra)
+```
+
+
+class: middle
+
+# Binomial Distributions
+
+---
+
+class: middle
+
+# Road Map
+
+- Binomial distributions
+- Binomial requirements
+- Sampling distribution of a count
+
+---
+
+
+# Motivation
+
+- So far, we have used a combination of specific rules, such as the
+  - Addition Rule, Multiplication Rule, Bayes Rule, etc,
+  - to calculate probabilities and expected values.
+--
+
+- But, it seems a bit out of  place, 
+  - given this class’s emphasis on application...
+--
+
+- These specific rules can be transformed into probability models, which, in turn, generate distributions – not unlike the normal distribution.
+
+---
+
+## Binomial Distributions
+
+- Just like the normal distribution describes bell-shaped data, the binomial distribution describes count data.
+- Specifically, it models the number of successful outcomes,
+  - when the total number of  trials is known beforehand.
+  - (The distribution of a count depends on how the data are produced. The binomial setting is a common situation.)
+
+---
+
+
+## Binomial Distribution
+
+- What does a binomial distribution look like?
+- It depends on two parameters:
+  - Probability of Success (P)
+  - Sample Size/Number of Trials (N)
+- (Recall that the normal distribution depends on μ and σ)
+
+
+---
+
+# Ten Trials, Probability of Success is 50%
+
+.pull-left-narrow[
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+n <- 10
+p <- 0.5
+k <- 0:n
+tbl <- tibble(Successes = k, Probability = dbinom(k, size = n, prob = p))
+
+tbl %>%
+  kbl(digits = 7, align = c("c", "c")) %>%
+  kable_styling(full_width = FALSE)
+```
+
+]
+
+.pull-right-wide[
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width="90%"}
+library(ggplot2)
+ggplot_binom <- function(n, p) {
+  k <- 0:n
+  df <- data.frame(k = k, prob = dbinom(k, size = n, prob = p))
+  ggplot(df, aes(k, prob)) +
+    geom_col() +
+    labs(
+      title = sprintf("Binomial: n = %d, p = %.2f", n, p),
+      x = "Number of successes",
+      y = "Probability"
+    ) + #needs to only be whole numbres
+    scale_x_continuous(breaks = 0:n)
+}
+ggplot_binom(10, 0.50) +
+  theme_minimal()
+```
+
+]
+
+---
+
+# Ten Trials, Probability of Success is 25%
+
+.pull-left-narrow[
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+n <- 10
+p <- 0.25
+k <- 0:n
+tbl <- tibble(Successes = k, Probability = dbinom(k, size = n, prob = p))
+
+tbl %>%
+  kbl(digits = 7, align = c("c", "c")) %>%
+  kable_styling(full_width = FALSE)
+```
+
+]
+.pull-right-wide[
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width="90%"}
+library(ggplot2)
+
+ggplot_binom(10, 0.25) +
+  theme_minimal()
+```
+
+]
+
+---
+
+
+# Ten Trials, Probability of Success is 5%
+
+.pull-left-narrow[
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+n <- 10
+p <- 0.05
+k <- 0:n
+tbl <- tibble(Successes = k, Probability = dbinom(k, size = n, prob = p))
+
+tbl %>%
+  kbl(digits = 7, align = c("c", "c")) %>%
+  kable_styling(full_width = FALSE)
+```
+
+]
+.pull-right-wide[
+```{r echo=FALSE, message=FALSE, warning=FALSE, out.width="90%"}
+library(ggplot2)
+
+ggplot_binom(10, 0.05) +
+  theme_minimal()
+```
+
+]
+
+---
+
+## Binomial Distribution
+
+- Note: This is a discrete probability model
+- The distribution isn’t smooth because every outcome can fall into a bin
+  - i.e, There are a finite number of values to measure.
+- In contrast, a continuous probability model has a smooth range of values.
+- Even when N is large it is still discrete. 
+- See https://shiny.rit.albany.edu/stat/binomial/
+
+---
+
+## Binomial Requirements
+
+A binomial distribution requires:
+- a fixed number, $n$, of observations.
+- The $n$ observations are all independent. That is, knowing the result of one observation does not change the probabilities we assign to other observations.
+- Each observation falls into one of just two categories, which, for convenience, we call “success” and “failure.”
+- The probability of a success, call it $p$, is the same for each observation.
+
+---
+
+# Wrapping Up...
+
+---
+
+# This Time… N chose K
+
+---
+
+# Formula for Binomial Probabilities
+
+- The probability of getting exactly k successes in n independent Bernoulli trials is:
+$$P(X = k) =  \frac{n!}{k!(n-k)!} p^k (1-p)^{n-k}$$
+- where 
+  - n is the number of trials,
+  - k is the number of successful trials,
+  - p is the probability of success on an individual trial, and
+  - (1-p) is the probability of failure on an individual trial.
+- Sometimes this equation is written as: 
+$$P(X = k|pN) = \binom{n}{k} p^k q^{n-k}$$
+
+---
+# Formula for Binomial Probabilities
+
+$$P(X = k|pN) = \binom{n}{k} p^k q^{n-k}$$
+- The term $\binom{n}{k}$ is read "n choose k" and is calculated as:
+$$\binom{n}{k} = \frac{n!}{k!(n-k)!}$$
+- where n! (n factorial) is the product of all positive integers up to n.
+
+---
+
+## Binomial Formula Breakdown
+
+- The binomial coefficient counts the number of different ways in which $k$ successes can be arranged among $n$ trials.
+- The binomial probability $P(X=k)$ is this count multiplied by the probability of any one specific arrangement of the $k$ successes.
+- The probability of any one specific arrangement is $p^k(1-p)^{n-k}$, the probability of $k$ successes and $n-k$ failures.
+---
+# Binomial Formula Breakdown
+
+- If $X$ has the binomial distribution with $n$ trials and probability $p$ of success on each trial, the possible values of $X$ are 0, 1, 2,…, $n$. If $k$ is any one of these values:
+
+$$P(X = k) =  \binom{n}{k}  p^k (1-p)^{n-k}$$
+
+- Number of arrangements of k successes = $\binom{n}{k}$
+- Probability of any one arrangement = $p^k (1-p)^{n-k}$
+- Probability of k successes: $p^k$
+- Probability of n-k failures: $(1-p)^{n-k}$
+
+---
+
+# N chose K
+
+- Chose K numbers from N options: $\binom{n}{k}$
+- $\frac{n!}{k!(n-k)!}$
+- Note: 0! =1
+- n! = n × (n − 1) × (n − 2) × ... × 3 × 2 × 1
+- 6!/4!= 6*5
+
+---
+# Example: N chose K
+- Example: How many ways can we choose 3 people from a group of 5?
+- Answer: $\binom{5}{3} = \frac{5!}{3!(5-3)!} = \frac{5 \times 4 \times 3!}{3! \times 2!} = \frac{5 \times 4}{2 \times 1} = 10$
+- The 10 combinations are:
+  - ABC, ABD, ABE, ACD, ACE, ADE, BCD, BCE, BDE, CDE
+- Note: Order does not matter, so ABC is the same as ACB, BAC, BCA, CAB, CBA
+
+---
+
+# Draw a card, guess its color
+
+- P=1/2; 1-p=1/2
+- Let's do n = 3
+- $$\binom{n}{k}  p^k (1-p)^{n-k}$$
+
+---
+
+# Draw a card, guess its color (0 correct)
+
+$$\binom{n}{k}  p^k (1-p)^{n-k}$$
+
+$$P(x=0|1/2,3) = \binom{3}{0}  (.5)^0 (1-.5)^{3-0}$$
+$$\frac{3!}{0!(3-0)!} (.5)^0 (1-.5)^{3-0}$$
+
+$$\frac{3!}{1(3!)} (.5)^0 (.5)^{3}$$
+$$1 (1) (.5)^{3} = .125$$
+---
+
+# Draw a card, guess its color (1 correct)
+
+$$\binom{n}{k}  p^k (1-p)^{n-k}$$
+
+$$P(x=1|1/2,3) = \binom{3}{1}  (.5)^1 (1-.5)^{3-1}$$
+$$\frac{3!}{1!(3-1)!} (.5)^1 (1-.5)^{3-1}$$
+
+$$\frac{3!}{1!(3-1)!} (.5)^1 (.5)^{2}$$
+$$3 (.5)^1 (.5)^{2} = 3/8 = .375$$
+---
+
+# Draw a card, guess its color (2 correct)
+$$\binom{n}{k}  p^k (1-p)^{n-k}$$
+$$P(x=2|1/2,3) = \binom{3}{2}  (.5)^2 (1-.5)^{3-2}$$
+$$\frac{3!}{2!(3-2)!} (.5)^2 (1-.5)^{3-2}$$
+$$\frac{3!}{2!(3-2)!} (.5)^2 (.5)^{1}$$
+$$3 (.5)^2 (.5)^{1} = 3/8 = .375$$
+---
+
+# Draw a card, guess its color (3 correct)
+
+$$\binom{n}{k}  p^k (1-p)^{n-k}$$
+$$P(x=3|1/2,3) = \binom{3}{3}  (.5)^3 (1-.5)^{3-3}$$
+$$\frac{3!}{3!(3-3)!} (.5)^3 (1-.5)^{3-3}$$
+$$\frac{3!}{3!(3-3)!} (.5)^3 (.5)^{0}$$
+$$1 (.5)^3 (1) = 1/8 = .125$$
+---
+
+class: middle
+
+# Wrapping Up...
+
+---
+
+class: middle
+
+# Unmarketable tomatoes ``r emo::ji('tomato')``
+
+---
+
+# Binomial distributions in statistical sampling
+.pull-left[
+- The binomial distributions are important in statistics when we want to make inferences about the proportion p of successes in a population.
+- Suppose 11% of one producer’s tomatoes are unmarketable. At the warehouse, an official inspects a simple random sample of 10 tomatoes from a shipment of 10,000. Let $X$ = number of unmarketable tomatoes. 
+- What is $P(X=0)$?
+]
+.pull-right[
+```{r echo=FALSE, out.width = "60%", fig.align = "center"}
+knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/f/fe/Solanum_aethiopicum_for_seed_production.JPG")
+```
+]
+Image source: [Michael Hermann](https://commons.wikimedia.org/wiki/User:NusHub) and http://www.cropsforthefuture.org/
+
+---
+
+# Example: Unmarketable tomatoes
+
+- Suppose 11% of one producer’s tomatoes are unmarketable. At the warehouse, an official inspects a simple random sample of 10 tomatoes from a shipment of 10,000. Let $X$ = number of unmarketable tomatoes. 
+- What is $P(X=0)$?
+- Without the binomial, we could calculate the probability like this:
+$$P(X=0) = P(\text{first is good}) \times P(\text{second is good}) \times ... \times P(\text{tenth is good})$$
+$$= \frac{8900}{10000} \times \frac{8899}{9999} \times \frac{8898}{9998}  ... \times 8891/9991 = 0.3116$$
+
+But this is tedious.
+
+---
+
+# Example: Unmarketable tomatoes
+
+- Suppose 11% of one producer’s tomatoes are unmarketable. At the warehouse, an official inspects a simple random sample of 10 tomatoes from a shipment of 10,000. Let $X$ = number of unmarketable tomatoes. 
+- What is $P(X=0)$?
+- With the binomial, we could calculate the probability like this:
+$$P(X=0) \approx \binom{10}{0} (0.11)^0 (1-0.11)^{10-0}$$
+$$= 1 \times 1 \times (0.89)^{10} = 0.3138$$
+- This is much easier, and the approximation is pretty good because the population is much larger than the sample.
+- Note: The binomial distribution is exact if the sample is drawn with replacement.
+
+---
+
+# Sampling Distribution of a Count
+
+- Choose an simple random sample (SRS) of size $n$ from a population with proportion p of successes. 
+- When the sample size is less than 5% of the population size, the count $X$ of successes in the sample has approximately the binomial distribution with parameters $n$ and $p$
+- Conditions for the Binomial Approximation
+  - The sample is an SRS from the population.
+  - The sample size is no more than 5% of the population size.
+  - The population has a proportion $p$ of successes.
+  - The count $X$ of successes in the sample is the variable of interest.
+
+
+---
+
+# Binomial mean and standard deviation
+
+- If a count $X$ has the binomial distribution based on $n$ observations with probability $p$ of success, what is its mean, $\mu$
+
+
+- If a count $X$ has the binomial distribution based on $n$ observations with probability $p$ , the mean and standard deviation of 𝑋 are:
+$$\mu = np$$
+$$\sigma = \sqrt{np(1-p)}$$
+---
+
+# Recall our tomatoes `r emo::ji('tomato')`
+
+- Suppose 11% of one producer’s tomatoes are unmarketable. At the warehouse, an official inspects a simple random sample of 10 tomatoes from a shipment of 10,000. Let $X$ = number of unmarketable tomatoes. 
+- What would the mean and standard deviation be for the binomial distribution of these 10 tomatoes.
+  - Mean: $\mu = np = 10(0.11) = 1.1$
+  - Standard Deviation: $\sigma = \sqrt{np(1-p)} = \sqrt{10(0.11)(0.89)} = 0.989$
+---
+
+# Wrapping Up...
+
+---
+
+# Normal Approximation to the Binomial
+
+- As $n$ gets larger, something interesting happens to the shape of a binomial distribution.
+- The distribution becomes more symmetric and bell-shaped.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, out.width="60%"}
+library(patchwork)
+
+p <- 0.8
+p1 <- ggplot_binom(10, p) +
+  theme_minimal() +  ggtitle('n = 10, p = 0.8')
+
+p2 <- ggplot_binom(20, p) +
+  theme_minimal() +  ggtitle('n = 20, p = 0.8')
+
+p3 <- ggplot_binom(50, p) +
+  theme_minimal() +  ggtitle('n = 50, p = 0.8')
+
+# same y-axis
+
+
+(p1 + p2 + p3) + plot_layout(ncol = 3, guides = "collect") & ylim(0, 0.35) 
+```
+
+---
+
+## Normal Approximation to the Binomial
+
+- When n is large, the binomial distribution can be approximated by a normal distribution with mean $\mu = np$ and standard deviation $\sigma = \sqrt{np(1-p)}$.
+- As a rule of thumb, we will use the Normal approximation when $n$ is so large that $n p$≥10 and $n$(1 – $p$)≥10.
+- This rule ensures that the binomial distribution is not too skewed.
+
+---
+
+# Wrapping Up…
+
+---
+
+# Functions in R
+
+- `dbinom`(x, size, prob)
+  - gives the probability of x successes in size trials with probability prob of success on each trial.
+- `pbinom(q, size, prob…)` 
+  - gives the cumulative density function, computes the probability that a binomially distributed random number will be at that value or less than that number
+- `qbinom()` gives the quantile function, and, is the inverse of `pbinom`, give it a probability, 
+  - it produces the number whose cumulative distribution matches the probability
+- `rbinom()` generates random deviates. 
+
+---
+
+# Examples using R
+
+- Question: Suppose widgets produced at Acme Widget Works have probability 0.005 of being defective. Suppose widgets are shipped in cartons containing 25 widgets. What is the probability that a randomly chosen carton contains exactly one defective widget?
+- Question Rephrased: What is P(X = 1) when X has the Bin(25, 0.005) distribution?
+
+```{r, echo=TRUE}
+dbinom(1, 25, 0.005)
+```
+
+- In case you're curious, here's what Github Copilot guessed was the answer:
+
+> [1] 0.07461825
+---
+# Examples using R
+
+- Question: Suppose widgets produced at Acme Widget Works have probability 0.005 of being defective. Suppose widgets are shipped in cartons containing 25 widgets. What is the probability that a randomly chosen carton contains no more than one defective widget?
+- Question Rephrased: What is P(X ≤ 1) when X has the Bin(25, 0.005) distribution?
+```{r, echo=TRUE}
+pbinom(1, 25, 0.005)
+```
+- In case you're curious, here's what Github Copilot guessed was the answer:
+> [1] 0.9743589
+
+---
+
+# Examples using R
+
+- Question: What are the 10th, 20th, and so forth quantiles of the Bin(10, 1/3) distribution?
+
+```{r, echo=TRUE}
+qbinom(0.1, 10, 1/3)
+```
+```{r, echo=TRUE}
+qbinom(0.2, 10, 1/3)
+```
+
+- and so forth, or all at once with 
+```{r, echo=TRUE}
+qbinom(seq(0.1, 0.9, 0.1), 10, 1/3) 
+```
+---
+
+# Wrapping Up…
