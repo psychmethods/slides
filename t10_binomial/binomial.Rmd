@@ -334,13 +334,14 @@ class: middle
 - Suppose 11% of one producer’s tomatoes are unmarketable. At the warehouse, an official inspects a simple random sample of 10 tomatoes from a shipment of 10,000. Let $X$ = number of unmarketable tomatoes. 
 - What is $P(X=0)$?
 ]
+
 .pull-right[
-```{r echo=FALSE, out.width = "60%", fig.align = "center"}
+```{r echo=FALSE, out.width = "80%", fig.align = "center"}
 knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/f/fe/Solanum_aethiopicum_for_seed_production.JPG")
 ```
-]
-Image source: [Michael Hermann](https://commons.wikimedia.org/wiki/User:NusHub) and http://www.cropsforthefuture.org/
 
+Image source: [Michael Hermann](https://commons.wikimedia.org/wiki/User:NusHub) and http://www.cropsforthefuture.org/
+]
 ---
 
 # Example: Unmarketable tomatoes
