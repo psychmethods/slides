@@ -90,7 +90,7 @@ class: middle
 ## Sampling distribution: Illustration
 
 
-```{r studentt, echo=FALSE, out.width="65%"}
+```{r studentt, echo=FALSE, out.width="95%"}
 knitr::include_graphics("../img/distribution_flow_chart.png")
 ```
 
@@ -220,6 +220,27 @@ $$\sigma_{\bar{x}} = \frac{\sigma_{x}}{\sqrt{n}}$$
 - If we keep taking larger and larger samples, the statistic $\bar{x}$ is guaranteed to get closer and closer to the parameter $\mu$
 
 ---
+
+# Law of Large Numbers
+
+.pull-left[
+
+```{r}
+set.seed(202406)
+mu <- 25
+sigma <- 10
+n <- 1:1000
+xbar <- sapply(n, function(n) mean(rnorm(n, mu, sigma)))
+plot(n, xbar, type = "l", xlab = "Sample Size", ylab = "Sample Mean", main = "Law of Large Numbers")
+abline(h = mu, col = "red", lty = 2)
+```
+]
+.pull-right[
+- As the size of the sample increases, the sample mean gets closer to the population mean
+- Note: This is a probabilistic statement, not a deterministic one
+]
+
+---
 # Law of Large Numbers
 
 - As the size of the sample increases, the sample mean gets closer to the population mean
@@ -232,12 +253,26 @@ $$\sigma_{\bar{x}} = \frac{\sigma_{x}}{\sqrt{n}}$$
   - Note: This is a probabilistic statement, not a deterministic one
 ---
 
+# Law of Large Numbers in Action
+
+```{r, echo=FALSE, out.width="95%"}
+set.seed(202406)
+# dice roll 1-6
+n <- 1:1000
+xbar <- sapply(n, function(n) mean(sample(1:6, n, replace = TRUE)))
+plot(n, xbar, type = "l", xlab = "Sample Size", ylab = "Sample Mean", main = "Law of Large Numbers (Dice Roll)")
+abline(h = 3.5, col = "red", lty = 2)
+```
+
+
+---
+
 # Central Limit Theorem
 
 - Similarly, the Central Limit Theorem describes the shape of a sampling distribution.
 - Draw an SRS of size $n$ from any population with mean $\mu$ and finite standard deviation $\sigma$. 
   - The central limit theorem says that when n is large, the sampling distribution of the sample mean $\bar{x}$ is approximately Normal:
-  - $\bar{x}$ is approximately N $\mu$,  $\frac{\sigma}{\sqrt{n}}$)
+  - $\bar{x}$ is distributed as N ($\mu$,  $\frac{\sigma}{\sqrt{n}}$)
 
 ---
 
@@ -469,7 +504,7 @@ B <- 1000
 sds <- replicate(B, sd(rnorm(n, 0, 1)))
 ggplot(data.frame(x = sds), aes(x)) +
   geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "lightblue", color = "black") +
-  labs(title = "Sampling Distribution of the Sample Standard Deviation (n=5)", y = "Density") +
+  labs(title = "Sampling Distribution of the *Sample Standard Deviation* (n=5)", y = "Density") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5)) +
   xlim(0, 5)
@@ -483,7 +518,7 @@ vars <- replicate(B, var(rnorm(n, 0, 1)))
 ggplot(data.frame(x = vars), aes(x)) +
   geom_histogram(aes(y = after_stat(density)), bins = 30, fill
  = "lightblue", color = "black") +
-  labs(title = "Sampling Distribution of the Sample Variance (n=5)", y = "Density") +
+  labs(title = "Sampling Distribution of the Sample *Variance* (n=5)", y = "Density") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5)) +
   xlim(0, 10)
@@ -496,6 +531,19 @@ ggplot(data.frame(x = vars), aes(x)) +
 - the particular sample statistic we are interested in, 
 - the distribution of the population of individual values from which the sample statistic is computed, and 
 - the method by which samples are selected from the population.
+
+---
+
+
+# Sampling distributionsand statistical significance
+
+- The sampling distribution allows us to determine the probability of observing any particular value of the sample statistic in another such sample from the population. 
+- We said that an observed effect so large that it would rarely occur by chance is called statistically significant.
+
+---
+# Consider This…
+
+- We may decide, based on our observed set of 1000 samples, that because we say only 2 with variances above 200, that that is a statistically significant event.
 
 ---
 
