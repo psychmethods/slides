@@ -653,7 +653,7 @@ geom_rect(data=rect1, aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),
     + Use when we have two non-independent groups. 
 - Independent two-sample t-test 
     + Use when we have two independent groups. 
-      - .small[A Welch correction may be needed if the two groups have different spread.]
+     .small[ - A Welch correction may be needed if the two groups have different spread.]
 - Non-parametric tests or transformations
     + Use when we cannot assume normality. 
 
