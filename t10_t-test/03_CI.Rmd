@@ -88,20 +88,22 @@ class: middle
 
 ## Demo: Confidence Interval Coverage
 
+.pull-left[
 - We will show a single-sample CI, 
   - coverage across replicates, and 
   - how CI width changes with n and confidence.
+  - We will simulate drawing samples of size 30 from a population with known parameters (mu = 100, sigma = 15).
+]
+--
 
-```{r ci-demo, echo=FALSE, out.width="90%"}
+.tiny.pull-right[
+```{r ci-demo, echo=TRUE}
 set.seed(1234)
-library(plotly)
-library(ggplot2)
 
 one_ci <- function(n = 30, conf = 0.95,
-                    mu=100,
+                    mu = 100,
                     sigma = 15
                    ) {
- 
   alpha <- 1 - conf
   z_crit <- qnorm(1 - alpha / 2)
   
@@ -119,8 +121,10 @@ one_ci <- function(n = 30, conf = 0.95,
     ContainsMu = (lower_bound <= mu) & (upper_bound >= mu)
   )
 }
-ci_simulation <- function(n = 30, conf = 0.95, reps = 100) {
-  ci_results <- replicate(reps, one_ci(n, conf), simplify = FALSE)
+ci_simulation <- function(n = 30, conf = 0.95, reps = 100,
+                          mu = 100,sigma = 15
+                          ) {
+  ci_results <- replicate(reps, one_ci(n=n, conf=conf,mu=mu,sigma=sigma), simplify = FALSE)
   do.call(rbind, ci_results)
 }
 
@@ -130,7 +134,15 @@ ci_data <- ci_simulation(n = 30, conf = 0.95, reps = 100) %>%
          UpperBound = round(UpperBound, 2),
          LowerBound = round(LowerBound, 2),
          SampleMean = round(SampleMean, 2))
+```
+]
+---
 
+## CI Coverage Demo Plot
+
+```{r ci-demo-plot, echo=FALSE, out.height="90%"}
+library(plotly)
+library(ggplot2)
 ci_plot <- ggplot(ci_data, aes(x = SampleIndex)) +
   geom_errorbar(aes(ymin = LowerBound, ymax = UpperBound, color = ContainsMu), width = 0.2) +
   geom_point(aes(y = SampleMean), size = 2) +
@@ -146,125 +158,7 @@ ggplotly(ci_plot)
 ```
 
 
-```{r}
-set.seed(123)
 
-# Parameters aligned with narrative
-
-true_mu <- 98
-true_sd <- 15
-n <- 100
-conf <- 0.95
-n_draws <- 200
-
-alpha <- 1 - conf
-tcrit <- qt(1 - alpha/2, df = n - 1)
-tcrit_se <- tcrit * (true_sd / sqrt(n))
-# Simulate samples and compute t CIs for the mean
-
-sim <- replicate(n_draws, rnorm(n, mean = true_mu, sd = true_sd), simplify = FALSE)
-stats <- lapply(seq_along(sim), function(k){
-x <- sim[[k]]
-m <- mean(x); s <- sd(x); se <- s / sqrt(n)
-lo <- m - tcrit_se; hi <- m + tcrit_se
-data.frame(draw = k, mean = m, lo = lo, hi = hi,
-contains_mu = as.integer(lo <= true_mu & hi >= true_mu))
-}) |> dplyr::bind_rows()
-
-coverage_running <- stats |>
-dplyr::arrange(draw) |>
-dplyr::mutate(covered_cum = cumsum(contains_mu)/draw)
-
-# Axis context
-
-xlim <- c(true_mu - 4*true_sd, true_mu + 4*true_sd)
-dens_x <- seq(xlim[1], xlim[2], length.out = 400)
-dens_y <- dnorm(dens_x, mean = true_mu, sd = true_sd)
-
-# Base plot with normal curve and reference line
-
-p <- plotly::plot_ly() |>
-plotly::add_lines(x = dens_x, y = dens_y, hoverinfo = "skip",
-line = list(width = 1), showlegend = FALSE, yaxis = "y2") |>
-plotly::add_line(x = true_mu, line = list(dash = "dot"), showlegend = FALSE)
-
-# Build animation frames
-
-frames <- lapply(seq_len(nrow(stats)), function(k){
-row <- stats[stats$draw == k, ]
-cov_now <- coverage_running$covered_cum[k]
-list(
-name = as.character(k),
-data = list(
-list(type = "scatter", mode = "lines",
-x = c(row$lo, row$hi), y = c(0, 0), yaxis = "y",
-hoverinfo = "text",
-text = sprintf("draw %dmean = %.2fCI = [%.2f, %.2f]%s",
-k, row$mean, row$lo, row$hi,
-ifelse(row$contains_mu == 1, "contains 98", "misses 98")),
-line = list(width = 6, color = if (row$contains_mu == 1) "rgba(0,0,0,0.75)" else "rgba(200,0,0,0.9)")
-),
-list(type = "scatter", mode = "markers",
-x = row$mean, y = 0, yaxis = "y",
-marker = list(size = 10, symbol = "x", line = list(width = 2)),
-hoverinfo = "text",
-text = sprintf("sample mean = %.2f", row$mean)
-),
-list(type = "scatter", mode = "text",
-x = xlim[1] + 0.02_diff(xlim), y = max(dens_y)_0.9, yaxis = "y2",
-text = sprintf("coverage: %.1f%% target: %.0f%% draw %d of %d",
-100_cov_now, 100_conf, k, nrow(stats)),
-textposition = "top left",
-showlegend = FALSE,
-hoverinfo = "skip"
-)
-)
-)
-})
-
-# Initial traces
-
-k1 <- frames[[1]]$data
-p <- p |>
-plotly::add_trace(k1[[1]]) |>
-plotly::add_trace(k1[[2]]) |>
-plotly::add_trace(k1[[3]]) |>
-plotly::layout(
-title = list(text = sprintf("95%% t CI for μ; n = %d", n)),
-xaxis = list(title = "IQ", range = xlim, zeroline = FALSE),
-yaxis = list(title = "", showticklabels = FALSE, zeroline = FALSE),
-yaxis2 = list(overlaying = "y", side = "right", showticklabels = FALSE, title = "", zeroline = FALSE),
-shapes = list(list(type = "line", x0 = true_mu, x1 = true_mu, y0 = 0, y1 = max(dens_y),
-yref = "y2", line = list(dash = "dot", width = 1))),
-updatemenus = list(
-list(
-type = "buttons",
-y = 1.15, x = 0,
-buttons = list(
-list(label = "Play", method = "animate",
-args = list(NULL, list(frame = list(duration = 400, redraw = FALSE),
-transition = list(duration = 0), fromcurrent = TRUE, mode = "immediate"))),
-list(label = "Pause", method = "animate",
-args = list(NULL, list(mode = "immediate", frame = list(duration = 0, redraw = FALSE), transition = list(duration = 0))))
-)
-)
-),
-sliders = list(list(
-pad = list(t = 50),
-currentvalue = list(prefix = "draw: "),
-steps = lapply(seq_len(nrow(stats)), function(k) {
-list(method = "animate", label = as.character(k),
-args = list(list(as.character(k)),
-list(mode = "immediate", frame = list(duration = 0, redraw = FALSE), transition = list(duration = 0))))
-})
-))
-) |>
-plotly::animation_opts(frame = 400, transition = 0, redraw = FALSE) |>
-plotly::animation_slider(currentvalue = list(prefix = "draw: "))
-
-p$x$frames <- frames
-p
-```
 ---
 
 class: middle
