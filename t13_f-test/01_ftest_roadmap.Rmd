@@ -42,6 +42,7 @@ class: middle
 - t-tests
 - t-tests
 - t-tests
+- confidence intervals
 ]
 
 ---
@@ -50,8 +51,8 @@ class: middle
 .large[
 - multiple comparisons
 - f-test logic
-- analysis of variance
-- regression
+  - analysis of variance
+  - regression
 ]
 
 ---
@@ -96,12 +97,17 @@ class: middle
 - Problems: 
   - Many t-tests with lots of groups
   - Alpha-control
-    - Increase type-1 error rate (because we're testing multiple times)
-    - Multiplication of type 1 errors
-    - e.g, If we test 20 times, we'll find 1 significant result by chance (if \alpha = .05)
+  
+---
 
-    - http://shinyapps.org/apps/p-hacker/
-    - ANOVA controls alpha =.05 across all tests (as does regression)
+## Alpha-control
+
+- Increase type-1 error rate (because we're testing multiple times)
+- Multiplication of type 1 errors
+  - e.g, If we test 20 times, we'll find 1 significant result by chance (if $\alpha$ = .05)
+  
+- http://shinyapps.org/apps/p-hacker/
+- ANOVA controls alpha =.05 across all tests (as does regression)
 
 
 ---
@@ -129,9 +135,9 @@ class: middle
 ## Attempt to Replicate Psychology
 
 - A report by the Open Science Collaboration in August 2015 
-estimated the reproducibility of 100 studies in psychological science from three high-ranking psychology journals.
+  - estimated the reproducibility of 100 studies in psychological science from three high-ranking psychology journals.
 - Overall, 36% of the replications yielded significant findings (p-value below .05) 
-  - compared to 97% of the original studies that had significant effects. 
+  - compared to 97% of the original studies that had significant effects.
 - The mean effect size in the replications was approximately half the magnitude of the effects reported in the original studies.
 
 ---
@@ -140,7 +146,7 @@ estimated the reproducibility of 100 studies in psychological science from three
 ---
 
 ## Attempt to Replicate Psychology
-
+- Replication rates varied by subfield and journal
 - Studies in the field of cognitive psychology had a higher replication rate (50%) than studies in the field of social psychology (25%).
 - By Journal -- study replication rates were... 
   - 23% for Journal of Personality and Social Psychology, 
@@ -153,7 +159,7 @@ estimated the reproducibility of 100 studies in psychological science from three
 
 ## Issue is broader than psychology
 
-- 2016 poll of 1,500 scientists reported in Nature, 
+- At the time, a 2016 poll of 1,500 scientists reported in Nature, 
   - 70% of them had failed to replicate at least one other scientist's experiment (50% had failed to replicate one of their own experiments). 
 - Results differed by field
   - chemistry: 90% (60%),
@@ -179,11 +185,12 @@ class: middle
 
 
 ---
-## Because multiple group tests Can be Conceptualized Multiple WAYS…
-- I'm going to show you both approaches (regression & ANOVA).
+
+## Multi-group tests can be conducted multiple ways
+- I'm going to show you two popular approaches (regression & ANOVA).
 - I was taught it using regression, so I am biased. 
-- But the majority of psychologists are taught using the traditional method
-  - So you'll be expected to be familiar with that approach
+- But the majority of psychologists are taught using the traditional method of ANOVA.
+  - So it is useful to be familiar with that approach
 
 
 ---
