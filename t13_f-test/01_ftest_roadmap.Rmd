@@ -1,5 +1,5 @@
 ---
-title: "f-tests and their applications <br> `r emo::ji('shrimp')`"
+title: "f-tests and their applications <br> `r emo::ji('cat')`"
 author: "S. Mason Garrison"
 bibliography: "library.bib"
 output:
@@ -91,7 +91,7 @@ class: middle
 
 ---
 
-## Why can't we Just Run a Bunch of t-tests?
+## Why can't we just run a bunch of t-tests?
 
 - For example, in a three group design, we could just run 3 t-tests?
 --
@@ -122,7 +122,7 @@ class: middle
 - If we run many tests, some will be significant by chance alone.
 
 --
-- 'Replication Crisis'
+- 'Replication Crisis' in Psychology and other sciences
 
 
 ---
@@ -156,7 +156,7 @@ knitr::include_graphics("../img/replicationcrisis.png")
 - The mean effect size in the replications was approximately half the magnitude of the effects reported in the original studies.
 
 ---
-
+<!-- https://www.science.org/doi/epdf/10.1126/science.aac4716 -->
 ```{r, echo=FALSE, out.width="55%"}
 knitr::include_graphics("../img/replicationplot.png")
 ```
@@ -493,14 +493,11 @@ knitr::include_graphics("../img/histflowers.png")
   - bihai: 47.60
   - red: 39.71
   - yellow: 36.18
-  
 - Null hypothesis: The true means (for length) are the same for all groups (the three flower types).
-
 - We could look at separate t tests to compare each pair of means to see if they are different:
   - bihai vs. red
   - bihai vs. yellow
   - red vs. yellow
-
 - However, this gives rise to the problem of multiple comparisons....
 
 ---
@@ -625,6 +622,7 @@ summary(anova_result)
 - Using an F-distribution table or software, we find the critical value of F at $\alpha$ = 0.05 with df1 = 2 and df2 = 51.
 - Critical value of F ≈ ``r qf(0.95, df1=2, df2=51)``
 
+`qf(0.95, df1=2, df2=51)`
 ]
 
 ---
