@@ -156,6 +156,17 @@ img
 
 
 ]
+
+---
+
+# R Verification
+- If you want to verify the calculations in R, you can use the following code:
+```{r echo=TRUE}
+
+mean(iris$Sepal.Length)
+
+```
+
 ---
 
 # Step 2: Calculate the Standard Deviation
@@ -183,6 +194,13 @@ img
 
 ---
 
+# R Verification
+
+```{r echo=TRUE}
+sd(iris$Sepal.Length)
+```
+
+---
 
 # Step 3: Calculate the sample size
 .pull-left[
@@ -200,6 +218,19 @@ img <- image_read(image_path) %>%
 img
 ```
 ]
+
+---
+
+# R Verification
+
+```{r echo=TRUE}
+iris %>% 
+  summarise(
+    mean_sepal_length = mean(Sepal.Length),
+    sd_sepal_length = sd(Sepal.Length),
+    n = n()
+  )
+```
 
 ---
 
@@ -236,6 +267,16 @@ img
 
 ---
 
+# R Verification
+
+```{r echo=TRUE}
+t_statistic <- (mean(iris$Sepal.Length) - 5.5) / (sd(iris$Sepal.Length) / sqrt(nrow(iris)))
+
+t_statistic
+```
+
+---
+
 # Step 5: Calculate the P-Value
 
 .pull-left[
@@ -264,6 +305,14 @@ img
 
 ---
 
+# R Verification
+```{r echo=TRUE}
+p_value <- 2 * pt(-abs(t_statistic), df = nrow(iris) - 1)
+p_value
+
+```
+
+---
 # Step 6: Interpret Results
 
 .pull-left[
@@ -303,6 +352,14 @@ In this task, you:
 - Computed the **T-statistic** and **two-tailed p-value** using Excel functions.
 - Interpreted results to determine if the mean `Sepal.Length` differs from 5.5.
 
+
+---
+
+# R Verification
+```{r echo=TRUE}
+t.test(iris$Sepal.Length, mu = 5.5)
+```
+
 ---
 
 
@@ -338,7 +395,7 @@ In this task, you will:
 To perform a two-sample t-test, download the dataset filtered to only include `Sepal.Length` for `Virginica` and `Versicolor`.
 
 
-```{r}
+```{r, echo=FALSE}
 # Prepare dataset for Two-Sample T-Test
 
 two_sample_data <- iris %>%
@@ -418,6 +475,21 @@ img
 ```
 ]
 
+---
+
+# R Verification
+```{r echo=TRUE}
+
+data_virginica <- iris %>%
+  filter(Species == "virginica") 
+
+mean(data_virginica$Sepal.Length)
+
+data_versicolor <- iris %>%
+  filter(Species == "versicolor")
+
+mean(data_versicolor$Sepal.Length)
+```
 
 ---
 
@@ -443,17 +515,27 @@ img <- image_read(image_path ) %>%
 img
 ```
 ]
+
+---
+
+# R Verification
+
+```{r echo=TRUE}
+sd(data_virginica$Sepal.Length)
+sd(data_versicolor$Sepal.Length)
+```
+
 ---
 
 # Step 3: Calculate Sample Sizes for Each Group
 
 .pull-left[
 1. **Select a cell** (e.g., B156) to calculate the sample size of **Virginica**:
-   - In the **Formula Bar**, type `=COUNT(A2:A75)`.
+   - In the **Formula Bar**, type `=COUNT(A2:A52)`.
    - Press **Enter** to display the sample size for `Virginica`.
 
 2. **Select another cell** (e.g., B157) for the **Versicolor** sample size:
-   - Type `=COUNT(A76:A150)`.
+   - Type `=COUNT(A52:A102)`.
    - Press **Enter** to display the sample size for `Versicolor`.
 
 ]
@@ -462,7 +544,7 @@ img
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_zoom.png"
 img <- image_read(image_path ) %>%
-  image_annotate("=COUNT(A2:A75)", size = 30, color = "darkgreen", location = "+550+475")
+  image_annotate("=COUNT(A2:A52)", size = 30, color = "darkgreen", location = "+550+475")
 
 img
 ```
@@ -470,6 +552,15 @@ img
 
 ---
 
+# R Verification
+
+```{r echo=TRUE}
+
+nrow(data_virginica)
+nrow(data_versicolor)
+```
+
+---
 
 # Step 4: Calculate the Two-Sample T-Statistic
 
@@ -504,6 +595,20 @@ img
 
 ---
 
+# R Verification
+
+```{r echo=TRUE}
+
+t_statistic_two_sample <- (mean(data_virginica$Sepal.Length) - mean(data_versicolor$Sepal.Length)) / 
+  sqrt((sd(data_virginica$Sepal.Length)^2 / nrow(data_virginica)) + 
+         (sd(data_versicolor$Sepal.Length)^2 / nrow(data_versicolor)))
+
+
+t_statistic_two_sample
+```
+
+---
+
 # Step 5: Calculate Degrees of Freedom
 
 .pull-left[
@@ -533,7 +638,18 @@ img <- image_read(image_path ) %>%
 img
 ```
 ]
+---
 
+# R Verification
+
+```{r echo=TRUE}
+df_two_sample <- (((sd(data_virginica$Sepal.Length)^2 / nrow(data_virginica)) + 
+                     (sd(data_versicolor$Sepal.Length)^2 / nrow(data_versicolor)))^2) / 
+  (((sd(data_virginica$Sepal.Length)^2 / nrow(data_virginica))^2 / (nrow(data_virginica) - 1)) + 
+     ((sd(data_versicolor$Sepal.Length)^2 / nrow(data_versicolor))^2 / (nrow(data_versicolor) - 1)))
+
+df_two_sample
+```
 
 ---
 
@@ -557,6 +673,16 @@ img <- image_read(image_path ) %>%
 img
 ```
 ]
+
+---
+
+# R Verification
+
+```{r echo=TRUE}
+p_value_two_sample <- 2 * pt(-abs(t_statistic_two_sample), df = df_two_sample)
+
+p_value_two_sample
+```
 
 ---
 
@@ -600,6 +726,16 @@ In this task, you:
 
 ---
 
+# R Verification
+
+```{r echo=TRUE}
+data_vs <- iris %>%
+  filter(Species == "virginica" | Species == "versicolor")
+
+t.test(Sepal.Length ~ Species, data = data_vs)
+```
+
+---
 
 class: middle, inverse
 
@@ -662,6 +798,19 @@ knitr::include_graphics("../img/iris_anova_data.png")
 ```
 ]
 
+---
+
+# R Verification
+
+```{r echo=TRUE}
+
+iris %>% group_by(Species) %>%
+  summarise(
+    mean_sepal_length = mean(Sepal.Length),
+    sd_sepal_length = sd(Sepal.Length),
+    n = n()
+  )
+```
 ---
 
 # Step 1: Open the Data Analysis Toolpak
@@ -732,7 +881,17 @@ After running the ANOVA, Excel will display the results, including the **F-value
 #knitr::include_graphics("../img/excel_lab/anova_output.png")
 ```
 ]
+---
 
+# R Verification
+
+```{r echo=TRUE}
+anova_result <- aov(Sepal.Length ~ Species, data = iris)
+
+anova_result
+
+summary(anova_result)
+```
 ---
 
 # Task 3 Recap: One-Way ANOVA in Excel
