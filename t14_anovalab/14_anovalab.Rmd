@@ -95,21 +95,21 @@ data(iris)
 write.xlsx(iris, "IrisData.xlsx")
 ```
 
-[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/IrisData.xlsx)
+[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t14_anovalab/IrisData.xlsx)
 ]
 .pull-right-narrow[
 .center[
 ```{r, echo=FALSE, out.width="100%", warning = FALSE}
 library(qrcode)
 
-share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/IrisData.xlsx"
+share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t14_anovalab/IrisData.xlsx"
 code <- qr_code(share_link)
 
 plot(code)
 ```
 ]]
 
-.footnote[or here https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/IrisData.xlsx]
+.footnote[or here https://github.com/psychmethods/slides/raw/refs/heads/main/t14_anovalab/IrisData.xlsx]
 
 
 ---
@@ -349,12 +349,12 @@ two_sample_data <- iris %>%
 write.xlsx(two_sample_data, "Iris_TwoSample_TTest.xlsx")
 ```
 
-[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/Iris_TwoSample_TTest.xlsx)
+[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t14_anovalab/Iris_TwoSample_TTest.xlsx)
 
 ```{r, echo=FALSE, out.width="50%", warning = FALSE}
 library(qrcode)
 
-share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/Iris_TwoSample_TTest.xlsx"
+share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t14_anovalab/Iris_TwoSample_TTest.xlsx"
 code <- qr_code(share_link)
 
 plot(code)
@@ -628,13 +628,13 @@ In this task, you will:
 write.xlsx(iris, "Iris_ANOVA.xlsx")
 ```
 
-2. **Download the file here**: [Download Link](https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/Iris_ANOVA.xlsx).
+2. **Download the file here**: [Download Link](https://github.com/psychmethods/slides/raw/refs/heads/main/t14_anovalab/Iris_ANOVA.xlsx).
 
 .pull-right[
 ```{r, echo=FALSE, out.width="50%", warning = FALSE}
 library(qrcode)
 
-share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t12_anovalab/Iris_ANOVA.xlsx"
+share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t14_anovalab/Iris_ANOVA.xlsx"
 code <- qr_code(share_link)
 
 plot(code)
