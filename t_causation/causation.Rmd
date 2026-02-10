@@ -1,0 +1,698 @@
+---
+title: "Causation"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle
+
+# Causation
+
+---
+
+## Roadmap
+
+.pull-left[
+`r emo::ji("warning")` **Correlation vs. Causation**
+
+- Post hoc fallacy
+- Necessary vs. sufficient
+
+`r emo::ji("microscope")` **Criteria for Causation**
+
+- Hill's Criteria
+- Cook and Campbell (1979)
+]
+
+.pull-right[
+`r emo::ji("shield")` **Minimizing Threats to Validity**
+
+- By argument
+- By measurement or observation
+- By analysis
+- By preventive action
+- By design
+
+`r emo::ji("pencil")` **Design Construction**
+
+- Four basic elements
+- Expanding designs
+]
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Explain why correlation does not imply causation and name the types of alternative explanations
+- Distinguish between necessary and sufficient conditions
+- List and apply Hill's Criteria of Causation
+- Describe Cook and Campbell's three criteria for causation
+- Explain the five approaches for minimizing threats to validity
+- Identify the four basic elements of research design and explain how to expand each
+
+---
+
+class: middle, center, inverse
+
+# Correlation `r emo::ji("right_arrow")` Causation
+
+---
+
+## Correlation `r emo::ji("right_arrow")` Causation
+
+The adage that "Correlation does not imply Causation" is a warning against
+
+**Post hoc ergo propter hoc**
+- "After this, therefore because of this"
+- Specific case of the Questionable Cause Fallacy (Logical Fallacy)
+
+--
+
+Sometimes called:
+- causal fallacy
+- false cause, or
+- 'non causa pro causa' — "Not the cause for the cause"
+
+---
+
+## Correlation `r emo::ji("right_arrow")` Causation
+
+We cannot assume that correlation means causation. Possible explanations include:
+
+--
+
+- **A causes B** (direct causation)
+
+--
+
+- **B causes A** (reverse causation)
+
+--
+
+- **A and B are consequences of a common cause**, but do not cause each other
+
+--
+
+- **A causes B and B causes A** (bidirectional or cyclic causation)
+
+--
+
+- **A causes C which causes B** (indirect causation)
+
+--
+
+- **There is no connection between A and B**; the correlation is a coincidence
+
+---
+
+## Correlation `r emo::ji("right_arrow")` Causation
+
+.pull-left[
+> "Correlation doesn't imply causation, but it does waggle its eyebrows suggestively and gesture furtively while mouthing *look over there*."
+
+— [xkcd.com/552](https://xkcd.com/552/)
+]
+
+.pull-right[
+<!-- TODO: add xkcd #552 "Correlation" comic -->
+
+Correlations are **necessary** for causation, but not **sufficient**.
+]
+
+---
+
+class: middle, center, inverse
+
+# Necessary Versus Sufficient (Logic)
+
+---
+
+## Necessary Versus Sufficient (Logic)
+
+**Necessary** (if A, then B; denoted A `r emo::ji("right_arrow")` B)
+
+The assertion that B is necessary for A is equivalent to:
+- "A cannot be true unless B is true" or
+- "if B is false, then A is false"
+- (By contraposition: "whenever A is true, so is B")
+
+--
+
+**Example:**
+
+Being at least 30 years old is necessary for serving in the U.S. Senate.
+- If you are under 30, it is impossible to be a senator.
+- If you are a senator, it follows that you are at least 30 years old.
+
+---
+
+## Necessary Versus Sufficient (Logic)
+
+**Sufficient**
+
+If X is sufficient for Y, then knowing X to be true means you can conclude that Y is true.
+- However, knowing X to be false does **not** mean Y is false.
+
+--
+
+**Example:**
+
+If the U.S. Congress passes a bill, the president's signature is sufficient to make it law.
+- But if the president did not sign the bill (e.g., through a presidential veto), that does not mean the bill has not become law.
+- (It could still have become law through a congressional override.)
+
+---
+
+## Correlation `r emo::ji("right_arrow")` Causation
+
+.pull-left[
+Although correlation isn't **sufficient**, it is a **necessary** component for causation.
+]
+
+.pull-right[
+**Hill's Criteria of Causation**
+
+Austin Bradford Hill, "The Environment and Disease: Association or Causation?" *Proceedings of the Royal Society of Medicine*, 58 (1965): 295–300.
+
+**Cook and Campbell's Three Criteria (1979)**
+
+Cook, T. D. and Campbell, D. T. (1979). *Quasi-experimentation: Design & analysis issues for field settings.* Boston: Houghton Mifflin.
+]
+
+---
+
+class: middle, center, inverse
+
+# Hill's Criteria
+
+---
+
+## Hill's Criteria
+
+.pull-left[
+**Strength:**
+A relationship is more likely to be causal if the correlation coefficient is large and statistically significant.
+]
+
+.pull-right[
+**Consistency:**
+A relationship is more likely to be causal if it can be replicated.
+]
+
+---
+
+## Hill's Criteria
+
+.pull-left[
+**Specificity:**
+A relationship is more likely to be causal if there is no other likely explanation.
+]
+
+.pull-right[
+**Temporality:**
+A relationship is more likely to be causal if the effect always occurs **after** the cause.
+]
+
+---
+
+## Hill's Criteria
+
+.pull-left[
+**Gradient:**
+A relationship is more likely to be causal if a greater exposure to the suspected cause leads to a greater effect.
+]
+
+.pull-right[
+**Plausibility:**
+A relationship is more likely to be causal if there is a plausible mechanism between the cause and the effect.
+]
+
+---
+
+## Hill's Criteria
+
+**Coherence:** A relationship is more likely to be causal if it is compatible with related facts and theories.
+
+**Experiment:** A relationship is more likely to be causal if it can be verified experimentally.
+
+**Analogy:** A relationship is more likely to be causal if there are proven relationships between similar causes and effects.
+
+---
+
+## Hill's Criteria — Full List
+
+1. Strength
+2. Consistency
+3. Specificity
+4. Temporality
+5. Gradient
+6. Plausibility
+7. Coherence
+8. Experiment
+9. Analogy
+
+---
+
+## Hill's Criteria in Practice: Subluxation
+
+.pull-left[
+**Subluxation**
+
+An orthopedic subluxation — a true vertebral misalignment, or a mechanical joint dysfunction that affects mobility in the spine — is
+
+**not the same as** a "chiropractic subluxation" that is alleged to cause disease by interfering with nerve supply to organs.
+]
+
+.pull-right[
+Mirtz, T. A., Morgan, L., Wyatt, L. H., & Greene, L. (2009). An epidemiological examination of the subluxation construct using Hill's criteria of causation. *Chiropractic & osteopathy*, 17(1), 13.
+
+[chiromt.biomedcentral.com/articles/10.1186/1746-1340-17-13](https://chiromt.biomedcentral.com/articles/10.1186/1746-1340-17-13)
+]
+
+---
+
+class: middle, center, inverse
+
+# Cook and Campbell (1979)
+
+---
+
+## Cook and Campbell (1979)
+
+**Covariation:**
+Changes in the assumed cause (X) are related to changes in the assumed effect (Y). Changing X results in a predictable change in Y.
+
+--
+
+**Temporal Precedence:**
+The assumed cause must occur **before** the assumed effect.
+
+--
+
+**No Plausible Alternative Explanations:**
+The assumed cause must be the only reasonable explanation for changes in the measured assumed effect.
+
+---
+
+## No Plausible Alternative Explanations
+
+The third criterion is the **hardest to satisfy**.
+
+Plausible alternative explanations are **"threats to validity"**
+
+--
+
+**Goal: Minimizing Threats to Validity**
+
+Multiple approaches (can be combined):
+- Argument
+- Measurement or Observation
+- Analysis
+- Preventive Action
+- Design
+
+---
+
+## Goal: Minimizing Threats to Validity
+
+The five categories should not be considered mutually exclusive.
+
+- Measurements designed to minimize threats will obviously be related to the design structure and is likely to be a factor in the analysis.
+- A good research plan should, where possible, **make use of multiple methods** for reducing threats.
+- In general, reducing a particular threat by **design or preventive action** will probably be stronger than by using one of the other approaches.
+- The choice of which strategy to use depends on the cost and the potential seriousness of the threat.
+
+---
+
+class: middle, center, inverse
+
+# Minimizing Threats to Validity
+
+---
+
+## By Argument
+
+The most straightforward way to rule out a potential threat to validity is to **argue that the threat in question is not a reasonable one**.
+
+Such an argument may be made either:
+- *a priori* — more convincing because you make the argument **before** testing your results
+- *a posteriori* — less convincing because you make the argument **after** testing your results
+
+--
+
+**Example:**
+An instrumentation threat is not likely because the same test is used for pre- and post-test measurements, and did not involve observers who might improve.
+
+--
+
+Ruling out a threat by argument alone is **weaker** than other approaches. The most plausible threats should not, except in unusual cases, be ruled out by argument only.
+
+---
+
+## By Measurement or Observation
+
+In some cases, it will be possible to rule out a threat by **measuring it** and demonstrating that either:
+- it does not occur at all, or
+- it occurs so minimally as to not be a strong alternative explanation.
+
+--
+
+**Example:**
+
+In a study of the effects of an advertising campaign on product sales, *history* (other events causing increased purchase desire) would be a plausible alternative explanation.
+
+- Measure local economic indicators and availability of competing products.
+- If there is no change in these measures coincident with the advertising campaign, these threats are considerably minimized.
+
+---
+
+## By Analysis
+
+There are a number of ways to rule out alternative explanations using **statistical analysis**.
+
+**Example 1 (Jurs and Glass, 1971):**
+Study the plausibility of an attrition threat by conducting an ANOVA with two factors:
+- Factor 1: original treatment group designations (program vs. comparison)
+- Factor 2: attrition (dropout vs. non-dropout)
+- A main effect on attrition = threat to external validity; interaction = threat to internal validity.
+
+--
+
+**Example 2 (ANCOVA):**
+In a study of "workfare" programs on social welfare caseloads, use a measure of economic conditions as a covariate.
+- Causal assertions are strengthened by demonstrating treatment effects occur even after adjusting on good covariates.
+- Note: "perfect" covariates do not exist; imperfect covariates will not completely adjust.
+
+---
+
+## By Preventive Action
+
+When potential threats are **anticipated**, they can often be ruled out by some type of **preventive action**.
+
+Auditing methods and quality control can be used to:
+- Track potential experimental dropouts
+- Ensure the standardization of measurement
+
+--
+
+**Example:**
+
+If the program is desirable, the comparison group may feel jealous or demoralized. Actions to minimize:
+- Offer the program to the comparison group upon completion of the study
+- Use program and comparison groups with little opportunity for contact and communication
+
+---
+
+## By Design
+
+The major emphasis is on ruling out alternative explanations by **adding treatment or control groups, waves of measurement**, and the like.
+
+This is the **largest area of emphasis**.
+
+--
+
+**Basic Design Elements**
+
+Most research designs can be constructed from four basic elements:
+
+1. **Time**
+2. **Program(s) or Treatment(s)**
+3. **Observation(s) or Measure(s)**
+4. **Groups or Individuals**
+
+---
+
+## Design Construction
+
+<!-- TODO: add design notation diagram showing basic elements (X for treatment, O for observation, R/N/C for group assignment) -->
+
+---
+
+## Time (Pt 1)
+
+A causal relationship, by its very nature, implies that some **time has elapsed** between the occurrence of the cause and the consequent effect.
+
+- For some phenomena the elapsed time might be measured in microseconds.
+- We normally assume that the cause and effect in social science arenas do **not occur simultaneously**.
+
+---
+
+## Time (Pt 2)
+
+In design notation, we indicate the temporal element **horizontally**:
+- The symbol for the presumed cause is placed to the **left** of the symbol for the measurement of the effect.
+- Reading left to right = reading across time.
+- Complex designs might involve a lengthy sequence of observations and programs across time.
+
+---
+
+## Program(s) or Treatment(s)
+
+The presumed cause may be:
+- A program or treatment under the explicit **control of the researcher**, or
+- The occurrence of some **natural event** not explicitly controlled.
+
+--
+
+In design notation:
+- Presumed cause = **"X"**
+- Multiple programs: use subscripts **"X₁"** or **"X₂"**
+- Comparison group (no program) = **no "X"**
+
+---
+
+## Observation(s) or Measure(s)
+
+Measurements are depicted in design notation with the symbol **"O"**.
+
+- If the same measurement is taken at every point in time → a single "O" suffices.
+- If different measures are given at different times → subscript the "O" to indicate which measurement is given at which time.
+
+---
+
+## Groups or Individuals
+
+The final design element consists of the intact groups or individuals who participate in various conditions.
+
+In design notation, each group is indicated on a **separate line**.
+
+Group assignment symbols:
+- **R** = randomly assigned
+- **N** = nonrandomly assigned (nonequivalent group or cohort)
+- **C** = assigned using a cutoff score on a measurement
+
+---
+
+## Illustrative Example: Two-Group Pre-Post Design
+
+One of the most used designs in social research is the **two-group pre-post design**:
+
+```
+N  O  X  O
+N  O     O
+```
+
+- **Two lines** = two groups
+- **N** = nonrandomly assigned
+- First **O** in each line = pre-program measurement
+- **X** = program/treatment (first group only)
+- Final **O** = post-program measurement for both groups
+
+---
+
+## Posttest-Only Randomized Experiment
+
+Another common design is the **posttest-only randomized experiment**:
+
+```
+R  X  O
+R     O
+```
+
+- Two groups are **randomly selected** (R)
+- One group receives the program; one acts as comparison
+- Both groups are measured **after** the program is administered
+
+---
+
+## Expanding a Design
+
+We can combine the four basic design elements in several ways to arrive at a specific design appropriate for the setting at hand.
+
+One strategy begins with the basic causal relationship:
+
+```
+X  O
+```
+
+--
+
+This is the **simplest design** in causal research and serves as a starting point for better strategies.
+
+When we add to this design, we are expanding one of the four basic elements. Each expansion has implications for:
+- Cost of the study
+- Threats that can be ruled out
+
+---
+
+## Expanding Across Time
+
+We can add additional observations **before or after** the program.
+
+Adding pretests provides a **"baseline"**:
+
+```
+O  O  X  O
+```
+
+--
+
+This helps assess the potential of a **maturation or testing threat**:
+- If change occurs between the first and second pre-program measures → expect similar change between second pretest and posttest even without the program.
+- If **no change** occurs between the two pretests → more confidence that maturation or testing is not a likely alternative explanation.
+
+---
+
+## Expanding Across Time
+
+Additional **post-program measures** can be added:
+
+```
+X  O  O  O
+```
+
+Useful for determining whether:
+- An immediate program effect **decays over time**
+- There is a **lag** between program initiation and effect occurrence
+
+--
+
+We might also add and remove the program over time — the **ABAB design**:
+
+```
+X  O  O  X  O  O
+```
+
+- Frequently used in clinical psychology and psychiatry
+- Particularly strong against a **history threat**: when the program is repeated, it is less likely that unique historical events are responsible for replicated outcome patterns.
+
+---
+
+## Expanding Across Programs
+
+We can **partition the program** into different levels of treatment.
+
+Example — study the effect of a drug at multiple dosages:
+
+```
+X₁  O
+X₂  O
+```
+
+--
+
+This is an example of a **simple factorial design** with one factor having two levels.
+
+This is a common strategy in a "sensitivity" or "parametric" study where the focus is on the effects obtained at various program levels.
+
+We can also expand by varying **specific components** across groups, or by using **theoretically polarized ("opposite") treatments** to demonstrate that the outcome measure is sensitive enough to differentiate between different programs.
+
+---
+
+## Expanding Across Observations
+
+At any point in time, it is desirable to collect **multiple measurements**:
+
+--
+
+- Add similar measures to determine whether results **converge** (convergent validity)
+- Add measures theoretically unaffected by the program to demonstrate **discriminant validity**
+
+--
+
+**Proxy measurements:**
+If pre-program measurements were neglected, use existing records (e.g., GPA records) as a proxy measure of pre-program status.
+
+--
+
+**Recollected measures:**
+Ask participants to **recall** how they felt or behaved prior to the study.
+
+The key principle: use **multiple measurements** rather than relying on only a single strategy.
+
+---
+
+## Expanding Across Groups
+
+Adding additional groups can rule out specific threats to validity.
+
+Consider a pre-post two-group randomized design in a **single institution** where groups are in contact — this risks threats from:
+- Intergroup communication
+- Group rivalry
+- Demoralization of a group denied a desirable treatment
+
+--
+
+Solution: Add a **nonequivalent group from a similar institution** whose members are unaware of the original groups:
+
+```
+R  O  X  O
+R  O     O
+N  O     O
+```
+
+---
+
+## Expanding Across Groups
+
+When nonequivalent groups are used, it is advantageous to have **multiple replications** of each group.
+
+Using many nonequivalent groups minimizes the potential of a particular **selection bias** affecting results.
+
+--
+
+We can also include the **norm group** as an additional nonequivalent control group.
+- Norming group averages are available for most standardized achievement tests.
+
+**Cohort groups** might also be used to rule out a **testing threat**:
+
+```
+N  O  X  O
+N     X  O  (cohort — no pretest exposure)
+```
+
+---
+
+## Next Time...
+
+**Lab**
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...

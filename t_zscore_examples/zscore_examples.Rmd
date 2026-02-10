@@ -1,0 +1,197 @@
+---
+title: "Cumulative Distributions: Worked Z-Score Examples"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle, center, inverse
+
+# Cumulative Distributions
+
+### Worked Z-Score Problem
+
+---
+
+## Cumulative Proportions
+
+<!-- TODO: add image of standard normal distribution table showing cumulative probability P[Z < z] -->
+
+The cumulative proportion for a value $x$ in a distribution is the proportion of observations in the distribution that are less than or equal to $Z$.
+
+---
+
+## Worked Z-Score Problem
+
+<!-- TODO: add image of standard normal table with z=0.0 row highlighted (showing 0.5000), and a red dashed box around the upper right region of the distribution curve -->
+
+---
+
+## Worked Z-Score Problem
+
+<!-- TODO: add image of standard normal table with z=1.0 row highlighted (showing 0.8413 at column .00), and a blue box around upper right region of curve -->
+
+---
+
+## Worked Z-Score Problem
+
+<!-- TODO: add image of standard normal table with z=1.0 and column .00 highlighted showing 0.8413, with red dashed vertical line at mean and blue vertical line to the right -->
+
+$.8413 - .500 = .3413$
+
+---
+
+## Worked Z-Score Problem
+
+<!-- TODO: add image of standard normal table with both sides of distribution marked, showing symmetric region from -1 SD to +1 SD -->
+
+$.8413 - .500 = .3413 \times 2 = .68$
+
+---
+
+## Worked Z-Score Problem
+
+**B) What would these proportions be in an exactly Normal distribution?**
+
+$\pm$ **TWO SD**
+
+<!-- TODO: add image of standard normal distribution table (upper portion z = 0.0 to 0.4) with red dashed box highlighting P[Z < z] area -->
+
+---
+
+## Worked Z-Score Problem
+
+<!-- TODO: add image of standard normal table with z=2.0 row highlighted (showing 0.9773 at column .00), and red/blue vertical lines on the distribution curve -->
+
+---
+
+## Worked Z-Score Problem
+
+<!-- TODO: add image of standard normal table (lower portion showing z = 1.5 to 2.1) with z=2.0 value 0.9773 highlighted in blue, and red dashed box + blue box on distribution curve -->
+
+$.9773 - .500 = .4773$
+
+---
+
+## Worked Z-Score Problem
+
+<!-- TODO: add image of standard normal table (lower portion) with symmetric region marked, showing -2 SD to +2 SD span -->
+
+$.9773 - .500 = .4773 \times 2 = .9546$
+
+---
+
+## Starting from a Proportion
+
+- SAT reading scores for a recent year are distributed according to an $N(504, 111)$ distribution.
+
+- How high must a student score in order to be in the **top 10%** of the distribution?
+
+- In order to use Table A, equivalently, what score has cumulative proportion **0.90** below it?
+
+<!-- TODO: add image of normal curve N(504, 111) with 0.90 shaded area below cutoff and 0.10 in the right tail, with 504 and ? marked on x-axis -->
+
+---
+
+## Normal Calculations (2 of 3)
+
+How high must a student score in order to be in the top 10% of the distribution?
+
+.pull-left[
+- Look up the closest probability (closest to 0.90) in the table.
+- Find the corresponding **standardized score**.
+- The value you seek is *that many standard deviations from the mean*.
+
+$$z = 1.28$$
+]
+
+.pull-right[
+<!-- TODO: add image of z-table excerpt showing z=1.2 row with .8997 circled at column .08, arrow pointing left to row 1.2 -->
+
+| z | .07 | .08 | .09 |
+|---|-----|-----|-----|
+| 1.1 | .8790 | .8810 | .8830 |
+| 1.2 | .8980 | **.8997** | .9015 |
+| 1.3 | .9147 | .9162 | .9177 |
+
+]
+
+---
+
+## Normal Calculations (3 of 3)
+
+How high must a student score in order to be in the top 10% of the distribution?
+
+$$z = 1.28$$
+
+We need to "unstandardize" the z-score to find the observed value (x):
+
+$$z = \frac{x - \mu}{\sigma} \implies x = \mu + z\sigma$$
+
+$$x = 504 + z \cdot 111$$
+$$= 504 + (1.28 \cdot 111)$$
+$$= 504 + 142.08 = 646.08$$
+
+A student would have to score at least **646.08** to be in the top 10% of the distribution of SAT reading scores for this particular year.
+
+---
+
+## "Backward" Normal Calculations
+
+**USING TABLE A GIVEN A NORMAL PROPORTION**
+
+**STEP 1:** **State the problem** in terms of the given proportion. **Draw a picture** that shows the Normal value, $x$, that you want in relation to the cumulative proportion.
+
+**STEP 2:** **Use Table**, the fact that the total area under the curve is 1, and the given area under the standard Normal curve to find the corresponding $z$-value.
+
+**STEP 3:** **Unstandardize** $z$ to solve the problem in terms of a non-standard Normal variable $x$.
+
+---
+
+## Functions in R
+
+`dnorm()` gives the density,
+
+`pnorm()` gives the cumulative density function,
+- computes the probability that a normally distributed random number will be less than that number
+
+`qnorm()` gives the quantile function, and
+- (is the inverse of pnorm, give it a probability,
+- it produces the number whose cumulative distribution matches the probability
+
+`rnorm()` generates random deviates.
+
+---
+
+## Illustrations with R
+
+- Throwback: [Sampling and Standard Error](https://link)
+- [Robustness](https://link)
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...

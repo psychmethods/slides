@@ -1,0 +1,731 @@
+---
+title: "Validity"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle
+
+# Validity
+
+---
+
+## Roadmap
+
+.pull-left[
+**Ways to Organize Validity**
+
+**Causal Inference Perspective**
+
+- Cooke & Campbell
+  - External Validity
+  - Internal Validity
+- Hill's Criteria
+]
+
+.pull-right[
+**Education Measurement Perspective**
+
+- Content-related Validity
+- Criterion-related Validity
+- Construct-related Validity
+]
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Define validity and distinguish it from reliability
+- Explain the two major frameworks for organizing validity (causal inference vs. education measurement perspectives)
+- Describe internal and external validity and apply rules of thumb for generalizability
+- Distinguish content-related, criterion-related, and construct-related evidence of validity
+- Identify threats to validity including construct underrepresentation and construct-irrelevant variance
+- Explain the relationship between validity and reliability, including the concept of maximum validity
+
+---
+
+## Validity Definitions
+
+.pull-left[
+**The extent to which a test measures what it was designed to measure.**
+
+**Agreement between a test score or measure and the quality it is believed to measure.**
+]
+
+.pull-right[
+Proliferation of definitions led to a dilution of the meaning of the word into all kinds of "validities"
+]
+
+---
+
+## Validity That Isn't
+
+**Face Validity**
+
+- The mere appearance that a test has validity.
+- Does the test look like it measures what it is supposed to measure?
+- Do the items seem to be reasonably related to the perceived purpose of the test.
+
+> Does a depression inventory ask questions about being sad?
+
+- Not a "real" measure of validity, but one that is commonly seen in the literature.
+- Not considered legitimate form of validity by the Joint Committee.
+
+---
+
+## Ways to Organize Validity
+
+- **Causal Inference Perspective**
+  - Shadish, Cook, and Campbell
+  - Different types of validity
+- **Education Measurement Perspective**
+  - Standards for Educational and Psychological Testing
+  - Different types of evidence
+
+---
+
+class: middle, center, inverse
+
+# Causal Inference Perspective
+
+---
+
+class: middle
+
+# Causal Inference Perspective
+
+---
+
+## Internal Validity
+
+- Differs by kind of study
+  - For experiments....
+  - For quasi-experiments...
+  - For observational studies...
+
+- General idea is that your finding is "real"
+
+---
+
+## External Validity
+
+.pull-left[
+**To what extent one may safely generalize?**
+
+- the (internally valid) finding from the sample studied to the
+  - defined target population and
+  - to other populations
+    - (i.e. across time and space).
+
+Generalize to other people
+]
+
+.pull-right[
+<!-- TODO: add image illustrating generalization to other people -->
+]
+
+---
+
+## Types of External Validity
+
+**Population validity**
+
+- can the sample results be generalized to the target population
+
+**Ecological validity**
+
+- whether the results can be applied to real life situations.
+- Generalize to other (real) situations
+
+---
+
+## Generalizability
+
+**The burden of proof**
+
+- Avoid simplistic generalizations to members of other cultures and people in different times (including differences)
+- Those who question the generalizability of a study
+  - should propose when, how, and why it is not generalizable
+
+--
+
+Personally, my default assumption is that the study doesn't generalize
+
+- And that it is up to the authors of the study to convince the reader (*me*)
+- But, that is not the norm...
+
+---
+
+## Thinking About Generalizability
+
+Slightly less than arbitrary rules of thumb:
+
+- **My quick rule of thumb:**
+  - if you could have participated in the study,
+    - then the results mostly likely generalize to you
+- **My thoughtful rule of thumb:**
+  - If the reasons you couldn't have participated is unrelated to findings of the study,
+    - then the results probably generalize to you.
+
+*Assumption: The study is internally valid.*
+
+This approach can be applied to groups other than yourself...
+
+---
+
+## Example: British Doctors' Study
+
+.pull-left[
+- Does smoking cause cancer?
+  - Wasn't obvious or accepted in the medical community before this study
+  - Doctors were often associated with tobacco ads
+    - (like this one from 1946)
+- Doll and Hill (1954, 1956) tracked 40,701 Male British Doctors
+  - (2/3 of all registered UK physicians in Oct 1951)
+
+<!-- TODO: add image of 1946 tobacco advertisement featuring doctors -->
+]
+
+.pull-right[
+**It does.**
+]
+
+---
+
+## British Doctors' Study (1951-2004)
+
+- Doll and Hill (1954, 1956) tracked 40,701 Male British Doctors
+  - (2/3 of all registered UK physicians in Oct 1951)
+  - They examined whether there was a relationship between smoking and cancer/respiratory disease.
+  - They compared non-smokers, ex-smokers, and current smokers by age.
+- Their studies changed the conversation about cancer and smoking
+
+---
+
+## British Doctors' Study (1951-2004)
+
+<!-- TODO: add image/figure from the British Doctors' Study showing smoking and cancer data -->
+
+---
+
+## British Doctors' Study and Those Slightly Less Than Arbitrary Rules of Thumb
+
+.pull-left[
+- Could I have participated in the study?
+  - **No**
+  - Why Not?:
+    - Not British,
+    - Not a Man,
+    - Not an MD,
+    - Born after this study was published
+
+- Are those reasons related to the study's finding?
+  - **Probably not.**
+
+- **Verdict: Don't Smoke**
+]
+
+.pull-right[
+<!-- TODO: add image related to smoking/British Doctors' Study -->
+]
+
+---
+
+## If You Want to Learn More...
+
+If you want to learn more about smoking, statistics, causation, or related history...
+
+- [The study that helped spur the U.S. stop-smoking movement](https://www.cancer.org/latest-news/the-study-that-helped-spur-the-us-stop-smoking-movement.html)
+
+- [Cigarette ads featuring doctors](https://www.history.com/news/cigarette-ads-doctors-smoking-endorsement)
+
+- [Tobacco Advertising Archive](http://tobacco.stanford.edu)
+
+- [Tobacco Industry Archives](https://www.industrydocuments.ucsf.edu/tobacco/)
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up... Causal Inference Perspective
+
+---
+
+class: middle, center, inverse
+
+# Education Measurement Perspective
+
+---
+
+## Key Ideas
+
+.pull-left[
+<!-- TODO: add image illustrating accumulated evidence / measurement -->
+]
+
+.pull-right[
+- The validity is based on accumulated evidence
+- Validity of past inferences changes based on the current available evidence
+- Evidentiary bases for interpretations can be derived through a variety of methods
+]
+
+---
+
+## Education Measurement Perspective
+
+There is a total mess of "validities" and their definitions, what to do?
+
+.pull-left[
+**1985 - Joint Committee of:**
+
+- AERA: American Education Research Association
+- APA: American Psychological Association
+- NCME: National Council on Measurement in Education
+
+developed **Standards for Educational and Psychological Testing** (revised in 1999).
+]
+
+---
+
+## Standards for Educational and Psychological Testing
+
+According to the Joint Committee:
+
+> **Validity is the evidence for inferences made about a test score.**
+
+Three types of evidence:
+
+- Content-related
+- Criterion-related
+- Construct-related
+
+*Different from the notion of "different types of validity"*
+
+---
+
+## Three Types of Evidence
+
+**Content-related evidence**
+- Content Validity
+
+--
+
+**Criterion-related evidence**
+- Criterion Validity
+
+--
+
+**Construct-related evidence**
+- Construct Validity
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up... Education Measurement Perspective
+
+---
+
+class: middle, center, inverse
+
+# Content Validity
+
+---
+
+## Big Idea: Content Validity
+
+.pull-left[
+**Content validity**
+
+- When trying to measure a domain are all sub-domains represented?
+- Complimentary to
+  - domain sampling theory and
+  - reliability
+- However, increasing content validity lowers internal consistency reliability
+]
+
+.pull-right[
+**Main steps to establishing evidence**
+
+1. Define the content domain...
+2. Outline...
+3. Subject matter experts evaluate...
+]
+
+---
+
+## Content-Related Evidence
+
+Does the test adequately sample the content or behavior domain that it is designed to measure?
+
+- If items are not a good sample, results of testing will be misleading.
+
+--
+
+- Usually developed during test development.
+- Not generally empirically evaluated.
+- Judgment of subject matter experts.
+
+---
+
+## Content-Related Evidence
+
+To develop a test with high content-related evidence of validity, you need:
+
+- good logic
+- intuitive skills
+- Perseverance
+
+Must consider:
+
+- wording
+- reading level
+
+---
+
+## Other Content-Related Evidence Terms
+
+**Threats to content validity**
+
+--
+
+**Construct underrepresentation:**
+
+- failure to capture important components of a construct.
+- Test is designed for chapters 1-10 but
+  - only chapters 1-8 show up on the test.
+
+--
+
+**Construct-irrelevant variance:**
+
+- occurs when scores are influenced by factors irrelevant to the construct.
+- Test is well-intentioned, but problems secondary to the test
+  - negatively influence the results
+  - (e.g., reading level, vocabulary, unmeasured secondary domains)
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up... Content Validity
+
+---
+
+class: middle, center, inverse
+
+# Criterion-Related Validity
+
+---
+
+## Criterion-Related Validity
+
+**The success of measures used for prediction or estimation.**
+
+Two types:
+
+--
+
+.pull-left[
+**Concurrent validity**
+
+<!-- TODO: add image illustrating concurrent validity -->
+]
+
+.pull-right[
+**Predictive validity**
+
+- the degree to which a test predicts (correlates with)
+  - an external criteria that is
+  - measured some time in the future
+]
+
+---
+
+## Criterion-Related Evidence
+
+Tells us how well a test corresponds with a particular criterion
+
+- **criterion:** behavioral or measurable outcome
+
+Examples:
+- SAT predicting GPA (GPA is criterion)
+- BDI scores predicting suicidality (suicide is criterion)
+
+*Used to "predict the future" or "predict the present."*
+
+---
+
+## Predictive Validity Evidence
+
+.pull-left[
+**Forecasting the future**
+
+- How well does a test predict future outcomes?
+- Example: SAT predicting 1st year GPA
+- Most tests don't have great predictive validity
+  - Decrease due to time & method variance
+]
+
+.pull-right[
+<!-- TODO: add diagram illustrating predictive validity timeline -->
+]
+
+---
+
+## Concurrent Validity Evidence
+
+**Forecasting the present**
+
+- How well does a test predict current similar outcomes?
+- Job samples, alternative tests used to demonstrate concurrent validity evidence
+- Generally higher than predictive validity estimates
+
+---
+
+## Validity Coefficient
+
+**Quantifying Criterion-Related Evidence**
+
+- Correlation between the test and the criterion
+
+However,
+
+- recall that r² indicates explained variance.
+
+*Sound Problematic??*
+
+---
+
+## Evaluating Criterion-Related Evidence
+
+.pull-left[
+**Look**
+- Look for changes in the cause of relationships
+
+**Examine**
+- Examine what the criterion really means.
+- Optimally the criterion should be something the test is trying to measure
+
+**Review**
+- Review the subject population in the validity study.
+]
+
+---
+
+## Evaluating Criterion-Related Evidence
+
+- Ensure the sample size in the validity study was adequate.
+
+--
+
+- Never confuse the criterion with the predictor.
+
+--
+
+- Watch for restricted ranges!
+
+---
+
+## Evaluating Criterion-Related Evidence
+
+- Review evidence for validity generalization.
+  - Tests only given in laboratory settings, then expected to demonstrate validity in classrooms?
+  - Ecological validity?
+
+--
+
+- Consider differential prediction.
+  - External validity?
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up... Criterion-Related Validity
+
+---
+
+class: middle, center, inverse
+
+# Construct Validity
+
+---
+
+## Construct Validity
+
+**Are you measuring what you are intending to measure, overall?**
+
+Specific types...
+
+- Intentional validity
+- Representation validity or translation validity
+- "Face validity"
+- Observation validity
+- Convergent validity
+- Discriminant validity
+
+---
+
+## Construct Validity: Types
+
+.pull-left[
+**Intentional validity**
+
+- are you measuring what you are intending
+  - and not something else?
+- Requires ...
+
+**Representation validity**
+
+- aka ...
+- How well have the constructs been translated into measurable outcomes?
+]
+
+.pull-right[
+**Observation validity**
+
+- How good are the measures themselves?
+
+**Convergent validity**
+
+- refers to the degree to which a measure is correlated ...
+
+**Discriminant validity**
+
+- describes the degree to which the operationalization does...
+]
+
+---
+
+## Construct-Related Evidence
+
+**Construct:** something constructed by mental synthesis
+
+- What is Intelligence? Love? Depression?
+
+**Construct Validity Evidence**
+
+- Assembling evidence about what a test means
+  - (and what it doesn't)
+- Is a sequential process
+
+---
+
+## Construct-Related Evidence
+
+.pull-left[
+**Convergent Evidence**
+
+Obtained when a measure correlates ...
+
+- Self-report, collateral-report measures...
+]
+
+.pull-right[
+**Discriminant Evidence**
+
+Obtained when a measure...
+]
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up... Construct Validity
+
+---
+
+class: middle, center, inverse
+
+# Connecting Validity to Reliability
+
+---
+
+## Recall
+
+- The standard error of measurement (SE$_m$) estimates how repeated measures of a person on the same instrument tend to be distributed around their "true" score.
+  - The true score is always an unknown because ...
+
+---
+
+## Validity & Estimates
+
+**Standard Error of Estimate:**
+
+$$s_{est.} = s_{Y-\hat{Y}} = s_y \sqrt{(1 - r^2) \frac{N-1}{N-2}}$$
+
+- $s_{est.}$: standard error of estimate
+- $s_y$: standard deviation of the test
+- $r$: validity of the test
+
+Essentially, regression all over again.
+
+---
+
+## Maximum Validity
+
+<!-- TODO: add figure/diagram illustrating maximum validity concept -->
+
+The maximum possible validity (correlation between test and criterion) is constrained by the reliability of both the test and the criterion.
+
+---
+
+## Maximum Validity Table
+
+| Reliability of Test | Reliability of Criterion | Maximum Validity (Correlation) |
+|:-------------------:|:------------------------:|:------------------------------:|
+| 1.0 | 1.0 | 1.00 |
+| 0.8 | 1.0 | 0.89 |
+| 0.6 | 1.0 | 0.77 |
+| 0.4 | 1.0 | 0.63 |
+| 0.2 | 1.0 | 0.45 |
+| 0.0 | 1.0 | 0.00 |
+| 1.0 | 0.5 | 0.71 |
+| 0.8 | 0.5 | 0.63 |
+| 0.6 | 0.5 | 0.55 |
+| 0.4 | 0.5 | 0.45 |
+| 0.2 | 0.5 | 0.32 |
+| 0.0 | 0.5 | 0.00 |
+| 1.0 | 0.2 | 0.45 |
+| 0.8 | 0.2 | 0.40 |
+| 0.6 | 0.2 | 0.35 |
+| 0.4 | 0.2 | 0.28 |
+| 0.2 | 0.2 | 0.20 |
+| 0.0 | 0.2 | 0.00 |
+| 1.0 | 0.0 | 0.00 |
+| 0.8 | 0.0 | 0.00 |
+| 0.6 | 0.0 | 0.00 |
+| 0.4 | 0.0 | 0.00 |
+| 0.2 | 0.0 | 0.00 |
+| 0.0 | 0.0 | 0.00 |
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...

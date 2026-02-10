@@ -1,0 +1,186 @@
+---
+title: "Lying with Statistics: Research Ethics"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle, center, inverse
+
+# Lying with Statistics
+
+<!-- TODO: add image of multiple editions of "How to Lie with Statistics" by Darrell Huff (blue cover and orange cover versions) -->
+
+---
+
+## Tuskegee Syphilis Study
+
+- **1926:** Syphilis is a major health problem.
+  - "one of medicine's most intricate problems"
+    - (Jones, 1944)
+  - Prevalence of 35 percent in adults
+
+<!-- TODO: add image of chart showing "Probable Outcome of Acute Untreated Syphilis" with stages: Acute Disease, Secondary Stage, Early Relapse, Benign Syphilis (Tertian), Neuro-Syphilis, Cardio-Vascular Syphilis, and Spontaneous Cure 25-35% -->
+
+---
+
+## The Syphilis Studies
+
+- **1926:** Syphilis is a major health problem.
+  - "one of medicine's most intricate problems" (Jones, 1944)
+  - Prevalence of 35 percent in adults
+
+<!-- TODO: add image showing severe syphilis skin symptoms on a patient's back -->
+
+---
+
+## The Syphilis Studies
+
+- **1926:** Syphilis is a major health problem.
+  - "one of medicine's most intricate problems" (Jones, 1944)
+  - Prevalence of 35 percent in adults
+
+<!-- TODO: add image of a skull/death imagery representing fatal consequences of untreated syphilis -->
+
+---
+
+## Tuskegee Syphilis Study
+
+- **1929:** Aggressive treatment approach
+  - initiated with mercury and bismuth.
+- Cure rate is less than 30 percent;
+  - treatment requires months and
+  - side effects are toxic, sometimes fatal.
+- **1931:** Funding is cut from project
+  - decide to follow men left untreated due to lack of funds in order to show need for treatment program.
+- **1932:** Follow-up effort organized into study of 399 men with syphilis and 201 without.
+
+<!-- TODO: add image of vintage syphilis public health poster "False Shame and Fear May Destroy Your Future - Have Your Blood Tested" -->
+
+---
+
+## Tuskegee Syphilis Study
+
+- The men were impoverished, African-American sharecroppers from Alabama
+- The men were given periodic physical assessments and
+  - told they were being treated for "bad blood,"
+    - local term used to describe several ailments, including syphilis, anemia, and fatigue
+- Original study was designed to
+  - last 6 months
+
+<!-- TODO: add historical photograph of a medical professional drawing blood from a Black patient in the Tuskegee study -->
+
+---
+
+## Tuskegee Syphilis Study
+
+- **1936:** Major paper published.
+  - Study criticized because it is not known if men are being treated.
+  - Local physicians asked to assist with study and not to treat men.
+  - Decision was made to follow the men until death.
+
+- **World War II:** Researchers attempted to prevent drafted men in the study from getting treatment
+  - "So far, we are keeping the known positive patients from getting treatment."
+  - Despite this, 96% of the 90 original test subjects reexamined in 1963
+    - had received treatments from another health provider
+
+---
+
+## Tuskegee Syphilis Study
+
+- **1945:** Penicillin accepted as treatment of choice for syphilis.
+
+- **1947:** USPHS establishes "Rapid Treatment Centers" to treat syphilis;
+  - men in study are not treated
+
+<!-- TODO: add images of four vintage syphilis public health posters: "Six Out of Ten Cured", "Syphilis Strikes One Out of Ten Adults", "Shame May Be Fatal", "Syphilis is a Dangerous Disease - but it can be cured" -->
+
+---
+
+## Tuskegee Syphilis Study
+
+- **1968:** 60% of Men in Study are Dead
+  - Concerns raised about ethics of study by
+    - Peter Buxtun, the eventual "whistleblower", as well as others
+
+- **1969** CDC reaffirms need for study and
+  - gains official support from
+    - American Medical Association and
+    - National Medical Association
+
+- **Early 1970s** Buxtun leaks story to media
+  - The story first reported by
+  - Washington Star on July 25, 1972
+
+<!-- TODO: add image of Classification of Cases in Tuskegee Study table showing Controls/Syphilitic/Total breakdown with known dead percentages -->
+
+---
+
+## Tuskegee Syphilis Study
+
+- **July 1972:** Ad Hoc Advisory Panel created by US Gov
+  - nine members from medicine, law, religion, labor, education, health administration, and public affairs.
+
+- **October 1972:** The advisory panel concluded that the Tuskegee Study was "ethically unjustified"
+
+- **November 1972:** Study Officially ends.
+  - 74 men in study alive. Of the original 399 infected men,
+  - 128 had died of syphilis or related complications,
+  - 40 of their wives had been infected, and
+  - 19 of their children were born with congenital syphilis.
+
+- **1973** Congress holds hearings and
+  - a class-action lawsuit is filed on behalf of the study participants.
+
+---
+
+## Tuskegee Syphilis Study
+
+- **1974** Congress passed the National Research Act
+  - and created a commission to study and write regulations governing studies involving human participants.
+  - Within the US Department of Health and Human Services,
+    - the Office for Human Research Protections (OHRP) was established to oversee clinical trials.
+
+- Now studies require **informed consent**,
+  - communication of diagnosis,
+  - accurate reporting of test results, and
+  - approval from **Institutional review boards (IRBs)**,
+    - including laypeople, are established in scientific research groups and hospitals to review study protocols and protect patient interests, to ensure that participants are fully informed.
+
+---
+
+## Tuskegee Syphilis Study
+
+- **1974:** A $10 million out-of-court settlement is reached and the U.S. government promised to give lifetime medical benefits and burial services to all living participants.
+
+- **1975:** Wives, widows, and offspring were added to the program.
+
+- **1997:** On May 16th President Clinton apologizes on behalf of the Nation.
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...

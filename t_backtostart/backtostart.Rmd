@@ -1,0 +1,326 @@
+---
+title: "Statistical Thinking: Back to Basics"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle, center, inverse
+
+# Statistical Thinking
+
+### Back to Basics
+
+---
+
+## Learning Goals
+
+- Define basic elements of a statistical investigation.
+
+- Describe the role of p-values and confidence intervals in statistical inference.
+
+- Describe the role of random sampling in generalizing conclusions from a sample to a population.
+
+- Describe the role of random assignment in drawing cause-and-effect conclusions.
+
+- Critique statistical studies.
+
+---
+
+## Roadmap
+
+.pull-left[
+**Introduction**
+- Key Components to a Statistical Investigation
+
+**Distributional Thinking**
+
+**Statistical Significance**
+- Control, Probability, Level of Significance
+
+**Generalizability**
+- Samples and Populations, Random Sample, Margin of Error
+
+**Cause and Effect**
+- Statistical Tendency, Random Assignment
+]
+
+--
+
+**By the end of this lecture, you should be able to:**
+- Identify the key components of a statistical investigation
+- Explain distributional thinking and interpret data displays critically
+- Describe what statistical significance means and how p-values are used
+- Distinguish between generalizability and cause-and-effect conclusions
+- Evaluate the role of random sampling and random assignment in research
+
+---
+
+## Introduction
+
+.pull-left[
+- **6 cups of coffee:**
+  - Men `r emo::ji("arrow_right")` 10% lower chance of dying
+  - Women `r emo::ji("arrow_right")` 15% lower chance of dying
+
+- Does this mean you should start drinking coffee or increase your own coffee habit?
+]
+
+.pull-right[
+<!-- TODO: add image of coffee beans and espresso cup -->
+]
+
+---
+
+## Key Components to a Statistical Investigation
+
+<!-- TODO: add image of four-step flow diagram: Planning the study -> Examining the data -> Inferring from the data -> Drawing Conclusions -->
+
+- Planning the study
+- Examining the data
+- Inferring from the data
+- Drawing Conclusions
+
+---
+
+## Roadmap
+
+**Introduction**
+- Key Components to a Statistical Investigation
+
+**.orange[Distributional Thinking]**
+
+**Statistical Significance**
+- Control, Probability, Level of Significance
+
+**Generalizability**
+- Samples and Populations, Random Sample, Margin of Error
+
+**Cause and Effect**
+- Statistical Tendency, Random Assignment
+
+---
+
+## Distributional Thinking
+
+.pull-left[
+- Analyzing the pattern of data variation, called the *distribution of the variable*, often reveals insights.
+
+- Develop an example of a distribution, of one variable, that you often encounter in your life.
+
+- What is the variable and how does it vary?
+]
+
+.pull-right[
+<!-- TODO: add image of six close-up face photos showing a range of expressions (distributional variation in human faces) -->
+]
+
+---
+
+## Distributional Thinking
+
+<!-- TODO: add image of frequency tables comparing patient reading levels (n=63) and pamphlet readability levels (n=30), and a bar chart (Figure 1) showing overlapping distributions of patients vs pamphlets by reading level -->
+
+**Table 1.** Frequency tables of patient reading levels and pamphlet readability levels.
+
+**Figure 1.** Comparison of patient reading levels and pamphlet readability levels.
+
+---
+
+## Collect and Display Data
+
+.pull-left[
+- **How many concerts did you go to this past year?**
+  - Write your answer down and turn it in
+
+- **What is the best way to visually represent the information?**
+
+- **What single score best represents the data?**
+
+- **How much variability is in the data?**
+]
+
+.pull-right[
+<!-- TODO: add image of concert crowd with hands raised and lights -->
+]
+
+---
+
+## Distributional Thinking
+
+**Tables and graphs are often presented in mass media; sometimes accurately, sometimes not.**
+
+<!-- TODO: add two bar charts side by side: "WRONG WAY" (y-axis starting at 6.00, Group A=7.50 vs Group B=6.50 looks exaggerated) and "RIGHT WAY" (y-axis starting at 0, same values look more comparable) -->
+
+1. What should you look for when examining this data to interpret it correctly?
+2. How are people able to manipulate visual depictions of statistics to skew conclusions?
+
+---
+
+## Distributional Thinking
+
+.pull-left[
+- Tables and graphs are often presented in mass media; sometimes accurately, sometimes not.
+  - What should you look for when examining this data to interpret it correctly?
+  - How are people able to manipulate visual depictions of statistics to skew conclusions?
+]
+
+.pull-right[
+<!-- TODO: add bar charts comparing WRONG WAY (truncated y-axis 6.00-8.00) vs RIGHT WAY (y-axis from 0) for Group A (7.50) and Group B (6.50) -->
+]
+
+---
+
+## Roadmap
+
+**Introduction**
+- Key Components to a Statistical Investigation
+
+**Distributional Thinking**
+
+**.orange[Statistical Significance]**
+- Control, Probability, Level of Significance
+
+**Generalizability**
+- Samples and Populations, Random Sample, Margin of Error
+
+**Cause and Effect**
+- Statistical Tendency, Random Assignment
+
+---
+
+## Statistical Significance
+
+.pull-left[
+- **Control**
+  - Are there other variables in the infant study that the researchers missed?
+
+- **Probability / p-value**
+  - P-Value extravaganza
+
+- **Level of Significance**
+  - $p < .05$
+]
+
+.pull-right[
+<!-- TODO: add image of a mother bear with cub nestled in rocks -->
+]
+
+---
+
+## Roadmap
+
+**Introduction**
+- Key Components to a Statistical Investigation
+
+**Distributional Thinking**
+
+**Statistical Significance**
+- Control, Probability, Level of Significance
+
+**.orange[Generalizability]**
+- Samples and Populations, Random Sample, Margin of Error
+
+**Cause and Effect**
+- Statistical Tendency, Random Assignment
+
+---
+
+class: middle, center
+
+# Generalizability:
+# Samples and Populations
+
+<!-- TODO: add image of a diverse group of smiling young people/students representing a sample from a population -->
+
+---
+
+## Generalizability
+
+.pull-left[
+<!-- TODO: add image of a city street/skyline representing a large population -->
+]
+
+.pull-right[
+- How similar does a sample need to be to the population?
+
+- Can you generalize from one class to the whole grade?
+
+- Random Sample
+
+- Margin of Error
+]
+
+---
+
+## Roadmap
+
+**Introduction**
+- Key Components to a Statistical Investigation
+
+**Distributional Thinking**
+
+**Statistical Significance**
+- Control, Probability, Level of Significance
+
+**Generalizability**
+- Samples and Populations, Random Sample, Margin of Error
+
+**.orange[Cause and Effect]**
+- Statistical Tendency, Random Assignment
+
+---
+
+## Cause and Effect
+
+.pull-left[
+**Statistical Tendency**
+
+<!-- TODO: add image of a large crowd of diverse people packed closely together -->
+]
+
+.pull-right[
+**Random Assignment**
+
+<!-- TODO: add image of a large conference crowd/group photo showing many people standing together -->
+]
+
+If the p-value is small (under .05), the observed results were (probably) not coincidental
+
+---
+
+## CAT: The Muddiest Point `r emo::ji("cat")`
+
+- What was the muddiest point about today's class?
+
+- Write down what concept you are still struggling to understand.
+
+<!-- TODO: add image of black cat silhouette sitting -->
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
