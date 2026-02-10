@@ -51,6 +51,16 @@ class: middle
   - Central Limit Theorem
 - Using sampling distributions for inference
 
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Distinguish between a sample distribution and a sampling distribution
+- Explain how sample size affects the standard error
+- State the Law of Large Numbers and describe its implications
+- Apply the Central Limit Theorem to explain why sample means tend to be normally distributed
+- Use sampling distributions to evaluate statistical significance
+
 ---
 
 

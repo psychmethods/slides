@@ -40,6 +40,23 @@ class: middle
 
 ---
 
+## Roadmap
+
+- Conditional probability
+- Bayes' Theorem
+- Applications of Bayes' Rule
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Explain the concept of conditional probability
+- Apply Bayes' Theorem to update probabilities given new evidence
+- Interpret prior, likelihood, and posterior probabilities
+- Use tree diagrams to calculate conditional probabilities
+
+---
+
 #  Introduction to Bayes' Rule
 
 - Bayes' Rule is a foundational concept in statistics that provides a framework for updating our beliefs based on new evidence.

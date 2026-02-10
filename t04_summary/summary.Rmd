@@ -39,6 +39,23 @@ class: middle
 
 ---
 
+## Roadmap
+
+- Measures of central tendency
+- Measures of spread
+- Shape of distributions
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Calculate and interpret mean, median, and mode
+- Calculate and interpret range, IQR, variance, and standard deviation
+- Distinguish between robust and non-robust measures of center and spread
+- Predict how skewness affects the relationship between mean and median
+
+---
+
 ## Describing distributions with numbers 
 .pull-left[
 - Hundreds of descriptive statistics exist

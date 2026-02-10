@@ -60,6 +60,24 @@ class: middle
 
 ---
 
+## Roadmap
+
+- Properties of the normal distribution
+- Z-scores and standardization
+- Finding probabilities from the normal distribution
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Describe the properties of the normal distribution and apply the empirical rule (68-95-99.7)
+- Calculate and interpret z-scores
+- Use the standard normal distribution to find probabilities and percentiles
+- Work backwards from a probability to find the corresponding value
+
+
+---
+
 ## Normal Distribution
 
 

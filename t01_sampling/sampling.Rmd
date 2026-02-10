@@ -91,6 +91,15 @@ class: middle
 - Concepts: why sample size and design matter (10 min)
 - Wrap-up and takeaways (5 min)
 
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Distinguish between samples and populations and explain why we sample
+- Explain how sample size affects the stability of estimates
+- Identify sources of bias in sampling (production, selection, measurement, non-response)
+- Evaluate whether a sample is representative of its target population
+
 ---
 
 

@@ -44,6 +44,14 @@ class: middle
 - Levels of measurement
 - Goals of measurement
 
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Define measurement and explain its role in the research process
+- Classify variables by level of measurement (nominal, ordinal, interval, ratio)
+- Distinguish between reliability and validity in measurement
+- Identify potential sources of measurement error and bias
 
 ---
 

@@ -39,6 +39,23 @@ class: middle
 
 ---
 
+## Roadmap
+
+- Frequency distributions and graphical displays
+- Describing distributions: shape, center, spread, and outliers
+- Data visualization principles
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Create and interpret frequency distributions, bar charts, and histograms
+- Describe a distribution in terms of its shape, center, spread, and outliers
+- Match the appropriate graph type to the level of measurement
+- Evaluate data visualizations for clarity and accuracy
+
+---
+
 ## Hans Rosling
 
 ```{r, echo=FALSE}
