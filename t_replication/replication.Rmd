@@ -1,0 +1,496 @@
+---
+title: "Replication Crisis & Open Science"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle, center, inverse
+
+# Replication Crisis & Open Science
+
+---
+
+# Roadmap
+
+- What is the replication crisis?
+- Why does it happen?
+  - p-hacking
+  - HARKing
+  - Publication bias
+- What are the consequences?
+- What can we do about it?
+  - Open Science practices
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Define the replication crisis and explain its scope across scientific disciplines
+- Identify questionable research practices (p-hacking, HARKing) and explain how they inflate false-positive rates
+- Explain how publication bias contributes to a distorted scientific literature
+- Describe open science solutions such as pre-registration, open data, and registered reports
+- Distinguish between Type I and Type II errors and explain the role of statistical power in replication
+
+---
+
+class: middle, center, inverse
+
+# What Is the Replication Crisis?
+
+---
+
+# The Replication Crisis
+
+- A **replication crisis** (or reproducibility crisis) is an ongoing methodological crisis
+- Findings from many scientific studies are **difficult or impossible to reproduce**
+- Affects psychology, medicine, economics, and other fields
+- Has prompted major reforms in how science is conducted and reported
+
+---
+
+# The Open Science Collaboration (2015)
+
+- Replicated **100 published psychology studies**
+- Only **~36–39%** of replications showed a significant effect in the same direction
+- Original studies had a 97% success rate; replications: ~36%
+- Published in *Science* — sparked enormous debate
+
+<!-- TODO: add [bar chart comparing original vs. replication success rates from OSC 2015] image -->
+
+---
+
+# Why Does This Matter?
+
+- Science is supposed to be **self-correcting**
+- If results don't replicate, the knowledge base is unreliable
+- Has real consequences:
+  - Clinical treatments based on flawed findings
+  - Policy decisions built on shaky evidence
+  - Wasted research resources
+
+---
+
+class: middle, center, inverse
+
+# Why Does the Crisis Happen?
+
+---
+
+# Questionable Research Practices (QRPs)
+
+.pull-left[
+**Common QRPs:**
+- p-hacking (data dredging)
+- HARKing (Hypothesizing After Results are Known)
+- Selective reporting of outcomes
+- Stopping data collection when *p* < .05
+- Dropping conditions or participants post-hoc
+- Running multiple analyses and reporting only significant ones
+]
+.pull-right[
+<!-- TODO: add [illustration of researcher at branching garden-of-forking-paths decision tree] image -->
+]
+
+---
+
+# p-Hacking
+
+- **p-hacking**: manipulating analyses until *p* < .05
+- Researchers make many "researcher degrees of freedom" decisions:
+  - Which outliers to exclude
+  - Which covariates to include
+  - Which dependent variable to report
+  - When to stop collecting data
+- Each decision inflates the false-positive rate
+
+---
+
+# The Garden of Forking Paths
+
+- Gelman & Loken (2013): the **garden of forking paths**
+- Even without deliberate cheating, researchers face many analytic choices
+- Each path that could have been taken (but wasn't) inflates Type I error
+- The final reported analysis is just one of many possible analyses
+
+<!-- TODO: add [garden of forking paths diagram] image -->
+
+---
+
+# Simmons, Nelson & Simonsohn (2011)
+
+- Demonstrated that flexible data collection and analysis can produce *p* < .05 for **impossible effects**
+  - e.g., listening to "When I'm Sixty-Four" made participants *younger*
+- With just a few researcher degrees of freedom, false-positive rate jumps from 5% to **>60%**
+
+---
+
+# HARKing
+
+- **HARKing** = Hypothesizing After Results are Known
+- Presenting post-hoc findings as if they were predicted a priori
+- Makes exploratory findings look like confirmatory ones
+- Inflates the apparent evidential value of results
+
+--
+
+- Example: you measure 20 variables, find that one is significant, and write your paper as if that was the hypothesis all along
+
+---
+
+# Publication Bias
+
+.pull-left[
+- **Publication bias**: significant results are more likely to be published than null results
+- Creates a **file drawer problem**: null results sit unpublished
+- The published literature is a biased sample of all studies conducted
+]
+.pull-right[
+<!-- TODO: add [funnel plot illustrating publication bias / missing studies in bottom-left] image -->
+]
+
+---
+
+# The File Drawer Problem
+
+- Rosenthal (1979) coined the term **file drawer problem**
+- For every published significant result, how many null results are sitting in file drawers?
+- If 20 labs run the same study and only the 1 that gets *p* < .05 publishes, that result is meaningless
+
+---
+
+# Funnel Plots & Publication Bias
+
+- **Funnel plots** plot effect size against sample size (or standard error)
+- In the absence of bias: symmetric funnel shape
+- Publication bias produces **asymmetric funnels** — small studies with null results are missing
+
+<!-- TODO: add [symmetric vs. asymmetric funnel plot comparison] image -->
+
+---
+
+# Statistical Power
+
+- **Power** = probability of detecting a true effect if it exists
+  - Power = 1 − β (where β = Type II error rate)
+- Low-powered studies:
+  - Miss real effects (high Type II error)
+  - When they do get significant results, **effect size estimates are inflated** (winner's curse)
+
+---
+
+# Type I and Type II Errors
+
+|  | H₀ True | H₀ False |
+|--|---------|---------|
+| **Reject H₀** | Type I Error (α) | Correct (Power) |
+| **Fail to Reject H₀** | Correct | Type II Error (β) |
+
+- **Type I error** (false positive): finding an effect that isn't there
+- **Type II error** (false negative): missing a real effect
+- Conventional thresholds: α = .05, power = .80
+
+---
+
+# The Winner's Curse
+
+- When power is low, only the most extreme (largest) estimates cross the significance threshold
+- Published effects from underpowered studies are **inflated** relative to the true effect
+- Replications with adequate power often find smaller effects — looks like a failure to replicate
+
+<!-- TODO: add [winner's curse diagram showing distribution of estimates that achieve significance] image -->
+
+---
+
+class: middle, center, inverse
+
+# Scope of the Crisis
+
+---
+
+# Beyond Psychology
+
+The replication crisis spans many fields:
+
+- **Medicine**: Ioannidis (2005) — "Why Most Published Research Findings Are False"
+- **Cancer biology**: Reproducibility Project: Cancer Biology replicated only a fraction of landmark findings
+- **Economics**: replication rates ~50–60%
+- **Neuroscience**: small samples, many false positives
+- **Social priming**: many classic effects failed to replicate
+
+---
+
+# Many Labs Projects
+
+- **Many Labs 1** (Klein et al., 2014): 36 labs, 13 effects — some replicated robustly, others did not
+- **Many Labs 2**: 28 effects across 125 samples — high variability in replicability
+- **Many Labs 3**: tested whether time of semester moderates effect sizes — mostly no
+- These projects show which findings are **robust** vs. **fragile**
+
+<!-- TODO: add [Many Labs replication success rate bar chart] image -->
+
+---
+
+# Estimating the Scale
+
+- Survey of 1,500 scientists (Baker, 2016, *Nature*):
+  - >70% have tried and failed to reproduce another scientist's experiments
+  - >50% have failed to reproduce their own experiments
+  - 52% said there is a "significant crisis"
+
+---
+
+class: middle, center, inverse
+
+# What Can We Do About It?
+
+---
+
+# Open Science Solutions
+
+.pull-left[
+**Transparency practices:**
+- Pre-registration
+- Registered Reports
+- Open data & materials
+- Open access publishing
+- Replication studies
+]
+.pull-right[
+<!-- TODO: add [Open Science Framework (OSF) logo or open science badge graphic] image -->
+]
+
+---
+
+# Pre-Registration
+
+- **Pre-registration**: publicly committing to hypotheses, design, and analysis plan *before* data collection
+- Separates **confirmatory** (hypothesis-testing) from **exploratory** (hypothesis-generating) research
+- Prevents p-hacking and HARKing
+- Platforms: OSF, AsPredicted, ClinicalTrials.gov
+
+---
+
+# What Pre-Registration Does (and Doesn't) Do
+
+.pull-left[
+**Does:**
+- Lock in primary hypotheses and analyses
+- Reduce researcher degrees of freedom for confirmatory tests
+- Increase credibility of significant findings
+]
+.pull-right[
+**Doesn't:**
+- Prevent exploratory analyses (just label them)
+- Guarantee a good study design
+- Eliminate all QRPs
+]
+
+---
+
+# Registered Reports
+
+- A publishing format where **peer review happens before data collection**
+- Stage 1: introduction, methods, and analysis plan reviewed; journal gives **in-principle acceptance**
+- Stage 2: completed study reviewed for adherence to plan
+- Results are published **regardless of outcome**
+- Directly eliminates publication bias
+
+<!-- TODO: add [registered reports two-stage pipeline diagram] image -->
+
+---
+
+# Open Data & Open Materials
+
+- **Open data**: sharing raw data so others can verify and reuse it
+- **Open materials**: sharing stimuli, code, and procedures
+- Enables **independent replication** and error-checking
+- Platforms: OSF, GitHub, Zenodo, Dataverse
+
+--
+
+- Many journals now offer **open science badges** for data sharing, materials sharing, and pre-registration
+
+---
+
+# Effect Sizes
+
+- Move beyond binary significant/non-significant
+- **Effect sizes** quantify the *magnitude* of an effect
+  - Cohen's *d*, Pearson's *r*, η², odds ratio
+- Allow comparison across studies and meta-analyses
+- Small *p*-value ≠ large effect
+
+---
+
+# Cohen's Conventions
+
+| Label | Cohen's *d* | *r* |
+|-------|------------|-----|
+| Small | 0.2 | .10 |
+| Medium | 0.5 | .30 |
+| Large | 0.8 | .50 |
+
+- These are **arbitrary conventions** — interpret in context
+- A "small" effect can be practically important (e.g., a cheap public health intervention)
+
+---
+
+# Confidence Intervals
+
+- Report **confidence intervals** alongside point estimates
+- A 95% CI that barely excludes 0 ≠ strong evidence
+- Wide CIs indicate imprecise estimates (usually low N)
+- Overlapping CIs do not necessarily mean non-significant difference
+
+---
+
+# Meta-Analysis
+
+- **Meta-analysis**: statistically combining results across multiple studies
+- Provides more precise estimates of true effect sizes
+- Can detect publication bias (funnel plot asymmetry, Egger's test, p-curve)
+- Systematic reviews + meta-analyses sit at the top of the **evidence hierarchy**
+
+<!-- TODO: add [evidence pyramid / hierarchy of evidence diagram] image -->
+
+---
+
+# p-Curve Analysis
+
+- **p-curve** (Simonsohn et al., 2014): distribution of significant p-values
+- If a true effect exists: p-curve is **right-skewed** (many p-values near .05 are unlikely)
+- If p-hacking occurred: p-curve is **left-skewed** (suspiciously many p-values just below .05)
+- Can diagnose whether a literature has evidential value
+
+<!-- TODO: add [p-curve right-skewed vs. left-skewed comparison plot] image -->
+
+---
+
+# Increasing Statistical Power
+
+Ways to increase power:
+- **Larger samples** (most direct)
+- Larger effect sizes (use stronger manipulations)
+- Within-subjects designs (reduce error variance)
+- Reliable measures (reduce measurement error)
+- One-tailed tests (only if justified a priori)
+
+--
+
+- **A priori power analysis**: determine required N before data collection
+
+---
+
+# Replication as Science
+
+- **Direct replication**: same procedure, same measures — tests reliability
+- **Conceptual replication**: different procedure, same construct — tests generalizability
+- Both are valuable; neither is "just checking someone's homework"
+- Replication failures are **informative**, not attacks
+
+---
+
+# Cultural & Incentive Changes
+
+The crisis is also a **culture problem**:
+
+- Publish-or-perish rewards novelty, not rigor
+- Journals reward significant results, not careful science
+- Replications and null results are undervalued
+
+--
+
+**Proposed changes:**
+- Reward rigor in hiring/promotion
+- Fund replication studies
+- Train researchers in open science from the start
+
+---
+
+# Many Labs & Crowdsourced Science
+
+- Large-scale collaborations increase power and generalizability
+- **Psychological Science Accelerator**: global network running high-powered studies
+- Adversarial collaborations: proponents and skeptics of an effect design a study together
+- **Multi-site studies** increase external validity
+
+---
+
+# Summary: The Problem
+
+- Many published findings don't replicate
+- Root causes: p-hacking, HARKing, publication bias, low power
+- These aren't just individual failings — they're **systemic incentive problems**
+
+---
+
+# Summary: The Solutions
+
+| Problem | Solution |
+|---------|----------|
+| p-hacking | Pre-registration |
+| HARKing | Pre-registration; distinguish confirmatory vs. exploratory |
+| Publication bias | Registered Reports; open results |
+| Low power | Larger samples; power analysis |
+| Non-transparency | Open data; open materials |
+| Effect inflation | Report effect sizes & CIs |
+
+---
+
+# The Glass Half Full
+
+- The replication crisis is a **sign of a self-correcting science**
+- We are identifying problems and developing solutions
+- Open science practices are becoming standard
+- Early-career researchers have an opportunity to **lead this change**
+
+--
+
+> "The goal of science is not to produce findings; it is to produce knowledge."
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+# Recap
+
+- The **replication crisis** revealed that many published findings are unreliable
+- Key causes: **p-hacking**, **HARKing**, **publication bias**, and **low statistical power**
+- **Open science** practices — pre-registration, registered reports, open data — address these problems directly
+- **Effect sizes**, **confidence intervals**, and **meta-analysis** provide richer evidence than *p*-values alone
+- The field is actively reforming; you can be part of the solution
+
+---
+
+# References
+
+- Open Science Collaboration (2015). Estimating the reproducibility of psychological science. *Science*, 349(6251).
+- Simmons, J. P., Nelson, L. D., & Simonsohn, U. (2011). False-positive psychology. *Psychological Science*, 22(11), 1359–1366.
+- Ioannidis, J. P. A. (2005). Why most published research findings are false. *PLOS Medicine*, 2(8), e124.
+- Nosek, B. A., et al. (2015). Promoting an open research culture. *Science*, 348(6242), 1422–1425.
+- Gelman, A., & Loken, E. (2013). The garden of forking paths. Unpublished manuscript.
+- Rosenthal, R. (1979). The file drawer problem and tolerance for null results. *Psychological Bulletin*, 86(3), 638–641.

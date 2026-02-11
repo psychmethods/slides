@@ -1,0 +1,589 @@
+---
+title: "Probability"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+---
+
+class: middle, center, inverse
+
+# Probability
+
+---
+
+# Roadmap
+
+.pull-left[
+**Where we've been:**
+- Exploratory data analysis
+- Data visualization
+- Summarizing distributions
+]
+
+.pull-right[
+**Where we're going:**
+- Defining probability
+- Probability rules
+- Conditional probability
+- Random variables
+]
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Define probability and describe the sample space and events
+- Apply the addition, complement, and multiplication rules correctly
+- Distinguish between independent and dependent events
+- Calculate conditional probabilities and apply Bayes' theorem
+- Define a random variable and compute its expected value and variance
+
+---
+
+class: middle, center, inverse
+
+# What Is Probability?
+
+---
+
+# Defining Probability
+
+**Probability** is a number between 0 and 1 that describes how likely an event is to occur.
+
+$$0 \leq P(A) \leq 1$$
+
+--
+
+- $P(A) = 0$: the event **never** occurs
+- $P(A) = 1$: the event **always** occurs
+- $P(A) = 0.5$: the event occurs **half the time**
+
+--
+
+**Frequentist interpretation:**
+
+$$P(A) = \lim_{n \to \infty} \frac{\text{number of times } A \text{ occurs}}{n}$$
+
+---
+
+# The Law of Large Numbers
+
+> As the number of trials increases, the proportion of times an event occurs approaches the true probability.
+
+<!-- TODO: add [line plot showing running proportion of heads in coin flips converging to 0.5 as number of flips increases] image -->
+
+--
+
+- With only a few trials, results can vary widely
+- With many trials, the proportion stabilizes near $P(A)$
+- This is why casinos always win in the long run `r emo::ji("slot_machine")`
+
+---
+
+class: middle, center, inverse
+
+# Sample Spaces and Events
+
+---
+
+# Sample Space
+
+The **sample space** $S$ is the set of all possible outcomes of a random process.
+
+--
+
+**Examples:**
+
+| Random process | Sample space |
+|---|---|
+| Flip a coin | $S = \{H, T\}$ |
+| Roll a die | $S = \{1, 2, 3, 4, 5, 6\}$ |
+| Draw a card | $S = \{A\spadesuit, 2\spadesuit, \ldots, K\heartsuit\}$ |
+| Record a person's height | $S = (0, \infty)$ |
+
+---
+
+# Events
+
+An **event** is any collection of outcomes from the sample space — a subset of $S$.
+
+--
+
+**Example:** Roll a standard die.
+- $S = \{1, 2, 3, 4, 5, 6\}$
+- Event $A$ = roll an even number = $\{2, 4, 6\}$
+- Event $B$ = roll a number greater than 4 = $\{5, 6\}$
+
+--
+
+**Venn diagrams** are useful for visualizing relationships between events.
+
+<!-- TODO: add [Venn diagram showing two overlapping circles A and B within rectangle S] image -->
+
+---
+
+class: middle, center, inverse
+
+# Probability Rules
+
+---
+
+# Rule 1: Complement Rule
+
+The **complement** of event $A$, written $A^c$ (or $\bar{A}$), is the event that $A$ does **not** occur.
+
+$$P(A^c) = 1 - P(A)$$
+
+--
+
+**Example:** If the probability of rain tomorrow is 0.30, then:
+
+$$P(\text{no rain}) = 1 - 0.30 = 0.70$$
+
+---
+
+# Rule 2: Addition Rule
+
+**For any two events $A$ and $B$:**
+
+$$P(A \text{ or } B) = P(A) + P(B) - P(A \text{ and } B)$$
+
+<!-- TODO: add [Venn diagram illustrating addition rule with shaded union of A and B] image -->
+
+--
+
+**Special case — Mutually Exclusive Events:**
+
+If $A$ and $B$ cannot both occur ($P(A \text{ and } B) = 0$):
+
+$$P(A \text{ or } B) = P(A) + P(B)$$
+
+---
+
+# Addition Rule — Example
+
+Roll a fair die. What is $P(\text{even or} > 4)$?
+
+- $A$ = even = $\{2, 4, 6\}$, so $P(A) = 3/6$
+- $B$ = greater than 4 = $\{5, 6\}$, so $P(B) = 2/6$
+- $A \text{ and } B$ = $\{6\}$, so $P(A \text{ and } B) = 1/6$
+
+--
+
+$$P(A \text{ or } B) = \frac{3}{6} + \frac{2}{6} - \frac{1}{6} = \frac{4}{6} \approx 0.667$$
+
+---
+
+class: middle, center, inverse
+
+# Independence and the Multiplication Rule
+
+---
+
+# Independent Events
+
+Two events $A$ and $B$ are **independent** if knowing that one occurred does not change the probability of the other.
+
+$$P(A | B) = P(A) \quad \text{and} \quad P(B | A) = P(B)$$
+
+--
+
+**Examples of independent events:**
+- Two separate coin flips
+- Drawing two cards **with replacement**
+- Two different people's blood types (unrelated)
+
+--
+
+**Examples of dependent events:**
+- Drawing two cards **without replacement**
+- Weather on consecutive days
+
+---
+
+# Rule 3: Multiplication Rule
+
+**For independent events $A$ and $B$:**
+
+$$P(A \text{ and } B) = P(A) \times P(B)$$
+
+--
+
+**Example:** Flip a fair coin twice.
+
+$$P(HH) = P(H) \times P(H) = \frac{1}{2} \times \frac{1}{2} = \frac{1}{4}$$
+
+--
+
+**General multiplication rule (any events):**
+
+$$P(A \text{ and } B) = P(A) \times P(B | A)$$
+
+---
+
+# Multiplication Rule — Example
+
+A bag contains 5 red and 3 blue marbles. Draw two marbles **without replacement**.
+
+$P(\text{both red}) = ?$
+
+--
+
+- $P(\text{1st red}) = 5/8$
+- $P(\text{2nd red} | \text{1st red}) = 4/7$
+
+$$P(\text{both red}) = \frac{5}{8} \times \frac{4}{7} = \frac{20}{56} \approx 0.357$$
+
+---
+
+class: middle, center, inverse
+
+# Conditional Probability
+
+---
+
+# Conditional Probability
+
+The **conditional probability** of $A$ given $B$ is the probability that $A$ occurs, given that $B$ has already occurred.
+
+$$P(A | B) = \frac{P(A \text{ and } B)}{P(B)}, \quad P(B) > 0$$
+
+--
+
+- We "restrict" the sample space to only outcomes where $B$ occurred
+- Then ask: in that restricted space, how likely is $A$?
+
+<!-- TODO: add [Venn diagram showing P(A|B) as the intersection A∩B relative to the area of B] image -->
+
+---
+
+# Conditional Probability — Example
+
+A standard deck of 52 cards. Draw one card.
+
+$P(\text{King} | \text{Face card}) = ?$
+
+--
+
+- There are 12 face cards (J, Q, K in each of 4 suits)
+- There are 4 Kings
+
+$$P(\text{King} | \text{Face card}) = \frac{P(\text{King and Face card})}{P(\text{Face card})} = \frac{4/52}{12/52} = \frac{4}{12} = \frac{1}{3}$$
+
+---
+
+# Conditional Probability — Table Method
+
+<!-- TODO: add [two-way table showing counts of events to illustrate conditional probability calculation] image -->
+
+Two-way (contingency) tables are a handy tool for computing conditional probabilities:
+
+1. Find the row or column corresponding to the conditioning event
+2. Divide the count of the joint event by the row/column total
+
+---
+
+class: middle, center, inverse
+
+# Bayes' Theorem
+
+---
+
+# Bayes' Theorem
+
+Sometimes we know $P(B | A)$ but want $P(A | B)$.
+
+$$P(A | B) = \frac{P(A) \times P(B | A)}{P(B)}$$
+
+--
+
+Where the **law of total probability** gives:
+
+$$P(B) = P(B | A) \times P(A) + P(B | A^c) \times P(A^c)$$
+
+---
+
+# Bayes' Theorem — Example
+
+A medical test for a disease:
+- Prevalence: $P(\text{disease}) = 0.01$
+- Sensitivity: $P(+ | \text{disease}) = 0.99$
+- False positive rate: $P(+ | \text{no disease}) = 0.05$
+
+--
+
+$P(\text{disease} | +) = ?$
+
+--
+
+$$P(B) = (0.99)(0.01) + (0.05)(0.99) = 0.0099 + 0.0495 = 0.0594$$
+
+$$P(\text{disease} | +) = \frac{0.99 \times 0.01}{0.0594} \approx 0.167$$
+
+--
+
+Even with a positive test, only ~17% chance of actually having the disease! `r emo::ji("thinking")`
+
+---
+
+# Bayes' Theorem — Tree Diagram
+
+<!-- TODO: add [probability tree diagram for the medical test Bayes' example, showing disease/no disease branches and positive/negative test branches with probabilities labeled] image -->
+
+Tree diagrams help organize the joint probabilities needed for Bayes' theorem.
+
+---
+
+class: middle, center, inverse
+
+# Random Variables
+
+---
+
+# Random Variables
+
+A **random variable** is a variable whose value is determined by the outcome of a random process.
+
+--
+
+.pull-left[
+**Discrete random variable**
+- Takes on a countable number of values
+- Examples: number of heads in 10 flips, number of students absent
+]
+
+.pull-right[
+**Continuous random variable**
+- Takes on any value in an interval
+- Examples: height, weight, time
+]
+
+---
+
+# Probability Distribution
+
+The **probability distribution** of a discrete random variable $X$ lists all possible values and their probabilities.
+
+| $x$ | $P(X = x)$ |
+|---|---|
+| 0 | 0.25 |
+| 1 | 0.50 |
+| 2 | 0.25 |
+
+--
+
+**Requirements:**
+- All probabilities $\geq 0$
+- Probabilities sum to 1: $\sum P(X = x) = 1$
+
+---
+
+# Expected Value
+
+The **expected value** (mean) of a random variable is the long-run average value.
+
+$$E(X) = \mu_X = \sum x \cdot P(X = x)$$
+
+--
+
+**Example:** Number of heads in 2 fair coin flips.
+
+$$E(X) = 0(0.25) + 1(0.50) + 2(0.25) = 0 + 0.50 + 0.50 = 1$$
+
+--
+
+- Interpretation: if we repeat the experiment many times, the average number of heads will be close to 1
+
+---
+
+# Variance and Standard Deviation
+
+The **variance** of a random variable measures spread around the mean.
+
+$$\text{Var}(X) = \sigma^2_X = \sum (x - \mu_X)^2 \cdot P(X = x)$$
+
+$$SD(X) = \sigma_X = \sqrt{\text{Var}(X)}$$
+
+--
+
+**Example continued:** ($\mu_X = 1$)
+
+$$\sigma^2_X = (0-1)^2(0.25) + (1-1)^2(0.50) + (2-1)^2(0.25) = 0.25 + 0 + 0.25 = 0.50$$
+
+$$\sigma_X = \sqrt{0.50} \approx 0.707$$
+
+---
+
+class: middle, center, inverse
+
+# Rules for Random Variables
+
+---
+
+# Linear Transformations
+
+If $Y = a + bX$:
+
+$$E(Y) = a + b \cdot E(X)$$
+$$\text{Var}(Y) = b^2 \cdot \text{Var}(X)$$
+$$SD(Y) = |b| \cdot SD(X)$$
+
+--
+
+**Example:** Convert temperature $X$ in Celsius to Fahrenheit: $Y = 32 + 1.8X$
+
+If $E(X) = 20°C$ and $SD(X) = 5°C$:
+- $E(Y) = 32 + 1.8(20) = 68°F$
+- $SD(Y) = 1.8 \times 5 = 9°F$
+
+---
+
+# Combining Random Variables
+
+For **any** two random variables $X$ and $Y$:
+
+$$E(X + Y) = E(X) + E(Y)$$
+$$E(X - Y) = E(X) - E(Y)$$
+
+--
+
+For **independent** random variables $X$ and $Y$:
+
+$$\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y)$$
+$$\text{Var}(X - Y) = \text{Var}(X) + \text{Var}(Y)$$
+
+--
+
+Note: variances **add** for both sums and differences (when independent).
+
+---
+
+# Combining Random Variables — Example
+
+A coffee shop sells lattes and cappuccinos.
+- Lattes: $E(L) = \$4.50$, $SD(L) = \$0.50$
+- Cappuccinos: $E(C) = \$4.00$, $SD(C) = \$0.40$
+- $L$ and $C$ are independent
+
+--
+
+Expected total revenue from one of each:
+
+$$E(L + C) = 4.50 + 4.00 = \$8.50$$
+
+--
+
+SD of total:
+
+$$SD(L + C) = \sqrt{0.50^2 + 0.40^2} = \sqrt{0.25 + 0.16} = \sqrt{0.41} \approx \$0.64$$
+
+---
+
+class: middle, center, inverse
+
+# Continuous Random Variables
+
+---
+
+# Continuous Distributions
+
+For a **continuous** random variable:
+- Probabilities are represented by **areas under a curve**
+- The curve is called a **probability density function (PDF)**
+- $P(X = \text{exact value}) = 0$
+
+<!-- TODO: add [smooth bell-curve or other density curve with a shaded region representing P(a < X < b)] image -->
+
+--
+
+$$P(a < X < b) = \int_a^b f(x)\, dx$$
+
+---
+
+# The Normal Distribution
+
+The **normal distribution** is the most important continuous distribution in statistics.
+
+$$X \sim N(\mu, \sigma)$$
+
+<!-- TODO: add [normal distribution bell curve labeled with mean mu at center and sigma showing spread, possibly with 68-95-99.7 rule marked] image -->
+
+--
+
+- Symmetric, bell-shaped
+- Completely described by $\mu$ and $\sigma$
+- **68-95-99.7 rule:**
+  - 68% of data within $\pm 1\sigma$
+  - 95% within $\pm 2\sigma$
+  - 99.7% within $\pm 3\sigma$
+
+---
+
+# Standardizing — Z-scores
+
+Any normal variable can be converted to the **standard normal** $Z \sim N(0, 1)$:
+
+$$Z = \frac{X - \mu}{\sigma}$$
+
+--
+
+- $Z$ tells us how many standard deviations $X$ is from the mean
+- We can use a Z-table (or R) to find probabilities
+
+--
+
+**Example:** Heights are $N(65, 3.5)$ inches. What proportion are taller than 70 inches?
+
+$$Z = \frac{70 - 65}{3.5} \approx 1.43$$
+
+$$P(X > 70) = P(Z > 1.43) \approx 0.076$$
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+# Summary
+
+- **Probability** measures likelihood; ranges from 0 to 1
+- The **sample space** contains all possible outcomes; **events** are subsets
+- Key rules:
+  - **Complement:** $P(A^c) = 1 - P(A)$
+  - **Addition:** $P(A \text{ or } B) = P(A) + P(B) - P(A \text{ and } B)$
+  - **Multiplication:** $P(A \text{ and } B) = P(A) \times P(B|A)$
+- **Independent** events: knowing one gives no information about the other
+- **Conditional probability:** $P(A|B) = P(A \text{ and } B) / P(B)$
+- **Bayes' theorem** lets us "flip" the conditioning
+- **Random variables** have expected values and variances that follow algebraic rules
+
+---
+
+# References
+
+```{r, results='asis', echo=FALSE}
+PrintBibliography <- function(...) invisible(NULL)
+```

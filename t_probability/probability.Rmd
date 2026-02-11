@@ -1,0 +1,598 @@
+---
+title: "Probability"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle, center, inverse
+
+# Probability
+
+---
+
+# Roadmap
+
+- What is probability?
+- Defining probability: classical, empirical, subjective
+- Sample spaces and events
+- Probability rules
+- Conditional probability and independence
+- Bayes' theorem
+- Introduction to probability distributions
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Define probability and distinguish among classical, empirical, and subjective interpretations
+- Identify sample spaces and events, and apply the addition and multiplication rules
+- Explain conditional probability and statistical independence
+- Apply Bayes' theorem to update probabilities given new information
+- Describe the properties of the normal distribution and use z-scores
+
+---
+
+class: middle, center, inverse
+
+# What Is Probability?
+
+---
+
+# Probability in Everyday Life
+
+- "There's a 70% chance of rain tomorrow."
+- "The probability of rolling a 6 is 1/6."
+- "I'm 90% sure I locked the door."
+
+--
+
+All of these are statements about **uncertainty** — probability is the language of uncertainty.
+
+---
+
+# Formal Definition
+
+- **Probability**: a number between 0 and 1 that expresses the likelihood of an event
+  - 0 = impossible
+  - 1 = certain
+  - 0.5 = equally likely to occur or not
+
+$$0 \leq P(A) \leq 1$$
+
+---
+
+# Three Interpretations of Probability
+
+.pull-left[
+**1. Classical (a priori)**
+- Based on equally likely outcomes
+- $P(A) = \frac{\text{# favorable outcomes}}{\text{# total outcomes}}$
+- Example: fair coin, fair die
+
+**2. Empirical (frequentist)**
+- Based on long-run relative frequency
+- $P(A) = \lim_{n \to \infty} \frac{\text{# times A occurs}}{n}$
+- Example: proportion of heads in many coin flips
+]
+.pull-right[
+**3. Subjective (Bayesian)**
+- Based on personal degree of belief
+- Updated as new information arrives
+- Example: "I believe there's a 60% chance it will rain"
+
+<!-- TODO: add [three-panel illustration of classical/empirical/subjective probability] image -->
+]
+
+---
+
+class: middle, center, inverse
+
+# Sample Spaces and Events
+
+---
+
+# Key Vocabulary
+
+- **Experiment**: a process with an uncertain outcome
+- **Outcome**: a single result of an experiment
+- **Sample space (S)**: the set of all possible outcomes
+- **Event (A)**: a subset of the sample space
+
+---
+
+# Examples of Sample Spaces
+
+| Experiment | Sample Space |
+|-----------|-------------|
+| Flip one coin | {H, T} |
+| Roll one die | {1, 2, 3, 4, 5, 6} |
+| Flip two coins | {HH, HT, TH, TT} |
+| Draw a card | {A♠, 2♠, ..., K♣} (52 outcomes) |
+
+---
+
+# Events
+
+- An **event** is a collection of outcomes we care about
+- Example: Roll a die; event A = "roll an even number"
+  - A = {2, 4, 6}
+  - P(A) = 3/6 = 0.5
+
+--
+
+- **Simple event**: a single outcome
+- **Compound event**: two or more outcomes
+
+---
+
+# Venn Diagrams
+
+- Venn diagrams illustrate relationships between events and sample spaces
+- The rectangle = sample space S
+- Circles = events A, B
+
+<!-- TODO: add [Venn diagram showing sample space S with events A and B overlapping] image -->
+
+---
+
+class: middle, center, inverse
+
+# Probability Rules
+
+---
+
+# Rule 1: Complement Rule
+
+- The **complement** of event A (written $A^c$ or $\bar{A}$) = "A does not occur"
+- **Complement Rule:**
+
+$$P(A^c) = 1 - P(A)$$
+
+--
+
+- Example: P(rolling a 6) = 1/6, so P(not rolling a 6) = 1 − 1/6 = 5/6
+
+---
+
+# Rule 2: Addition Rule
+
+**For any two events A and B:**
+
+$$P(A \cup B) = P(A) + P(B) - P(A \cap B)$$
+
+- $A \cup B$ = "A or B (or both)" — the **union**
+- $A \cap B$ = "A and B both" — the **intersection**
+- We subtract the intersection to avoid **double counting**
+
+---
+
+# Addition Rule: Mutually Exclusive Events
+
+- Two events are **mutually exclusive** (disjoint) if they cannot both occur
+  - $P(A \cap B) = 0$
+- For mutually exclusive events:
+
+$$P(A \cup B) = P(A) + P(B)$$
+
+--
+
+- Example: Rolling a 2 and rolling a 5 on one die — can't happen at the same time
+
+---
+
+# Addition Rule: Example
+
+Draw one card from a standard deck. What is P(King or Heart)?
+
+- P(King) = 4/52
+- P(Heart) = 13/52
+- P(King AND Heart) = 1/52 (King of Hearts)
+
+$$P(\text{King or Heart}) = \frac{4}{52} + \frac{13}{52} - \frac{1}{52} = \frac{16}{52} \approx 0.308$$
+
+---
+
+# Rule 3: Multiplication Rule
+
+**For any two events A and B:**
+
+$$P(A \cap B) = P(A) \times P(B \mid A)$$
+
+- $P(B \mid A)$ = "probability of B **given** A has occurred" — **conditional probability**
+
+--
+
+**For independent events:**
+
+$$P(A \cap B) = P(A) \times P(B)$$
+
+---
+
+# Multiplication Rule: Example
+
+Draw two cards **without replacement**. What is P(both Aces)?
+
+- P(1st card is Ace) = 4/52
+- P(2nd card is Ace | 1st was Ace) = 3/51
+
+$$P(\text{both Aces}) = \frac{4}{52} \times \frac{3}{51} = \frac{12}{2652} \approx 0.0045$$
+
+---
+
+class: middle, center, inverse
+
+# Conditional Probability
+
+---
+
+# Conditional Probability
+
+- **Conditional probability**: the probability of event A given that event B has already occurred
+
+$$P(A \mid B) = \frac{P(A \cap B)}{P(B)}, \quad P(B) > 0$$
+
+- Conditioning **restricts the sample space** to only outcomes where B occurred
+
+---
+
+# Conditional Probability: Example
+
+In a class of 100 students:
+- 60 are women
+- 40 are men
+- 30 women passed the exam; 20 men passed the exam
+
+What is P(passed | woman)?
+
+$$P(\text{passed} \mid \text{woman}) = \frac{30}{60} = 0.50$$
+
+---
+
+# Conditional Probability: Contingency Table
+
+<!-- TODO: add [2x2 contingency table with rows = passed/failed, columns = women/men, cell counts] image -->
+
+Contingency tables (two-way tables) make conditional probability calculations straightforward:
+- Row or column totals define the conditioning event
+- Cell counts give the joint counts
+
+---
+
+# Independence
+
+- Two events A and B are **independent** if knowing B occurred gives no information about A:
+
+$$P(A \mid B) = P(A)$$
+
+- Equivalently: $P(A \cap B) = P(A) \times P(B)$
+
+--
+
+- **Independence ≠ mutually exclusive**
+  - Mutually exclusive events with P > 0 are *negatively* dependent
+
+---
+
+# Testing Independence
+
+Are A and B independent?
+1. Compute P(A), P(B), and P(A ∩ B)
+2. Check: does P(A) × P(B) = P(A ∩ B)?
+   - If yes: independent
+   - If no: dependent
+
+---
+
+# Independence: Example
+
+Flip a fair coin twice. Let:
+- A = "first flip is Heads"
+- B = "second flip is Heads"
+
+- P(A) = 1/2, P(B) = 1/2
+- P(A ∩ B) = P(HH) = 1/4
+- P(A) × P(B) = 1/2 × 1/2 = 1/4 ✓ **Independent**
+
+---
+
+class: middle, center, inverse
+
+# Bayes' Theorem
+
+---
+
+# Bayes' Theorem
+
+- **Bayes' theorem** tells us how to update a probability given new evidence
+
+$$P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B)}$$
+
+- $P(A)$ = **prior probability** (before seeing B)
+- $P(A \mid B)$ = **posterior probability** (after seeing B)
+- $P(B \mid A)$ = **likelihood** (how probable is B if A is true)
+
+---
+
+# Bayes' Theorem: Full Form
+
+Using the **law of total probability** to expand P(B):
+
+$$P(A \mid B) = \frac{P(B \mid A) \cdot P(A)}{P(B \mid A) \cdot P(A) + P(B \mid A^c) \cdot P(A^c)}$$
+
+---
+
+# Bayes' Theorem: Medical Testing Example
+
+- A disease affects 1% of the population: P(Disease) = 0.01
+- A test is 95% sensitive: P(Positive | Disease) = 0.95
+- The test has a 5% false-positive rate: P(Positive | No Disease) = 0.05
+
+**If someone tests positive, what is P(Disease | Positive)?**
+
+--
+
+$$P(\text{Dis} \mid +) = \frac{0.95 \times 0.01}{(0.95 \times 0.01) + (0.05 \times 0.99)}$$
+
+$$= \frac{0.0095}{0.0095 + 0.0495} = \frac{0.0095}{0.059} \approx 0.161$$
+
+--
+
+Only ~16%! The **base rate** matters enormously.
+
+---
+
+# Bayes' Theorem: Base Rate Neglect
+
+<!-- TODO: add [2x2 natural frequency table showing 1000 people: 10 with disease, 9 true positive, 1 false negative, 990 without disease, ~50 false positive, ~940 true negative] image -->
+
+- When prevalence (base rate) is low, even good tests produce many false positives
+- Visualizing with **natural frequencies** (rather than percentages) helps intuition
+
+---
+
+class: middle, center, inverse
+
+# Probability Distributions
+
+---
+
+# Random Variables
+
+- A **random variable** is a variable whose value is determined by a random experiment
+- **Discrete** random variable: countable outcomes (e.g., number of heads in 10 flips)
+- **Continuous** random variable: any value in an interval (e.g., height, reaction time)
+
+---
+
+# Probability Distributions
+
+- A **probability distribution** describes all possible values of a random variable and their probabilities
+- For discrete RVs: **probability mass function (PMF)**
+- For continuous RVs: **probability density function (PDF)**
+
+--
+
+Properties:
+- All probabilities ≥ 0
+- All probabilities sum (or integrate) to 1
+
+---
+
+# Discrete Distribution: Example
+
+Roll a fair die. Let X = outcome.
+
+| x | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|
+| P(X=x) | 1/6 | 1/6 | 1/6 | 1/6 | 1/6 | 1/6 |
+
+<!-- TODO: add [bar chart of uniform discrete distribution for a fair die] image -->
+
+---
+
+# Expected Value
+
+- The **expected value** (mean) of a random variable:
+
+$$E(X) = \mu = \sum_x x \cdot P(X = x)$$
+
+- For a fair die: $E(X) = 1(1/6) + 2(1/6) + \ldots + 6(1/6) = 3.5$
+
+--
+
+- E(X) is the **long-run average** — not necessarily a possible outcome
+
+---
+
+# Variance of a Random Variable
+
+$$\text{Var}(X) = \sigma^2 = \sum_x (x - \mu)^2 \cdot P(X = x)$$
+
+$$\text{SD}(X) = \sigma = \sqrt{\text{Var}(X)}$$
+
+---
+
+# The Binomial Distribution
+
+- Models the number of **successes** in *n* independent trials, each with success probability *p*
+
+$$P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}$$
+
+- Parameters: n (number of trials), p (probability of success)
+- Mean: $\mu = np$
+- SD: $\sigma = \sqrt{np(1-p)}$
+
+---
+
+# Binomial: Example
+
+Flip a fair coin 10 times. What is P(exactly 6 heads)?
+
+$$P(X = 6) = \binom{10}{6} (0.5)^6 (0.5)^4 = 210 \times 0.015625 \times 0.0625 \approx 0.205$$
+
+<!-- TODO: add [binomial distribution bar chart for n=10, p=0.5 with k=6 highlighted] image -->
+
+---
+
+class: middle, center, inverse
+
+# The Normal Distribution
+
+---
+
+# The Normal Distribution
+
+- The most important continuous distribution in statistics
+- **Bell-shaped**, symmetric, unimodal
+- Characterized by two parameters:
+  - $\mu$ (mean) — center of the distribution
+  - $\sigma$ (standard deviation) — spread
+
+$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$$
+
+<!-- TODO: add [normal distribution bell curve with mean and ±1, ±2, ±3 SD marked] image -->
+
+---
+
+# Properties of the Normal Distribution
+
+- Symmetric about the mean: $P(X < \mu) = P(X > \mu) = 0.5$
+- Mean = Median = Mode
+- The **Empirical Rule** (68–95–99.7 rule):
+  - ~68% of data within ±1 SD of mean
+  - ~95% of data within ±2 SD of mean
+  - ~99.7% of data within ±3 SD of mean
+
+---
+
+# The Empirical Rule
+
+<!-- TODO: add [normal curve with shaded regions showing 68%, 95%, 99.7% areas] image -->
+
+- 68%: $\mu \pm 1\sigma$
+- 95%: $\mu \pm 2\sigma$
+- 99.7%: $\mu \pm 3\sigma$
+
+--
+
+These percentages are **probabilities** — e.g., a randomly drawn observation has a 95% chance of falling within 2 SDs of the mean.
+
+---
+
+# The Standard Normal Distribution
+
+- The **standard normal** distribution has $\mu = 0$ and $\sigma = 1$
+- Written: $Z \sim N(0, 1)$
+- Any normal distribution can be converted to standard normal using a **z-score**
+
+$$z = \frac{x - \mu}{\sigma}$$
+
+---
+
+# Z-Scores
+
+- A **z-score** tells you how many standard deviations a value is above or below the mean
+- $z > 0$: above the mean
+- $z < 0$: below the mean
+- $z = 0$: at the mean
+
+--
+
+- Example: IQ scores have $\mu = 100$, $\sigma = 15$. An IQ of 130:
+$$z = \frac{130 - 100}{15} = \frac{30}{15} = 2.0$$
+  IQ of 130 is 2 SDs above the mean.
+
+---
+
+# Using Z-Scores to Find Probabilities
+
+- After computing z, use a **z-table** (or software) to find $P(Z < z)$
+- The table gives the **cumulative probability** — area to the left
+
+<!-- TODO: add [standard normal curve with shaded left tail up to z, z-table excerpt] image -->
+
+--
+
+- $P(Z < 2.0) \approx 0.977$
+- So P(IQ < 130) ≈ 97.7%
+
+---
+
+# Normal Distribution: Finding Areas
+
+| Goal | Formula |
+|------|---------|
+| P(X < a) | Find z, look up table |
+| P(X > a) | 1 − P(X < a) |
+| P(a < X < b) | P(X < b) − P(X < a) |
+
+---
+
+# Normal Approximation to the Binomial
+
+- When *n* is large and *p* is not too extreme, the binomial distribution is approximately normal:
+
+$$X \sim B(n, p) \approx N(\mu = np,\ \sigma = \sqrt{np(1-p)})$$
+
+- Rule of thumb: use normal approximation when $np \geq 10$ and $n(1-p) \geq 10$
+
+<!-- TODO: add [binomial bar chart overlaid with normal curve showing approximation] image -->
+
+---
+
+# Why the Normal Distribution Is Everywhere
+
+- **Central Limit Theorem (CLT)**: the sampling distribution of the mean approaches normal as sample size increases, regardless of the population distribution
+- This is why so many statistical tests assume normality
+- Even non-normal populations produce approximately normal sample means for large *n*
+
+---
+
+# Summary: Probability Rules
+
+| Rule | Formula |
+|------|---------|
+| Complement | $P(A^c) = 1 - P(A)$ |
+| Addition (general) | $P(A \cup B) = P(A) + P(B) - P(A \cap B)$ |
+| Addition (mutually exclusive) | $P(A \cup B) = P(A) + P(B)$ |
+| Multiplication (general) | $P(A \cap B) = P(A) \cdot P(B \mid A)$ |
+| Multiplication (independent) | $P(A \cap B) = P(A) \cdot P(B)$ |
+| Conditional probability | $P(A \mid B) = P(A \cap B) / P(B)$ |
+| Bayes' theorem | $P(A \mid B) = P(B \mid A)P(A) / P(B)$ |
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+# Recap
+
+- **Probability** quantifies uncertainty on a 0–1 scale; it can be interpreted classically, empirically, or subjectively
+- A **sample space** lists all possible outcomes; **events** are subsets of interest
+- Core rules: **complement**, **addition**, and **multiplication**
+- **Conditional probability** restricts attention to a subset; events are **independent** when conditioning doesn't change the probability
+- **Bayes' theorem** updates prior probabilities given evidence — and base rates matter
+- The **normal distribution** is fundamental; **z-scores** standardize values for probability lookup

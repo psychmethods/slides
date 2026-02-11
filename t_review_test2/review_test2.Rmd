@@ -1,0 +1,1022 @@
+---
+title: "Review for Test 2"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle, center, inverse
+
+# Review for Test 2
+### Data Science for Psychologists
+
+---
+
+## Roadmap
+
+- Recap of Test 1 Topics
+- New Material: Data Wrangling
+- New Material: Data Visualization
+- New Material: Probability & Distributions
+- New Material: Inference & Hypothesis Testing
+- Practice Problems
+
+--
+
+**By the end of this review, you should be able to:**
+
+- Wrangle and reshape data using `dplyr` and `tidyr` verbs
+- Create and interpret visualizations using `ggplot2`
+- Understand probability distributions and calculate probabilities
+- Apply hypothesis testing logic and interpret p-values
+- Distinguish between Type I and Type II errors and understand statistical power
+
+---
+
+class: middle, center, inverse
+
+# What's on the Test?
+
+---
+
+## Test 2 Coverage
+
+.pull-left[
+**Carried over from Test 1:**
+- R basics & data types
+- Reading in data
+- Exploratory data analysis
+- Data visualization basics
+]
+
+.pull-right[
+**New material:**
+- Data wrangling (`dplyr`, `tidyr`)
+- Advanced `ggplot2`
+- Probability & distributions
+- Sampling distributions & CLT
+- Hypothesis testing
+- Confidence intervals
+]
+
+---
+
+class: middle, center, inverse
+
+# Data Wrangling
+
+---
+
+## Core `dplyr` Verbs
+
+The six core `dplyr` verbs:
+
+--
+
+- `filter()` — keep rows that meet a condition
+
+--
+
+- `select()` — keep (or drop) columns by name
+
+--
+
+- `mutate()` — add or modify columns
+
+--
+
+- `arrange()` — sort rows
+
+--
+
+- `summarize()` — collapse rows to summary statistics
+
+--
+
+- `group_by()` — perform operations by group
+
+---
+
+## `filter()`
+
+Keep rows where a condition is `TRUE`:
+
+```{r echo=TRUE, eval=FALSE}
+starwars %>%
+  filter(species == "Human", height > 170)
+```
+
+--
+
+Common operators:
+- `==` equal to
+- `!=` not equal to
+- `>`, `<`, `>=`, `<=`
+- `%in%` — value is in a vector
+- `is.na()` — check for missing values
+- `!` — negate
+
+---
+
+## `select()`
+
+Keep or drop columns:
+
+```{r echo=TRUE, eval=FALSE}
+starwars %>%
+  select(name, height, mass, species)
+
+starwars %>%
+  select(-films, -vehicles, -starships)
+```
+
+--
+
+Helper functions:
+- `starts_with("x")`
+- `ends_with("x")`
+- `contains("x")`
+- `everything()`
+
+---
+
+## `mutate()`
+
+Add or modify columns:
+
+```{r echo=TRUE, eval=FALSE}
+starwars %>%
+  mutate(
+    bmi = mass / (height / 100)^2,
+    tall = height > 180
+  )
+```
+
+--
+
+- The new column is added to the right
+- You can reference a column you just created in the same `mutate()` call
+- Use `if_else()` or `case_when()` for conditional logic
+
+---
+
+## `case_when()`
+
+A vectorized if-else for multiple conditions:
+
+```{r echo=TRUE, eval=FALSE}
+starwars %>%
+  mutate(
+    size = case_when(
+      height < 100 ~ "small",
+      height < 180 ~ "medium",
+      height >= 180 ~ "large",
+      TRUE ~ "unknown"
+    )
+  )
+```
+
+--
+
+- Conditions are evaluated in order
+- The last `TRUE ~ ...` is the "otherwise" catch-all
+
+---
+
+## `summarize()` and `group_by()`
+
+```{r echo=TRUE, eval=FALSE}
+starwars %>%
+  group_by(species) %>%
+  summarize(
+    n = n(),
+    mean_height = mean(height, na.rm = TRUE),
+    mean_mass = mean(mass, na.rm = TRUE)
+  )
+```
+
+--
+
+- `group_by()` alone doesn't change the data, but affects subsequent operations
+- `n()` counts rows in each group
+- Always use `na.rm = TRUE` for summary stats when NAs may be present
+- `ungroup()` to remove grouping
+
+---
+
+## The Pipe: `%>%`
+
+Chain operations together:
+
+```{r echo=TRUE, eval=FALSE}
+starwars %>%
+  filter(species == "Human") %>%
+  select(name, height, mass) %>%
+  mutate(bmi = mass / (height / 100)^2) %>%
+  arrange(desc(bmi))
+```
+
+--
+
+- Read `%>%` as "and then"
+- The output of the left side becomes the first argument of the right side
+- Makes code readable from top to bottom
+
+---
+
+## Joining Data
+
+Combine two data frames by a shared key:
+
+.pull-left[
+**Mutating joins** (add columns):
+- `left_join()` — keep all rows from left
+- `right_join()` — keep all rows from right
+- `inner_join()` — keep only matching rows
+- `full_join()` — keep all rows from both
+]
+
+.pull-right[
+**Filtering joins** (filter rows):
+- `semi_join()` — keep rows in left that match right
+- `anti_join()` — keep rows in left that don't match right
+]
+
+---
+
+## Joining Example
+
+```{r echo=TRUE, eval=FALSE}
+# Two data frames with a shared "id" column
+left_join(df1, df2, by = "id")
+
+# Different column names
+left_join(df1, df2, by = c("student_id" = "id"))
+```
+
+--
+
+- The most common join is `left_join()` — it keeps all rows from the left data frame
+- If there are multiple matches, rows are duplicated
+- Watch out for duplicate rows after joining!
+
+---
+
+## Reshaping: `pivot_longer()` and `pivot_wider()`
+
+.pull-left[
+**Wide to long:**
+```{r echo=TRUE, eval=FALSE}
+df %>%
+  pivot_longer(
+    cols = c(y2018, y2019, y2020),
+    names_to = "year",
+    values_to = "value"
+  )
+```
+]
+
+.pull-right[
+**Long to wide:**
+```{r echo=TRUE, eval=FALSE}
+df %>%
+  pivot_wider(
+    names_from = year,
+    values_from = value
+  )
+```
+]
+
+--
+
+- **Tidy data**: each variable in a column, each observation in a row, each value in a cell
+- Most `ggplot2` and `dplyr` functions work best with tidy (long) data
+
+---
+
+class: middle, center, inverse
+
+# Data Visualization
+
+---
+
+## `ggplot2` Grammar of Graphics
+
+Every ggplot has three required components:
+
+--
+
+1. **Data** — the data frame
+
+--
+
+2. **Aesthetics** (`aes()`) — mappings from data to visual properties (x, y, color, size, shape...)
+
+--
+
+3. **Geometry** (`geom_*()`) — the type of plot
+
+```{r echo=TRUE, eval=FALSE}
+ggplot(data = starwars, aes(x = height, y = mass)) +
+  geom_point()
+```
+
+---
+
+## Common `geom_` functions
+
+| Geom | Use |
+|------|-----|
+| `geom_point()` | scatterplot |
+| `geom_line()` | line chart |
+| `geom_bar()` | bar chart (counts) |
+| `geom_col()` | bar chart (values) |
+| `geom_histogram()` | histogram |
+| `geom_boxplot()` | boxplot |
+| `geom_density()` | density curve |
+| `geom_smooth()` | smoothed trend line |
+| `geom_text()` / `geom_label()` | text annotations |
+
+---
+
+## Aesthetics: `aes()`
+
+Map data variables to visual properties:
+
+```{r echo=TRUE, eval=FALSE}
+ggplot(starwars, aes(x = height, y = mass,
+                     color = gender, size = birth_year)) +
+  geom_point(alpha = 0.6)
+```
+
+--
+
+- **Inside `aes()`**: mapped to data (varies by observation)
+- **Outside `aes()`**: fixed for all observations
+- `alpha` controls transparency (0 = invisible, 1 = opaque)
+
+---
+
+## Faceting
+
+Split a plot into subplots by a variable:
+
+```{r echo=TRUE, eval=FALSE}
+ggplot(starwars, aes(x = height)) +
+  geom_histogram() +
+  facet_wrap(~ gender)
+
+ggplot(starwars, aes(x = height, y = mass)) +
+  geom_point() +
+  facet_grid(gender ~ species)
+```
+
+--
+
+- `facet_wrap()` — wrap panels into a grid
+- `facet_grid()` — explicitly specify rows and columns
+- Use `scales = "free"` to allow different axis scales per panel
+
+---
+
+## Labels, Themes, and Scales
+
+```{r echo=TRUE, eval=FALSE}
+ggplot(starwars, aes(x = height, y = mass, color = gender)) +
+  geom_point() +
+  labs(
+    title = "Height vs. Mass in Star Wars",
+    x = "Height (cm)",
+    y = "Mass (kg)",
+    color = "Gender"
+  ) +
+  theme_minimal() +
+  scale_color_viridis_d()
+```
+
+--
+
+- `labs()` — set title, axis labels, legend titles
+- `theme_*()` — overall look (minimal, bw, classic, etc.)
+- `scale_*()` — control how data maps to visual properties
+
+---
+
+## Visualizing Distributions
+
+.pull-left[
+**One variable:**
+- `geom_histogram()` — binned counts
+- `geom_density()` — smoothed density
+- `geom_boxplot()` — five-number summary
+- `geom_violin()` — density + boxplot
+
+]
+
+.pull-right[
+**Two variables:**
+- `geom_point()` — scatterplot
+- `geom_smooth()` — trend line
+- `geom_jitter()` — jittered points
+
+**Categorical:**
+- `geom_bar()` — counts
+- `geom_col()` — pre-computed values
+]
+
+---
+
+class: middle, center, inverse
+
+# Probability & Distributions
+
+---
+
+## Probability Basics
+
+- **Probability**: a number between 0 and 1 representing the likelihood of an event
+- **P(A)** = probability of event A
+- **P(A') = 1 - P(A)** — complement
+- **P(A or B) = P(A) + P(B) - P(A and B)** — addition rule
+- **P(A and B) = P(A) × P(B|A)** — multiplication rule
+
+--
+
+**Independence:**
+- Events A and B are independent if P(A and B) = P(A) × P(B)
+- Knowing B occurred doesn't change the probability of A
+
+---
+
+## Conditional Probability
+
+$$P(A|B) = \frac{P(A \text{ and } B)}{P(B)}$$
+
+--
+
+- Read as: "probability of A **given** B"
+- The sample space is restricted to cases where B occurred
+
+--
+
+**Bayes' Theorem:**
+$$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$$
+
+---
+
+## Random Variables
+
+- A **random variable** assigns a number to each outcome of a random process
+- **Discrete**: countable values (e.g., number of heads in 10 flips)
+- **Continuous**: any value in an interval (e.g., height, time)
+
+--
+
+**Expected value (mean):**
+$$E(X) = \mu = \sum x \cdot P(X = x)$$
+
+**Variance:**
+$$Var(X) = \sigma^2 = \sum (x - \mu)^2 \cdot P(X = x)$$
+
+---
+
+## The Normal Distribution
+
+$$X \sim N(\mu, \sigma^2)$$
+
+- Symmetric, bell-shaped
+- Defined by mean $\mu$ and standard deviation $\sigma$
+- **68-95-99.7 rule**: 68% within 1 SD, 95% within 2 SD, 99.7% within 3 SD
+
+--
+
+**Standardizing (Z-score):**
+$$Z = \frac{X - \mu}{\sigma}$$
+
+The **standard normal** distribution: $Z \sim N(0, 1)$
+
+---
+
+## Working with Normal Distributions in R
+
+```{r echo=TRUE, eval=FALSE}
+# P(X < x)
+pnorm(x, mean = mu, sd = sigma)
+
+# P(X > x)
+pnorm(x, mean = mu, sd = sigma, lower.tail = FALSE)
+
+# Find x given P(X < x) = p
+qnorm(p, mean = mu, sd = sigma)
+
+# Generate random normal values
+rnorm(n, mean = mu, sd = sigma)
+```
+
+--
+
+- `p` functions: give probabilities (areas under the curve)
+- `q` functions: give quantiles (the reverse)
+- `d` functions: give density (height of the curve)
+- `r` functions: generate random samples
+
+---
+
+## Other Important Distributions
+
+.pull-left[
+**Binomial**: count of successes in $n$ independent trials with probability $p$
+$$X \sim B(n, p)$$
+- `dbinom()`, `pbinom()`, `qbinom()`, `rbinom()`
+
+**Poisson**: count of events in a fixed interval
+$$X \sim Pois(\lambda)$$
+- `dpois()`, `ppois()`, `qpois()`, `rpois()`
+]
+
+.pull-right[
+**t-distribution**: like normal but heavier tails; used when $\sigma$ unknown
+- `dt()`, `pt()`, `qt()`, `rt()`
+
+**F-distribution**: ratio of variances; used in ANOVA
+- `df()`, `pf()`, `qf()`, `rf()`
+
+**Chi-square**: used for categorical data tests
+- `dchisq()`, `pchisq()`, `qchisq()`, `rchisq()`
+]
+
+---
+
+class: middle, center, inverse
+
+# Sampling Distributions & Inference
+
+---
+
+## Sampling Distribution of $\bar{X}$
+
+If we repeatedly sample $n$ observations from a population with mean $\mu$ and SD $\sigma$:
+
+$$\bar{X} \sim N\left(\mu, \frac{\sigma^2}{n}\right)$$
+
+--
+
+- The **standard error** is $SE = \sigma / \sqrt{n}$
+- As $n$ increases, the sampling distribution gets narrower
+- This is the **Central Limit Theorem (CLT)**
+
+---
+
+## Central Limit Theorem (CLT)
+
+For a sufficiently large sample size $n$, the sampling distribution of $\bar{X}$ is approximately normal, **regardless of the shape of the population distribution**.
+
+--
+
+- "Sufficiently large" is often $n \geq 30$
+- The larger the sample, the better the approximation
+- For normally distributed populations, any $n$ works
+
+--
+
+**Why does this matter?**
+It lets us use normal-based methods (z-tests, t-tests, confidence intervals) even when we don't know the shape of the population.
+
+---
+
+## Confidence Intervals
+
+A **confidence interval** gives a plausible range of values for a population parameter.
+
+$$\bar{x} \pm z^* \cdot \frac{\sigma}{\sqrt{n}}$$
+
+--
+
+- $z^*$ is the critical value (e.g., 1.96 for 95% CI)
+- A 95% CI means: if we repeated this procedure many times, 95% of the intervals would contain the true parameter
+- **The interval either contains the parameter or it doesn't** — no probability statement about a single interval
+
+---
+
+## t-Confidence Intervals
+
+When $\sigma$ is unknown (almost always), use the $t$-distribution:
+
+$$\bar{x} \pm t^*_{df} \cdot \frac{s}{\sqrt{n}}$$
+
+--
+
+- $df = n - 1$ degrees of freedom
+- Use `qt()` to find $t^*$: `qt(0.975, df = n - 1)`
+- The t-distribution is wider than normal for small $n$, converges to normal as $n \to \infty$
+
+---
+
+class: middle, center, inverse
+
+# Hypothesis Testing
+
+---
+
+## Hypothesis Testing Framework
+
+1. **State hypotheses**: $H_0$ (null) and $H_a$ (alternative)
+2. **Set significance level**: $\alpha$ (commonly 0.05)
+3. **Collect data and compute test statistic**
+4. **Calculate p-value**
+5. **Make a decision**: reject or fail to reject $H_0$
+6. **State conclusion in context**
+
+---
+
+## Hypotheses
+
+- $H_0$: The null hypothesis — assumes no effect, no difference, status quo
+- $H_a$: The alternative hypothesis — what we're trying to show
+
+--
+
+**Types of alternative hypotheses:**
+- Two-sided: $H_a: \mu \neq \mu_0$
+- One-sided (right): $H_a: \mu > \mu_0$
+- One-sided (left): $H_a: \mu < \mu_0$
+
+--
+
+We **never** accept $H_0$ — we only **fail to reject** it. Absence of evidence is not evidence of absence.
+
+---
+
+## The p-value
+
+The **p-value** is the probability of observing data as extreme as (or more extreme than) what we observed, **assuming $H_0$ is true**.
+
+--
+
+- Small p-value → data are unusual under $H_0$ → evidence against $H_0$
+- Large p-value → data are consistent with $H_0$ → insufficient evidence against $H_0$
+
+--
+
+**Decision rule:**
+- If $p < \alpha$: reject $H_0$ (result is "statistically significant")
+- If $p \geq \alpha$: fail to reject $H_0$
+
+---
+
+## One-Sample t-test
+
+Test whether a population mean equals a hypothesized value:
+
+$$t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}}$$
+
+```{r echo=TRUE, eval=FALSE}
+t.test(x, mu = mu_0)
+# or
+t.test(x, mu = mu_0, alternative = "greater")
+```
+
+--
+
+- Under $H_0$, this statistic follows a $t$-distribution with $df = n - 1$
+- The p-value is computed from that distribution
+
+---
+
+## Two-Sample t-test
+
+Compare means from two independent groups:
+
+$$t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}$$
+
+```{r echo=TRUE, eval=FALSE}
+t.test(x ~ group, data = df)
+t.test(x1, x2)
+```
+
+--
+
+- Assumes independence between groups
+- Does **not** require equal variances (Welch's t-test is the default in R)
+- Paired data: use `t.test(x1, x2, paired = TRUE)`
+
+---
+
+## Type I and Type II Errors
+
+|  | $H_0$ is True | $H_0$ is False |
+|--|---------------|----------------|
+| **Reject $H_0$** | Type I Error ($\alpha$) | Correct! (Power) |
+| **Fail to reject $H_0$** | Correct! | Type II Error ($\beta$) |
+
+--
+
+- **Type I error** ($\alpha$): false positive — rejecting a true $H_0$
+- **Type II error** ($\beta$): false negative — failing to reject a false $H_0$
+- **Power** = $1 - \beta$ = probability of correctly rejecting a false $H_0$
+
+---
+
+## Factors Affecting Power
+
+Power increases when:
+
+--
+
+- Effect size is larger
+--
+
+- Sample size $n$ is larger
+--
+
+- $\alpha$ is larger (but this also increases Type I error rate)
+--
+
+- Population variance $\sigma^2$ is smaller
+
+--
+
+**There is always a trade-off between Type I and Type II error rates.**
+Decreasing $\alpha$ (stricter test) increases $\beta$ (less power) for a fixed sample size.
+
+---
+
+## Effect Size
+
+A standardized measure of the magnitude of an effect, independent of sample size.
+
+**Cohen's d** (for comparing means):
+$$d = \frac{\bar{x}_1 - \bar{x}_2}{s_{pooled}}$$
+
+--
+
+Conventional benchmarks (Cohen, 1988):
+- Small: $d = 0.2$
+- Medium: $d = 0.5$
+- Large: $d = 0.8$
+
+--
+
+Statistical significance $\neq$ practical significance. A tiny effect can be statistically significant with a large enough sample.
+
+---
+
+class: middle, center, inverse
+
+# Multiple Testing & Other Tests
+
+---
+
+## Multiple Comparisons Problem
+
+If you run many tests at $\alpha = 0.05$, you expect 5% of true null hypotheses to be rejected by chance.
+
+--
+
+**Bonferroni correction**: adjust $\alpha$ downward:
+$$\alpha_{adjusted} = \frac{\alpha}{m}$$
+where $m$ is the number of tests.
+
+--
+
+- Conservative but simple
+- Other methods: Benjamini-Hochberg (FDR), Holm
+
+---
+
+## Chi-Square Test of Independence
+
+Test whether two categorical variables are associated:
+
+$$\chi^2 = \sum \frac{(O - E)^2}{E}$$
+
+```{r echo=TRUE, eval=FALSE}
+chisq.test(table(df$var1, df$var2))
+```
+
+--
+
+- $O$ = observed counts, $E$ = expected counts under independence
+- $H_0$: the two variables are independent
+- $df = (rows - 1)(cols - 1)$
+- Requires expected cell counts $\geq 5$
+
+---
+
+## ANOVA
+
+**Analysis of Variance**: compare means across 3+ groups.
+
+$H_0$: all group means are equal
+$H_a$: at least one mean differs
+
+```{r echo=TRUE, eval=FALSE}
+aov_result <- aov(y ~ group, data = df)
+summary(aov_result)
+```
+
+--
+
+- F-statistic = variance between groups / variance within groups
+- Significant ANOVA → follow up with post-hoc tests (e.g., Tukey HSD)
+- Assumptions: normality, equal variances, independence
+
+---
+
+## Linear Regression
+
+Model the relationship between a response variable $Y$ and predictor(s) $X$:
+
+$$Y = \beta_0 + \beta_1 X + \epsilon$$
+
+```{r echo=TRUE, eval=FALSE}
+lm_fit <- lm(y ~ x, data = df)
+summary(lm_fit)
+```
+
+--
+
+- $\beta_0$: intercept (expected $Y$ when $X = 0$)
+- $\beta_1$: slope (expected change in $Y$ for one-unit increase in $X$)
+- $R^2$: proportion of variance in $Y$ explained by the model
+- Residuals: $e_i = y_i - \hat{y}_i$
+
+---
+
+## Regression Assumptions (LINE)
+
+- **L**inearity: the relationship between $X$ and $Y$ is linear
+- **I**ndependence: observations are independent
+- **N**ormality: residuals are normally distributed
+- **E**qual variance: residuals have constant variance (homoscedasticity)
+
+--
+
+Diagnose with residual plots:
+```{r echo=TRUE, eval=FALSE}
+plot(lm_fit)
+```
+
+<!-- TODO: add residual diagnostic plots image -->
+
+---
+
+class: middle, center, inverse
+
+# Practice Problems
+
+---
+
+## Practice: Data Wrangling
+
+Using the `starwars` dataset:
+
+1. Filter to characters who are Human **or** Droid
+2. Select `name`, `height`, `mass`, `species`
+3. Create a new variable `bmi = mass / (height/100)^2`
+4. Find the mean BMI by species
+5. Arrange by mean BMI in descending order
+
+--
+
+```{r echo=TRUE, eval=FALSE}
+starwars %>%
+  filter(species %in% c("Human", "Droid")) %>%
+  select(name, height, mass, species) %>%
+  mutate(bmi = mass / (height / 100)^2) %>%
+  group_by(species) %>%
+  summarize(mean_bmi = mean(bmi, na.rm = TRUE)) %>%
+  arrange(desc(mean_bmi))
+```
+
+---
+
+## Practice: Probability
+
+A researcher finds that 30% of students suffer from test anxiety. In a random sample of 20 students:
+
+1. What is the probability that exactly 6 have test anxiety?
+2. What is the probability that fewer than 4 have test anxiety?
+3. What is the expected number with test anxiety?
+
+--
+
+```{r echo=TRUE, eval=FALSE}
+# 1. P(X = 6)
+dbinom(6, size = 20, prob = 0.3)
+
+# 2. P(X < 4) = P(X <= 3)
+pbinom(3, size = 20, prob = 0.3)
+
+# 3. E(X) = n * p
+20 * 0.3
+```
+
+---
+
+## Practice: Hypothesis Testing
+
+A psychology professor claims the mean score on a memory test is 75. A sample of 25 students has a mean of 72 and standard deviation of 8.
+
+1. State the hypotheses (two-sided)
+2. Calculate the test statistic
+3. Find the p-value
+4. What do you conclude at $\alpha = 0.05$?
+
+--
+
+$$t = \frac{72 - 75}{8/\sqrt{25}} = \frac{-3}{1.6} = -1.875$$
+
+```{r echo=TRUE, eval=FALSE}
+# p-value for two-sided test
+2 * pt(-1.875, df = 24)  # ≈ 0.073
+# Fail to reject H0; insufficient evidence at α = 0.05
+```
+
+---
+
+## Practice: Confidence Interval
+
+Using the same data (n = 25, $\bar{x}$ = 72, s = 8):
+
+Construct a 95% confidence interval for the population mean.
+
+--
+
+$$72 \pm t^*_{24} \cdot \frac{8}{\sqrt{25}}$$
+
+```{r echo=TRUE, eval=FALSE}
+t_star <- qt(0.975, df = 24)  # ≈ 2.064
+72 + c(-1, 1) * t_star * (8 / sqrt(25))
+# [68.69, 75.31]
+```
+
+--
+
+We are 95% confident that the true population mean is between 68.69 and 75.31.
+
+Note: 75 (the null value) **is** inside this interval — consistent with failing to reject $H_0$.
+
+---
+
+## Key Takeaways
+
+.pull-left[
+**Wrangling & Viz:**
+- Master the 6 `dplyr` verbs
+- Use `%>%` to chain operations
+- Joins add columns; filtering joins filter rows
+- Tidy data: long format for analysis
+- `ggplot2`: data + aes + geom
+]
+
+.pull-right[
+**Inference:**
+- CLT justifies normal-based methods
+- CIs: plausible range for parameter
+- p-value: probability under $H_0$
+- Type I ($\alpha$) vs Type II ($\beta$) errors
+- Power = $1 - \beta$
+- Effect size $\neq$ statistical significance
+]
+
+---
+
+## Test Tips
+
+`r emo::ji("check")` Show your work on calculation questions
+
+`r emo::ji("check")` State hypotheses in terms of the problem, not just symbols
+
+`r emo::ji("check")` Interpret results in context
+
+`r emo::ji("check")` Watch for "independent vs. paired" samples
+
+`r emo::ji("check")` Know when to use z vs. t (known vs. unknown $\sigma$)
+
+`r emo::ji("check")` Check whether assumptions are met before running tests
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...

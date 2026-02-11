@@ -1,0 +1,497 @@
+---
+title: "Robustness"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle, center, inverse
+
+# Robustness
+
+---
+
+# Roadmap
+
+- What is robustness?
+- Robustness checks in practice
+- Types of robustness checks
+  - Alternative model specifications
+  - Alternative samples
+  - Alternative measures
+  - Placebo tests
+- How to present robustness checks
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Define robustness and explain why it matters for causal inference
+- Identify and implement common types of robustness checks
+- Distinguish between robustness checks and specification searches
+- Critically evaluate robustness evidence in published research
+- Present robustness results clearly and honestly
+
+---
+
+class: middle, center, inverse
+
+# What is Robustness?
+
+---
+
+# What is Robustness?
+
+- A finding is **robust** if it holds up under alternative reasonable assumptions
+--
+
+- Robustness is about **credibility**
+  - Does your result depend critically on one specific choice you made?
+  - Or does it survive when you make different defensible choices?
+--
+
+- Robustness checks are **not** the same as p-hacking or specification searching
+  - You are not looking for the specification that gives the result you want
+  - You are checking whether your result is sensitive to reasonable alternative choices
+
+---
+
+# Why Do Robustness Checks Matter?
+
+- Every empirical analysis requires **researcher degrees of freedom**
+  - Which sample to use
+  - Which controls to include
+  - How to measure key variables
+  - Which functional form to use
+--
+
+- These choices can matter — a lot
+--
+
+- Robustness checks help you (and readers) understand which choices drive the result
+--
+
+- A result that only holds for one very specific set of choices is **fragile**
+- A result that holds across many reasonable alternatives is **robust**
+
+---
+
+class: middle, center, inverse
+
+# Types of Robustness Checks
+
+---
+
+# Types of Robustness Checks
+
+There are several broad categories:
+
+--
+
+1. **Alternative model specifications**
+   - Adding or removing control variables
+   - Using different functional forms
+
+--
+
+2. **Alternative samples**
+   - Different time periods
+   - Different geographic areas
+   - Dropping outliers or influential observations
+
+--
+
+3. **Alternative measures**
+   - Different ways of operationalizing your key variables
+
+--
+
+4. **Placebo tests**
+   - Tests where you should find *no* effect if your identification is valid
+
+---
+
+class: middle, center, inverse
+
+# Alternative Model Specifications
+
+---
+
+# Alternative Model Specifications
+
+.pull-left[
+**Adding/removing controls**
+- Does the result change when you add more covariates?
+- Does it change when you remove some?
+- A robust result should not be very sensitive to the inclusion of plausible controls
+]
+
+.pull-right[
+**Functional form**
+- Linear vs. log-linear
+- Quadratic terms
+- Interactions
+- Does the qualitative finding survive different functional form assumptions?
+]
+
+---
+
+# How Sensitive Is Your Estimate?
+
+- Report estimates across a **range** of specifications
+- Show a coefficient plot or table with multiple columns
+- Be transparent about what changes and what stays the same
+
+--
+
+- Key question: Is the change in the estimate **substantively** meaningful?
+  - A coefficient that goes from 0.42 to 0.38 is probably not a concern
+  - A coefficient that goes from 0.42 to -0.10 is a serious concern
+
+---
+
+# Oster (2019): Coefficient Stability
+
+- **Oster (2019)** provides a formal framework for thinking about omitted variable bias
+- The key insight: if adding observed controls moves the estimate a lot, unobserved controls might matter too
+--
+
+- The **delta** statistic asks: how much stronger would selection on unobservables need to be (relative to observables) to explain away the result?
+--
+
+- A result with a very small delta is fragile
+- A result with a large delta is more credible
+
+<!-- TODO: add Oster coefficient stability diagram/formula image -->
+
+---
+
+class: middle, center, inverse
+
+# Alternative Samples
+
+---
+
+# Alternative Samples
+
+**Why vary the sample?**
+
+- Your main sample may have specific features that drive the result
+- Checking other samples tests generalizability
+
+--
+
+**Common approaches:**
+- Drop a specific year, region, or group
+- Restrict to a subset (e.g., only large firms, only certain demographics)
+- Extend the time period
+- Use a different dataset covering the same phenomenon
+
+---
+
+# Outliers and Influential Observations
+
+- A single observation (or small group) can sometimes drive a result
+--
+
+- **Checks:**
+  - Drop the top/bottom 1% or 5% of the outcome or key variable
+  - Run Cook's distance or leverage diagnostics
+  - Jackknife: re-run dropping each observation one at a time (or each cluster)
+--
+
+- If your result disappears when you drop a handful of observations, that is important to report honestly
+
+---
+
+# Geographic and Temporal Robustness
+
+.pull-left[
+**Geographic**
+- Does the result hold in different countries or regions?
+- If you use US data, does it replicate in Europe or Asia?
+- Cross-country variation can reveal whether institutional context matters
+]
+
+.pull-right[
+**Temporal**
+- Does the result hold in different time periods?
+- Pre- vs. post-policy change
+- Different economic cycles (boom vs. recession)
+- Stability over time is reassuring
+]
+
+---
+
+class: middle, center, inverse
+
+# Alternative Measures
+
+---
+
+# Alternative Measures
+
+- Variables are often **proxies** for underlying concepts
+- Different proxies may capture different aspects of the concept
+--
+
+**Examples:**
+- Income: wages vs. household income vs. consumption
+- Education: years of schooling vs. test scores vs. credentials
+- Health: self-reported vs. clinical measures vs. mortality
+--
+
+- If your result holds with multiple different operationalizations, it is more credible
+- If it only holds for one specific measure, ask: what is special about that measure?
+
+---
+
+# Measurement Error
+
+- All measures have error
+- Classical measurement error in the independent variable **attenuates** estimates toward zero
+--
+
+- Robustness checks with alternative measures can also serve as a check on measurement error
+  - If two noisy measures give similar results, the true effect is likely real
+  - If they diverge sharply, understand why
+
+---
+
+class: middle, center, inverse
+
+# Placebo Tests
+
+---
+
+# Placebo Tests
+
+- A **placebo test** checks for an effect where you should theoretically find *none*
+- Named by analogy to medical placebo trials
+--
+
+**Why are they useful?**
+- They test whether your identification strategy is actually working
+- A "false positive" on a placebo test undermines your main result
+
+---
+
+# Types of Placebo Tests
+
+.pull-left[
+**Outcome placebo**
+- Use a different outcome that *should not* be affected by your treatment
+- If you find an effect on the placebo outcome, something may be wrong with your design
+]
+
+.pull-right[
+**Treatment placebo**
+- Use a "fake" treatment that *should not* have an effect
+- Pre-treatment assignment, randomly shuffled treatment, future treatment
+]
+
+---
+
+# Placebo Tests: Example
+
+**Example: Difference-in-differences**
+
+- Main test: Did treated units' outcomes change after treatment relative to controls?
+--
+
+- Placebo test 1: Did treated units' outcomes change *before* treatment (pre-trend test)?
+  - If yes: parallel trends assumption may be violated
+--
+
+- Placebo test 2: Assign fake treatment dates and re-run the analysis
+  - If you consistently find large "effects" at fake dates, your result may be spurious
+
+---
+
+# Permutation / Randomization Inference
+
+- A related idea: **permutation tests**
+- Randomly re-assign treatment many times and re-estimate the effect each time
+- Build a distribution of "effects" under the null
+--
+
+- If your actual estimate is in the tail of this null distribution, that provides evidence it is not a fluke
+- Particularly useful when cluster sizes are small and asymptotic inference may be unreliable
+
+---
+
+class: middle, center, inverse
+
+# Robustness vs. Specification Search
+
+---
+
+# Robustness Checks vs. Specification Search
+
+These look similar but are fundamentally different:
+
+.pull-left[
+**Robustness check `r emo::ji("check")`**
+- Pre-specified or motivated by theory
+- You report all results honestly, including null or contradictory ones
+- The goal is to test sensitivity to reasonable alternatives
+]
+
+.pull-right[
+**Specification search `r emo::ji("x")`**
+- Motivated by finding a significant or large result
+- Selective reporting of favorable specifications
+- Inflates false positive rates
+- Sometimes called p-hacking or researcher degrees of freedom abuse
+]
+
+---
+
+# How to Be Honest About Robustness
+
+- **Pre-registration**: commit to your main specification and key robustness checks before seeing data
+- Report the full set of results, not just the ones you like
+- Use **specification curves** or **multiverse analysis** to summarize many specifications systematically
+--
+
+- The goal is to give readers an accurate picture of how sensitive your result is — not to cherry-pick
+
+---
+
+# Specification Curve Analysis
+
+- **Simonsohn, Simmons, and Nelson (2020)** propose the **specification curve**
+- Run all defensible specifications and plot the distribution of estimates
+--
+
+- Shows:
+  - What fraction of specifications give a significant result?
+  - What is the typical effect size across specifications?
+  - Are there specific choices that systematically drive the result?
+
+<!-- TODO: add specification curve example image -->
+
+---
+
+# Multiverse Analysis
+
+- Related concept: **multiverse analysis** (Steegen et al., 2016)
+- Define the full "multiverse" of reasonable analytical choices
+- Run the analysis for every combination
+--
+
+- Summarize results as a distribution rather than a single point estimate
+- Helps identify which choices matter most for the result
+
+---
+
+class: middle, center, inverse
+
+# How to Present Robustness Checks
+
+---
+
+# How to Present Robustness Checks
+
+**In a table:**
+- Each column = one specification or sample restriction
+- Rows = key coefficients
+- Note what changes across columns
+- Highlight the main specification
+
+--
+
+**In a figure:**
+- Coefficient plot showing estimates and confidence intervals across specifications
+- Easy to see how point estimates and precision change
+
+---
+
+# What to Report
+
+- **Always** report your main specification clearly
+- Show how the estimate changes across alternative specifications
+- Be explicit about what you are varying and why
+- Discuss results honestly — including cases where robustness checks give weaker results
+--
+
+- A paper with honest, comprehensive robustness checks is more credible than one with a few cherry-picked favorable checks
+
+---
+
+# Common Mistakes
+
+.pull-left[
+- Running robustness checks only after seeing results
+- Only reporting checks that confirm the main result
+- Treating a robustness check table as a formality rather than a genuine test
+- Calling a non-robust result "robust" because most specs are significant
+]
+
+.pull-right[
+- Forgetting to think about *why* a check fails
+  - Understanding when and why robustness fails is often informative
+- Conflating statistical significance with practical robustness
+- Ignoring the magnitude of changes across specifications
+]
+
+---
+
+# Robustness in Practice: Summary
+
+- Robustness checks test whether your result depends on specific choices
+- Key types: alternative specifications, samples, measures, and placebo tests
+- Be honest: report all results, not just favorable ones
+- Pre-registration and specification curves help guard against selective reporting
+- A robust result survives across a wide range of reasonable alternatives
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+# Summary
+
+- **Robustness** means a finding holds under alternative reasonable assumptions
+- Four main types of robustness checks:
+  - Alternative model specifications
+  - Alternative samples
+  - Alternative measures
+  - Placebo tests
+- **Robustness checks ≠ specification searching** — honesty and transparency matter
+- Tools like specification curves and multiverse analysis help summarize many specifications
+- Present robustness results fully and honestly to build credibility
+
+---
+
+# Resources
+
+- Oster, E. (2019). Unobservable selection and coefficient stability: Theory and evidence. *Journal of Business & Economic Statistics*, 37(2), 187–204.
+- Simonsohn, U., Simmons, J. P., & Nelson, L. D. (2020). Specification curve analysis. *Nature Human Behaviour*, 4(11), 1208–1214.
+- Steegen, S., Tuerlinckx, F., Gelman, A., & Vanpaemel, W. (2016). Increasing transparency through a multiverse analysis. *Perspectives on Psychological Science*, 11(5), 702–712.
+
+class: middle, center, inverse
+
+# Wrapping Up...

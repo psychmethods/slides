@@ -1,0 +1,656 @@
+---
+title: "Research Designs"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+---
+class: middle, center, inverse
+
+# Research Designs
+
+---
+
+# Roadmap
+
+- Why research design matters
+- Types of research designs
+  - Observational studies
+  - Experimental studies
+- Key concepts: confounding, control, randomization
+- Specific design types: cross-sectional, longitudinal, case-control, cohort
+- Causal inference and its limits
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Distinguish between observational and experimental research designs
+- Identify the key features and trade-offs of major design types
+- Explain why randomization is critical for causal inference
+- Recognize potential sources of confounding in a study
+- Evaluate the strengths and limitations of a given research design
+
+---
+class: middle, center, inverse
+
+# Why Research Design Matters
+
+---
+
+# The Goal of Research
+
+The fundamental goal of empirical research is to answer questions about the world:
+
+- Does this drug reduce blood pressure?
+- Does class size affect student achievement?
+- Do social media apps increase anxiety?
+
+--
+
+The **research design** determines whether we can actually answer these questions validly.
+
+---
+
+# Correlation vs. Causation
+
+.pull-left[
+**"Correlation does not imply causation"**
+
+Just because two variables move together does not mean one causes the other.
+
+- Ice cream sales and drowning rates are correlated
+- Shoe size and reading ability are correlated in children
+- Nicolas Cage movies and pool drownings...
+]
+
+.pull-right[
+<!-- TODO: add spurious correlation example image -->
+]
+
+--
+
+To establish **causation**, we need more than correlation — we need a research design that rules out alternative explanations.
+
+---
+
+# Three Requirements for Causation
+
+To conclude that $X$ causes $Y$, we need:
+
+1. **Covariation**: $X$ and $Y$ are statistically associated
+2. **Temporal precedence**: $X$ comes before $Y$ in time
+3. **Elimination of alternatives**: No other variable explains the relationship
+
+--
+
+Research designs vary in how well they satisfy all three requirements.
+
+---
+class: middle, center, inverse
+
+# Types of Research Designs
+
+---
+
+# The Big Picture
+
+```
+Research Designs
+├── Observational Studies
+│   ├── Cross-sectional
+│   ├── Case-control
+│   ├── Cohort (prospective / retrospective)
+│   └── Ecological
+└── Experimental Studies
+    ├── Randomized Controlled Trial (RCT)
+    ├── Quasi-experiment
+    └── Natural experiment
+```
+
+--
+
+The key distinction: **Who controls the assignment** to conditions?
+
+---
+
+# Observational vs. Experimental
+
+.pull-left[
+**Observational Studies**
+
+- Researcher observes but does **not** manipulate
+- Participants are in conditions naturally
+- Can establish association
+- Weaker for causal claims
+
+*Examples:* surveys, medical records, census data
+]
+
+.pull-right[
+**Experimental Studies**
+
+- Researcher **manipulates** the independent variable
+- Participants are assigned to conditions
+- With randomization, supports causal claims
+
+*Examples:* clinical trials, lab experiments, A/B tests
+]
+
+---
+class: middle, center, inverse
+
+# Observational Designs
+
+---
+
+# Cross-Sectional Design
+
+**Definition:** Data collected from a population at a **single point in time**
+
+<!-- TODO: add cross-sectional design diagram image -->
+
+--
+
+.pull-left[
+**Strengths:**
+- Fast and inexpensive
+- Good for prevalence estimation
+- Can study many variables at once
+]
+
+.pull-right[
+**Weaknesses:**
+- Cannot establish temporal order
+- Cannot track change over time
+- Cohort effects can confound age effects
+]
+
+--
+
+**Example:** Surveying 1,000 adults today about their sleep habits and mental health
+
+---
+
+# Longitudinal Design
+
+**Definition:** The same participants are measured **multiple times** over a period
+
+<!-- TODO: add longitudinal design timeline diagram image -->
+
+--
+
+.pull-left[
+**Strengths:**
+- Tracks change over time
+- Establishes temporal order
+- Can separate age, cohort, and period effects
+]
+
+.pull-right[
+**Weaknesses:**
+- Expensive and time-consuming
+- Attrition (dropout) is a major problem
+- Practice effects from repeated measurement
+]
+
+--
+
+**Example:** Following 500 children from age 5 to 18, measuring vocabulary and reading each year
+
+---
+
+# Cohort Study
+
+**Definition:** A group sharing a common characteristic (the **cohort**) is followed over time
+
+- **Prospective cohort:** Start now, follow forward
+- **Retrospective cohort:** Use existing records to look back
+
+--
+
+**Example:** The Nurses' Health Study — followed ~120,000 nurses over decades to study diet, lifestyle, and disease
+
+--
+
+.pull-left[
+**Strengths:**
+- Can study rare exposures
+- Establishes temporal sequence
+- Multiple outcomes can be studied
+]
+
+.pull-right[
+**Weaknesses:**
+- Expensive and slow (prospective)
+- Attrition and loss to follow-up
+- Confounding is a serious concern
+]
+
+---
+
+# Case-Control Design
+
+**Definition:** Start with **outcomes** and look backward for exposures
+
+- **Cases:** People who have the outcome (e.g., lung cancer)
+- **Controls:** People who do not have the outcome, matched to cases
+
+<!-- TODO: add case-control design diagram image -->
+
+--
+
+.pull-left[
+**Strengths:**
+- Efficient for rare outcomes
+- Relatively quick and cheap
+- Good for disease etiology studies
+]
+
+.pull-right[
+**Weaknesses:**
+- Recall bias (cases remember differently)
+- Difficult to select good controls
+- Can only study one outcome at a time
+- Cannot calculate incidence rates
+]
+
+---
+
+# Comparing Observational Designs
+
+| Design | Time Direction | Rare Outcome | Rare Exposure | Causal Strength |
+|--------|---------------|--------------|---------------|-----------------|
+| Cross-sectional | Snapshot | OK | OK | Weak |
+| Cohort (prospective) | Forward | Poor | Good | Moderate |
+| Cohort (retrospective) | Backward | OK | Good | Moderate |
+| Case-control | Backward | Good | Poor | Moderate |
+
+---
+
+# Confounding
+
+A **confounder** is a variable that:
+1. Is associated with the **exposure**
+2. Is associated with the **outcome**
+3. Is **not** on the causal pathway between exposure and outcome
+
+<!-- TODO: add confounding DAG diagram image -->
+
+--
+
+**Classic example:** Coffee drinking and lung cancer
+- Coffee drinkers were more likely to smoke
+- Smoking causes lung cancer
+- Smoking is a confounder of the coffee–cancer relationship
+
+---
+
+# Dealing with Confounding (Observational)
+
+Strategies to control confounding in observational studies:
+
+--
+
+- **Restriction:** Only include participants without the confounding variable
+- **Matching:** Match cases to controls on the confounder
+- **Stratification:** Analyze separately within levels of the confounder
+- **Statistical adjustment:** Include the confounder in regression models
+- **Propensity scores:** Model probability of exposure, then adjust
+
+--
+
+None of these are as clean as **randomization**.
+
+---
+class: middle, center, inverse
+
+# Experimental Designs
+
+---
+
+# The Randomized Controlled Trial (RCT)
+
+**The gold standard for causal inference**
+
+Key features:
+1. Researcher **manipulates** the independent variable (treatment)
+2. Participants are **randomly assigned** to treatment or control
+3. Outcomes are measured and compared
+
+<!-- TODO: add RCT flow diagram image -->
+
+---
+
+# Why Randomization Works
+
+Randomization ensures that, on average, the treatment and control groups are **equivalent on all variables** — both measured and unmeasured.
+
+--
+
+This means any difference in outcomes can be attributed to the treatment, not to pre-existing differences between groups.
+
+--
+
+**Analogy:** Randomly shuffling a deck of cards ensures neither player systematically gets better cards.
+
+---
+
+# The Anatomy of an RCT
+
+```
+Population
+    │
+    ▼
+Eligible Sample
+    │
+    ▼ (random assignment)
+┌───────────┐     ┌──────────────┐
+│ Treatment │     │   Control    │
+│  Group    │     │   Group      │
+└───────────┘     └──────────────┘
+    │                   │
+    ▼                   ▼
+ Outcome             Outcome
+    │                   │
+    └─────── Compare ───┘
+```
+
+---
+
+# Control Groups
+
+A **control group** is the comparison condition:
+
+- **No treatment:** Participants receive nothing
+- **Placebo:** Participants receive an inert treatment (controls for expectation effects)
+- **Active control:** Participants receive the current best treatment (ethical comparison)
+- **Waitlist control:** Participants receive treatment later
+
+--
+
+The choice of control group affects both validity and ethics.
+
+---
+
+# Blinding
+
+**Blinding** prevents knowledge of condition assignment from influencing outcomes:
+
+- **Single-blind:** Participants don't know their condition
+- **Double-blind:** Neither participants nor outcome assessors know conditions
+- **Triple-blind:** Participants, assessors, and analysts are all blinded
+
+--
+
+Why does this matter? **Placebo effects** and **expectancy effects** can produce real changes in outcomes even when treatment is inert.
+
+---
+
+# Internal vs. External Validity
+
+.pull-left[
+**Internal Validity**
+
+"Did the treatment cause the outcome *in this study*?"
+
+Threats:
+- Confounding
+- Selection bias
+- Attrition
+- Testing effects
+- History effects
+]
+
+.pull-right[
+**External Validity**
+
+"Do the findings generalize beyond this study?"
+
+Threats:
+- Unrepresentative sample
+- Artificial lab setting
+- Demand characteristics
+- Limited range of conditions
+]
+
+--
+
+RCTs maximize internal validity but often sacrifice external validity.
+
+---
+
+# Quasi-Experiments
+
+**Definition:** Studies that resemble experiments but lack full random assignment
+
+--
+
+**Examples:**
+- **Regression discontinuity:** Students above/below a test score cutoff get different programs
+- **Difference-in-differences:** Compare changes over time in treatment vs. control groups
+- **Instrumental variables:** Use a third variable to isolate causal effect
+
+--
+
+Quasi-experiments exploit **natural variation** that approximates random assignment.
+
+---
+
+# Natural Experiments
+
+**Definition:** Cases where assignment to conditions occurs through a process that is **as-if random** — not controlled by the researcher
+
+--
+
+**Famous examples:**
+- Vietnam War draft lottery → effect of military service on earnings
+- Flood/disaster proximity → effect of trauma on mental health
+- Twin studies → separating genetic and environmental effects
+
+--
+
+These allow causal inference in situations where true experiments are impossible or unethical.
+
+---
+class: middle, center, inverse
+
+# Threats to Validity
+
+---
+
+# Selection Bias
+
+**Selection bias** occurs when the people who end up in one condition are systematically different from those in another.
+
+--
+
+**Examples:**
+- Volunteers for a drug trial may be healthier than non-volunteers
+- Students who take tutoring may be more motivated
+- Customers who respond to a survey may be more satisfied (or dissatisfied)
+
+--
+
+Randomization eliminates selection bias in expectation.
+
+---
+
+# Attrition Bias
+
+**Attrition** (dropout) becomes a problem when the people who drop out are different from those who stay.
+
+--
+
+**Example:** In a weight loss intervention, people who gain weight drop out. The remaining participants look like they maintained their weight — but this is misleading.
+
+--
+
+**Intention-to-treat (ITT) analysis:** Analyze all participants as originally assigned, regardless of whether they completed the intervention.
+
+---
+
+# Measurement Bias
+
+Systematic error in how outcomes are measured:
+
+- **Social desirability bias:** Participants give answers they think are expected
+- **Recall bias:** Cases remember past exposures differently than controls
+- **Observer bias:** Assessors rate outcomes differently based on known condition
+
+--
+
+Solutions: blinding, standardized measurement protocols, objective outcomes (e.g., biomarkers rather than self-report)
+
+---
+
+# Hawthorne Effect
+
+**Definition:** Participants change their behavior simply because they know they are being observed — regardless of the treatment
+
+--
+
+Named after a 1920s–30s study at the Hawthorne Works factory, where lighting changes seemed to improve productivity — but the real cause was being watched.
+
+--
+
+**Implication:** Control groups help, but if everyone knows they're in a study, all groups may be affected.
+
+---
+class: middle, center, inverse
+
+# Choosing a Design
+
+---
+
+# The Research Question Determines the Design
+
+| Question Type | Best Design |
+|---------------|-------------|
+| How common is X? | Cross-sectional survey |
+| What predicts X over time? | Longitudinal / cohort |
+| What causes X (ethically manipulable)? | RCT |
+| What causes X (not manipulable)? | Quasi-experiment / natural experiment |
+| What factors led to rare outcome X? | Case-control |
+
+---
+
+# Practical Constraints
+
+The ideal design is rarely the feasible design. Trade-offs include:
+
+.pull-left[
+**Resources:**
+- Time
+- Money
+- Sample size availability
+
+**Ethics:**
+- Cannot randomize to harmful conditions
+- Cannot withhold effective treatments
+]
+
+.pull-right[
+**Logistics:**
+- Participant recruitment
+- Retention over time
+- Measurement feasibility
+
+**Context:**
+- Population of interest
+- Setting generalizability
+]
+
+---
+
+# The Hierarchy of Evidence
+
+```
+Systematic Reviews & Meta-analyses
+          ↑
+   Randomized Controlled Trials
+          ↑
+     Quasi-experiments
+          ↑
+    Cohort Studies
+          ↑
+  Case-Control Studies
+          ↑
+  Cross-Sectional Studies
+          ↑
+ Case Reports / Expert Opinion
+```
+
+--
+
+Higher = stronger causal evidence, but also typically more resource-intensive.
+
+---
+
+# A Design Checklist
+
+When evaluating a study's design, ask:
+
+- `r emo::ji("check")` What is the research question?
+- `r emo::ji("check")` Was there random assignment? If not, what controls confounding?
+- `r emo::ji("check")` What is the comparison group?
+- `r emo::ji("check")` Was blinding used?
+- `r emo::ji("check")` What is the attrition rate?
+- `r emo::ji("check")` Is the sample representative of the population of interest?
+- `r emo::ji("check")` What are the threats to internal and external validity?
+
+---
+
+# Case Study: Does Exercise Reduce Depression?
+
+Let's apply our design knowledge to a concrete question: **Does exercise reduce depression?**
+
+--
+
+- **Cross-sectional:** People who exercise more report less depression — but healthy people may choose to exercise
+- **Cohort study:** Non-depressed exercisers followed over time — but selection still a concern
+- **Case-control:** Depressed vs. non-depressed, compare past exercise — recall bias problem
+- **RCT:** Randomly assign depressed individuals to exercise vs. control — strongest evidence
+
+--
+
+Answer: Yes — multiple RCTs confirm exercise reduces depression symptoms `r emo::ji("muscle")`
+
+---
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+# What We Covered
+
+- **Observational designs:** Cross-sectional, cohort, case-control — describe and associate but struggle with causation
+- **Experimental designs:** RCTs with randomization — the gold standard for causal inference
+- **Quasi-experiments and natural experiments:** Clever approximations when true experiments are impossible
+- **Threats to validity:** Confounding, selection bias, attrition, measurement bias, Hawthorne effect
+- **Design selection:** Driven by research question, ethics, and practical constraints
+
+--
+
+Good research design is the foundation of valid conclusions — no amount of sophisticated analysis can fully rescue a poorly designed study.
