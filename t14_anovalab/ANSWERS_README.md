@@ -66,19 +66,21 @@ These files can be used to:
 
 ## Expected Results
 
+*Note: These are the actual results for the Iris dataset used in this lab.*
+
 ### Task 1 (One-Sample T-Test)
-- Null Hypothesis: μ = 5.5
-- Expected outcome: Reject H₀ (p < 0.05)
+- Null Hypothesis (H₀): μ = 5.5
+- Expected outcome for Iris data: Reject H₀ (p < 0.05)
 - Conclusion: Mean Sepal.Length significantly differs from 5.5
 
 ### Task 2 (Two-Sample T-Test)
-- Null Hypothesis: μ₁ = μ₂ (Versicolor = Virginica)
-- Expected outcome: Reject H₀ (p < 0.05)
+- Null Hypothesis (H₀): μ₁ = μ₂ (Versicolor = Virginica)
+- Expected outcome for Iris data: Reject H₀ (p < 0.05)
 - Conclusion: Significant difference between species
 
 ### Task 3 (One-Way ANOVA)
-- Null Hypothesis: μ₁ = μ₂ = μ₃ (all species equal)
-- Expected outcome: Reject H₀ (p < 0.05)
+- Null Hypothesis (H₀): μ₁ = μ₂ = μ₃ (all species equal)
+- Expected outcome for Iris data: Reject H₀ (p < 0.05)
 - Conclusion: At least one species mean differs from the others
 
 ## Technical Notes
