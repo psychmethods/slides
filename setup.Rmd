@@ -33,7 +33,7 @@ dev.off <- function() {
 # conflicted
 library(conflicted)
 conflict_prefer("filter", "dplyr")
-
+conflict_prefer("select", "dplyr")
 # Remember to compile
 # xaringan::inf_mr(cast_from = "..")
 # xaringanExtra

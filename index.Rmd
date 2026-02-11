@@ -24,6 +24,7 @@ df_docs<-list.files(path="../slides/.", '[.]html$', recursive=TRUE) %>%
   str_subset("setup.html", negate=TRUE) %>%
   str_subset("index.html", negate=TRUE) %>%
   str_subset("slides_old/test.html", negate=TRUE) %>%
+   str_subset("slides_old/last_day.html", negate=TRUE) %>%
   str_subset("wXX_demo.html", negate=TRUE)
 
 

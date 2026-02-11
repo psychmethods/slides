@@ -84,7 +84,7 @@ All lectures will start with a roadmap, including today:
 
 .tiny[Trust Me, you don't want me to lecture without one]
 
---
+---
 
 **By the end of this lecture, you should be able to:**
 - Describe the structure and goals of PSY 210

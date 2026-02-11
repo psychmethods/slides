@@ -682,7 +682,7 @@ Let's explore this through two examples:
 library(dplyr)
 library(ggplot2)
 library(scales)
-
+conflict_prefer("rescale", "scales")
 set.seed(123)
 n = 1000
 Extraversion = rnorm(n)
