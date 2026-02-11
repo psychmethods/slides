@@ -1,0 +1,514 @@
+---
+title: "The Binomial Distribution"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+---
+class: middle, center, inverse
+
+# The Binomial Distribution
+
+---
+
+# Roadmap
+
+- Motivation: Discrete probability distributions
+- Bernoulli trials
+- The Binomial distribution
+  - Definition and parameters
+  - Formula
+  - Mean and variance
+- Working with the Binomial in R
+- Applications and examples
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Define a Bernoulli trial and identify when it applies
+- State the conditions required for a Binomial distribution
+- Calculate Binomial probabilities using the formula and R
+- Compute the mean and variance of a Binomial random variable
+- Apply the Binomial distribution to real-world problems
+
+---
+
+# Discrete Probability Distributions
+
+- A **random variable** assigns a numerical value to each outcome of a random experiment
+- A **discrete random variable** takes on a countable number of distinct values
+- A **probability distribution** describes the probability of each possible value
+
+--
+
+- Examples of discrete random variables:
+  - Number of heads in 10 coin flips
+  - Number of defective items in a batch
+  - Number of successes in a fixed number of trials
+
+---
+
+# Bernoulli Trials
+
+A **Bernoulli trial** is a single experiment with exactly two possible outcomes:
+
+- **Success** (with probability $p$)
+- **Failure** (with probability $1 - p = q$)
+
+--
+
+**Examples:**
+- Flipping a coin: heads = success, tails = failure
+- Testing a component: works = success, fails = failure
+- A free throw: makes it = success, misses = failure
+
+--
+
+**Key property:** Each trial is independent — the outcome of one trial does not affect the others
+
+---
+
+# The Bernoulli Distribution
+
+If $X$ is the outcome of a single Bernoulli trial:
+
+$$P(X = 1) = p \quad \text{(success)}$$
+$$P(X = 0) = 1 - p \quad \text{(failure)}$$
+
+--
+
+**Mean:** $E(X) = p$
+
+**Variance:** $Var(X) = p(1-p)$
+
+---
+class: middle, center, inverse
+
+# The Binomial Distribution
+
+---
+
+# From Bernoulli to Binomial
+
+- Suppose we repeat a Bernoulli trial $n$ times
+- Let $X$ = the **total number of successes** in $n$ trials
+- Then $X$ follows a **Binomial distribution**
+
+--
+
+$$X \sim \text{Binomial}(n, p)$$
+
+- $n$ = number of trials (fixed)
+- $p$ = probability of success on each trial
+
+---
+
+# Conditions for the Binomial Distribution
+
+The Binomial distribution applies when:
+
+1. There are a **fixed number** of trials, $n$
+2. Each trial has exactly **two outcomes** (success or failure)
+3. The probability of success $p$ is **constant** across all trials
+4. The trials are **independent** of each other
+
+--
+
+**Memory aid:** FICS — Fixed, Independent, Constant, Success/Failure (two outcomes)
+
+---
+
+# The Binomial Formula
+
+The probability of exactly $k$ successes in $n$ trials:
+
+$$P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}$$
+
+--
+
+Where the **binomial coefficient** is:
+
+$$\binom{n}{k} = \frac{n!}{k!(n-k)!}$$
+
+- This counts the number of ways to choose $k$ successes from $n$ trials
+
+---
+
+# Understanding the Formula
+
+$$P(X = k) = \underbrace{\binom{n}{k}}_{\text{# of arrangements}} \cdot \underbrace{p^k}_{\text{prob of }k\text{ successes}} \cdot \underbrace{(1-p)^{n-k}}_{\text{prob of }n-k\text{ failures}}$$
+
+--
+
+**Example:** Flip a fair coin 3 times. What is the probability of exactly 2 heads?
+
+$$P(X = 2) = \binom{3}{2} (0.5)^2 (0.5)^1 = 3 \cdot 0.25 \cdot 0.5 = 0.375$$
+
+---
+
+# Worked Example: Coin Flips
+
+**Problem:** Flip a fair coin 3 times. Find the full probability distribution of $X$ = number of heads.
+
+--
+
+| $k$ | $\binom{3}{k}$ | $p^k$ | $(1-p)^{3-k}$ | $P(X=k)$ |
+|-----|----------------|--------|----------------|-----------|
+| 0   | 1              | 1      | 0.125          | 0.125     |
+| 1   | 3              | 0.5    | 0.25           | 0.375     |
+| 2   | 3              | 0.25   | 0.5            | 0.375     |
+| 3   | 1              | 0.125  | 1              | 0.125     |
+
+--
+
+All probabilities sum to 1: $0.125 + 0.375 + 0.375 + 0.125 = 1$ `r emo::ji("check")`
+
+---
+
+# Mean and Variance of the Binomial
+
+For $X \sim \text{Binomial}(n, p)$:
+
+$$E(X) = np$$
+
+$$Var(X) = np(1-p)$$
+
+$$SD(X) = \sqrt{np(1-p)}$$
+
+--
+
+**Intuition:** If you flip a fair coin 100 times, you expect $np = 100 \times 0.5 = 50$ heads.
+
+---
+
+# Mean and Variance: Example
+
+**Problem:** You take a 20-question multiple choice test. Each question has 4 options and you guess randomly on every question.
+
+- $n = 20$, $p = 0.25$
+
+--
+
+**Mean:** $E(X) = np = 20 \times 0.25 = 5$ correct answers
+
+**Variance:** $Var(X) = np(1-p) = 20 \times 0.25 \times 0.75 = 3.75$
+
+**SD:** $SD(X) = \sqrt{3.75} \approx 1.94$
+
+---
+class: middle, center, inverse
+
+# The Binomial in R
+
+---
+
+# R Functions for the Binomial
+
+R provides four functions for working with the Binomial distribution:
+
+| Function | Description | Usage |
+|----------|-------------|-------|
+| `dbinom(k, n, p)` | $P(X = k)$ — exact probability | Point probability |
+| `pbinom(k, n, p)` | $P(X \leq k)$ — cumulative probability | CDF |
+| `qbinom(prob, n, p)` | Quantile (inverse CDF) | Finding cutoffs |
+| `rbinom(m, n, p)` | Generate $m$ random values | Simulation |
+
+---
+
+# Using `dbinom()`
+
+**Exact probability:** $P(X = k)$
+
+```r
+# P(X = 2) when n = 3, p = 0.5
+dbinom(2, size = 3, prob = 0.5)
+```
+```
+[1] 0.375
+```
+
+--
+
+```r
+# Full distribution: P(X = 0, 1, 2, 3)
+dbinom(0:3, size = 3, prob = 0.5)
+```
+```
+[1] 0.125 0.375 0.375 0.125
+```
+
+---
+
+# Using `pbinom()`
+
+**Cumulative probability:** $P(X \leq k)$
+
+```r
+# P(X <= 2) when n = 3, p = 0.5
+pbinom(2, size = 3, prob = 0.5)
+```
+```
+[1] 0.875
+```
+
+--
+
+**Upper tail:** $P(X > k) = 1 - P(X \leq k)$
+
+```r
+# P(X > 2) when n = 3, p = 0.5
+pbinom(2, size = 3, prob = 0.5, lower.tail = FALSE)
+```
+```
+[1] 0.125
+```
+
+---
+
+# Using `pbinom()`: Between Two Values
+
+**Between two values:** $P(a \leq X \leq b) = P(X \leq b) - P(X \leq a - 1)$
+
+```r
+# P(1 <= X <= 3) when n = 5, p = 0.4
+pbinom(3, size = 5, prob = 0.4) - pbinom(0, size = 5, prob = 0.4)
+```
+
+--
+
+```r
+# Or equivalently:
+sum(dbinom(1:3, size = 5, prob = 0.4))
+```
+
+---
+
+# Visualizing the Binomial Distribution
+
+```{r binomial-plot, echo=FALSE, fig.height=4}
+library(tidyverse)
+tibble(
+  k = 0:20,
+  prob = dbinom(0:20, size = 20, prob = 0.4)
+) %>%
+  ggplot(aes(x = k, y = prob)) +
+  geom_col(fill = "#003366", alpha = 0.8) +
+  labs(
+    title = "Binomial Distribution: n = 20, p = 0.4",
+    x = "Number of Successes (k)",
+    y = "P(X = k)"
+  ) +
+  theme_minimal()
+```
+
+---
+
+# Shape of the Binomial Distribution
+
+The shape depends on $p$:
+
+- $p < 0.5$: right-skewed (skewed toward higher values)
+- $p = 0.5$: symmetric
+- $p > 0.5$: left-skewed (skewed toward lower values)
+
+--
+
+As $n$ increases, the Binomial distribution becomes more bell-shaped (approaches the Normal distribution).
+
+<!-- TODO: add comparison plots showing skew for different p values -->
+
+---
+class: middle, center, inverse
+
+# Applications
+
+---
+
+# Application 1: Quality Control
+
+**Problem:** A manufacturing process produces defective items 3% of the time. A batch of 50 items is sampled.
+
+- $X$ = number of defective items
+- $X \sim \text{Binomial}(50, 0.03)$
+
+--
+
+**What is the probability of finding more than 3 defectives?**
+
+```r
+pbinom(3, size = 50, prob = 0.03, lower.tail = FALSE)
+```
+
+--
+
+```
+[1] 0.0573
+```
+
+About a 5.7% chance.
+
+---
+
+# Application 2: Drug Efficacy
+
+**Problem:** A new drug is effective in 70% of patients. A clinical trial tests 15 patients.
+
+- $X \sim \text{Binomial}(15, 0.70)$
+
+--
+
+**Expected number of patients who respond:**
+$$E(X) = 15 \times 0.70 = 10.5$$
+
+**Probability all 15 respond:**
+```r
+dbinom(15, size = 15, prob = 0.70)
+```
+```
+[1] 0.00475
+```
+
+---
+
+# Application 3: Free Throws
+
+**Problem:** A basketball player makes 80% of free throws. She shoots 10 free throws.
+
+- $X \sim \text{Binomial}(10, 0.80)$
+
+--
+
+.pull-left[
+**P(exactly 8 made):**
+```r
+dbinom(8, size = 10, prob = 0.80)
+```
+```
+[1] 0.302
+```
+]
+
+.pull-right[
+**P(at least 9 made):**
+```r
+pbinom(8, size = 10, prob = 0.80,
+       lower.tail = FALSE)
+```
+```
+[1] 0.376
+```
+]
+
+---
+
+# Simulation with `rbinom()`
+
+We can simulate Binomial experiments in R:
+
+```r
+# Simulate 1000 repetitions of flipping a fair coin 10 times
+set.seed(123)
+sims <- rbinom(1000, size = 10, prob = 0.5)
+
+# Summarize
+mean(sims)   # should be close to np = 5
+var(sims)    # should be close to np(1-p) = 2.5
+```
+
+--
+
+```
+[1] 5.002   # mean
+[1] 2.524   # variance
+```
+
+The simulation results closely match the theoretical values. `r emo::ji("tada")`
+
+---
+
+# From Binomial to Normal
+
+When $n$ is large and $p$ is not too close to 0 or 1:
+
+$$X \sim \text{Binomial}(n, p) \approx \text{Normal}(np, \sqrt{np(1-p)})$$
+
+--
+
+**Rule of thumb:** The approximation works well when:
+- $np \geq 10$
+- $n(1-p) \geq 10$
+
+--
+
+This is the foundation for many statistical inference procedures (e.g., tests for proportions).
+
+---
+
+# Summary: Key Formulas
+
+| Quantity | Formula |
+|----------|---------|
+| PMF | $P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}$ |
+| Mean | $E(X) = np$ |
+| Variance | $Var(X) = np(1-p)$ |
+| SD | $SD(X) = \sqrt{np(1-p)}$ |
+
+--
+
+**R functions:**
+- `dbinom(k, n, p)` — exact probability
+- `pbinom(k, n, p)` — cumulative probability
+- `qbinom(prob, n, p)` — quantile
+- `rbinom(m, n, p)` — random samples
+
+---
+
+# Common Mistakes to Avoid
+
+- **Forgetting independence:** Binomial requires independent trials
+- **Non-constant $p$:** If $p$ changes across trials, it's not Binomial
+- **Off-by-one errors:** $P(X \geq k)$ vs. $P(X > k)$
+  - $P(X \geq k) = 1 - P(X \leq k - 1)$ = `pbinom(k-1, n, p, lower.tail=FALSE)` ... actually = `pbinom(k-1, n, p, lower.tail=FALSE)`
+  - $P(X > k) = 1 - P(X \leq k)$ = `pbinom(k, n, p, lower.tail=FALSE)`
+- **Confusing `size` and `prob`** in R function arguments
+
+---
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+# What We Covered
+
+- **Bernoulli trials**: single binary outcome experiments
+- **Binomial distribution**: counts successes across $n$ independent Bernoulli trials
+- **Formula**: $P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}$
+- **Mean**: $E(X) = np$; **Variance**: $Var(X) = np(1-p)$
+- **R functions**: `dbinom()`, `pbinom()`, `qbinom()`, `rbinom()`
+- **Applications**: quality control, medicine, sports, and more
+
+--
+
+The Binomial distribution is one of the most important discrete distributions — it underpins proportion-based inference throughout statistics.

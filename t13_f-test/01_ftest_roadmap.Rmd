@@ -55,6 +55,15 @@ class: middle
   - regression
 ]
 
+--
+
+**By the end of this week, you should be able to:**
+
+- Explain the multiple comparisons problem and why it necessitates ANOVA
+- Describe how the F-ratio compares between-group and within-group variance
+- Conduct and interpret a one-way ANOVA
+- Determine appropriate degrees of freedom and critical values for F-tests
+
 ---
 
 class: middle

@@ -54,6 +54,15 @@ class: middle
 - regression
 ]
 
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Conduct and interpret a one-way ANOVA using R
+- Explain the conceptual link between ANOVA and regression
+- Interpret ANOVA output including F-statistic, degrees of freedom, and p-value
+- Apply post-hoc comparisons after a significant ANOVA result
+
 ---
 
 class: middle

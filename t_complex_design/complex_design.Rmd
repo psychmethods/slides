@@ -1,0 +1,512 @@
+---
+title: "Experimental Design"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle
+
+# Experimental Design
+
+---
+
+## Roadmap
+
+- Review: Experiments with one independent variable
+- Experiments with two independent variables can show interactions
+- Factorial variations
+- Identifying factorial designs in your readings
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Explain what a factorial design is and identify its components
+- Define an interaction and describe what it means for findings
+- Distinguish main effects from interactions
+- Interpret 2x2 factorial results in table and graph form
+- Describe independent-groups, within-groups, and mixed factorial designs
+- Identify factorial designs in empirical and popular press articles
+
+---
+
+class: middle, center, inverse
+
+# Review: Experiments with One Independent Variable
+
+---
+
+## Review: Experiments with One Independent Variable
+
+<!-- TODO: add diagram or summary of one-IV experiment structure (IV levels → DV) -->
+
+---
+
+class: middle, center, inverse
+
+# Experiments with Two Independent Variables Can Show Interactions
+
+---
+
+## Interaction: Definition
+
+**Interaction =**
+
+- A difference in differences =
+- The effect of one independent variable **depends on the level** of the other independent variable
+
+---
+
+## Intuitive Interactions
+
+<!-- TODO: add figure or examples of intuitive interactions (e.g., sun + rain = rainbow; sun + no rain = sunny day) -->
+
+---
+
+## Reconsidering the Cell Phone and Driving Study
+
+<!-- TODO: add figure or diagram of cell phone and driving study setup showing the 2x2 design -->
+
+---
+
+class: middle, center, inverse
+
+# Factorial Designs Study Two Independent Variables
+
+---
+
+## Factorial Designs: Key Terms
+
+.pull-left[
+**Factorial design**
+
+A study that includes two or more independent variables, each with multiple levels, combined so that every level of one IV occurs with every level of the other IV(s).
+]
+
+.pull-right[
+**Cell**
+
+Each combination of levels of the IVs in a factorial design.
+
+**Participant variable**
+
+A variable that represents a pre-existing characteristic of participants (e.g., age, sex, diagnosis).
+]
+
+---
+
+## Factorial Designs Can Test Limits
+
+Sometimes, researchers conduct factorial designs to test whether an IV affects:
+
+- different kinds of **people**, or
+- people in different **situations**
+
+in the same way.
+
+---
+
+## Factorial Design Results in Table and Graph Formats
+
+<!-- TODO: add table and graph showing factorial design results (e.g., cell phone x driver age on reaction time) -->
+
+---
+
+## Factorial Designs Can Test Limits (continued)
+
+- A form of **external validity**
+
+--
+
+- Interactions show **moderators**
+  - A moderator is a variable that changes the relationship between the IV and DV
+
+---
+
+## Factorial Designs Can Test Theories
+
+- Using a factorial design to test a theory of alcohol cues
+- Using an interaction to test a memory theory
+
+---
+
+## Using a Factorial Design to Test a Theory of Alcohol Cues
+
+| | **IV 1: Photo type** | |
+|---|---|---|
+| **IV 2: Word type** | Alcohol photo | Plant photo |
+| Aggressive | | |
+| Neutral | | |
+
+DV: Reaction time (ms)
+
+---
+
+## Using a Factorial Design to Test a Theory of Alcohol Cues: Results
+
+| | **IV 1: Photo type** | |
+|---|---|---|
+| **IV 2: Word type** | Alcohol photo | Plant photo |
+| Aggressive | 551 | 559 |
+| Neutral | 562 | 552 |
+
+DV: Reaction time (ms)
+
+---
+
+## Using an Interaction to Test a Memory Theory
+
+| | **IV 1: Participant type** | |
+|---|---|---|
+| **IV 2: Type of item** | Child chess experts | Adult novices |
+| Chess pieces | 9.3 | 5.9 |
+| Digits | 6.1 | 7.8 |
+
+---
+
+class: middle, center, inverse
+
+# Interpreting Factorial Results: Main Effects and Interactions
+
+---
+
+## Interpreting Factorial Results
+
+.pull-left[
+**Main effect:** Is there an overall difference?
+]
+
+.pull-right[
+**Interactions**
+
+- Is there a difference in differences?
+- More important than main effects
+]
+
+--
+
+Possible main effects and interactions in a 2 x 2 factorial design.
+
+---
+
+## Main Effect: Is There an Overall Difference?
+
+.pull-left[
+**DV: Reaction time (ms)**
+
+| | **IV 1: Photo type** | | |
+|---|---|---|---|
+| **IV 2: Word type** | Alcohol photo | Plant photo | **Marginal mean** |
+| Aggressive | 551 | 559 | 555 |
+| Neutral | 562 | 552 | 557 |
+| **Marginal mean** | 556.5 | 555.5 | |
+
+Main effect for IV2 (word type): 555 vs. 557
+
+Main effect for IV1 (photo type): 556.5 vs. 555.5
+]
+
+.pull-right[
+**DV: Shock intensity (1–10 scale)**
+
+| | **IV 1: Body weight** | | |
+|---|---|---|---|
+| **IV 2: Drinking condition** | Light men (151 lbs) | Heavy men (215 lbs) | **Marginal mean** |
+| Placebo group | 5.09 | 4.72 | 4.91 |
+| Drunk group | 6.00 | 7.19 | 6.60 |
+| **Marginal mean** | 5.55 | 5.96 | |
+
+Main effect for IV2 (drinking condition): 4.91 vs. 6.60
+
+Main effect for IV1 (body weight): 5.55 vs. 5.96
+]
+
+---
+
+## Interactions: Is There a Difference in Differences? Options 1 and 2
+
+.pull-left[
+**Alcohol cues study**
+
+| | Alcohol photo | Plant photo |
+|---|---|---|
+| Aggressive | 551 | 559 |
+| Neutral | 562 | 552 |
+
+Difference for alcohol photos: 551 − 562 = −11
+
+Difference for plant photos: 559 − 552 = +7
+]
+
+.pull-right[
+**Cell phone and driving study**
+
+| | On cell phone | Not on phone |
+|---|---|---|
+| Younger drivers | 912 | 780 |
+| Older drivers | 1,086 | 912 |
+
+Difference for younger drivers: 912 − 780 = 132
+
+Difference for older drivers: 1,086 − 912 = 174
+]
+
+---
+
+## Interactions: Is There a Difference in Differences? Line and Bar Graphs
+
+<!-- TODO: add line graphs and bar graphs showing interactions and non-interactions for the factorial design examples -->
+
+---
+
+## Interactions: Is There a Difference in Differences? Words
+
+**Describing interactions in words:**
+
+- "The effect of [IV1] on [DV] **depends on** the level of [IV2]."
+- "There was an interaction between [IV1] and [IV2]."
+- "[IV1] had a larger effect on [DV] when [IV2 level] than when [IV2 other level]."
+
+---
+
+## Interactions Are More Important Than Main Effects
+
+When a study shows both a main effect and an interaction,
+- the interaction is **almost always more important.**
+
+--
+
+There may be real differences in marginal means,
+- but the more exciting part is the interaction.
+
+---
+
+## Possible Main Effects and Interactions in a 2 x 2 Factorial Design
+
+<!-- TODO: add figure showing all 8 possible patterns of main effects and interactions in a 2x2 factorial (Pattern 1: no main effects, no interaction) -->
+
+---
+
+## Possible Main Effects and Interactions in a 2 x 2 Factorial Design
+
+<!-- TODO: add figure showing patterns 2-3: one main effect only (IV1 or IV2), no interaction -->
+
+---
+
+## Possible Main Effects and Interactions in a 2 x 2 Factorial Design
+
+<!-- TODO: add figure showing pattern 4: two main effects, no interaction -->
+
+---
+
+## Possible Main Effects and Interactions in a 2 x 2 Factorial Design (continued)
+
+<!-- TODO: add figure showing pattern 5: interaction only, no main effects -->
+
+---
+
+## Possible Main Effects and Interactions in a 2 x 2 Factorial Design (continued)
+
+<!-- TODO: add figure showing patterns 6-7: interaction plus one main effect -->
+
+---
+
+## Possible Main Effects and Interactions in a 2 x 2 Factorial Design (continued)
+
+<!-- TODO: add figure showing pattern 8: interaction plus two main effects -->
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+class: middle, center, inverse
+
+# This Time: Factorial Variations
+
+---
+
+## Factorial Variations
+
+- Independent-groups factorial designs
+- Within-groups factorial designs
+- Mixed factorial designs
+- Increasing the number of levels of an independent variable
+- Increasing the number of independent variables
+
+---
+
+## Independent-Groups Factorial Designs
+
+.pull-left[
+Both IVs are studied as **independent groups**.
+
+A 2 x 2 independent-groups factorial design has **four groups or cells**.
+
+This is also known as a **between-subjects factorial design**.
+]
+
+---
+
+## Within-Groups Factorial Designs
+
+.pull-left[
+Both IVs are studied as **within-groups** (repeated measures).
+
+All participants experience all conditions.
+
+Fewer participants needed, but order effects must be managed.
+]
+
+.pull-right[
+<!-- TODO: add diagram illustrating within-groups factorial design structure -->
+]
+
+---
+
+## Mixed Factorial Designs
+
+One IV is manipulated as **independent-groups** and the other is manipulated **within-groups**.
+
+--
+
+This design is intermediate between the within-groups design and the independent-groups design in terms of number of participants.
+
+---
+
+## Increasing the Number of Levels of an Independent Variable
+
+| | **IV 1: Cell phone condition** | | |
+|---|---|---|---|
+| **IV 2: Driver age** | Hands-free cell phone | Handheld cell phone | No phone |
+| Younger drivers | 1,100 | 1,200 | 850 |
+| Older drivers | 1,450 | 1,500 | 1,050 |
+
+---
+
+## Increasing the Number of Independent Variables
+
+- Main effects and interactions from a three-way design
+- Why worry about all these interactions?
+
+---
+
+## Main Effects and Interactions from a Three-Way Design
+
+**Main effects:** Is there a difference?
+
+- A three-way design (A x B x C) has **three main effects**:
+  - Main effect of A
+  - Main effect of B
+  - Main effect of C
+
+---
+
+## Main Effects and Interactions from a Three-Way Design: Two-Way Interaction
+
+**Two-way interactions:** Is there a difference in differences?
+
+- A three-way design has **three two-way interactions**:
+  - A × B interaction
+  - A × C interaction
+  - B × C interaction
+
+---
+
+## Main Effects and Interactions from a Three-Way Design: Three-Way Interaction
+
+**Three-way interactions:** Are the two-way interactions different?
+
+- A three-way design has **one three-way interaction**:
+  - A × B × C interaction
+
+<!-- TODO: add figure or diagram illustrating a three-way interaction -->
+
+---
+
+## Main Effects and Interactions from a Three-Way Design (continued)
+
+**Three-way interactions:** Are the two-way interactions different?
+
+- The A × B interaction is different at different levels of C.
+
+<!-- TODO: add graphs illustrating the three-way interaction from different slices -->
+
+---
+
+## Why Test All These Interactions?
+
+Most outcomes in psychological studies are **not main effects**, but rather **interactions**.
+
+---
+
+class: middle, center, inverse
+
+# Identifying Factorial Designs in Your Reading
+
+---
+
+## Identifying Factorial Designs
+
+.pull-left[
+**IDENTIFYING FACTORIAL DESIGNS IN EMPIRICAL JOURNAL ARTICLES**
+]
+
+.pull-right[
+**IDENTIFYING FACTORIAL DESIGNS IN POPULAR PRESS ARTICLES**
+]
+
+---
+
+## Identifying Factorial Designs in Empirical Journal Articles
+
+- The **Method section** will describe the design of the study.
+  - Factorial notation: _____ x _____ x _____
+
+--
+
+- The **Results section** will examine whether the main effects and interactions were significant.
+  - Reference to "significance" or a p value and information about MANOVA and F
+
+---
+
+## Identifying Factorial Designs in Popular Media Articles
+
+.pull-left[
+- Look for phrases such as **"it depends"** or **"only when"** used to highlight an interaction.
+
+- Look for **participant variables** (e.g., age, gender, ethnicity).
+]
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...

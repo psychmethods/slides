@@ -1,0 +1,663 @@
+---
+title: "Research Process and Way of Thinking"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle
+
+# Research Process and Way of Thinking
+
+---
+
+## Roadmap
+
+.pull-left[
+`r emo::ji("heartbeat")` **Joy of Statistics**
+]
+
+.pull-right[
+`r emo::ji("mag")` **Research Process**
+
+- Steps in a Research Study
+- Asking Good Questions
+- Operationalize
+]
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Explain why statistics matter for critical thinking
+- List the key steps in a research study
+- Distinguish a research problem from a research question
+- Define operationalization and write a testable hypothesis
+
+---
+
+class: middle, center, inverse
+
+# The Joy of Statistics
+
+---
+
+## What's the Joy in Statistics, Anyway?
+
+.pull-left[
+`r emo::ji("globe_with_meridians")`
+
+**Statistics help us understand and interpret the world around us**
+]
+
+.pull-left[
+`r emo::ji("brain")`
+
+**They provide insights into complex phenomena**
+]
+
+.pull-right[
+`r emo::ji("bar_chart")`
+
+**Statistics empower us to make informed decisions**
+]
+
+---
+
+## The Power of Visual Statistics
+
+.pull-left[
+**The Power of Visual Statistics**
+]
+
+.pull-right[
+- **Crimespotting (Stamen Design)**
+  - Visualizes relationship between topography and crime
+  - Empowers citizens with information for accountability
+  - Showed the "promise of visualizations of public data"
+- **Polar Area Graph (Florence Nightingale)**
+  - Illustrated deaths from preventable diseases in hospitals
+  - Sparked a revolution in hospital hygiene
+- **Billion Pound-O-Gram (David McCandless)**
+  - Helps comprehend large numbers in news and government reports
+  - Puts financial figures into perspective
+- **"We Feel Fine" Project (Jonathan Harris & Sep Kamvar)**
+  - Explores human emotion on a global scale
+  - Uncovers trends in collective feelings
+]
+
+---
+
+## The Power of Visual Statistics
+
+.pull-left[
+**The Power of Visual Statistics**
+]
+
+.pull-right[
+- **Crimespotting (Stamen Design)**
+  - Visualizes relationship between topography and crime
+  - Empowers citizens with information for accountability
+  - Showed the "promise of visualizations of public data"
+
+<!-- TODO: add Crimespotting screenshot -->
+]
+
+---
+
+## The Power of Visual Statistics
+
+.pull-left[
+<!-- TODO: add Florence Nightingale Polar Area diagram -->
+]
+
+.pull-right[
+- **Crimespotting (Stamen Design)**
+- **Polar Area Graph (Florence Nightingale)**
+  - Illustrated deaths from preventable diseases in hospitals
+  - Sparked a revolution in hospital hygiene
+- **Billion Pound-O-Gram (David McCandless)**
+  - Helps comprehend large numbers in news and government reports
+  - Puts financial figures into perspective
+- **"We Feel Fine" Project (Jonathan Harris & Sep Kamvar)**
+  - Explores human emotion on a global scale
+  - Uncovers trends in collective feelings
+]
+
+---
+
+## The Power of Visual Statistics
+
+.pull-left[
+<!-- TODO: add Billion Pound-O-Gram screenshot -->
+
+[informationisbeautiful.net/visualizations/the-billion-pound-o-gram](https://informationisbeautiful.net/visualizations/the-billion-pound-o-gram/)
+]
+
+.pull-right[
+- **Crimespotting (Stamen Design)**
+- **Polar Area Graph (Florence Nightingale)**
+- **Billion Pound-O-Gram (David McCandless)**
+  - Helps comprehend large numbers in news and government reports
+  - Puts financial figures into perspective
+- **"We Feel Fine" Project (Jonathan Harris & Sep Kamvar)**
+  - Explores human emotion on a global scale
+  - Uncovers trends in collective feelings
+]
+
+---
+
+## The Power of Visual Statistics
+
+.pull-left[
+[jjh.org/we-feel-fine](https://jjh.org/we-feel-fine)
+
+<!-- TODO: add "We Feel Fine" screenshot -->
+]
+
+.pull-right[
+- **Crimespotting (Stamen Design)**
+  - Visualizes relationship between topography and crime
+  - Empowers citizens with information for accountability
+  - Showed the "promise of visualizations of public data"
+- **Polar Area Graph (Florence Nightingale)**
+  - Illustrated deaths from preventable diseases in hospitals
+  - Sparked a revolution in hospital hygiene
+- **Billion Pound-O-Gram (David McCandless)**
+  - Helps comprehend large numbers in news and government reports
+  - Puts financial figures into perspective
+- **"We Feel Fine" Project (Jonathan Harris & Sep Kamvar)**
+  - Explores human emotion on a global scale
+  - Uncovers trends in collective feelings
+]
+
+---
+
+## Data Are Everywhere
+
+.pull-left[
+<!-- TODO: add code/data background image -->
+
+**DATA ARE EVERYWHERE**
+
+- We're in a "data-driven" age, right?
+- But how do we "consume" these data correctly?
+  - How do we get meaning from these data?
+- **Statistic**
+  - a number computed from a sample of data
+]
+
+---
+
+## Statistics Are Everywhere
+
+.pull-left[
+<!-- TODO: add blue sidebar image -->
+
+**STATISTICS ARE EVERYWHERE**
+]
+
+.pull-right[
+- Education
+  - SAT, GPA
+- Medicine
+  - Blood Cell Count, Cholesterol, Weight
+- Public Health
+  - Positivity Rates
+  - Case Counts
+- Sports
+  - Baseball, Cricket
+- Politics
+  - Polling
+]
+
+---
+
+## Statistics Can "Lie"
+
+.pull-left[
+<!-- TODO: add "Where We Donate vs. Diseases That Kill Us" infographic (Vox) -->
+]
+
+.pull-right[
+**STATISTICS CAN "LIE"**
+
+- The average individual has one testicle and one ovary
+- Statistics can be used to mislead people
+  - Money and happiness
+- "Lie?"
+]
+
+---
+
+class: middle
+
+.pull-left[
+# Steven Pinker
+]
+
+.pull-right[
+<br><br>
+> "..if narratives without statistics are blind, statistics without narratives are empty."
+
+— Steven Pinker
+]
+
+---
+
+class: middle
+
+.pull-left[
+<!-- TODO: add question marks / magnifying glass image -->
+
+# QUESTION
+]
+
+.pull-right[
+**What do you gain from being a critical consumer of research?**
+]
+
+---
+
+## Critical Thinking Starts with Statistics
+
+.pull-left[
+<!-- TODO: add colorful question marks sticky notes image -->
+]
+
+.pull-right[
+What I, in my complacency, chose to ignore is just how much of the
+persuasion now aimed at the average citizen comes in the form of
+numbers, specifically numbers that tell us about the future, about how
+likely something is to happen (or not happen) based on how much it
+happened (or didn't) in the past. These numbers sing to us the siren
+song of cause and effect, humanity's favorite tune. Why do we like it so
+much? **Because knowing what causes events and conditions is
+the first step toward controlling them, and we human beings
+are all about controlling our environments.** That's how we ended
+up ruling this planet, and it's how some of us hope to save it.
+
+.small[Laura Miller, *Slate*, August 31st 2015]
+]
+
+---
+
+class: middle, center, inverse
+
+# Psychology! `r emo::ji("brain")`
+
+---
+
+class: middle
+
+# Psychology as a Way of Thinking
+
+---
+
+## Why Is Psychology So Popular?
+
+.pull-left[
+<!-- TODO: add brain/head icon image -->
+
+# WHY IS PSYCHOLOGY SO POPULAR?
+]
+
+.pull-right[
+<br><br><br>
+Concerned with understanding the way people behave, feel, and think
+]
+
+---
+
+## Popular Themes
+
+.pull-left[
+**POPULAR THEMES**
+]
+
+.pull-right[
+- free will and determinism
+- nature and nurture
+- love and loss
+- personality (growth and disorder)
+- justice and violations
+]
+
+---
+
+## What Do Scientists Do?
+
+.pull-left[
+Scientists are **empiricists.**
+
+`r emo::ji("arrow_right")`
+
+Scientists **tackle applied and basic problems.**
+
+`r emo::ji("arrow_right")`
+]
+
+.pull-right[
+Scientists **test theories:** the theory-data cycle.
+
+`r emo::ji("arrow_right")`
+
+Scientists **make their work public.**
+
+`r emo::ji("arrow_right")`
+
+Scientists **work in a community.**
+
+`r emo::ji("arrow_down")`
+
+Scientists **talk to the world:** from journal to journalism.
+]
+
+---
+
+class: middle, center
+
+<!-- TODO: add "The Science News Cycle" PhD Comics image (Figure 1.9, PHD Comics / W.W. Norton) -->
+
+.footnote[PHD Comics. Copyright © 2021 W. W. Norton & Co., Inc.]
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+class: middle
+
+.pull-left[
+<!-- TODO: add clock/time image -->
+
+**THIS TIME...**
+
+**RESEARCH PROCESS**
+]
+
+---
+
+class: middle, center, inverse
+
+# Research Process
+
+---
+
+## Steps in a Research Study
+
+.pull-left[
+<!-- TODO: add "Every baby knows the scientific method!" illustration -->
+]
+
+.pull-right[
+**STEPS IN A RESEARCH STUDY**
+
+- Question
+- Design
+- Sampling
+- Measurement
+- Summary
+]
+
+---
+
+class: middle
+
+# Science Starts With a Question `r emo::ji("question")`
+
+<!-- TODO: add curious cats with question marks image -->
+
+---
+
+## Asking a Good Question
+
+.pull-left[
+`r emo::ji("mag_right")` **Research Problem**
+]
+
+.pull-right[
+`r emo::ji("question")` **Research Question**
+
+`r emo::ji("gear")` **Operationalize**
+
+`r emo::ji("droplet")` **Hypothesize**
+]
+
+---
+
+## Good Questions Begin With Problems
+
+.pull-left[
+<!-- TODO: add magnifying glass / yellow background image -->
+
+**GOOD QUESTIONS BEGIN WITH PROBLEMS**
+
+- Research problems are broad issues or situations that we'd like to
+  - describe,
+  - understand, or
+  - change.
+]
+
+---
+
+## Research Problems
+
+Broadly, these include:
+
+- Areas of concern,
+- Conditions that could be improved,
+- Difficulties that need to be eliminated, and
+- Questions seeking answers.
+
+---
+
+## 'Top Ten' Problems in Social Science
+
+- How can we induce people to look after their health?
+- How do societies create effective and resilient institutions, such as governments?
+- How can humanity increase its collective wisdom?
+- How do we reduce the 'skill gap' between black and white people in America?
+
+.footnote[Giles (2011) *Nature*]
+
+---
+
+## 'Top Ten' Problems in Social Science
+
+- How can we aggregate information possessed by individuals to make the best decisions?
+- How can we understand the human capacity to create and articulate knowledge?
+- Why do so many female workers still earn less than male workers?
+- How and why does the 'social' become 'biological'?
+
+.footnote[Giles (2011) *Nature*]
+
+---
+
+## 'Top Ten' Problems in Social Science
+
+- How can we be robust against 'black swans' — rare events that have extreme consequences?
+- Why do social processes, in particular civil violence, either persist over time or suddenly change?
+
+.footnote[Giles (2011) *Nature*]
+
+---
+
+## Research Questions
+
+.pull-left[
+`r emo::ji("mag_right")`
+
+**A research problem leads to a research question**
+]
+
+.pull-right[
+`r emo::ji("teacher")`
+
+**Questions should in some way...**
+
+- Be worth investigating,
+- Contribute knowledge to the field,
+- Improve educational practice, or
+- Improve the human condition.
+]
+
+---
+
+## Asking Good Questions
+
+.pull-left[
+**ASKING GOOD QUESTIONS**
+]
+
+.pull-right[
+| Step | Action |
+|------|--------|
+| **Begin by** | Asking several questions about a topic. |
+| **Eliminate** | Questions that cannot be answered by direct observation or by gathering evidence. |
+| **Break** | Broad questions into smaller questions that can be investigated one at a time. |
+]
+
+---
+
+## Research Questions
+
+.pull-left[
+<!-- TODO: add cat doing research cartoon ("Curiosity didn't kill this cat, but doing on-line research used up most of her 9 lives") -->
+
+**RESEARCH QUESTIONS**
+]
+
+.pull-right[
+Characteristics of a good research question:
+
+- The question is **feasible**.
+- The question is **clear**.
+- The question is **meaningful**.
+- The question is **ethical**.
+]
+
+---
+
+## Asking Scientific Questions
+
+.pull-left[
+**ASKING SCIENTIFIC QUESTIONS**
+]
+
+.pull-right[
+`r emo::ji("busts_in_silhouette")` "What is the relationship between . . . ?"
+
+`r emo::ji("brain")` "What factors cause . . ?"
+
+`r emo::ji("brain")` "What is the effect of . . ?"
+]
+
+---
+
+## Operationalize
+
+**Operationalization** is a process of defining the fuzzy concepts; and making the concept(s)
+- distinguishable,
+- measurable, and
+- understandable in terms of observable data.
+
+- Determine which variables you would like to understand.
+- You will want to be specific.
+
+---
+
+## Example: Personal Space
+
+.pull-left[
+- **Personal Space**
+  - Public Space (25 ft)
+  - Social Space (12 ft)
+  - Personal Space (4 ft)
+  - Intimate Space (1.5 ft)
+- We'll delve deeper into measuring later in the class
+]
+
+.pull-right[
+<!-- TODO: add concentric circles diagram of personal space zones -->
+]
+
+---
+
+## Hypothesizing
+
+.pull-left[
+`r emo::ji("speech_balloon")`
+
+**A hypothesis is a**
+
+precise, testable statement of what the researchers predict will be the outcome of the study.
+]
+
+.pull-right[
+`r emo::ji("question")`
+
+**In other words:**
+
+What do you think the answer is,
+- given what we already know?
+]
+
+---
+
+## Example
+
+.pull-left[
+**Research Problem:**
+
+What are the causes of health inequity?
+]
+
+.pull-right[
+**Research Question:**
+
+Specifically, what is the effect of social stress on health, among naturally anxious individuals?
+]
+
+---
+
+## Example
+
+- **Operationalize:**
+  - Stress: Entering Person's Intimate Space (1.5 ft)
+  - Health: Self-report ailment checklist
+  - Naturally Anxious: Self-reported scores of Neuroticism (Top 20%)
+- **Hypothesis:**
+  - Entering a person's intimate space will cause individuals to check more ailments on the self-report checklist.
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up... `r emo::ji("tada")`

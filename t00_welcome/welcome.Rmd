@@ -24,13 +24,13 @@ output:
 library(tidyverse)
 if (!require("emo")) devtools::install_github("hadley/emo")
 library(emo)
-
-
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
 ```
 
-class: middle
+class: middle, center, inverse
 
 # Hello world!
+
 ## Welcome to PSY 210
 
 ---
@@ -44,13 +44,18 @@ class: middle
 
 ---
 
-## .large[What is this class?]
 
+## .large[What is this class?]
+.pull-left[
+<!-- TODO: add brain icon image -->
 - 210 is an introduction to methods in psychological research, 
+]
+.pull-right[
 - with an emphasis on 
   - statistical thinking, 
   - best practices, and
   - practical skills
+]
 
 ---
 
@@ -67,7 +72,6 @@ class: middle
 All lectures will start with a roadmap, including today:
 --
 
-
 - Overview of the Course
 - Logistics
 - Learning Outcomes
@@ -76,9 +80,17 @@ All lectures will start with a roadmap, including today:
 
 --
 
-The roadmap gives *us* structure as I lecture
+> The roadmap gives *us* structure as I lecture
 
 .tiny[Trust Me, you don't want me to lecture without one]
+
+--
+
+**By the end of this lecture, you should be able to:**
+- Describe the structure and goals of PSY 210
+- Explain what statistics is and why it matters
+- Identify course learning outcomes and how they relate to Bloom's Taxonomy
+- Understand course expectations, assessments, and resources
 
 ---
 
@@ -102,6 +114,7 @@ class: middle
 | AKA Methods for Psych Minors | Office Hours by Appointment      | ![](../img/tuk.jpg)    |
 | Officially Face2Face | [calendly.com/smasongarrison ](https://calendly.com/smasongarrison/)      |    |
 
+<!-- TODO: add image of cat named Tukey (assistant) -->
 
 ---
 
@@ -125,23 +138,19 @@ class: middle
 .pull-right[
 - Quantitative Psychology, Behavior Genetics, Diversity Science 
   - .small[Applied to understanding the relationship between Health, Wealth, and Individual Differences]
-- I love stats and cats
+- I love stats and cats `r emo::ji("cat")`
 ]
 
 ---
 
 class: middle, center, inverse
 
-# Back to Learning
+# Back to Learning Goals
 
----
-
-# Learning Goals
 
 ---
 
 ## Learning Goals: How to Think About Them
-
 
 - Ways for teachers to define what we want students to be able to do.
 - Used in assessments (e.g., quizzes and papers)
@@ -168,8 +177,30 @@ class: middle, center, inverse
 ## Learning Goals: Course Level
 
 
-```{r child = "content/lg_eranda.md"}
-```
+
+- Identify research claims in both popular and scientific sources and classify them as frequency, association, or causal claims.
+
+- Separate the claim from the study: Does the data support the claim?
+
+- Evaluate the extent to which researchers have measured their variables reliably and with validity.
+
+- Discriminate between experimental, quasi-experimental, and correlational studies.
+
+- Explain why correlational studies cannot support causal claims.
+
+---
+
+## Learning Goals: Course Level
+
+- Explain when and why an experiment can support a causal claim.
+
+- Explain when we can generalize from a study and explain when generalization is not a priority.
+
+- Describe the ethical guidelines that apply to research in psychology.
+
+- Become critical thinkers and consumers of research in the academic realm and popular media.
+
+
 
 --
 

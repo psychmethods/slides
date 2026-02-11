@@ -1,0 +1,510 @@
+---
+title: "p-values"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle, center, inverse
+
+# p-values
+
+---
+
+# Roadmap
+
+- What is a p-value?
+- Common misinterpretations
+- How p-values are used (and abused)
+- The replication crisis
+- Alternatives and complements to p-values
+- Best practices
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Correctly define and interpret a p-value
+- Identify common misinterpretations of p-values
+- Explain how p-hacking inflates false positive rates
+- Describe alternatives and complements to null hypothesis significance testing
+- Apply best practices for reporting statistical evidence
+
+---
+
+class: middle, center, inverse
+
+# What Is a p-value?
+
+---
+
+# What Is a p-value?
+
+The **p-value** is the probability of observing a test statistic as extreme as (or more extreme than) the one you obtained, **assuming the null hypothesis is true**.
+
+$$p = P(\text{data this extreme} \mid H_0 \text{ is true})$$
+
+--
+
+- It is **not** the probability that the null hypothesis is true
+- It is **not** the probability that your result is due to chance
+- It is **not** the probability that your finding will replicate
+
+---
+
+# The Logic of Null Hypothesis Significance Testing
+
+1. State a **null hypothesis** $H_0$ (usually: no effect, no difference)
+2. Collect data and compute a test statistic
+3. Ask: how likely is this test statistic if $H_0$ were true?
+4. If that probability (the p-value) is below a threshold $\alpha$, **reject** $H_0$
+
+--
+
+- The threshold $\alpha$ is conventionally set at **0.05**
+- This means: if $H_0$ is true, we will incorrectly reject it 5% of the time (Type I error rate)
+
+---
+
+# Visualizing the p-value
+
+<!-- TODO: add p-value visualization image (null distribution with shaded tail area) -->
+
+- The p-value is the **area in the tail(s)** of the null distribution
+- A small p-value means the observed result is far from what we would expect under $H_0$
+- A large p-value means the observed result is consistent with $H_0$
+
+---
+
+class: middle, center, inverse
+
+# Common Misinterpretations
+
+---
+
+# The Most Common Misinterpretations
+
+.pull-left[
+**What a p-value IS NOT:**
+
+- The probability $H_0$ is true
+- The probability your result is a fluke
+- The probability your finding will replicate
+- A measure of effect size
+- Evidence that an effect is practically important
+]
+
+.pull-right[
+**What a p-value IS:**
+
+- $P(\text{data} \mid H_0)$
+- A statement about the data given the null
+- One piece of evidence, not a verdict
+- Sensitive to sample size
+- A continuous measure, not a binary pass/fail
+]
+
+---
+
+# "p < .05 means the result is true"
+
+- This is wrong — and dangerous
+--
+
+- Even with $p < .05$, there is a non-trivial probability the result is a false positive
+- The **positive predictive value** of a significant result depends on:
+  - The prior probability that $H_0$ is false (base rate of true effects)
+  - The statistical power of the study
+  - The significance threshold
+
+--
+
+- With low power and low base rates, **most** significant findings can be false positives (Ioannidis, 2005)
+
+---
+
+# False Positive Rate Depends on Power and Prior
+
+<!-- TODO: add false positive rate / PPV diagram (Ioannidis-style) -->
+
+- Suppose only 10% of hypotheses tested are true
+- Study has 50% power and $\alpha = .05$
+- What fraction of significant results are true positives?
+
+$$PPV = \frac{\text{power} \times \text{prior}}{\text{power} \times \text{prior} + \alpha \times (1 - \text{prior})}$$
+
+$$PPV = \frac{0.50 \times 0.10}{0.50 \times 0.10 + 0.05 \times 0.90} \approx 0.53$$
+
+--
+
+- So roughly **half** of significant results in this scenario are false positives!
+
+---
+
+# "p > .05 means there is no effect"
+
+- Failure to reject $H_0$ is **not** the same as evidence for $H_0$
+--
+
+- Absence of evidence is not evidence of absence
+- A non-significant result may reflect:
+  - A truly null effect, OR
+  - Insufficient power to detect a real effect
+--
+
+- Small studies that "fail to find an effect" often just lack power
+
+---
+
+class: middle, center, inverse
+
+# How p-values Are Used (and Abused)
+
+---
+
+# The p < .05 Threshold
+
+- Ronald Fisher originally proposed $p < .05$ as a **soft** heuristic — not a hard rule
+- Over time it became a bright-line threshold for publication and credibility
+--
+
+- This created perverse incentives:
+  - Studies with $p < .05$ get published; those with $p > .05$ often do not (**publication bias**)
+  - Researchers have incentives to find $p < .05$ by any means necessary
+
+---
+
+# p-Hacking
+
+**p-hacking** (also called "researcher degrees of freedom") refers to practices that inflate the false positive rate:
+
+--
+
+- Collecting data until $p < .05$, then stopping
+- Trying many different outcome variables and only reporting the significant ones
+- Trying many different model specifications and only reporting the best
+- Removing outliers selectively to get $p < .05$
+- Running many subgroup analyses and reporting only significant subgroups
+
+--
+
+Each of these can turn a 5% false positive rate into something much higher
+
+---
+
+# How Many Comparisons Are Too Many?
+
+- If you run 20 independent tests, you expect **one** false positive at $\alpha = .05$ even if all nulls are true
+--
+
+- **Bonferroni correction**: divide $\alpha$ by the number of tests
+  - For 20 tests: use $\alpha = .05/20 = .0025$
+- Other corrections: Holm, Benjamini-Hochberg (FDR control)
+--
+
+- But corrections only work if you know (and report) how many tests you ran
+
+---
+
+# The Garden of Forking Paths
+
+- Gelman & Loken (2014): even without deliberate p-hacking, researchers face many implicit decisions
+- Each decision is a "fork" in the analysis path
+- The chosen path is usually the one that looks most promising
+--
+
+- This inflates false positive rates even without any conscious manipulation
+- Pre-registration addresses this by committing to analysis choices before seeing data
+
+---
+
+# Publication Bias
+
+- Studies with $p < .05$ are more likely to be published
+- Studies with $p > .05$ sit in file drawers
+--
+
+- The published literature overestimates effect sizes and underestimates false positive rates
+- **Funnel plot asymmetry** in meta-analyses is a signature of publication bias
+
+<!-- TODO: add funnel plot asymmetry image -->
+
+---
+
+class: middle, center, inverse
+
+# The Replication Crisis
+
+---
+
+# The Replication Crisis
+
+- Starting around 2011, researchers began systematically attempting to replicate published findings
+- Results were alarming:
+--
+
+  - **Reproducibility Project: Psychology** (Open Science Collaboration, 2015): only ~36–39% of 100 psychology studies replicated
+  - **Reproducibility Project: Cancer Biology**: similar story in pre-clinical cancer research
+  - Many high-profile findings in social psychology, medicine, and economics failed to replicate
+
+---
+
+# Why Did This Happen?
+
+- **Low statistical power** → inflated effect size estimates when significant
+- **Publication bias** → file drawer problem
+- **p-hacking** → inflated false positive rates
+- **HARKing** (Hypothesizing After Results are Known) → post-hoc hypotheses presented as a priori
+- **Small samples** → noisy estimates
+- **Flexible analysis choices** → garden of forking paths
+
+---
+
+# The Winner's Curse
+
+- When effect sizes are estimated with noise and only significant results are published, the published estimates are **biased upward**
+- This is the **winner's curse**: the "winners" (significant results) win in part because of sampling error in the favorable direction
+--
+
+- Implication: expect replication estimates to be smaller than original estimates, even when the true effect is real
+
+<!-- TODO: add winner's curse / effect size inflation diagram -->
+
+---
+
+# What Changed?
+
+In response to the replication crisis, the field has adopted reforms:
+
+--
+
+- **Pre-registration**: commit to hypotheses and analysis plan before data collection
+- **Registered reports**: journals accept papers before results are known
+- **Open data and materials**: allow others to verify and replicate
+- **Larger samples and higher power**
+- **Multi-site replications**
+- **Adversarial collaborations**
+
+---
+
+class: middle, center, inverse
+
+# Alternatives and Complements to p-values
+
+---
+
+# Why Look Beyond p-values?
+
+- p-values answer a narrow question: how consistent are the data with $H_0$?
+- They do not tell you:
+  - How big is the effect?
+  - How precise is the estimate?
+  - What is the probability the hypothesis is true?
+--
+
+- Several complementary or alternative approaches address these limitations
+
+---
+
+# Effect Sizes
+
+- Always report **effect sizes** alongside p-values
+- Common measures:
+  - Cohen's *d*: standardized mean difference
+  - Pearson's *r*: correlation coefficient
+  - Odds ratio, risk ratio
+  - Regression coefficients (on interpretable scale)
+--
+
+- An effect can be statistically significant but **practically trivial**
+- An effect can be non-significant but **practically important** (underpowered study)
+- Effect sizes communicate magnitude, not just existence
+
+---
+
+# Confidence Intervals
+
+- A **95% confidence interval** contains the true parameter value in 95% of repeated samples (frequentist interpretation)
+--
+
+- CIs convey both **magnitude** and **precision**
+- A narrow CI around a small effect: precise null
+- A wide CI spanning zero: uncertain, could be positive or negative
+--
+
+- Many statisticians recommend reporting CIs instead of (or alongside) p-values
+- Note: a CI that excludes zero corresponds to $p < .05$ (for two-tailed tests)
+
+---
+
+# Common CI Misinterpretation
+
+.pull-left[
+**What a 95% CI is NOT:**
+- The probability the true value lies in this specific interval is NOT 95%
+- The interval either contains the true value or it doesn't (frequentist view)
+- Not a Bayesian credible interval
+]
+
+.pull-right[
+**What a 95% CI IS:**
+- A procedure that, over repeated samples, produces intervals that cover the true value 95% of the time
+- A useful summary of estimation uncertainty
+- Informative about both direction and precision
+]
+
+---
+
+# Bayesian Approaches
+
+- **Bayesian inference** inverts the logic: it gives $P(H \mid \text{data})$, not $P(\text{data} \mid H)$
+- Requires specifying a **prior** distribution over hypotheses/parameters
+--
+
+- **Bayes factors**: ratio of marginal likelihoods under two hypotheses
+  - $BF_{10} > 1$: data favor $H_1$ over $H_0$
+  - $BF_{10} < 1$: data favor $H_0$ over $H_1$
+  - Provides evidence on a continuous scale, including evidence for $H_0$
+--
+
+- Bayesian **credible intervals**: the probability the parameter lies in this range is X% (given the prior and data)
+
+---
+
+# The American Statistical Association on p-values
+
+The ASA issued a statement in 2016 (Wasserstein & Lazar) with six principles:
+
+--
+
+1. p-values can indicate how incompatible the data are with a specified statistical model
+2. p-values do **not** measure the probability that the studied hypothesis is true
+3. Scientific conclusions should **not** be based only on whether a p-value passes a threshold
+4. Proper inference requires **full reporting and transparency**
+5. A p-value does **not** measure the size of an effect or the importance of a result
+6. By itself, a p-value does **not** provide a good measure of evidence regarding a model or hypothesis
+
+---
+
+# "Retire Statistical Significance"?
+
+- Amrhein, Greenland, & McShane (2019) in *Nature*: abandon the term "statistically significant" entirely
+- Their argument: the binary significant/not-significant distinction causes more harm than good
+--
+
+- Instead: report and interpret effect sizes and CIs continuously
+- Do not use "significant" as a synonym for "true" or "important"
+--
+
+- This view is controversial — others argue we need some threshold for decision-making
+- The debate continues
+
+---
+
+class: middle, center, inverse
+
+# Best Practices
+
+---
+
+# Best Practices for Reporting
+
+- Report **effect sizes** with confidence intervals, not just p-values
+- Use p-values as one input among many, not the sole arbiter
+- Be transparent about all tests conducted (avoid selective reporting)
+- Pre-register your hypotheses and analysis plan
+- Report exact p-values (e.g., $p = .032$) rather than just $p < .05$
+- Interpret non-significant results carefully — distinguish "no evidence of effect" from "evidence of no effect"
+
+---
+
+# Best Practices for Interpretation
+
+- **Do not** dichotomize into "significant" vs. "not significant"
+- **Do** think about the full distribution of plausible effect sizes
+- **Do** consider power: a non-significant result from an underpowered study is uninformative
+- **Do** consider practical significance alongside statistical significance
+- **Do** triangulate across multiple studies and methods
+
+---
+
+# The New Statistics
+
+Cumming (2014) advocates for the **"new statistics"**:
+
+- Focus on **estimation** rather than binary hypothesis testing
+- Use **effect sizes and confidence intervals** as the primary summaries
+- Think in terms of **meta-analytic thinking** — each study contributes to a cumulative body of evidence
+- Embrace **replication** as the gold standard
+
+<!-- TODO: add "new statistics" estimation approach diagram -->
+
+---
+
+# p-values in Context: A Summary
+
+.pull-left[
+**p-values are useful when:**
+- Used as one piece of evidence
+- Reported alongside effect sizes and CIs
+- Interpreted with attention to power
+- Part of a pre-registered analysis
+- Combined with replication evidence
+]
+
+.pull-right[
+**p-values are misleading when:**
+- Used as the sole criterion for truth
+- Treated as a binary pass/fail
+- The result of p-hacking or selective reporting
+- Interpreted as $P(H_0 \mid \text{data})$
+- Used to ignore effect sizes and precision
+]
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+# Summary
+
+- A **p-value** is $P(\text{data this extreme} \mid H_0)$ — not the probability $H_0$ is true
+- Common misinterpretations include treating $p < .05$ as proof and $p > .05$ as evidence of no effect
+- **p-hacking** and publication bias inflate false positive rates in the literature
+- The **replication crisis** revealed serious problems with standard NHST practices
+- **Effect sizes and confidence intervals** are essential complements to p-values
+- **Bayesian approaches** offer an alternative framework
+- Best practice: pre-register, report fully, interpret carefully, and triangulate across evidence
+
+---
+
+# References
+
+- Amrhein, V., Greenland, S., & McShane, B. (2019). Scientists rise up against statistical significance. *Nature*, 567, 305–307.
+- Cumming, G. (2014). The new statistics: Why and how. *Psychological Science*, 25(1), 7–29.
+- Gelman, A., & Loken, E. (2014). The statistical crisis in science. *American Scientist*, 102(6), 460.
+- Ioannidis, J. P. A. (2005). Why most published research findings are false. *PLOS Medicine*, 2(8), e124.
+- Open Science Collaboration. (2015). Estimating the reproducibility of psychological science. *Science*, 349(6251), aac4716.
+- Wasserstein, R. L., & Lazar, N. A. (2016). The ASA statement on p-values: Context, process, and purpose. *The American Statistician*, 70(2), 129–133.

@@ -1,0 +1,519 @@
+---
+title: "Sampling"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle, center, inverse
+
+# Sampling
+
+---
+
+class: middle, center
+
+# Roadmap
+
+.pull-left[
+**Last Week**
+- Study design
+- Observational studies
+- Experiments
+]
+
+.pull-right[
+**This Week**
+- Sampling
+- Sampling methods
+- Sampling bias
+]
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Distinguish between a population and a sample
+- Identify and describe common probability sampling methods
+- Identify and describe common non-probability sampling methods
+- Explain how sampling bias arises and how to avoid it
+- Evaluate the quality of a sample with respect to representativeness
+
+---
+
+class: middle, center, inverse
+
+# Populations and Samples
+
+---
+
+# Populations and Samples
+
+- **Population**: the entire group of individuals or objects we want to learn about
+- **Sample**: a subset of the population that we actually observe
+
+--
+
+- We use data from a **sample** to make inferences about the **population**
+- The goal is for the sample to be **representative** of the population
+
+--
+
+<!-- TODO: add population and sample diagram image -->
+
+---
+
+# Why Sample?
+
+- Studying the entire population is often:
+  - Too expensive
+  - Too time-consuming
+  - Logistically impossible
+
+--
+
+- A well-chosen sample can give us accurate information about the population at a fraction of the cost
+
+--
+
+- **Key question**: How do we choose a good sample?
+
+---
+
+class: middle, center, inverse
+
+# Sampling Methods
+
+---
+
+# Sampling Methods
+
+Two broad categories:
+
+--
+
+- **Probability sampling**: every member of the population has a known, non-zero chance of being selected
+  - Simple random sample
+  - Stratified sample
+  - Cluster sample
+  - Multistage sample
+
+--
+
+- **Non-probability sampling**: selection is not based on random chance
+  - Convenience sample
+  - Voluntary response sample
+
+---
+
+class: middle, center, inverse
+
+# Probability Sampling
+
+---
+
+# Simple Random Sample (SRS)
+
+- Every member of the population has an **equal** chance of being selected
+- Each possible sample of size $n$ is equally likely
+
+--
+
+- How to take an SRS:
+  1. Number all members of the population
+  2. Use a random number generator (or table) to select $n$ individuals
+
+--
+
+<!-- TODO: add simple random sample diagram image -->
+
+---
+
+# Simple Random Sample (SRS)
+
+**Advantages**
+- Easy to understand
+- Eliminates systematic bias in selection
+
+--
+
+**Disadvantages**
+- Requires a complete list of the population (sampling frame)
+- May not represent small subgroups well
+- Can be expensive if population is spread out geographically
+
+---
+
+# Stratified Sample
+
+- Divide the population into **strata** (groups) based on a shared characteristic
+- Take a simple random sample from **each stratum**
+
+--
+
+- Strata are often defined by:
+  - Age
+  - Sex/gender
+  - Race/ethnicity
+  - Geographic region
+
+--
+
+<!-- TODO: add stratified sample diagram image -->
+
+---
+
+# Stratified Sample
+
+**Advantages**
+- Guarantees representation of all strata
+- Can give more precise estimates than SRS if strata are homogeneous
+
+--
+
+**Disadvantages**
+- Must know population strata in advance
+- More complex to implement than SRS
+
+---
+
+# Cluster Sample
+
+- Divide the population into **clusters** (naturally occurring groups)
+- Randomly select some clusters
+- Sample **all** (or most) individuals within selected clusters
+
+--
+
+- Clusters are often defined by:
+  - Geographic area (e.g., city blocks, schools)
+  - Natural groupings (e.g., households)
+
+--
+
+<!-- TODO: add cluster sample diagram image -->
+
+---
+
+# Cluster Sample
+
+**Advantages**
+- Cost-effective when population is spread over a large area
+- Does not require a complete list of all individuals — only a list of clusters
+
+--
+
+**Disadvantages**
+- Individuals within a cluster tend to be similar, which reduces precision
+- Higher sampling error than SRS of the same size
+
+---
+
+# Stratified vs. Cluster Sampling
+
+.pull-left[
+**Stratified**
+- Sample from **every** stratum
+- Strata should be **internally homogeneous**
+- Reduces variability
+]
+
+.pull-right[
+**Cluster**
+- Sample only **some** clusters
+- Clusters should be **internally heterogeneous**
+- Convenient and cost-effective
+]
+
+--
+
+<!-- TODO: add stratified vs cluster comparison diagram image -->
+
+---
+
+# Multistage Sample
+
+- Combines multiple sampling methods
+- Example: randomly select clusters, then randomly select individuals within those clusters
+
+--
+
+- Used in large, complex surveys (e.g., national health surveys)
+
+--
+
+<!-- TODO: add multistage sample diagram image -->
+
+---
+
+class: middle, center, inverse
+
+# Non-Probability Sampling
+
+---
+
+# Convenience Sample
+
+- Select individuals who are **easy to reach** or **readily available**
+
+--
+
+**Examples**
+- Surveying students in your own class
+- Asking people at a mall
+- Using Amazon Mechanical Turk
+
+--
+
+**Problem**: The sample may not be representative of the population of interest
+
+---
+
+# Voluntary Response Sample
+
+- Individuals **choose** to participate (self-select)
+
+--
+
+**Examples**
+- Online polls
+- Call-in surveys
+- Customer reviews
+
+--
+
+**Problem**: People with strong opinions (especially negative ones) are more likely to respond — **voluntary response bias**
+
+---
+
+class: middle, center, inverse
+
+# Sampling Bias
+
+---
+
+# Sampling Bias
+
+**Sampling bias** occurs when the method of selecting the sample produces a sample that is not representative of the population
+
+--
+
+The sample **systematically** differs from the population in some way
+
+--
+
+Result: conclusions drawn from the sample will not generalize to the population
+
+---
+
+# Sources of Sampling Bias
+
+- **Undercoverage**: some groups in the population are underrepresented or excluded from the sampling frame
+
+--
+
+- **Voluntary response bias**: people with strong opinions self-select into the sample
+
+--
+
+- **Convenience sampling**: easy-to-reach individuals may differ systematically from the population
+
+--
+
+- **Non-response bias**: individuals selected for the sample don't respond, and non-responders differ from responders
+
+---
+
+# The Literary Digest Poll (1936)
+
+- *Literary Digest* magazine predicted Alf Landon would beat Franklin Roosevelt in the 1936 presidential election
+
+--
+
+- They mailed **10 million** ballots and received **2.4 million** responses
+
+--
+
+- Roosevelt won in a **landslide**
+
+--
+
+**What went wrong?**
+- The mailing list came from telephone directories and car registrations — wealthier, more Republican-leaning individuals
+- **Undercoverage** + **voluntary response bias**
+
+<!-- TODO: add Literary Digest 1936 poll image -->
+
+---
+
+# The 1948 Dewey vs. Truman Election
+
+- Polls predicted **Thomas Dewey** would defeat Harry Truman
+
+--
+
+- **Truman won**
+
+--
+
+**What went wrong?**
+- Quota sampling was used — interviewers had flexibility in who they interviewed
+- Interviewers tended to interview people like themselves (more affluent, Republican-leaning)
+- Polling stopped too early — late-deciding voters broke for Truman
+
+<!-- TODO: add Dewey defeats Truman newspaper image -->
+
+---
+
+# Non-response Bias
+
+- Even with a good sampling method, **non-response** can introduce bias
+
+--
+
+- If the people who don't respond differ systematically from those who do, the sample will be biased
+
+--
+
+**Example**: Survey about exercise habits — people who exercise regularly may be more likely to respond
+
+--
+
+- **Solutions**:
+  - Follow up with non-respondents
+  - Compare respondents to known population characteristics
+  - Weight responses to adjust for non-response
+
+---
+
+class: middle, center, inverse
+
+# Sample Size and Variability
+
+---
+
+# Sample Size
+
+- Larger samples tend to produce more precise estimates
+
+--
+
+- But size alone doesn't guarantee a representative sample
+  - A large biased sample is still biased
+  - A small well-chosen sample can be very informative
+
+--
+
+**"It's not the size of the sample relative to the population that matters — it's the absolute size of the sample."**
+
+---
+
+# Sampling Variability
+
+- Different samples from the same population will give different results
+
+--
+
+- **Sampling variability** (sampling error): the natural variation between samples
+
+--
+
+- With probability sampling, we can **quantify** this variability using statistics
+  - Margin of error
+  - Confidence intervals
+
+--
+
+- With non-probability sampling, we **cannot** reliably quantify sampling variability
+
+---
+
+# Sampling Distribution
+
+- If we took many samples and computed the sample mean each time, the distribution of those means is the **sampling distribution**
+
+--
+
+- The sampling distribution is centered at the **population mean**
+
+--
+
+- The spread of the sampling distribution decreases as **sample size increases**
+
+--
+
+<!-- TODO: add sampling distribution diagram image -->
+
+---
+
+class: middle, center, inverse
+
+# Toward Good Sampling Practice
+
+---
+
+# What Makes a Good Sample?
+
+- **Random selection**: reduces systematic bias
+- **Adequate size**: reduces sampling variability
+- **Complete sampling frame**: reduces undercoverage
+- **High response rate**: reduces non-response bias
+- **Appropriate method**: matches the structure of the population
+
+---
+
+# Putting It All Together
+
+| Method | Random? | Representative? | Cost |
+|---|---|---|---|
+| Simple random sample | Yes | Usually | Medium |
+| Stratified sample | Yes | Yes (by design) | Medium-High |
+| Cluster sample | Yes | Often | Low-Medium |
+| Multistage sample | Yes | Usually | Medium |
+| Convenience sample | No | Often not | Low |
+| Voluntary response | No | Often not | Very Low |
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+# Summary
+
+- A **sample** is used to make inferences about a **population**
+- **Probability sampling** methods use random selection and allow us to quantify uncertainty
+  - Simple random, stratified, cluster, multistage
+- **Non-probability sampling** methods do not use random selection and are prone to bias
+  - Convenience, voluntary response
+- **Sampling bias** occurs when the sample systematically differs from the population
+- Larger samples reduce variability, but don't fix bias
+
+---
+
+# References
+
+```{r refs, echo=FALSE, results="asis"}
+# bibliography will be printed here
+```

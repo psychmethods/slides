@@ -54,6 +54,14 @@ class: middle
 - confidence intervals
 ]
 
+--
+
+**By the end of this week, you should be able to:**
+
+- Explain why we use the t-distribution instead of the normal distribution when σ is unknown
+- Conduct and interpret a one-sample t-test
+- Compare means across two samples using a two-sample t-test
+- Construct and interpret confidence intervals for a population mean
 
 ---
 

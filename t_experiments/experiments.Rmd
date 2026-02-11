@@ -1,0 +1,625 @@
+---
+title: "Experimental Research"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle
+
+# Experimental Research
+
+---
+
+## Roadmap
+
+**Three qualities of Experimental Studies**
+
+1. Researcher manipulates one variable.
+2. Researcher must control the group assignment
+3. Researcher must control extraneous variables that influence Ss' behavior.
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Define independent and dependent variables in an experiment
+- Distinguish between experimental and control groups
+- Explain random assignment and why it matters
+- Describe repeated measures designs and counterbalancing
+- Identify threats to internal and external validity
+
+---
+
+class: middle, center, inverse
+
+# Manipulating One Variable
+
+---
+
+## Manipulating One Variable
+
+.pull-left[
+In experimental studies, you are interested in how one (or more) variable **changes** behavior.
+
+(not just how they are related).
+]
+
+.pull-right[
+<!-- TODO: add image of 6-week-old baby without and with Fetal Alcohol Syndrome -->
+]
+
+---
+
+## Example: Fetal Alcohol Syndrome
+
+.pull-left[
+<!-- TODO: add image of 6-week-old baby without Fetal Alcohol Syndrome -->
+
+6-week-old baby **without** Fetal Alcohol Syndrome
+]
+
+.pull-right[
+<!-- TODO: add image of 6-week-old baby with Fetal Alcohol Syndrome -->
+
+6-week-old baby **with** Fetal Alcohol Syndrome
+]
+
+---
+
+## Independent and Dependent Variables
+
+**H1:** Alcohol causes brain abnormalities in the developing fetus.
+
+--
+
+**Vary or Manipulate amount of Alcohol**
+
+Groups get either: 0.6g/day, 0.3g/day, 0g/day.
+
+--
+
+- **Independent Variable** -- The researcher is setting or controlling the variation.
+  - The amount of alcohol is independent of everything else in the study.
+
+- **Dependent Variable** -- Response being measured
+  - Brain size, white matter to gray matter ratio, density, gyri, ventricle size
+
+--
+
+Each variation in the IV is a **"level"**.
+
+---
+
+## Experimental and Control Groups
+
+0.6g/day, 0.2g/day, 0g/day
+
+--
+
+Groups that receive some amount of alcohol:
+- **Experimental Groups**
+
+Group that does not receive any alcohol:
+- **Control Group**
+
+--
+
+Why a control group? `r emo::ji("arrow_right")` **Baseline**
+
+---
+
+## Levels of the IV
+
+Levels can vary in two ways:
+
+.pull-left[
+**Quantitative Differences**
+
+- IV varies in quantity.
+- Ex: grams/kg of Alcohol
+]
+
+.pull-right[
+**Qualitative Differences**
+
+- IV varies in type.
+- Ex: Environment, Instructions, Diet
+]
+
+---
+
+## Types of IVs
+
+.pull-left[
+**Invasive Manipulations**
+
+Create physical changes in the participant's body through surgery or the administration of drugs.
+
+**Environmental Manipulations**
+
+Modifications of the participant's physical or social environment; may involve confederates.
+
+**Instructional Manipulations**
+
+Vary the independent variable through the verbal instructions that participants receive.
+]
+
+---
+
+## Example: Schachter & Singer
+
+Patients injected with a stimulant (adrenaline) OR saline.
+
+--
+
+Subjects left in room with confederates that were either:
+- **Euphoric** (happy & silly) acting, OR
+- **Angry** (offended by questions)
+
+--
+
+Told the drug would make them aroused OR given no information.
+
+<!-- TODO: add image illustrating the Schachter & Singer experiment setup -->
+
+---
+
+## How Good Is Your IV?
+
+A good IV has enough levels to detect changes in behavior.
+
+To determine:
+
+--
+
+- **Pilot Test** (pre-study)
+  - Measure levels of IV for response
+
+--
+
+- **Manipulation Check** (post-study)
+  - Ensure that the level of your IV was effective
+
+---
+
+## Practice: Identify the IV and DV
+
+A pharmaceutical company developed a new drug to relieve depression and hired a research organization to investigate the potential effectiveness of the drug. The researchers contacted a group of psychiatric patients who were experiencing chronic depression and randomly assigned half of the patients to the drug group and half of the patients to the placebo group.
+
+--
+
+- What is the independent variable?
+- How many levels does it have?
+- Was there a control group?
+- What is the dependent variable?
+
+---
+
+## Practice: Identify the IV and DV
+
+An investigator hypothesized that people in a fearful situation desire to be with other individuals. To test this hypothesis, the experimenter randomly assigned 50 participants to either a high or low fear group. Participants in the low fear group were told that they would be shocked but that they would experience only a small tingle that would not hurt. Participants in the high fear group were told that the shock would be quite painful and might burn the skin without permanent damage.
+
+--
+
+- What is the independent variable?
+- How many levels does it have?
+- Was there a control group?
+- What is the dependent variable?
+
+---
+
+## Practice: Identify the IV and DV
+
+A study was conducted to investigate the hypothesis that watching televised violence increases aggression in children. Fifty kindergarten children were randomly assigned to watch either a violent or a nonviolent television program. After watching the televised program, the children were allowed to engage in an hour of free play while trained observers watched for aggressive behavior and recorded the frequency with which aggressive acts took place.
+
+--
+
+- What is the independent variable?
+- How many levels does it have?
+- Was there a control group?
+- What is the dependent variable?
+
+---
+
+## Three Qualities of Experimental Studies
+
+1. Researcher manipulates one variable.
+2. Researcher must control the group assignment
+3. Researcher must control extraneous variables that influence Ss' behavior.
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+class: middle, center, inverse
+
+# This Time: Control the Group Assignment
+
+---
+
+## Control the Group Assignment
+
+.pull-left[
+Ss must be assigned to groups, so they are **initially equivalent**.
+]
+
+.pull-right[
+If groups differ in any way **before** the IV is given, then we cannot tell if variation in behavior is caused by:
+- the IV, OR
+- pre-existing differences.
+]
+
+---
+
+## Example: Breast-feeding and SES
+
+<!-- TODO: add diagram showing intersection of feeding type (Bottle-fed, Breast-fed, Both) and SES (Low, Med, Hi) -->
+
+---
+
+## Random Assignment
+
+We need to **RANDOMLY assign** Ss to levels of the IV.
+
+--
+
+This ensures that **ON AVERAGE**, Ss in your groups will not differ.
+
+There is an equally likely chance of getting into each level of your IV.
+
+---
+
+## Initial Equivalence
+
+<!-- TODO: add diagram or image illustrating initial equivalence between groups -->
+
+---
+
+## Simple Random Assignment
+
+**Placing Ss in conditions so that every subject has an equal probability of being placed in any experimental condition.**
+
+Example: Coin Flip
+
+---
+
+## Matched Random Assignment
+
+- Helps to ensure that the conditions will be similar along some specific dimension,
+  - such as age or intelligence.
+
+--
+
+- Participants are matched
+  - into homogenous blocks by order on a measure, and then
+  - participants within each block are assigned randomly to conditions
+
+---
+
+## Matched Random Assignment: Example
+
+.pull-left[
+Breast-fed / Both / Bottle-fed
+
+n = 18 mother & infant pairs each with SES index
+
+**RAW data:**
+17, 82, 65, 33, 68, 29, 93, 13, 47, 68, 21, 90, 45, 39, 26, 08, 52, 76
+]
+
+.pull-right[
+**Hi SES:** 93, 90, 82, 76, 68, 68
+
+**Med SES:** 65, 52, 47, 45, 39, 33
+
+**Low SES:** 29, 26, 21, 17, 13, 08
+]
+
+---
+
+## Types of IVs (Review)
+
+.pull-left[
+**Invasive Manipulations**
+
+Create physical changes in the participant's body through surgery or the administration of drugs.
+
+**Environmental Manipulations**
+
+Modifications of the participant's physical or social environment; may involve confederates.
+
+**Instructional Manipulations**
+
+Vary the independent variable through the verbal instructions that participants receive.
+]
+
+---
+
+class: middle, center, inverse
+
+# Repeated Measures Design
+
+---
+
+## Repeated Measures Design
+
+<!-- TODO: add diagram illustrating within-subjects / repeated measures design -->
+
+---
+
+## Power
+
+**The ability to detect differences between the levels of the IV, if there are differences to detect.**
+
+--
+
+Within Ss > POWER > Between Ss
+
+If your alternative hypothesis is correct, you are more likely to detect the truth.
+
+---
+
+## Why Not Always Use Repeated Measures?
+
+- **Order effects**
+  - The order in which levels of the IV are received affects behavior.
+
+--
+
+- **Practice? Fatigue**
+  - Ss performance improves because they have completed the DV several times.
+  - Ss become tired, bored, or less motivated as the experiment progresses.
+
+--
+
+- **Carryover**
+  - Effects on one condition carry over to the next condition.
+
+--
+
+- **Solution?**
+  - Full counterbalancing & Latin Square
+
+---
+
+## Full Counterbalancing
+
+- Presenting levels of the IV in different orders to different participants.
+- When possible, all orders are used.
+
+--
+
+**Core Idea:**
+
+Every possible order exists and every level of the IV appears in each position an equal number of times.
+
+---
+
+## Full Counterbalancing: Example
+
+Measure Consumer purchases when offering different reward programs:
+
+1. Immediate reward (IR)
+2. Short-term reward (STR)
+3. Long-term reward (LTR)
+4. No rewards (Control)
+
+.pull-left[
+| Order | 1st | 2nd | 3rd | 4th |
+|-------|-----|-----|-----|-----|
+| 1 | Control | IR | STR | LTR |
+| 2 | Control | IR | LTR | STR |
+| 3 | Control | STR | IR | LTR |
+| 4 | Control | STR | LTR | IR |
+| 5 | Control | LTR | IR | STR |
+| 6 | Control | LTR | STR | IR |
+| 7 | IR | Control | STR | LTR |
+| 8 | IR | Control | LTR | STR |
+| 9 | IR | STR | Control | LTR |
+| 10 | IR | STR | LTR | Control |
+| 11 | IR | LTR | Control | STR |
+| 12 | IR | LTR | STR | Control |
+]
+
+.pull-right[
+| Order | 1st | 2nd | 3rd | 4th |
+|-------|-----|-----|-----|-----|
+| 13 | STR | Control | IR | LTR |
+| 14 | STR | Control | LTR | IR |
+| 15 | STR | IR | Control | LTR |
+| 16 | STR | IR | LTR | Control |
+| 17 | STR | LTR | Control | IR |
+| 18 | STR | LTR | IR | Control |
+| 19 | LTR | Control | IR | STR |
+| 20 | LTR | Control | STR | IR |
+| 21 | LTR | IR | Control | STR |
+| 22 | LTR | IR | STR | Control |
+| 23 | LTR | STR | Control | IR |
+| 24 | LTR | STR | IR | Control |
+]
+
+---
+
+## Latin Square Design
+
+Each condition appears once at each ordinal position; each precedes and follows every condition once.
+
+Participants are randomly assigned to four groups, each with a different order of conditions.
+
+| | 1st Order | 2nd Order | 3rd Order | 4th Order |
+|---------|-----------|-----------|-----------|-----------|
+| Group 1 | Control | Immed | Long | Short |
+| Group 2 | Immed | Short | Control | Long |
+| Group 3 | Short | Long | Immed | Control |
+| Group 4 | Long | Control | Short | Immed |
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+class: middle, center, inverse
+
+# This Time: Control Extraneous Variables
+
+---
+
+## Three Qualities of Experimental Studies (Review)
+
+1. Researcher manipulates one variable.
+2. Researcher must control the group assignment.
+3. Researcher must control extraneous variables that influence Ss' behavior.
+  - Control **what?**
+  - Everything that is not of interest in your study.
+
+---
+
+## Total Variance
+
+<!-- TODO: add diagram showing sources of total variance in an experiment -->
+
+Is any of the total variability observed in scores due to the IV?
+
+---
+
+## Total Variance: Components
+
+**Total Variance = Treatment + Confound + Error**
+
+Confounds must be addressed because an experimental researcher cannot tell if differences between groups are due to:
+- the IV, OR
+- the confound.
+
+Eliminated through experimenter control.
+
+---
+
+## Visualizing Total Variance
+
+.pull-left[
+**Treatment**
+
+SYSTEMATIC
+
+Due to differences **BETWEEN** groups.
+]
+
+.pull-left[
+**Confound**
+
+SYSTEMATIC
+
+Due to differences **BETWEEN** groups.
+
+But is something **other than the IV** that differs between groups in a systematic way.
+]
+
+.pull-right[
+**Error**
+
+UNSYSTEMATIC
+
+Due to differences **WITHIN** groups.
+]
+
+---
+
+## Internal Validity
+
+A problem with confounds is a problem with **Internal Validity**.
+
+> The degree to which a researcher draws accurate conclusions about the effects of the IV.
+
+Know and Eliminate your Enemy (in Research Design)...
+
+---
+
+## Threats to Internal Validity
+
+**Threats:**
+
+1. Biased Assignment
+2. Attrition
+3. Pretest Sensitization
+4. History
+
+--
+
+**Threats from Beliefs:**
+
+1. Experimenter Expectancies
+2. Demand Characteristics
+3. Placebo Effects
+
+---
+
+## The Experimenter's Dilemma
+
+.pull-left[
+**External Validity**
+
+The degree to which the results obtained in one study can be replicated with other samples, research settings, and procedures.
+]
+
+.pull-right[
+As **internal validity increases** (tighter control), the more **external validity decreases** (results are less generalizable).
+]
+
+---
+
+## Manipulate, Control, Control...
+
+The more tightly controlled, the more artificial.
+
+--
+
+> "But, that study is nothing like the real world..."
+
+**NOT A VALID CRITICISM**
+
+--
+
+Experiments should never be generalized. Remember, we are testing hypotheses in order to support theories.
+
+Studies are done to **isolate** the factors causing behavior, thought, experience.
+
+--
+
+**REPLICATION** allows theories to be supported, which can then generalize the theory, but not the results from a single study.
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...

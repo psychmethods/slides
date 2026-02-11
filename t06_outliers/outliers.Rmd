@@ -44,6 +44,16 @@ class: middle
 7. Real-world Examples
 8. Wrap-up and Discussion
 
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Define outliers and classify them by type (error, natural, influential)
+- Assess the impact of outliers on measures of center and spread
+- Apply the IQR method to identify potential outliers
+- Construct and interpret boxplots
+- Make data-driven decisions about retaining or removing outliers
+
 ---
 
 ## What is an outlier?

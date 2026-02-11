@@ -44,6 +44,15 @@ class: middle
 - confidence intervals
 ]
 
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Distinguish between paired and independent two-sample t-tests
+- Select the appropriate t-test design for a given research scenario
+- Calculate and interpret a paired-samples t-test
+- Calculate and interpret an independent-samples t-test
+
 ---
 
 class: middle

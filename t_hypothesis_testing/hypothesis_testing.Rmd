@@ -1,0 +1,272 @@
+---
+title: "Hypothesis Testing and Significance"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle, center, inverse
+
+# Hypothesis Testing and Significance
+
+---
+
+# Road Map
+
+.pull-left[
+**What is hypothesis testing?**
+]
+.pull-right[
+Error rates
+]
+
+--
+
+- By the end of today, you should be able to:
+  - Define hypothesis testing and significance testing
+  - Describe the 4 steps of hypothesis testing
+  - Explain Type I and Type II errors
+  - Define power and describe ways to influence it
+
+---
+
+# What is Hypothesis Testing?
+
+- A statistical procedure that uses sample data to evaluate a hypothesis about a population
+
+--
+
+- Also called **significance testing**
+
+--
+
+- The goal: determine whether the observed results are likely due to chance or reflect a real effect
+
+---
+
+# Significance Testing
+
+- We use data from a sample to draw inferences about a population
+
+--
+
+- Key question: Is the observed result **statistically significant**?
+
+--
+
+- Statistical significance means the result is unlikely to have occurred by chance alone
+
+---
+
+# The 4 Steps of Hypothesis Testing
+
+1. **State the hypotheses** (null and alternative)
+
+--
+
+2. **Formulate an analysis plan** (choose test, set alpha)
+
+--
+
+3. **Analyze sample data** (compute the test statistic)
+
+--
+
+4. **Decide and interpret** (reject or fail to reject H0)
+
+---
+
+# The Null Hypothesis
+
+- The **null hypothesis** (H0) is the default assumption — typically that there is no effect or no difference
+
+--
+
+- The **alternative hypothesis** (Ha or H1) is what the researcher expects to find
+
+--
+
+- We never "prove" the null hypothesis — we either reject it or fail to reject it
+
+---
+
+# The Jurisprudence Model
+
+.pull-left[
+- **Jury** = skeptical scientific community
+- **Prosecutor** = researcher
+- **Defendant** = null hypothesis
+- **Detective** = statistician
+]
+.pull-right[
+<!-- TODO: add image of courtroom/lawyer cat -->
+]
+
+--
+
+Just as a jury starts with "innocent until proven guilty," we start by assuming H0 is true
+
+---
+
+# Definitions
+
+- **Effect size**: the magnitude of the difference or relationship in the population
+
+--
+
+- **Alpha level** (α): the threshold for statistical significance (typically .05)
+  - The probability of rejecting H0 when it is actually true
+
+--
+
+- **Power**: the probability of correctly rejecting H0 when it is false
+  - Aim for power ≥ .80
+
+---
+
+# Consequences of Our Decisions
+
+|  | H0 is True | H0 is False |
+|--|-----------|------------|
+| **Reject H0** | Type I Error (α) | Correct! (Power) |
+| **Fail to Reject H0** | Correct! | Type II Error (β) |
+
+---
+
+# Type I Error
+
+- Rejecting H0 when it is actually **true**
+
+--
+
+- A "false positive" — concluding there is an effect when there isn't one
+
+--
+
+- Probability of Type I error = **alpha (α)**
+  - If α = .05, there is a 5% chance of a Type I error
+
+---
+
+# Type II Error
+
+- Failing to reject H0 when it is actually **false**
+
+--
+
+- A "false negative" — missing a real effect
+
+--
+
+- Probability of Type II error = **beta (β)**
+
+--
+
+- Power = 1 − β
+  - Higher power means lower chance of a Type II error
+
+---
+
+# Power and Type II Error
+
+- **Power** = 1 − Type II Error (β)
+
+--
+
+- We want power to be high (aim for ≥ .80)
+
+--
+
+- Low power means we are likely to miss real effects
+
+---
+
+# Ways to Influence Power
+
+- **Increase sample size** → increases power
+
+--
+
+- **Decrease standard deviation** (reduce noise) → increases power
+
+--
+
+- **Set a less stringent significance level** (e.g., α = .10 instead of .05) → increases power (but also increases Type I error risk)
+
+--
+
+- **Increase effect strength** (study stronger manipulations) → increases power
+
+---
+
+# A Brief History of the Null Hypothesis
+
+- **R.A. Fisher (1935)** introduced the concept of the null hypothesis
+
+--
+
+- Fisher argued the null hypothesis can never be *proved*, only *disproved*
+
+--
+
+- If the data are sufficiently improbable under H0, we reject it
+
+---
+
+# Lady Tasting Tea
+
+<!-- TODO: add image of tea cups -->
+
+- Fisher's famous example: Can a lady tell whether milk or tea was poured first?
+
+--
+
+- She is given **8 cups**: 4 with milk first, 4 with tea first
+
+--
+
+- If she is just guessing, the probability of correctly identifying all 4 milk-first cups is:
+  - 1/70 ≈ **1.4%**
+
+--
+
+- This is below α = .05, so we would reject H0 (that she is just guessing)
+
+---
+
+class: middle, center, inverse
+
+# Mind Reading Activity
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+- Hypothesis testing uses sample data to evaluate claims about populations
+- The 4 steps: state hypotheses → analysis plan → compute test statistic → decide
+- Type I error (false positive) = α; Type II error (false negative) = β
+- Power = 1 − β; aim for ≥ .80
+- Increase power via larger N, reduced SD, stronger effects

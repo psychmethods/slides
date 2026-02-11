@@ -41,7 +41,24 @@ class: middle
 
 ---
 
-# Bivariate 
+## Roadmap
+
+- Scatterplots and bivariate relationships
+- Correlation and covariance
+- Interpreting and critiquing correlations
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Create and interpret scatterplots to describe bivariate relationships
+- Calculate and interpret Pearson's correlation coefficient
+- Identify limitations of correlation (linearity, outliers, range restriction)
+- Explain why correlation does not imply causation
+
+---
+
+# Bivariate
 - So far, we have been analyzing summary statistics that describe aspects of a single list of numbers
 - Frequently, however, we are interested in how variables behave together
     - Measuring the relationship (correlation)

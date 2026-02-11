@@ -48,6 +48,15 @@ class: middle
 - Binomial requirements
 - Sampling distribution of a count
 
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Identify whether a situation meets the requirements for a binomial distribution
+- Calculate binomial probabilities using the binomial formula
+- Determine the mean and standard deviation of a binomial distribution
+- Apply the normal approximation to binomial distributions when appropriate
+
 ---
 
 

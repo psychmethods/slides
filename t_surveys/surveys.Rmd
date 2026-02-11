@@ -1,0 +1,624 @@
+---
+title: "Surveys"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle, center, inverse
+
+# Surveys
+
+---
+
+class: middle, center
+
+# Roadmap
+
+.pull-left[
+**Last Time**
+- Observational studies
+- Experiments
+- Sampling methods
+]
+
+.pull-right[
+**Today**
+- Survey design
+- Question wording
+- Response bias
+- Survey modes
+]
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Explain how question wording and order affect survey responses
+- Identify common sources of response bias in surveys
+- Describe different survey modes and their tradeoffs
+- Evaluate the quality of survey questions
+- Distinguish between sampling bias and response bias
+
+---
+
+class: middle, center, inverse
+
+# What Is a Survey?
+
+---
+
+# What Is a Survey?
+
+- A **survey** is a method of collecting data by asking people questions
+
+--
+
+- Surveys are used in:
+  - Political polling
+  - Public health research
+  - Marketing research
+  - Academic social science
+  - Government data collection (e.g., Census)
+
+--
+
+- Even with a perfect sample, a poorly designed survey can produce **misleading data**
+
+---
+
+# Two Major Sources of Survey Error
+
+.pull-left[
+**Sampling Error**
+- Error due to studying a sample rather than the whole population
+- Reduced by larger, well-chosen samples
+- Can be quantified with probability sampling
+]
+
+.pull-right[
+**Non-Sampling Error**
+- Error not related to sampling
+- Includes measurement error, response bias, non-response
+- Often harder to detect and correct
+]
+
+---
+
+class: middle, center, inverse
+
+# Question Wording
+
+---
+
+# Question Wording Matters
+
+- The way a question is worded can **dramatically** affect responses
+
+--
+
+**Example**: "Should the US spend more money on assistance to the poor?"
+- 63% said yes
+
+--
+
+**Example**: "Should the US spend more money on welfare?"
+- 23% said yes
+
+--
+
+Same underlying concept — very different responses `r emo::ji("thinking")`
+
+---
+
+# Question Wording: Leading Questions
+
+- A **leading question** pushes respondents toward a particular answer
+
+--
+
+**Example (leading)**: "Don't you agree that the death penalty is barbaric and should be abolished?"
+
+--
+
+**Better**: "Do you support or oppose the death penalty?"
+
+--
+
+- Leading questions introduce **response bias** — responses don't reflect true opinions
+
+---
+
+# Question Wording: Loaded Language
+
+- **Loaded language** uses emotionally charged words that bias responses
+
+--
+
+**Examples**:
+- "pro-life" vs. "anti-abortion"
+- "undocumented immigrants" vs. "illegal aliens"
+- "estate tax" vs. "death tax"
+
+--
+
+- Word choice can shift response rates by 10–20 percentage points or more
+
+---
+
+# Question Wording: Double-Barreled Questions
+
+- A **double-barreled question** asks about two things at once
+
+--
+
+**Example**: "Do you support stricter gun control laws and expanded mental health services?"
+
+--
+
+- Respondent may agree with one part but not the other — what does "yes" mean?
+
+--
+
+**Fix**: Ask as two separate questions
+
+---
+
+# Question Wording: Double Negatives
+
+- **Double negatives** are confusing and lead to inaccurate responses
+
+--
+
+**Example**: "Do you disagree that the policy should not be repealed?"
+
+--
+
+- Even careful readers can misinterpret these
+
+--
+
+**Fix**: Rephrase to avoid negatives when possible
+
+---
+
+# Question Wording: Ambiguous Questions
+
+- **Ambiguous questions** mean different things to different people
+
+--
+
+**Example**: "How often do you exercise regularly?"
+- What counts as "exercise"? What counts as "regularly"?
+
+--
+
+**Better**: "In the past week, how many times did you engage in physical activity for at least 30 minutes?"
+
+--
+
+- Specificity reduces ambiguity
+
+---
+
+# Question Wording: Sensitive Questions
+
+- People may not answer honestly about sensitive topics:
+  - Drug use
+  - Sexual behavior
+  - Income
+  - Illegal activity
+  - Socially undesirable opinions
+
+--
+
+- **Social desirability bias**: tendency to give answers that make you look good
+
+---
+
+# Reducing Social Desirability Bias
+
+- **Anonymous surveys**: respondents feel safer being honest
+
+--
+
+- **Randomized response technique**: respondent flips a coin (privately) — if heads, answer a harmless question; if tails, answer the sensitive question. Researcher can estimate true rate without knowing any individual's answer.
+
+--
+
+- **List experiments**: respondents count the number of items on a list they agree with; the sensitive item is included in one version of the list
+
+--
+
+- **Forgiving wording**: "Some people feel... others feel... What do you think?"
+
+---
+
+class: middle, center, inverse
+
+# Question Order and Format
+
+---
+
+# Question Order Effects
+
+- The order of questions can influence responses — **order effects**
+
+--
+
+- **Context effects**: earlier questions prime respondents to think about a topic in a particular way
+
+--
+
+**Example**: Asking "How happy are you with your life overall?" after asking about recent stressful events produces lower happiness ratings than asking it first
+
+--
+
+- **Recency and primacy effects**: for lists of items, people tend to choose options at the beginning (primacy) or end (recency) of the list
+
+---
+
+# Response Scale Design
+
+- The **format of response options** affects answers
+
+--
+
+- **Number of categories**: 5-point vs. 7-point vs. 11-point scales
+  - More points = more fine-grained information, but may overwhelm respondents
+
+--
+
+- **Labeled vs. unlabeled**: labeling only endpoints vs. all points affects interpretation
+
+--
+
+- **Agree/disagree scales** can introduce **acquiescence bias**: tendency to agree regardless of content
+
+--
+
+- **Forced choice** (no "neutral" option) vs. **middle option** inclusion
+
+---
+
+# Acquiescence Bias
+
+- **Acquiescence bias** (yes-saying): tendency to agree with survey statements regardless of content
+
+--
+
+- More common among some demographic groups and in some cultural contexts
+
+--
+
+**Solution**: Balance questions so that agreeing sometimes reflects one opinion and sometimes the opposite
+
+--
+
+**Example**:
+- "The government should do more to help the poor" (agree = liberal)
+- "People should take responsibility for their own lives" (agree = conservative)
+
+---
+
+class: middle, center, inverse
+
+# Non-Response
+
+---
+
+# Non-Response
+
+- **Unit non-response**: a selected individual doesn't participate at all
+
+--
+
+- **Item non-response**: a participant skips particular questions
+
+--
+
+- Non-response is a problem when non-respondents differ from respondents
+
+--
+
+- Survey response rates have been **declining for decades**
+  - Pew Research Center: telephone response rates fell from ~36% in 1997 to ~6% in 2018
+
+<!-- TODO: add response rate decline chart image -->
+
+---
+
+# Non-Response Bias
+
+- If non-responders differ systematically from responders, estimates will be biased
+
+--
+
+**Example**: A survey about health behaviors may attract healthier, more health-conscious people — overestimating healthy behaviors in the population
+
+--
+
+- **Solutions**:
+  - Follow up with non-respondents
+  - Weight data to match population demographics
+  - Use mixed-mode surveys to reach hard-to-reach groups
+
+---
+
+class: middle, center, inverse
+
+# Survey Modes
+
+---
+
+# Survey Modes
+
+Different ways to administer surveys:
+
+--
+
+- **In-person (face-to-face)**
+- **Telephone** (landline and cell)
+- **Mail (paper)**
+- **Online / web-based**
+- **Mixed mode**
+
+--
+
+Each has different tradeoffs for cost, coverage, response rates, and data quality
+
+---
+
+# In-Person Surveys
+
+.pull-left[
+**Advantages**
+- High response rates
+- Interviewer can clarify questions
+- Can use visual aids
+- Can observe non-verbal cues
+]
+
+.pull-right[
+**Disadvantages**
+- Very expensive
+- Time-consuming
+- Interviewer effects (social desirability)
+- Geographic limitations
+]
+
+---
+
+# Telephone Surveys
+
+.pull-left[
+**Advantages**
+- Moderate cost
+- Relatively fast
+- Can reach geographically dispersed samples
+- Random Digit Dialing (RDD) can reach unlisted numbers
+]
+
+.pull-right[
+**Disadvantages**
+- Declining response rates
+- Cell phones complicate RDD
+- Cannot use visual aids
+- Interviewer effects
+- Cell-only households may be missed
+]
+
+---
+
+# Mail Surveys
+
+.pull-left[
+**Advantages**
+- Low cost
+- No interviewer effects
+- Respondents can take their time
+- Good for sensitive topics
+]
+
+.pull-right[
+**Disadvantages**
+- Low response rates
+- Slow
+- No opportunity to clarify questions
+- Literacy requirements
+- May not reach all groups
+]
+
+---
+
+# Online Surveys
+
+.pull-left[
+**Advantages**
+- Very low cost
+- Fast
+- No interviewer effects
+- Easy to include skip patterns and multimedia
+- Can reach large samples
+]
+
+.pull-right[
+**Disadvantages**
+- Coverage issues (not everyone is online)
+- Hard to get probability samples
+- Self-selection
+- Satisficing (rushing through)
+- Cannot verify respondent identity
+]
+
+---
+
+# Mode Effects
+
+- The **mode** of survey administration can affect responses
+
+--
+
+- **Social desirability**: higher in interviewer-administered surveys (phone, in-person)
+
+--
+
+- **Coverage**: online surveys miss those without internet access; telephone surveys miss cell-only households
+
+--
+
+- **Response rates** vary substantially by mode
+
+--
+
+- **Mixed-mode** surveys try to combine advantages of multiple modes
+
+---
+
+class: middle, center, inverse
+
+# Probability vs. Non-Probability Online Panels
+
+---
+
+# Online Survey Panels
+
+- Many surveys now use **online panels**: pools of pre-recruited respondents
+
+--
+
+- **Probability-based panels**: recruited via probability sampling (e.g., address-based sampling)
+  - AmeriSpeak (NORC), KnowledgePanel (Ipsos/formerly Knowledge Networks)
+
+--
+
+- **Non-probability panels**: recruited via opt-in (e.g., ads, websites)
+  - Much cheaper, faster
+  - But unknown representativeness
+
+--
+
+- Research shows probability-based panels tend to produce more accurate estimates, but non-probability panels can perform well with careful weighting
+
+---
+
+# Weighting
+
+- **Weighting** adjusts survey data to better represent the population
+
+--
+
+- **Design weights**: account for unequal probabilities of selection
+
+--
+
+- **Post-stratification weights**: adjust sample to match population on key demographics (age, sex, race, education, etc.)
+
+--
+
+- Weighting can reduce bias but cannot fix all problems
+  - If important characteristics are not weighted, bias remains
+  - Extreme weights increase variance
+
+---
+
+class: middle, center, inverse
+
+# Evaluating Survey Quality
+
+---
+
+# Evaluating Survey Quality
+
+When reading about survey results, ask:
+
+--
+
+- **Who** was surveyed? Is the sample representative of the population of interest?
+
+--
+
+- **How** were they selected? Probability or non-probability?
+
+--
+
+- **How many** responded? What was the response rate?
+
+--
+
+- **How** were questions worded? Could wording have influenced responses?
+
+--
+
+- **Who** sponsored the survey? Could there be a conflict of interest?
+
+---
+
+# Red Flags in Survey Reporting
+
+- No information about sampling methodology
+- Very low or unreported response rate
+- Leading or loaded question wording
+- Results based on voluntary response (online polls, call-in surveys)
+- Sponsor with a stake in the outcome
+- Small sample sizes for subgroup analyses
+
+--
+
+**"Garbage in, garbage out"** — even sophisticated analysis cannot fix a fundamentally flawed survey
+
+---
+
+# A Good Survey Question Is...
+
+- **Clear**: unambiguous, one interpretation
+- **Specific**: concrete, not vague
+- **Neutral**: no leading or loaded language
+- **Single-barreled**: asks one thing at a time
+- **Answerable**: respondents actually know the answer
+- **Relevant**: respondents have an opinion or experience to report
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+# Summary
+
+- Surveys are a powerful data collection tool — but design matters enormously
+- **Question wording** can dramatically affect responses: avoid leading questions, loaded language, double-barreled questions, and ambiguity
+- **Question order** creates context effects that influence responses
+- **Non-response** is a major challenge; declining response rates require careful attention to non-response bias
+- **Survey mode** affects cost, coverage, response rates, and data quality
+- **Weighting** can reduce bias but cannot fix all problems
+- Always critically evaluate survey methodology before interpreting results
+
+---
+
+# References
+
+```{r refs, echo=FALSE, results="asis"}
+# bibliography will be printed here
+```

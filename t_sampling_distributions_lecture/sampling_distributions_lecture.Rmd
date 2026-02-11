@@ -1,0 +1,387 @@
+---
+title: "Sampling Distributions"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+---
+
+class: middle, center, inverse
+
+# Sampling Distributions
+
+---
+
+# Roadmap
+
+.pull-left[
+**Where we've been:**
+- Exploratory data analysis
+- Data visualization
+- Probability
+]
+
+.pull-right[
+**Where we're going:**
+- Sampling distributions
+- Central Limit Theorem
+- Inference
+]
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Distinguish between a parameter and a statistic
+- Explain what a sampling distribution is and how it is constructed
+- Describe the Central Limit Theorem and its conditions
+- Calculate and interpret the standard error of a sample mean or proportion
+- Apply the normal model to answer questions about sample statistics
+
+---
+
+class: middle, center, inverse
+
+# Parameters and Statistics
+
+---
+
+# Parameters vs. Statistics
+
+.pull-left[
+**Parameter**
+- A numerical summary of a **population**
+- Fixed (but usually unknown)
+- Denoted with Greek letters
+  - Population mean: $\mu$
+  - Population proportion: $p$
+  - Population SD: $\sigma$
+]
+
+.pull-right[
+**Statistic**
+- A numerical summary of a **sample**
+- Varies from sample to sample
+- Denoted with Latin letters (or hats)
+  - Sample mean: $\bar{x}$
+  - Sample proportion: $\hat{p}$
+  - Sample SD: $s$
+]
+
+---
+
+# Parameters vs. Statistics
+
+<!-- TODO: add [diagram showing population with parameter mu/p and sample with statistic x-bar/p-hat] image -->
+
+- We use **statistics** to **estimate** parameters
+- Because we rarely have access to the full population
+
+---
+
+class: middle, center, inverse
+
+# Sampling Variability
+
+---
+
+# Sampling Variability
+
+- Different samples from the same population produce different statistics
+- This is called **sampling variability** (or sampling error)
+
+--
+
+- Example: Take many samples of size $n$ from a population
+  - Each sample gives a (slightly) different $\bar{x}$ or $\hat{p}$
+  - The values cluster around the true parameter
+
+--
+
+- Key question: **How much** does the statistic vary from sample to sample?
+
+---
+
+# Sampling Variability
+
+<!-- TODO: add [dotplot or histogram showing distribution of many sample means from repeated sampling] image -->
+
+- Each dot represents the mean of one sample
+- The distribution of these sample means forms a **sampling distribution**
+
+---
+
+class: middle, center, inverse
+
+# Sampling Distributions
+
+---
+
+# Sampling Distribution
+
+The **sampling distribution** of a statistic is the distribution of that statistic computed from all possible samples of size $n$ from the same population.
+
+--
+
+- In practice, we don't take all possible samples
+- But we can use theory to describe the shape, center, and spread of the sampling distribution
+
+--
+
+**Three things to describe:**
+1. Shape
+2. Center (mean)
+3. Spread (standard error)
+
+---
+
+# Sampling Distribution of $\hat{p}$
+
+For a sample proportion $\hat{p}$ based on $n$ observations from a population with true proportion $p$:
+
+--
+
+- **Center:** $\mu_{\hat{p}} = p$
+- **Spread:** $\sigma_{\hat{p}} = \sqrt{\dfrac{p(1-p)}{n}}$
+- **Shape:** Approximately normal when conditions are met
+
+--
+
+**Conditions for normality:**
+- $np \geq 10$
+- $n(1-p) \geq 10$
+
+---
+
+# Sampling Distribution of $\bar{x}$
+
+For a sample mean $\bar{x}$ based on $n$ observations from a population with mean $\mu$ and standard deviation $\sigma$:
+
+--
+
+- **Center:** $\mu_{\bar{x}} = \mu$
+- **Spread:** $\sigma_{\bar{x}} = \dfrac{\sigma}{\sqrt{n}}$
+- **Shape:** Depends on the population and $n$
+
+---
+
+class: middle, center, inverse
+
+# The Central Limit Theorem
+
+---
+
+# Central Limit Theorem (CLT)
+
+> If a sample consists of at least 30 independent observations and the data are not strongly skewed, then the distribution of the sample mean $\bar{x}$ is well approximated by a normal distribution.
+
+--
+
+$$\bar{x} \sim N\!\left(\mu,\ \frac{\sigma}{\sqrt{n}}\right)$$
+
+--
+
+- The CLT applies **regardless of the shape of the population distribution**
+- As $n$ increases, the sampling distribution becomes more normal
+- Works for proportions too (with success/failure condition)
+
+---
+
+# Central Limit Theorem — Illustrated
+
+<!-- TODO: add [four panels showing population distributions (uniform, skewed, bimodal) and their sampling distributions converging to normal as n increases] image -->
+
+- Even if the population is skewed or non-normal...
+- ...the sampling distribution of $\bar{x}$ becomes approximately normal as $n$ grows
+
+---
+
+# CLT Conditions
+
+**Independence:**
+- Sampled observations must be independent
+- If sampling without replacement: sample size $< 10\%$ of population
+
+**Sample size / skew:**
+- $n \geq 30$ is a useful rule of thumb
+- For strongly skewed populations, larger $n$ may be needed
+- For symmetric populations, smaller $n$ may suffice
+
+---
+
+class: middle, center, inverse
+
+# Standard Error
+
+---
+
+# Standard Error
+
+The **standard error (SE)** is the standard deviation of a sampling distribution.
+
+--
+
+.pull-left[
+**Standard error of $\bar{x}$:**
+$$SE_{\bar{x}} = \frac{\sigma}{\sqrt{n}}$$
+
+- As $n$ increases, $SE$ **decreases**
+- Larger samples give more precise estimates
+]
+
+.pull-right[
+**Standard error of $\hat{p}$:**
+$$SE_{\hat{p}} = \sqrt{\frac{p(1-p)}{n}}$$
+
+- Also decreases as $n$ increases
+- Most variable when $p = 0.5$
+]
+
+---
+
+# Standard Error — Key Insight
+
+<!-- TODO: add [side-by-side histograms showing sampling distributions with small n vs large n, illustrating narrower spread with larger n] image -->
+
+- Doubling $n$ does **not** halve the SE
+- To halve the SE, you need to **quadruple** $n$
+
+$$SE \propto \frac{1}{\sqrt{n}}$$
+
+---
+
+class: middle, center, inverse
+
+# Applying the Normal Model
+
+---
+
+# Using the Normal Model
+
+Once we know the sampling distribution is approximately normal, we can calculate probabilities.
+
+--
+
+**Example: Sample mean**
+
+A population has $\mu = 70$ and $\sigma = 10$. A sample of $n = 25$ is taken.
+
+- $\mu_{\bar{x}} = 70$
+- $SE_{\bar{x}} = 10 / \sqrt{25} = 2$
+- $\bar{x} \sim N(70,\ 2)$
+
+--
+
+What is the probability that the sample mean exceeds 73?
+
+$$Z = \frac{73 - 70}{2} = 1.5$$
+
+---
+
+# Using the Normal Model — Proportions
+
+**Example: Sample proportion**
+
+Suppose 60% of voters support a candidate ($p = 0.60$). A poll surveys $n = 400$ people.
+
+--
+
+- $\mu_{\hat{p}} = 0.60$
+- $SE_{\hat{p}} = \sqrt{0.60 \times 0.40 / 400} = 0.0245$
+- $\hat{p} \sim N(0.60,\ 0.0245)$
+
+--
+
+Check conditions:
+- $np = 400 \times 0.60 = 240 \geq 10$ `r emo::ji("check")`
+- $n(1-p) = 400 \times 0.40 = 160 \geq 10$ `r emo::ji("check")`
+
+---
+
+# Normal Model — Example Continued
+
+<!-- TODO: add [normal curve showing sampling distribution of p-hat centered at 0.60 with shaded region] image -->
+
+What is the probability the poll shows less than 57% support?
+
+$$Z = \frac{0.57 - 0.60}{0.0245} \approx -1.22$$
+
+$$P(\hat{p} < 0.57) = P(Z < -1.22) \approx 0.111$$
+
+---
+
+class: middle, center, inverse
+
+# Putting It All Together
+
+---
+
+# Sampling Distribution Summary
+
+| | Sample Mean $\bar{x}$ | Sample Proportion $\hat{p}$ |
+|---|---|---|
+| **Center** | $\mu$ | $p$ |
+| **Spread (SE)** | $\sigma / \sqrt{n}$ | $\sqrt{p(1-p)/n}$ |
+| **Shape (approx. normal when...)** | $n \geq 30$, not strongly skewed | $np \geq 10$ and $n(1-p) \geq 10$ |
+
+--
+
+- Statistics are **unbiased** estimators of their parameters (center = parameter)
+- SE quantifies **precision** — how much the statistic varies
+- Normal model enables **probability calculations**
+
+---
+
+# Why Does This Matter?
+
+- Sampling distributions are the **foundation of statistical inference**
+- Confidence intervals and hypothesis tests both rely on knowing the sampling distribution
+- The CLT tells us that, for large enough samples, we can always use the normal model
+
+--
+
+- Next: using sampling distributions to build **confidence intervals**
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+# Summary
+
+- A **parameter** describes a population; a **statistic** describes a sample
+- Statistics vary across samples — this is **sampling variability**
+- The **sampling distribution** describes how a statistic varies across all possible samples
+- The **Central Limit Theorem** tells us the sampling distribution of $\bar{x}$ (and $\hat{p}$) is approximately normal for large $n$
+- The **standard error** measures the spread of the sampling distribution: $SE_{\bar{x}} = \sigma/\sqrt{n}$
+
+---
+
+# References
+
+```{r, results='asis', echo=FALSE}
+PrintBibliography <- function(...) invisible(NULL)
+```

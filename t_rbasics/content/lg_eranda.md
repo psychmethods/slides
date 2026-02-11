@@ -1,0 +1,10 @@
+- Identify research claims in both popular and scientific sources and classify them as frequency, association, or causal claims.
+- Separate the claim from the study:
+  - Does the data support the claim?
+- Evaluate the extent to which researchers have measured their variables reliably and with validity.
+- Discriminate between experimental, quasi-experimental, and correlational studies.
+- Explain why correlational studies cannot support causal claims.
+- Explain when and why an experiment can support a causal claim.
+- Explain when we can generalize from a study and explain when generalization is not a priority.
+- Describe the ethical guidelines that apply to research in psychology.
+- Become critical thinkers and consumers of research in the academic realm and popular media.

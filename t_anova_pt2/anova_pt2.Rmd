@@ -1,0 +1,349 @@
+---
+title: "F-tests, Regression, and ANOVA Pt. 2"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle, center, inverse
+
+# F-tests, Regression, and ANOVA Pt. 2
+
+---
+
+class: middle
+
+# Picking up where we left off...
+
+<!-- TODO: add image of "picking up where we left off" graphic -->
+
+---
+
+class: middle
+
+# This Time...
+
+**The idea of analysis of variance**
+
+<!-- TODO: add image illustrating analysis of variance concept -->
+
+---
+
+# The Idea of ANOVA
+
+- What matters is **relative variability**
+
+--
+
+- ANOVA tests whether multiple populations have the **same mean**
+
+--
+
+- Key insight: we compare variability *between* groups to variability *within* groups
+
+---
+
+# ANOVA Tests
+
+- ANOVA (Analysis of Variance) tests whether populations have the same mean
+
+--
+
+- H0: μ1 = μ2 = μ3 = ... (all group means are equal)
+- Ha: At least one mean differs
+
+--
+
+- We use the **F statistic** to make this determination
+
+---
+
+# Variation Within and Between
+
+<!-- TODO: add image of box plots comparing conditions a vs b -->
+
+.pull-left[
+**Scenario A**: Large overlap between groups → groups look similar
+]
+.pull-right[
+**Scenario B**: Little overlap between groups → groups look different
+]
+
+--
+
+The question is always: how much do groups differ *relative to* how much individuals vary within groups?
+
+---
+
+# Interpretation
+
+- When groups overlap a lot → variation between groups is small relative to variation within groups → **not significant**
+
+--
+
+- When groups are well-separated → variation between groups is large relative to variation within groups → **significant**
+
+---
+
+# The ANOVA F Statistic
+
+- ANOVA provides a general method for testing equality of means
+
+--
+
+- In **one-way ANOVA**, we have one grouping variable (factor)
+
+--
+
+$$F = \frac{\text{variation among sample means}}{\text{variation among individuals within the same sample}}$$
+
+---
+
+# Between-Group Variability
+
+<!-- TODO: add image of overlapping distributions for multiple groups -->
+
+- When distributions overlap heavily, between-group variability is **small**
+
+--
+
+<!-- TODO: add image of well-separated distributions for multiple groups -->
+
+- When distributions are well-separated, between-group variability is **large**
+
+--
+
+- **Between-group variability** is measured by the **Mean Square for Groups (MSG)**
+
+--
+
+- MSG is based on the variability of each group mean around the **grand mean** (overall mean)
+
+---
+
+# Between-Group Variability: Grand Mean
+
+<!-- TODO: add image of grand mean diagram showing group means relative to overall mean -->
+
+- The **grand mean** $\bar{x}$ is the mean of all observations across all groups
+
+--
+
+- MSG captures how far each group mean deviates from this grand mean
+
+---
+
+# Within-Group Variability
+
+<!-- TODO: add image of three overlapping samples illustrating within-group spread -->
+
+- **Within-group variability** is the spread of individual scores within each group
+
+--
+
+<!-- TODO: add image of three well-separated samples to contrast -->
+
+- Even when groups differ, there is always some within-group variability
+
+--
+
+- **Within-group variability** is measured by the **Mean Square Error (MSE)**
+
+---
+
+# Measuring Within-Group Variability
+
+<!-- TODO: add image of sum of squares diagram for within-group variability -->
+
+- MSE is based on the **sum of squared deviations** of each observation from its group mean
+
+--
+
+- Also called the **error** or **residual** variability — the part we can't explain with group membership
+
+---
+
+# Some Details of ANOVA
+
+$$MSG = \frac{\sum n_i(\bar{x}_i - \bar{x})^2}{k - 1}$$
+
+--
+
+$$MSE = \frac{\sum (n_i - 1)s_i^2}{N - k}$$
+
+Where:
+- $k$ = number of groups
+- $N$ = total sample size
+- $n_i$ = sample size of group $i$
+- $\bar{x}_i$ = mean of group $i$
+- $\bar{x}$ = grand mean
+- $s_i^2$ = variance of group $i$
+
+---
+
+# Putting the Pieces Together
+
+$$F = \frac{MSG}{MSE}$$
+
+<!-- TODO: add diagram showing how MSG and MSE combine into F statistic -->
+
+--
+
+- Large F → between-group variability >> within-group variability → evidence against H0
+
+--
+
+- Small F (≈ 1) → between-group variability ≈ within-group variability → consistent with H0
+
+---
+
+<!-- TODO: add image illustrating within vs. between group variance side by side -->
+
+---
+
+# Putting the Pieces Together: Formulas
+
+$$F = \frac{MSG}{MSE} = \frac{\text{Between-group variability}}{\text{Within-group variability}}$$
+
+--
+
+$$MSG = \frac{SSG}{k-1}, \quad MSE = \frac{SSE}{N-k}$$
+
+--
+
+$$F = \frac{SSG/(k-1)}{SSE/(N-k)}$$
+
+---
+
+# ANOVA and the F Statistic
+
+<!-- TODO: add image of F distribution with critical region shaded -->
+
+- The F distribution is right-skewed
+
+--
+
+- We reject H0 when the observed F exceeds the **critical value**
+
+--
+
+- The critical value depends on:
+  - Significance level α
+  - Degrees of freedom: df1 = k − 1, df2 = N − k
+
+---
+
+# ANOVA and the F Statistic: F-Table
+
+- **df1** (numerator) = k − 1 (between groups)
+- **df2** (denominator) = N − k (within groups)
+
+--
+
+- Use an F-table or software to find the critical value or p-value
+
+---
+
+# The F-Test
+
+$$F = \frac{\text{Signal}}{\text{Noise}} = \frac{\text{Between-group variability}}{\text{Within-group variability}}$$
+
+--
+
+- "Signal" = systematic differences between groups
+- "Noise" = random variation within groups
+
+---
+
+# If the Null Hypothesis Is True...
+
+- When H0 is true, all groups come from populations with the same mean
+
+--
+
+- MSG ≈ MSE, so **F ≈ 1**
+
+--
+
+- Any observed F value should be close to 1 (with random variation)
+
+---
+
+# Why Use ANOVA Instead of Multiple t-Tests?
+
+- If we run many t-tests (one per pair of groups), the probability of a Type I error accumulates
+
+--
+
+- With 3 groups and α = .05:
+  - Each test has a 5% chance of a false positive
+  - Running 3 tests: actual Type I error rate ≈ 1 − (.95)³ ≈ **14%**
+
+--
+
+- ANOVA controls the Type I error rate at α across all comparisons simultaneously
+
+---
+
+# If the Null Can Be Rejected...
+
+- When H0 is false and groups truly differ, MSG >> MSE
+
+--
+
+- **F = BIG number**
+
+--
+
+- A large F suggests the group differences are too large to attribute to chance
+
+---
+
+# What ANOVA Can Tell Us
+
+- **Main effects**: whether a factor (grouping variable) has an overall effect
+
+--
+
+- **Interaction effects** (in factorial ANOVA): whether the effect of one factor depends on another factor
+
+--
+
+- ANOVA tells us *that* at least one group differs — but not *which* groups differ
+
+--
+
+- For that, we need **post-hoc tests** (e.g., Tukey HSD, Bonferroni)
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+- ANOVA compares between-group variability (MSG) to within-group variability (MSE)
+- $F = MSG/MSE$; large F → reject H0
+- When H0 is true, $F \approx 1$
+- ANOVA controls Type I error better than multiple t-tests
+- ANOVA tells us *that* groups differ; post-hocs tell us *which* ones

@@ -1,0 +1,459 @@
+---
+title: "Research Design"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle
+
+# Research Design
+
+---
+
+## Roadmap
+
+.pull-left[
+`r emo::ji("microscope")` **Research Design**
+
+- Randomized Experiment
+- Quasi-Experiment
+- Observational Design
+]
+
+.pull-right[
+`r emo::ji("books")` **Philosophical Background**
+
+- J.S. Mill's Five Canons
+- Neyman and Fisher
+
+`r emo::ji("test_tube")` **Variables and Quasi-Experiments**
+
+- Types of Variables
+- Quasi-Experimental Design
+- Twin Studies
+]
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Define the three types of research design and explain when each is appropriate
+- Explain why randomized experiments are the only design that strongly supports causal inference
+- Describe what a spurious relationship and confounding variable are
+- Summarize J.S. Mill's Five Canons of experimental inquiry
+- Distinguish between explanatory, response, and lurking variables
+- Explain what a quasi-experimental design is and why it is used
+
+---
+
+class: middle, center, inverse
+
+# Research Design
+
+---
+
+## Research Design
+
+**2nd step in a research study**
+
+Three types:
+
+--
+
+- Randomized experiment (true experiment)
+
+--
+
+- Quasi-experiment (non-randomized experiments)
+
+--
+
+- Observational Design (non-experimental)
+
+---
+
+## Research Design: Randomized Experiment
+
+**Definition:**
+
+A research technique that *attempts to* establish the causal relationship between an independent variable (x) and a dependent variable (y) by
+
+- randomly assigning participants to experimental groups
+- characterized by differing levels of x, and
+- measuring the average behavior y that results in each group.
+
+---
+
+## Research Design: Experimental Method
+
+.pull-left[
+**Random Assignment equates the groups on average**
+
+**Underlying Idea:** Test differences between groups with statistical tests to determine if the difference is larger than would be expected by chance
+]
+
+.pull-right[
+<!-- TODO: add diagram showing random assignment to groups -->
+]
+
+---
+
+## Research Design
+
+**Randomized Experiment (strong research design)**
+
+The only design that strongly supports causal inference
+
+--
+
+Two things are related (correlated) — but which explanation is correct?
+
+--
+
+- A caused B
+
+--
+
+- B caused A
+
+--
+
+- C caused both A and B
+
+--
+
+**Names for C:**
+- Lurking Variable
+- Confounding Variable
+- Third Variable
+- Spurious Relationship
+
+---
+
+## C Caused Both A and B
+
+<!-- TODO: add diagram illustrating C causing both A and B (confounding variable) -->
+
+---
+
+## C Caused Both A and B
+
+<!-- TODO: add spurious correlations graph (e.g., from tylervigen.com) -->
+
+[tylervigen.com/spurious-correlations](http://tylervigen.com/spurious-correlations)
+
+---
+
+## Activity
+
+Can you identify the confounding variable (C) in these relationships?
+
+- Cities with more police officers have more crimes
+- Elementary school children with larger shoes have higher test scores
+- Number of storks sighted and the population of Oldenburg, Germany
+- Teachers' salaries and the price of Starbucks coffee
+- Tea drinkers have lower rates of lung cancer
+
+---
+
+## Simpson's Paradox
+
+A trend appears in different groups of data but **disappears or reverses** when these groups are combined
+
+--
+
+<!-- TODO: add Simpson's Paradox illustration (stage 1) -->
+
+--
+
+<!-- TODO: add Simpson's Paradox illustration (stage 2: trend in subgroups) -->
+
+--
+
+<!-- TODO: add Simpson's Paradox illustration (stage 3: trend reverses when combined) -->
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+class: middle, center, inverse
+
+# Philosophical Background
+
+---
+
+## Background and History
+
+.pull-left[
+**John Stuart Mill** wrote
+
+> "A system of logic, ratiocinative and inductive, being a connected view of the principles of evidence and the methods of scientific investigation." (Mill 1846)
+
+He developed the **Logic of Causation**
+
+Chapter 8, *Of the Four Methods of Experimental Inquiry*
+]
+
+.pull-right[
+**Five Canons (Methods of Experimental Inquiry)**
+
+1. Direct method of agreement
+2. Method of agreement and difference
+3. Method of residue
+4. Method of concomitant variations
+5. Method of Differences
+]
+
+---
+
+## J. S. Mill
+
+**Five Canons (Methods of Experimental Inquiry)**
+
+1. Direct method of agreement
+2. Method of agreement and difference
+3. Method of residue
+4. Method of concomitant variations
+5. Method of differences
+
+---
+
+## Five Canons
+
+**First Canon: Method of Agreement**
+
+If two or more instances of the phenomenon under investigation have only one circumstance in common, the circumstances in which alone all the instances agree is the cause (or effect) of the given phenomenon.
+
+--
+
+**Second Canon: Method of Difference**
+
+If the instance in which the phenomenon under investigation occurs and an instance in which it does not occur, have every circumstance in which alone the two instances differ is the effect, or the cause, or an indispensable part of the cause, of the phenomenon.
+
+---
+
+## Five Canons
+
+**Third Canon: Joint Method of Agreement and Difference**
+
+If two or more instances in which the phenomenon occurs have only one circumstance in common, while two or more instances in which it does not occur have nothing in common save the absence of that circumstance, the circumstance in which alone the two sets of instance differ is the cause of the phenomenon.
+
+--
+
+**Fourth Canon: Method of Residues**
+
+Subduct from any phenomenon such part as is known by previous inductions to be the effect of certain antecedents and the residue of the phenomenon is the effect of the remaining antecedents.
+
+---
+
+## Five Canons
+
+**Fifth Canon: Method of Concomitant Variation**
+
+Whatever phenomenon varies in any manner whenever another phenomenon of the particular manner, is either a cause or an effect of that phenomenon or is connected with it through some fact of causation.
+
+---
+
+## Background and History
+
+.pull-left[
+**Neyman and Fisher (1920s/1930s)**
+
+**Jerzy Neyman (1923)**
+- In experiments
+- In survey sampling (1934)
+
+> Neyman, J. (1934) "On the two different aspects of the representative method: The method of stratified sampling and the method of purposive selection", *Journal of the Royal Statistical Society*, 97(4), 557–625
+]
+
+.pull-right[
+**Ronald Fisher (1935)**
+
+*The Design of Experiments*
+
+- Random assignment **equates groups on all confounding variables ON THE AVERAGE** (across replications)
+- Treatment Group
+- Control Group
+]
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+class: middle, center, inverse
+
+# Variables and Quasi-Experiments
+
+---
+
+## Variables
+
+**Definition:** A feature of an individual that can take on different values
+
+--
+
+**Conceptual Variable**
+
+*Def:* Researcher's specification of the topic of study
+
+--
+
+**Operational Definition**
+
+*Def:* Links the conceptual variable to one that can be measured.
+
+---
+
+## Variables
+
+.pull-left[
+**Explanatory Variable**
+
+*Def:* variable measured or manipulated by the researcher; the possible cause
+
+- Same as independent variable
+
+**Response Variable / Dependent Variable**
+
+*Def:* outcome of interest
+]
+
+.pull-right[
+**Lurking / Confounding Variable**
+
+*Def:* Uncontrolled variable that hides the relationship between the explanatory and the response variable.
+]
+
+---
+
+## Activity
+
+How would you test these relationships using Random Assignment?
+
+- Cities with more police officers have more crimes
+- Elementary school children with larger shoes have higher test scores
+- Number of storks sighted and the population of Oldenburg, Germany
+- Teachers' salaries and the price of Starbucks coffee
+- Tea drinkers have lower rates of lung cancer
+- Shark attacks and Ice Cream sales
+
+---
+
+## Quasi-Experimental Design
+
+**Non-random experiment**
+
+*Def.* Has all the features of a randomized experiment, **except random assignment**
+
+--
+
+**Reasons why we can't do a randomized experiment?**
+
+--
+
+- May be logically impossible because subjects show up with their explanatory variable features defined
+
+--
+
+- Ethically problematic
+  - Can't withhold treatment
+  - Can't inflict harm
+
+--
+
+- Impractical
+  - Too long for data collection
+  - Too expensive to collect data
+  - 1 time event
+
+--
+
+- We worry more about threats to validity
+
+---
+
+## Example: Twin Studies
+
+.pull-left[
+**Twins**
+
+- **Monozygotic Twins** Share 100% of their DNA.
+- **Dizygotic Twins** Share 50% (like regular siblings).
+
+Can be used to untangle the influences on characteristics by
+- genes, and the
+- environment
+
+by comparing twins and twin types.
+]
+
+.pull-right[
+<!-- TODO: add twin study diagram showing MZ vs DZ comparison -->
+]
+
+---
+
+## Other Uses for Twins: NASA Twins
+
+.pull-left[
+10 investigations were conducted with identical twin astronauts **Scott** and **Mark Kelly**.
+
+- Physiology
+- Behavioral Health
+- Microbiome
+- Molecular/Omics
+]
+
+.pull-right[
+Provide broader insight into the subtle effects and changes that may occur in spaceflight as compared to Earth by studying two individuals who have the **same genetics**, but are in **different environments for one year**.
+]
+
+---
+
+## Example: Twin Studies
+
+<!-- TODO: add twin studies research figure/diagram (part 1) -->
+
+---
+
+## Example: Twin Studies
+
+<!-- TODO: add twin studies research figure/diagram (part 2) -->
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...

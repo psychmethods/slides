@@ -38,6 +38,23 @@ class: middle
 
 ---
 
+## Roadmap: This Lecture
+
+- What is a confidence interval?
+- Constructing CIs using the t-distribution
+- Interpreting confidence intervals correctly
+
+--
+
+**By the end of this lecture, you should be able to:**
+
+- Define a confidence interval and explain what "confidence" means
+- Calculate a confidence interval for a population mean using the t-distribution
+- Correctly interpret a confidence interval (and avoid common misinterpretations)
+- Explain how sample size and confidence level affect interval width
+
+---
+
 # Confidence Intervals (CI)
 
 .pull-left[

@@ -1,0 +1,481 @@
+---
+title: "Hello World! Welcome to PSY 210"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Remember to compile
+#xaringan::inf_mr(cast_from = "..")
+library(tidyverse)
+if (!require("emo")) devtools::install_github("hadley/emo")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
+```
+
+class: middle, center, inverse
+
+# Hello World!
+
+### Welcome to PSY 210
+
+---
+
+class: middle, center, inverse
+
+# Methods in Psychological Research
+
+<!-- TODO: add image of brain/head icon next to title -->
+
+---
+
+.pull-left[
+<!-- TODO: add brain icon image -->
+
+210 is an introduction to methods in psychological research,
+]
+
+.pull-right[
+## What is this class?
+
+with an emphasis on
+
+- statistical thinking,
+- best practices, and
+- practical skills
+]
+
+---
+
+class: middle
+
+# Before I get too far ahead of myself ...
+
+---
+
+## Lecture Roadmap
+
+All lectures will start with a roadmap, including today:
+
+- Overview of the Course
+- Learning Outcomes
+- Knowledge is Power
+- What is Statistics?
+
+> The roadmap gives us structure as I lecture
+
+- Trust Me, you don't want me to lecture without one
+
+--
+
+**By the end of this lecture, you should be able to:**
+- Describe the structure and goals of PSY 210
+- Explain what statistics is and why it matters
+- Identify course learning outcomes and how they relate to Bloom's Taxonomy
+- Understand course expectations, assessments, and resources
+
+---
+
+## Overview
+
+.pull-left[
+**Course**
+
+PSY 210: Methods
+
+Officially Face2Face
+]
+
+.pull-right[
+**Professor**
+
+Prof. Mason Garrison
+
+Greene 438
+
+Office Hours: by appointment
+
+https://calendly.com/smasongarrison/
+]
+
+<!-- TODO: add image of cat named Tukey (assistant) -->
+
+---
+
+## Introductions
+
+- Call Me... **Prof. Mason** (preferred)
+  - Prof. Garrison, Dr. Mason, or Dr. Garrison are also ok
+  - Not Sarah, Mason, Mrs. Garrison, Ms. Garrison
+
+---
+
+## About me
+
+- Born in Upstate New York, Undergrad in St. Louis, Grad School in Nashville, and Professoring in Winston-Salem
+
+- Quantitative Psychology and Behavior Genetics:
+  - Applied to Understanding the Relationship between Health, Wealth, and Individual Differences.
+
+- I love stats and cats `r emo::ji("cat")`
+
+---
+
+class: middle, center, inverse
+
+# Learning Goals
+
+---
+
+## How to Think About Them
+
+Ways for teachers to define what we want students to be able to do.
+
+Used in assessments (e.g., quizzes and papers)
+
+I will be asking you to demonstrate that you have achieved these outcomes.
+
+You can also try to evaluate whether you've achieved the learning outcomes.
+
+Practice making questions that will test your understanding, share them with others, and try each other's questions.
+
+---
+
+## How to Think About Them
+
+.pull-left[
+- Note the verb!
+- The depth of understanding I expect is articulated in the depth of the verb, and
+- is based on Bloom's Taxonomy.
+- Your skills in an area should be moving up the taxonomy.
+]
+
+.pull-right[
+<!-- TODO: add image of Bloom's Taxonomy pyramid (create, evaluate, analyze, apply, understand, remember) from Vanderbilt University Center for Teaching -->
+]
+
+---
+
+## Learning Goals: Course Level
+
+- Identify research claims in both popular and scientific sources and classify them as frequency, association, or causal claims.
+
+- Separate the claim from the study: Does the data support the claim?
+
+- Evaluate the extent to which researchers have measured their variables reliably and with validity.
+
+- Discriminate between experimental, quasi-experimental, and correlational studies.
+
+- Explain why correlational studies cannot support causal claims.
+
+---
+
+## Learning Goals: Course Level
+
+- Explain when and why an experiment can support a causal claim.
+
+- Explain when we can generalize from a study and explain when generalization is not a priority.
+
+- Describe the ethical guidelines that apply to research in psychology.
+
+- Become critical thinkers and consumers of research in the academic realm and popular media.
+
+---
+
+## Course Milestones
+
+**Three (3) Exams**
+- Friday, 10/03
+- Friday, 11/14
+- During Finals, 12/13
+
+**Two (2) Short Critiques**
+- Friday, 10/17
+- Friday, 12/05
+
+**One (1) Reading Quiz**
+- Per module
+
+**Two (2) Engagement Activities**
+- per week/module
+
+--
+
+> You can drop some...
+
+---
+
+## Lowest Drops
+
+.pull-left[
+**Exams:**
+
+The best 2 out of 3 exam grades will be used to determine your total exam grade,
+- As long as you **pass the final exam.**
+]
+
+.pull-right[
+**Reading Quizzes**
+
+The best 12 out of 14 quizzes will be used to determine your total quiz grade
+
+**Short Assignments:**
+
+The best 1 out of 2 will be used.
+]
+
+---
+
+## Resources
+
+.pull-left[
+**Textbook:**
+- B. Morling. *Research Methods in Psychology.* 5th Edition. (4th is probably fine)
+
+**Course Notes:**
+- https://psychmethods.github.io/coursenotes/
+
+**Canvas:**
+- https://wakeforest.instructure.com/courses/66374
+]
+
+.pull-right[
+<!-- TODO: add image of Research Methods in Psychology textbook cover (Beth Morling, 4E) -->
+]
+
+---
+
+## Exams
+
+**Format**
+- Mostly Short Answer Questions
+- On Canvas
+
+**Content**
+- Based on the Learning Goals
+- I **randomly** select from the study guide to make the questions
+- Each question has a scoring rubric.
+  - (If you want to see your quiz responses after... you have to schedule a meeting with me)
+
+**Open Resource**
+- The exams are open-note, video, internet.
+  - HOWEVER: they are not open to other people
+- Everything must be written in your OWN words.
+- Use the learning goals to organize your notes
+
+---
+
+## Short Assignments (~2.5 pages)
+
+.pull-left[
+**1**
+
+Critique of methods-related media coverage.
+]
+
+.pull-right[
+**2**
+
+Critique of methods-related video (e.g., YouTube).
+]
+
+---
+
+## Two (2) Engagement Activities
+
+.pull-left[
+- Low stakes way to maintain a sense of community
+- These will be graded pass/fail
+- And can be completed a lot of different ways
+  - including discussion boards,
+  - in-class activities,
+  - reflections
+  - reaction videos
+  - sharing a cool example you've found
+  - (I'm very open to suggestions for these!)
+- You must submit them by **Friday at 6 pm!**
+]
+
+.pull-right[
+<!-- TODO: add image of community/engagement icon -->
+]
+
+---
+
+## In-Person Course Content
+
+- I will give live lectures that correspond to the module materials.
+  - Typically, this will be on **Mondays and Wednesdays.**
+
+- I will provide in-class activities
+  - (discussion, demonstrations, review sessions)
+  - that count as engagement activities.
+  - Typically, this will be on **Fridays.**
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
+
+---
+
+class: middle, center, inverse
+
+# Knowledge is Power
+
+---
+
+## Knowledge is Power
+
+.pull-left[
+<!-- TODO: add "Knowledge is Power" image with muscular figure holding book -->
+]
+
+.pull-right[
+Stereotypes exist about how good certain people are at
+
+- Science,
+- Math, and
+- School.
+
+Or how some people are naturally smart.
+]
+
+---
+
+## Knowledge is Power
+
+.pull-left[
+These stereotypes form at an early age (Cvencek, Meltzoff, and Greenwald 2011).
+
+For example, some people think that girls are worse at math than boys.
+]
+
+.pull-right[
+<!-- TODO: add comic showing "WOW, YOU SUCK AT MATH" vs "WOW, GIRLS SUCK AT MATH" stereotype illustration -->
+]
+
+---
+
+## Knowledge is Power
+
+.pull-left[
+Actually, boys and girls perform the same on math achievement tests (Hyde, et al, 2008).
+
+Hyde, J. S., Lindberg, S. M., Linn, M. C., Ellis, A. B., & Williams, C. C. (2008). Gender similarities characterize math performance. *Science, 321*(5888), 494-495.
+]
+
+.pull-right[
+<!-- TODO: add bar chart showing effect sizes across grades and U.S. states with weighted mean ~0.0065, consistent with no gender difference -->
+]
+
+---
+
+## Knowledge is Power
+
+- However, stereotypes about math performance can undermine how well you do on a test, by
+  - Increasing test anxiety,
+  - Discouraging you from seeking out math activities, and
+  - Giving up sooner.
+
+- One of the best ways to protect yourself from "stereotype threat" is to be aware of it. (Johns, Schmader, & Martens, 2005)
+
+  - Johns, M., Schmader, T., & Martens, A. (2005). Knowing is half the battle, teaching stereotype threat as a means of improving women's math performance. *Psychological Science, 16*(3), 175-179.
+
+---
+
+## Knowledge is Power: Activity!
+
+<!-- TODO: add image of cat in lab coat with glasses surrounded by scientific equipment and equations on chalkboard -->
+
+---
+
+## Knowledge is Power: Activity!
+
+Write:
+
+1. Specific concerns of the course
+2. Their favorite class
+3. Their dream job (now and when you were in kindergarten)
+
+Then we'll introduce ourselves and share about our favorite and current dream job
+
+---
+
+class: middle, center, inverse
+
+# What is Statistics?
+
+---
+
+## What is Statistics?
+
+Statistics is the methodology for
+
+- *collecting,*
+- *analyzing,*
+- *interpreting and*
+- *drawing conclusions from information.*
+
+Scientists and mathematicians have developed these methods for
+
+- *interpreting and drawing conclusions*
+- *from collected data.*
+
+---
+
+## What is Statistics?
+
+- Everything remotely associated with the collection, processing, interpretation and presentation of data
+  - belongs to the domain of statistics, including
+  - *detailed planning of that precedes all these activities.*
+
+---
+
+## What is Statistics?
+
+- Statistician : Mathematics ::
+  - *Actuary : Insurance*
+  - *Biostatisician : Biology*
+  - *Chemometrician : Chemistry*
+  - *Econometrician : Economics*
+  - *Psychometrician : Psychology*
+  - *Quantitative psychologist : Psychology*
+
+---
+
+## What is Statistics?
+
+Statistical methods can be used to find answers to questions, like
+
+- *What kind and how much data need to be collected?*
+- *How should we organize and summarize the data?*
+- *How can we analyze the data and draw conclusions from it?*
+- *How can we assess the strength of the conclusions and evaluate their uncertainty?*
+
+That is, statistics provides methods for
+
+- *Design: Planning and carrying out research studies.*
+- *Description: Summarizing and exploring data.*
+- *Inference: Making predictions and generalizing about phenomena represented by the data.*
+
+---
+
+class: middle, center, inverse
+
+# Wrapping Up...
