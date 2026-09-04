@@ -19,10 +19,11 @@ output:
 ```{r child = "../setup.Rmd"}
 ```
 
-```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+```{r packages2, echo=FALSE, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(scales)
 if (!require("emo")) devtools::install_github("hadley/emo")
+# xaringan::inf_mr(cast_from = "..")
 library(emo)
 knitr::opts_chunk$set(echo = FALSE,out.width = "90%", fig.align = "center")
 # Consistent palette + theme for all visuals
