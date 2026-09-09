@@ -407,10 +407,8 @@ knitr::include_graphics("../img/minard.png")
 ```  
 --
 
-
 - Edward Tufte has said that Minard's plot: 
     > "may well be the best statistical graphic ever drawn"
-    
 - It packs a ton of information into one dense figure. 
 
 ---
