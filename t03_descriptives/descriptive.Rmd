@@ -248,11 +248,12 @@ bp
 ]
 
 .pull-right[
+.footnote["A pie chart showing each state in the United States, part of Playfair's translation of A Statistical Account of the United States of America by D. F. Donnant."
+]
 ```{r, echo=FALSE, out.height="40%", warning = FALSE}
 knitr::include_graphics("../img/pieplay.jpg")
 ```
-.footnote["A pie chart showing each state in the United States, part of Playfair's translation of A Statistical Account of the United States of America by D. F. Donnant."
-]]
+]
 
 ---
 
@@ -300,7 +301,7 @@ pie(mytable, labels = lbls,
 
 # Convert Bar Chart into Pie Chart
 
-.small.pull-left[
+.tiny.pull-left[
 ```{r, polar, echo=TRUE}
 pie <- bp + coord_polar("y", start=0)
 pie

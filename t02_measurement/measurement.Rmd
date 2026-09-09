@@ -171,7 +171,7 @@ library(HistData)
 # loads the Galton dataset
 data("Galton")
 # First 3n rows of data
-head(Galton, n=3)
+head(Galton, n=4)
 ```
 
 
