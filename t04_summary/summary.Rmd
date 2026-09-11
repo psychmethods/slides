@@ -65,8 +65,8 @@ class: middle
   - Center
   - Spread
   - Unusual observations
-] .pull-right[
-
+]
+.pull-right[
 ```{r, echo=FALSE}
 library(ggplot2)
 set.seed(123)
@@ -140,7 +140,7 @@ legend("topright", inset=.05, title="Distributions",
 # Normal distributions w/ various standard deviations
 
 .small[
-```{r spread, echo=FALSE,out.width = "75%"}
+```{r spread, echo=FALSE,out.width = "74%"}
 plot(x, hx, type="l", lty=2, xlab="x value",
 		 ylab="Density", main="Distributions with Different Standard Deviations",xlim=c(-7, 7))
 spread=c(.5,2,4)
@@ -194,7 +194,7 @@ knitr::include_graphics("../img/09_Robustness/Slide13.PNG")
 
 ---
 
-# Kurtosis – peakedness
+# Kurtosis – peakedness/tail weight
 
 - Kurtosis is a measure of whether the data are 
     - heavy-tailed or light-tailed relative to a normal distribution. 
@@ -204,14 +204,15 @@ knitr::include_graphics("../img/09_Robustness/Slide13.PNG")
     
 ---
 
-# Kurtosis – peakedness
+# Kurtosis – peakedness/tail weight
+
 .pull-left[
-- Low k
-    - Leptokurtic
-- Normal
-    - Mesokurtic
-- High k
-    - Platykurtic
+- Kurtosis primarily describes the contribution of a distribution's tails to its overall variability.
+- Relative to a normal distribution:
+    - **Leptokurtic:** heavier tails; positive excess kurtosis
+    - **Mesokurtic:** normal-like tails; zero excess kurtosis
+    - **Platykurtic:** lighter tails; negative excess kurtosis
+- High kurtosis usually reflects rare, extreme observations rather than simply a sharper peak.
 ]
 <br>
 .pull-right[
@@ -369,8 +370,10 @@ mode(variable) # That's not mode!
 ```{r mode2,echo=TRUE}
 # Function to examine mode
 Mode <- function(x) {
-	ux <- unique(x)   #finds all unique values
-	ux[which.max(tabulate(match(x, ux)))] #returns the value which is most frequent
+  #finds all unique values
+	ux <- unique(x)   
+	#returns the value which is most frequent
+	ux[which.max(tabulate(match(x, ux)))] 
 }
 Mode(variable)
 ```
@@ -396,6 +399,8 @@ knitr::include_graphics("../img/mmmskew.jpg")
 ```
 ]
 ---
+
+# Worked Example
 
 .pull-left-narrow[
 ```{r hist, echo=TRUE}
@@ -441,19 +446,21 @@ summary(variable)# 5 Number Summary / Quartiles
 ---
 
 # Spread around the Mean
-
-- Variance 
-$(\sigma^{2}; s^{2})$
-    - Measure of spread around the mean
-    - Goal of the measure to use every score
-
+.pull-left[
+- Variance
+- Measure of spread around the mean
+- Goal of the measure to use every score
     $\sigma^{2}$ = $\frac{\sum^{n}_{i=1}(x_{i}-\mu)^{2}}{N}$
     $s^{2}$ = $\frac{\sum^{n}_{i=1}(x_{i}-\bar{x})^{2}}{n-1}$
+]
+
+.pull-right[
+- $(\sigma^{2}; s^{2})$
 - Standard Deviation 
 $(\sigma; s)$
     - $\sigma$ = $\sqrt{\sigma^{2}}$
     - s = $\sqrt{s^{2}}$
-    
+]
 ---
 
 # Bessel's Correction
