@@ -244,8 +244,9 @@ knitr::include_graphics("../img/stem_side.png")
 ]
 ---
 
----
+# Solutions on the next slide...
 
+---
 # Solutions
 
 .pull-left[

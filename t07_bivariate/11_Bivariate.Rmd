@@ -440,7 +440,7 @@ cov(smoking$packs,smoking$lung_capacity)
 
 $r_{x,y}=\frac{1}{n-1}\sum\limits^{n}_{i=1}(Z_{x_{i}}\times Z_{y_{i}})$
 
-- The sample correlation is the sum of cross-products of z-scores divided by n:
+- The population correlation is the sum of cross-products of z-scores divided by n:
 
 $\rho_{x,y}=\frac{1}{n}\sum\limits^{n}_{i=1}(Z_{x_{i}}\times Z_{y_{i}})$
 

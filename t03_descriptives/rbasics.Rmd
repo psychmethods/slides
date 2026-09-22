@@ -33,9 +33,9 @@ knitr::opts_chunk$set(echo = FALSE,out.width = "90%", fig.align = "center")
 
 ```
 
----
 
-# More Accessible Resources
+
+# MoRe Accessible Resources
 
 - [R Graph Catalog](http://shinyapps.stat.ubc.ca/r-graph-catalog/)
 - [intRo](http://www.intro-stats.com/)
@@ -43,11 +43,9 @@ knitr::opts_chunk$set(echo = FALSE,out.width = "90%", fig.align = "center")
 
 ---
 
+
+
 class: center, middle
-
-# Wrapping Up...
-
----
 
 # R Basics
 
@@ -206,9 +204,4 @@ If you are not sure about the name of the function you are looking for, you can 
 ---
 
 # Wrapping Up...
-
-
-
-
-
 
