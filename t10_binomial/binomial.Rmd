@@ -349,7 +349,7 @@ class: middle
 knitr::include_graphics("https://upload.wikimedia.org/wikipedia/commons/f/fe/Solanum_aethiopicum_for_seed_production.JPG")
 ```
 
-Image source: [Michael Hermann](https://commons.wikimedia.org/wiki/User:NusHub) and http://www.cropsforthefuture.org/
+Image source: [Michael Hermann](https://commons.wikimedia.org/wiki/User:NusHub) and [cropsforthefuture.org](http://www.cropsforthefuture.org/)
 ]
 ---
 
