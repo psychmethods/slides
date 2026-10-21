@@ -153,9 +153,13 @@ ci_data <- ci_simulation(n = 30, conf = 0.95, reps = 100) %>%
          SampleMean = round(SampleMean, 2))
 ```
 ]
+
 ---
 
 ## CI Coverage Demo Plot
+
+- The demonstration is interactive, so this should be visible in my Rstudio viewer. If you are viewing this in a browser, you may need to click on the plot to interact with it.
+
 
 ```{r ci-demo-plot, echo=FALSE, out.height="90%"}
 library(plotly)
@@ -174,6 +178,16 @@ ci_plot <- ggplot(ci_data, aes(x = SampleIndex)) +
 ggplotly(ci_plot)
 ```
 
+
+
+---
+
+# Backup: CI Coverage Demo Plot
+
+- This is a backup of the CI coverage demo plot.
+```{r echo=FALSE, out.width="75%", fig.align = "center"}
+knitr::include_graphics("CI_backup.png")
+```
 
 
 ---
