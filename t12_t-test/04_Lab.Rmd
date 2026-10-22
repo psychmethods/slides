@@ -27,8 +27,8 @@ knitr::opts_chunk$set(echo = FALSE, out.width = "90%", fig.align = "center")
 
 class: middle
 
-# Excel Lab 
-## Z-Scores, Correlation, and Regression with the Iris Dataset
+# Excel Lab
+## One-Sample, Independent-Samples, and Paired t-tests with the Iris Dataset
 
 ---
 
@@ -36,20 +36,23 @@ class: middle
 
 .pull-left[
 ## Overview
-- In this lab, you will use Excel to explore **Z-scores**, **correlation**, and **regression analysis** with the famous Iris dataset.
-- The Iris dataset, introduced by statistician Ronald A. Fisher in 1936, is a classic dataset in statistics and machine learning.
+- In this lab, you will use Excel to run all **three t-test designs** we covered in lecture, using the familiar Iris dataset:
+  - a **one-sample** t-test
+  - an **independent-samples** t-test
+  - a **paired-samples** t-test
+- No new data to download and re-learn &mdash; same Iris dataset, new questions.
 ]
 
 --
 .pull-right[
 ## Key Features:
 - 150 observations of iris flowers.
-- It includes four numeric features:
+- Four numeric features:
   - Sepal.Length
   - Sepal.Width
   - Petal.Length
   - Petal.Width
-- The flowers belong to three species:
+- Three species:
   - Setosa
   - Versicolor
   - Virginica
@@ -61,17 +64,16 @@ class: middle
 class: middle, inverse
 
 # Task 1
-## Working with Z-Scores in Excel
+## One-Sample t-test: Is Sepal Length 5 cm?
 
 ---
 
 # Task 1: Overview
 .pull-left[
 In this task, we will:
-- Work with the **Sepal.Length** column to calculate:
-  - Z-scores
-  - Percentiles
-  - Inverse normal values (`NORM.INV`)
+- Test whether the **mean Sepal.Length** of our 150 flowers differs from a hypothesized value, $\mu_0 = 5$ cm.
+- Compute the test **manually**, step by step, using `AVERAGE`, `STDEV.S`, and the t-formula.
+- Use `T.DIST.2T` / `T.INV.2T` to get the critical value and p-value.
 ]
 .pull-right[
 ```{r, echo=FALSE, out.width="90%", warning = FALSE}
@@ -84,48 +86,44 @@ knitr::include_graphics("../img/DALLE_exceldoodle.png")
 
 .pull-left-wide[
 ```{r, echo=TRUE}
+iris_onesample <- iris %>% select(Sepal.Length)
 
 # Save the dataset as an Excel file
-write.xlsx(iris, "IrisData.xlsx")
+write.xlsx(iris_onesample, "IrisData_OneSample.xlsx")
 ```
 
-[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData.xlsx)
+[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t12_t-test/IrisData_OneSample.xlsx)
 ]
 .pull-right-narrow[
 .center[
 ```{r, echo=FALSE, out.width="100%", warning = FALSE}
 library(qrcode)
 
-share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData.xlsx"
+share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t12_t-test/IrisData_OneSample.xlsx"
 code <- qr_code(share_link)
 
 plot(code)
 ```
 ]]
 
-.footnote[or here https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData.xlsx]
-
+.footnote[or here https://github.com/psychmethods/slides/raw/refs/heads/main/t12_t-test/IrisData_OneSample.xlsx]
 
 ---
 
-# Step 1: Calculate the Mean
+# Step 1: Calculate the Mean and SD
 
 .pull-left[
-1. Open the Excel file `IrisData.xlsx`.
+1. Open the Excel file `IrisData_OneSample.xlsx`.
 
-2. Select the cell where you want to calculate the mean (e.g., cell B152).
-
-3. Click the cell and check the Formula Bar at the top of the screen.
-
-4. In the Formula Bar, enter the formula to calculate the mean:
-
+2. **Select a cell** for the mean (e.g., B152) and enter:
    - `=AVERAGE(A2:A151)`
-   
-5. Press Enter to execute the formula, and the mean value will appear in the selected cell.
 
+3. **Select another cell** for the standard deviation (e.g., B153) and enter:
+   - `=STDEV.S(A2:A151)`
+
+4. Press Enter after each formula to see the result.
 ]
 --
-
 .pull-right[
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_1.png"
@@ -135,175 +133,155 @@ img
 ```
 
 **Explanation**:
-- **Formula Bar**: This is where you can enter or edit formulas for the selected cell.
-- **Formula Entry**: You can type any valid Excel formula here. In this case, `=AVERAGE()` calculates the sample mean.
-
+- Unlike the Z-score lab, we don't know the **population** mean or SD &mdash; only the sample's. That's exactly why we need a **t-test** instead of a Z-test.
 ]
 ---
 
-# Step 2: Calculate the Standard Deviation
+# Step 2: Set Up the Hypotheses
+
+```{r}
+onesample_test <- t.test(iris$Sepal.Length, mu = 5)
+os_mean <- round(mean(iris$Sepal.Length), 2)
+os_sd   <- round(sd(iris$Sepal.Length), 2)
+os_n    <- nrow(iris)
+os_t    <- round(onesample_test$statistic, 2)
+os_df   <- unname(onesample_test$parameter)
+os_p    <- format.pval(onesample_test$p.value, digits = 3, eps = .001)
+os_crit <- round(qt(0.975, os_df), 3)
+```
 
 .pull-left[
-1. **Select a new cell** (e.g., B153) to store the standard deviation result.
-   - Click on the cell and use the **Formula Bar** to enter the formula.
+- Null hypothesis, $H_0$: $\mu = 5$ cm
+- Alternative hypothesis, $H_1$: $\mu \ne 5$ cm
+- Tails: two-tailed
+]
+.pull-right[
+- What we have:
+  - $\bar{x} =$ `r os_mean`
+  - $s =$ `r os_sd`
+  - $n =$ `r os_n`
+  - $\mu_0 = 5$
+]
 
-2. **In the Formula Bar**, type the following formula to calculate the standard deviation of `Sepal.Length`:
-   - `=STDEV.S(A2:A151)`
+---
 
-3. Press **Enter**, and Excel will compute the standard deviation in the selected cell.
+# Step 3: Compute the t-statistic
+
+.pull-left[
+1. **Select a new cell** (e.g., B154) for the standard error:
+   - `=B153/SQRT(COUNT(A2:A151))`
+
+2. **Select another cell** (e.g., B155) for the t-statistic:
+   - `=(B152-5)/B154`
+
+   This is just:
+   $$t = \frac{\bar{x}-\mu_0}{s/\sqrt{n}} = \frac{\text{`r os_mean`} - 5}{\text{`r os_sd`}/\sqrt{\text{`r os_n`}}} = \text{`r os_t`}$$
 ]
 --
 .pull-right[
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_zoom.png"
 img <- image_read(image_path) %>%
-  image_annotate("=STDEV.S(A2:A151)", size = 30, color = "blue", location = "+550+475")
+  image_annotate("=(B152-5)/B154", size = 30, color = "blue", location = "+550+475")
 img
 ```
 ]
 
 ---
 
-# Step 3: Calculate Z-Scores
+# Step 4: Find the Critical Value and p-value
 
 .pull-left[
-1. **Select cell F2** (next to the 1st value in the `Sepal.Length` column) to enter the formula.
+1. **Degrees of freedom** (e.g., B156): `=COUNT(A2:A151)-1` &rarr; df = `r os_df`
 
-2. In the **Formula Bar**, enter the Z-score formula:
-   - `=(A2 - [Mean Cell]) / [Standard Deviation Cell]`
-   - Replace `[Mean Cell]` with the cell where you calculated the mean (e.g., `$F$152`) and `[Standard Deviation Cell]` with the cell containing the standard deviation (e.g., `$F$153`).
+2. **Critical value** (two-tailed, $\alpha=.05$), in a new cell:
+   - `=T.INV.2T(0.05, B156)`
+   - t\* = `r os_crit`
 
-3. Press **Enter** to get the Z-score for the 1st value.
-
-4. **Fill down the formula**: Click on the small square at the bottom-right corner of the cell (called the **fill handle**) and drag down to copy the formula for the rest of the column.
+3. **Exact p-value**, in a new cell:
+   - `=T.DIST.2T(ABS(B155), B156)`
+   - p `r ifelse(onesample_test$p.value < .001, "< .001", paste0("= ", os_p))`
 ]
-
 --
-
 .pull-right[
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_1.png"
 img <- image_read(image_path) %>%
-  image_annotate(" =(A2 - Mean) / Std Dev", size = 30, color = "darkgreen", location = "+550+475")
-img
-```
-
-.medi[
-**Explanation**:
-- **Fill Handle**: A small square at the bottom-right corner of the selected cell that allows you to drag and apply the same formula to other cells.
-- **Relative References**: The formula updates the cell references automatically when dragging down. Use `$` signs (e.g., `$F$152`) to fix a cell reference.
-]
-]
----
-
-# Step 4: Calculate Percentiles
-
-.pull-left[
-
-1. **Select cell G2** to calculate the cumulative percentile for the first Z-score.
-
-2. **In the Formula Bar**, type the following formula:
-   - `=NORM.S.DIST(F2, TRUE)`
-
-3. Press **Enter** to calculate the percentile for the Z-score.
-
-4. **Fill down the formula**: Use the **fill handle** to drag down and calculate percentiles for all Z-scores in the column.
-
-] .pull-right[
-```{r, echo=FALSE, out.width="60%", fig.align='center'}
-image_path <- "../img/excel_lab/excel screenshot_zoom.png"
-img <- image_read(image_path) %>%
-  image_annotate("=NORM.S.DIST(Z-Score, TRUE)", size = 30, color = "red", location = "+550+475")
+  image_annotate("=T.DIST.2T(ABS(t), df)", size = 28, color = "darkgreen", location = "+500+475")
 img
 ```
 
 **Explanation**:
-- **NORM.S.DIST()**: calculates the cumulative probability of a Z-score. The `TRUE` argument tells Excel to return the cumulative probability.
+- `T.DIST.2T()` returns the two-tailed p-value for a t-statistic. `T.INV.2T()` works in reverse: give it a probability, it gives you the critical t-value.
 ]
 
 ---
 
-# Step 5.0: Use `NORM.INV()` to Find Raw Scores
+# Step 5: Make a Decision
 
-- Now, let's reverse the process: Suppose you want to find the raw score (e.g., `Sepal.Length`) that corresponds to a specific percentile, like the **90th percentile**.
-- We will use the **`NORM.INV()`** function in Excel to do this.
+- $t$ = `r os_t`, df = `r os_df`, p `r if (onesample_test$p.value < .001) "< .001" else paste0("= ", os_p)`
+- Compare $|t|$ = `r abs(os_t)` to $t^*$ = `r os_crit`: `r ifelse(abs(os_t) > os_crit, "reject", "fail to reject")` $H_0$.
+- The 95% CI for the mean Sepal.Length is [`r round(onesample_test$conf.int[1],2)`, `r round(onesample_test$conf.int[2],2)`], which `r ifelse(onesample_test$conf.int[1] <= 5 & onesample_test$conf.int[2] >= 5, "includes", "does not include")` 5.
+
+.reminder[Try re-running this with a different hypothesized mean (e.g., $\mu_0=5.8$) and see how the decision changes.]
 
 ---
 
-# Step 5.1: Use `NORM.INV()` to Find Raw Scores
-
-.pull-left[
-1. **Select a new cell** (e.g., B154) where you want to calculate the raw score for the 90th percentile.
-
-2. **In the Formula Bar**, enter the following formula:
-   - `=NORM.INV(0.90, [Mean Cell], [Standard Deviation Cell])`
-   - Replace `[Mean Cell]` and `[Standard Deviation Cell]` with the cell references for the mean (e.g., `$B$152`) and standard deviation (e.g., `$B$153`), respectively.
-
-3. Press **Enter**, and Excel will calculate the raw score corresponding to the 90th percentile.
-
-] .pull-right[
-```{r, echo=FALSE, out.width="90%", fig.align='center'}
-image_path <- "../img/excel_lab/excel screenshot_1.png"
-img<- image_read(image_path) %>%
-  image_annotate("=NORM.INV(0.90, Mean, Std Dev)", size = 30, color = "purple", location = "+550+475")
-img
-```
-.medi[
-**Explanation**:
-- **NORM.INV()** calculates the inverse of the normal cumulative distribution for a given probability. Here, the probability is `0.90`, representing the 90th percentile, and returns the raw score (in this case, a `Sepal.Length` value) that aligns  to that percentile.
-]
-]
----
-
-# Task 1 Recap: Working with Z-Scores in Excel
+# Task 1 Recap: One-Sample t-test
 
 In this section, you:
 - Calculated the **mean** and **standard deviation** of `Sepal.Length`.
-- Computed **Z-scores** and **percentiles** using Excel.
-- Used **`NORM.INV()`** to find the raw score corresponding to a given percentile (e.g., the 90th percentile).
-
+- Computed a **t-statistic by hand**, using the sample SE in place of the (unknown) population SD.
+- Used `T.INV.2T()` and `T.DIST.2T()` to find the critical value and p-value.
+- Decided whether to reject $H_0: \mu = 5$.
 
 ---
 
 class: center, middle, inverse
 
 # Task 2
-## Explore Bivariate Relationships and Correlation
+## Independent-Samples t-test: Versicolor vs. Virginica
 
 ---
 
 # Task 2: Overview
 
 .pull-left[
-- **Visualize the relationship** between two variables using scatter plots.
-- **Calculate the correlation coefficient** to measure the strength and direction of the linear relationship between two variables.
+- **Visualize** `Petal.Length` for two species with a boxplot.
+- **Test** whether the mean `Petal.Length` differs between *versicolor* and *virginica* using Excel's `T.TEST()` function.
+- Compare the **pooled-variance** and **Welch-corrected** versions of the test.
 ]
-
-
+.pull-right[
+```{r, echo=FALSE, out.width="80%", warning = FALSE}
+knitr::include_graphics("../img/DALLE_Fisher_looking_at_flowers.png")
+```
+]
 
 ---
 
-## Step 0: Download the Iris Dataset
+## Step 0: Download the Two-Species Dataset
 
 .pull-left[
 
-We'll continue to work with two columns from the **Iris dataset**:
-- **Sepal.Length** (the length of the sepal).
-- **Petal.Length** (the length of the petal).
+We'll compare two columns, one per species:
+- **Versicolor** `Petal.Length`
+- **Virginica** `Petal.Length`
 
-```{r}
-# Load Iris dataset and select Sepal.Length and Petal.Length
-iris_data <- iris %>% select(Sepal.Length, Petal.Length)
+```{r, echo=TRUE}
+versicolor <- iris %>% filter(Species == "versicolor") %>% pull(Petal.Length)
+virginica  <- iris %>% filter(Species == "virginica")  %>% pull(Petal.Length)
+
+iris_twogroups <- data.frame(Versicolor = versicolor, Virginica = virginica)
 
 # Save the dataset as an Excel file
-write.xlsx(iris_data, "IrisData_Bivariate.xlsx")
+write.xlsx(iris_twogroups, "IrisData_Independent.xlsx")
 ```
 
-[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData_Bivariate.xlsx)
-```{r, echo=FALSE, out.width="50%", warning = FALSE}
+[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t12_t-test/IrisData_Independent.xlsx)
+```{r, echo=FALSE, out.width="40%", warning = FALSE}
 library(qrcode)
 
-share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData_Bivariate.xlsx"
+share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t12_t-test/IrisData_Independent.xlsx"
 code <- qr_code(share_link)
 
 plot(code)
@@ -313,266 +291,290 @@ plot(code)
 
 .pull-right[
 .center[
-
-
-```{r, echo=FALSE, out.width="70%", warning = FALSE,align = "right"}
-knitr::include_graphics("../img/DALLE_Fisher_looking_at_flowers.png")
+```{r, echo=FALSE, out.width="90%", fig.align='center', warning=FALSE}
+ggplot(iris %>% filter(Species %in% c("versicolor", "virginica")),
+       aes(x = Species, y = Petal.Length, fill = Species)) +
+  geom_boxplot() +
+  theme_bw() +
+  theme(legend.position = "none") +
+  labs(title = "Petal Length by Species", y = "Petal Length (cm)")
 ```
-
 ]]
 
-
-.footnote[This way you can revisit the lab later if needed.]
+.footnote[Both groups have 50 flowers, so they line up neatly in two columns.]
 
 ---
 
+# Step 1: Calculate Group Means and SDs
 
-# Step 1: Create a Scatter Plot
+.pull-left[
+1. **Select cells** below each column (e.g., B52 and C52) and enter:
+   - `=AVERAGE(A2:A51)` for Versicolor
+   - `=AVERAGE(B2:B51)` for Virginica
 
-
-.pull-left.medi[
-2. **Select the data** for the scatter plot:
-   - Click and drag to highlight both the `Sepal.Length` and `Petal.Length` columns (A1:B151).
-
-3. **Insert a Scatter Plot**:
-   - Go to the **Insert** tab in Excel.
-   - In the **Charts** section, click on **Scatter Plot** and select the option for a **simple scatter plot**.
-   
-4. **Format the Scatter Plot**:
-   - Add axis labels:  
-     - **X-axis**: Sepal Length  
-     - **Y-axis**: Petal Length
-   - Title the chart: "Scatter Plot: Sepal Length vs. Petal Length."
-
+2. **Below those** (e.g., B53, C53), enter:
+   - `=STDEV.S(A2:A51)`
+   - `=STDEV.S(B2:B51)`
 ]
 --
 .pull-right[
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
-library(ggplot2)
-library(ggthemes)
-#i'm making a scatter plot for Sepal Length vs. Petal Length
-# can we make it excel colors
-ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color=Species)) +
-  geom_point(size=2) +
-  labs(title = "Scatter Plot: Sepal Length vs. Petal Length", x = "Sepal Length", y = "Petal Length") +
-  theme_excel_new(base_size = 12, base_family = "") + scale_fill_excel_new()+ scale_color_excel_new() +
-  xlim(0, 8) + ylim(0, 8) + theme(legend.position = "none") 
-```
-]
-
----
-
-# Step 2: Calculate the Correlation Coefficient
-
-.pull-left[
-1. **Select a new cell** (e.g., `B152`) where you want to display the correlation coefficient.
-
-2. **Use the `CORREL()` function** to calculate the correlation:
-   - In the **Formula Bar**, enter the following formula:
-     - `=CORREL(A2:A151, B2:B151)`
-
-3. Press **Enter** to calculate the correlation coefficient between `Sepal.Length` and `Petal.Length`.
-
-] .pull-right[    
-```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_zoom.png"
-img <- image_read(image_path ) %>%
-  image_annotate(" =CORREL(A2:A151, B2:B151)", size = 30, color = "darkgreen",  location = "+550+475")
+img <- image_read(image_path) %>%
+  image_annotate("=AVERAGE(A2:A51)", size = 30, color = "darkgreen", location = "+550+475")
 img
 ```
+
+```{r}
+ind_mean_vc <- round(mean(versicolor), 2)
+ind_sd_vc   <- round(sd(versicolor), 2)
+ind_mean_vg <- round(mean(virginica), 2)
+ind_sd_vg   <- round(sd(virginica), 2)
+```
+
+Versicolor: $\bar{x}=$ `r ind_mean_vc`, $s=$ `r ind_sd_vc`
+<br>
+Virginica: $\bar{x}=$ `r ind_mean_vg`, $s=$ `r ind_sd_vg`
 ]
+
 ---
 
-# Task 2 Recap: Scatter Plot and Correlation Coefficient
+# Step 2: Run `T.TEST()`
+
+.pull-left[
+1. **Select an empty cell** and enter:
+   - `=T.TEST(A2:A51, B2:B51, 2, 3)`
+
+2. The arguments are: `array1, array2, tails, type`
+   - `tails = 2` &rarr; two-tailed test
+   - `type = 3` &rarr; **Welch's correction** (unequal variances)
+   - `type = 2` would assume **equal variances** (pooled)
+
+3. The result is the **p-value directly** &mdash; no critical-value lookup needed!
+]
+--
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_1.png"
+img <- image_read(image_path) %>%
+  image_annotate("=T.TEST(A2:A51,B2:B51,2,3)", size = 24, color = "purple", location = "+480+475")
+img
+```
+
+```{r}
+welch_test  <- t.test(virginica, versicolor)
+pooled_test <- t.test(virginica, versicolor, var.equal = TRUE)
+ind_t   <- round(welch_test$statistic, 2)
+ind_df  <- round(unname(welch_test$parameter), 2)
+ind_p   <- format.pval(welch_test$p.value, digits = 3, eps = .001)
+```
+
+Welch: t = `r ind_t`, df = `r ind_df`, p `r ifelse(welch_test$p.value < .001, "< .001", paste0("= ", ind_p))`
+]
+
+---
+
+# Step 3: Equal Variance or Not?
+
+.pull-left-narrow[
+- `T.TEST()`'s `type` argument matters:
+  - `type = 2`: pooled/equal-variance t-test
+  - `type = 3`: Welch's t-test (unequal variance)
+- Check variances first with `=VAR.S()` on each column, or just eyeball the boxplot spread from Step 0.
+]
+.pull-right-wide[
+```{r}
+pooled_p <- format.pval(pooled_test$p.value, digits = 3, eps = .001)
+```
+- Pooled (type = 2): p `r ifelse(pooled_test$p.value < .001, "< .001", paste0("= ", pooled_p))`
+- Welch (type = 3): p `r ifelse(welch_test$p.value < .001, "< .001", paste0("= ", ind_p))`
+- Here the two barely differ &mdash; but when group sizes or spreads are very different, the choice of `type` can change your conclusion.
+]
+
+---
+
+# Step 4: Make a Decision
+
+- Mean difference (Virginica $-$ Versicolor) = `r round(ind_mean_vg - ind_mean_vc, 2)` cm, 95% CI [`r round(welch_test$conf.int[1],2)`, `r round(welch_test$conf.int[2],2)`]
+- t = `r ind_t`, df = `r ind_df`, p `r ifelse(welch_test$p.value < .001, "< .001", paste0("= ", ind_p))`
+- `r ifelse(welch_test$p.value < .05, "Reject", "Do not reject")` $H_0$: there `r ifelse(welch_test$p.value < .05, "is", "is not")` evidence that mean Petal.Length differs between the two species.
+
+---
+
+# Task 2 Recap: Independent-Samples t-test
 
 - In this section, you:
-  - Created a **scatter plot** to visualize the relationship between Sepal Length and Petal Length in the Iris dataset.
-  - Calculated the **correlation coefficient** to quantify the strength and direction of the linear relationship between these two variables.
+  - Visualized `Petal.Length` by species with a **boxplot**.
+  - Used Excel's **`T.TEST()`** function to compare two independent groups directly &mdash; no manual t-formula needed.
+  - Compared the **pooled** (`type = 2`) and **Welch** (`type = 3`) versions of the test.
 
-.reminder[Be sure to save your Excel file with the scatter plot and correlation results for future reference.]
+.reminder[Be sure to save your Excel file with the boxplot and T.TEST results for future reference.]
 
 ---
 
 class: middle, inverse
 
 # Task 3
-## Perform Regression Analysis in Excel
+## Paired-Samples t-test: Sepal vs. Petal Length
 
 ---
 
 # Task 3: Overview
 
 - In this task, we will:
-  - **Fit a linear regression model** to the data.
-  - **Interpret the slope and intercept** of the regression line.
-  - **Use the regression equation** to predict new values based on the relationship between Sepal Length and Petal Length.
+  - Treat `Sepal.Length` and `Petal.Length` as a **matched pair** &mdash; two measurements taken on the *same* flower.
+  - **Compute difference scores** and test whether their mean differs from zero.
+  - Confirm the manual result with Excel's `T.TEST()` paired shortcut.
 
 ---
 
-# Step 0: Redownload the Iris Dataset
+# Step 0: Download the Paired Dataset
 
-- You will continue to work with the Iris dataset for the regression analysis. 
-- This time, you’ll use `Sepal.Length` as the independent variable (X) and `Petal.Length` as the dependent variable (Y).
+.pull-left[
+- Each row is **one flower**, with both measurements side by side &mdash; that's what makes this a *paired* design.
 
-```{r}
-# Load Iris dataset and select Sepal.Length and Petal.Length
-iris_data <- iris %>% select(Sepal.Length, Petal.Length)
+```{r, echo=TRUE}
+iris_paired <- iris %>% select(Sepal.Length, Petal.Length)
 
 # Save the dataset as an Excel file
-write.xlsx(iris_data, "IrisData_Regression.xlsx")
+write.xlsx(iris_paired, "IrisData_Paired.xlsx")
 ```
 
-[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t08_lab/IrisData_Regression.xlsx)
-
----
-
-# Step 1: Calculate the Slope
-
-.pull-left[
-1. **Open the dataset** `IrisData_Regression.xlsx` in Excel.
-
-2. **Select a new cell** (e.g., C152) to calculate the slope.
-
-3. **In the Formula Bar**, enter the following formula to calculate the slope:
-   - `=SLOPE(B2:B151, A2:A151)`  
-   This calculates the slope of the regression line, where `Sepal.Length` (A2:A151) is the independent variable and `Petal.Length` (B2:B151) is the dependent variable.
+[Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t12_t-test/IrisData_Paired.xlsx)
 ]
---
+
 .pull-right[
-```{r, echo=FALSE, out.width="50%", fig.align='center'}
-image_path <- "../img/excel_lab/excel screenshot_zoom.png"
-img <- image_read(image_path) %>%
-  image_annotate("=SLOPE(B2:B151, A2:A151)", size = 30, color = "blue", location = "+550+475")
-img
+.center[
+```{r, echo=FALSE, out.width="60%", warning = FALSE}
+library(qrcode)
+
+share_link <- "https://github.com/psychmethods/slides/raw/refs/heads/main/t12_t-test/IrisData_Paired.xlsx"
+code <- qr_code(share_link)
+
+plot(code)
 ```
+]]
 
-**Explanation**:
-- The **slope** tells us how much `Petal.Length` is expected to change for each unit increase in `Sepal.Length`.
+.footnote[Sepal.Length (A) and Petal.Length (B), same 150 flowers in both columns.]
 
-]
 ---
 
-# Step 2: Calculate the Intercept
+# Step 1: Calculate the Difference Scores
 
 .pull-left[
-1. **Select a new cell** (e.g., C153) to calculate the intercept.
+1. **Select cell C2** and enter:
+   - `=A2-B2`
 
-2. **In the Formula Bar**, enter the following formula:
-   - `=INTERCEPT(B2:B151, A2:A151)`
+2. **Fill down**: drag the fill handle from C2 to C151 to compute the difference for every flower.
 
-3. Press **Enter** to calculate the intercept.
-]
---
-.pull-right[
-```{r, echo=FALSE, out.width="50%", fig.align='center'}
-image_path <- "../img/excel_lab/excel screenshot_1.png"
-img <- image_read(image_path) %>%
-  image_annotate("=INTERCEPT(B2:B151, A2:A151)", size = 30, color = "green", location = "+550+475")
-img
-```
-
-**Explanation**:
-- The **intercept** represents the predicted value of `Petal.Length` when `Sepal.Length` is zero.
-
-]
----
-
-# Step 3: Calculate the R-squared Value
-
-
-.pull-left[
-1. **Select a new cell** (e.g., C154) to calculate the R-squared value.
-
-2. **In the Formula Bar**, enter the following formula:
-   - `=RSQ(B2:B151, A2:A151)`
-
-3. Press **Enter** to calculate the R-squared value.
+3. This gives you one difference score per flower: $d_i = \text{Sepal}_i - \text{Petal}_i$
 ]
 --
 .pull-right[
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_1.png"
 img <- image_read(image_path) %>%
-  image_annotate("=RSQ(B2:B151, A2:A151)", size = 30, color = "red", location = "+550+475")
+  image_annotate(" =A2-B2", size = 30, color = "darkgreen", location = "+550+475")
 img
 ```
-
-**Explanation**:
-- The **R-squared value** tells us how well the regression line fits the data. Values closer to 1 indicate more variance explained
-]
----
-
-# Step 4: Use `LINEST()` for Multiple Outputs
-
-.pull-left[
-1. **Select a new cell** (e.g., C155) to calculate multiple regression outputs at once.
-
-2. **In the Formula Bar**, enter the following formula to calculate the slope, intercept, and R-squared together:
-   - `=LINEST(B2:B151, A2:A151, TRUE, TRUE)`
-
-3. Press **Enter**, and Excel will return the slope, intercept, and additional statistical information, including the R-squared value.
-]
-
---
-.pull-right[
-```{r, echo=FALSE, out.width="90%", fig.align='center'}
-image_path <- "../img/excel_lab/excel screenshot_1.png"
-img <- image_read(image_path) %>%
-  image_annotate("=LINEST(B2:B151, A2:A151, TRUE, TRUE)", size = 30, color = "purple", location = "+550+475")
-img
-```
-
-**Explanation**:
-- The **`LINEST()` function** allows you to calculate multiple regression statistics in one step, including slope, intercept, and R-squared.
-
 ]
 
 ---
 
-# Step 5: Apply the Regression Equation to Predict Values
-
-
-```{r, echo=FALSE}
-iris_data <- iris %>% select(Sepal.Length, Petal.Length)
-lm_fit <- lm(Petal.Length ~ Sepal.Length, data = iris_data)
-
-sepal_int <- round(lm_fit$coefficient[1],digits=2)
-sepal_slope <- round(lm_fit$coefficient[2],digits=2)
-```
+# Step 2: Mean and SD of the Differences
 
 .pull-left[
-1. **Use the regression equation** you generated from the slope and intercept to predict values of `Petal.Length` for new values of `Sepal.Length`.
+1. **Select a cell** (e.g., C152) for the mean difference:
+   - `=AVERAGE(C2:C151)`
 
-2. **Example**: 
-   - If your equation is \( Y = `r sepal_slope`X + `r sepal_int` \), and you want to predict `Petal.Length` for a `Sepal.Length` of 7, substitute \( X = 7 \) into the equation:
-     \[
-     Y = `r sepal_slope`(7) + `r sepal_int` = `r sepal_slope*7` + `r sepal_int` = `r  sepal_slope*7+sepal_int`
-     \]
-   - The predicted `Petal.Length` for a `Sepal.Length` of 7 is `r  sepal_slope*7+sepal_int`.
+2. **Select another cell** (e.g., C153) for the SD of the differences:
+   - `=STDEV.S(C2:C151)`
 ]
 --
 .pull-right[
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_zoom.png"
 img <- image_read(image_path) %>%
-  image_annotate(" = 0.5X + `r sepal_int`", size = 30, color = "darkgreen", location = "+550+475")
+  image_annotate("=AVERAGE(C2:C151)", size = 30, color = "blue", location = "+550+475")
 img
 ```
 
-**Practical Task**:
-- Try predicting the `Petal.Length` for a `Sepal.Length` of 3.5 using your own regression equation from the Excel output.
+```{r}
+paired_test <- t.test(iris$Sepal.Length, iris$Petal.Length, paired = TRUE)
+pr_meandiff <- round(mean(iris$Sepal.Length - iris$Petal.Length), 2)
+pr_sddiff   <- round(sd(iris$Sepal.Length - iris$Petal.Length), 2)
+```
 
+$\bar{d}=$ `r pr_meandiff`, $s_d=$ `r pr_sddiff`
 ]
+
 ---
 
-# Task 3 Recap: Regression Analysis and Prediction
+# Step 3: Compute the t-statistic by Hand
+
+.pull-left[
+- Same formula as the one-sample test, applied to the **difference scores**:
+
+$$t = \frac{\bar{d}}{s_d/\sqrt{n}} = \frac{\text{`r pr_meandiff`}}{\text{`r pr_sddiff`}/\sqrt{150}} = \text{`r round(paired_test$statistic,2)`}$$
+
+- In Excel: `=C152/(C153/SQRT(150))`
+]
+--
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_1.png"
+img <- image_read(image_path) %>%
+  image_annotate("=C152/(C153/SQRT(150))", size = 26, color = "red", location = "+480+475")
+img
+```
+]
+
+---
+
+# Step 4: Check with `T.TEST()`
+
+.pull-left[
+1. **Select an empty cell** and enter:
+   - `=T.TEST(A2:A151, B2:B151, 2, 1)`
+
+2. `type = 1` tells Excel the two columns are **paired** (same `tails = 2` as before).
+
+3. Compare this p-value to the one you'd get from your hand-calculated t-statistic &mdash; they should match!
+]
+--
+.pull-right[
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+image_path <- "../img/excel_lab/excel screenshot_zoom.png"
+img <- image_read(image_path) %>%
+  image_annotate("=T.TEST(A2:A151,B2:B151,2,1)", size = 22, color = "purple", location = "+450+475")
+img
+```
+
+```{r}
+pr_p <- format.pval(paired_test$p.value, digits = 3, eps = .001)
+```
+
+p `r ifelse(paired_test$p.value < .001, "< .001", paste0("= ", pr_p))`
+]
+
+---
+
+# Step 5: Make a Decision
+
+- t = `r round(paired_test$statistic,2)`, df = `r unname(paired_test$parameter)`, p `r ifelse(paired_test$p.value < .001, "< .001", paste0("= ", pr_p))`
+- Mean difference (Sepal $-$ Petal) = `r pr_meandiff` cm, 95% CI [`r round(paired_test$conf.int[1],2)`, `r round(paired_test$conf.int[2],2)`]
+- `r ifelse(paired_test$p.value < .05, "Reject", "Do not reject")` $H_0: \mu_\Delta = 0$ &mdash; there `r ifelse(paired_test$p.value < .05, "is", "is not")` evidence that Sepal.Length and Petal.Length differ, on average, within the same flower.
+
+---
+
+# Task 3 Recap: Paired-Samples t-test
 
 - In this section, you:
-  - Performed linear regression using Excel’s **SLOPE()**, **INTERCEPT()**, **RSQ()**, and optionally **LINEST()** functions.
-  - Interpreted the **slope** and **intercept** of the regression equation.
-  - Used the regression equation to **predict new values** for `Petal.Length`.
+  - Recognized that two measurements on the *same* flower form a **paired** design.
+  - Computed **difference scores** and ran a one-sample-style t-test on them.
+  - Confirmed the manual result using Excel's **`T.TEST()`** paired shortcut (`type = 1`).
 
-.reminder[Save your Excel file with the regression output and predictions for future reference.]
+.reminder[Save your Excel file with the difference column and T.TEST results for future reference.]
 
 
 ---
@@ -581,8 +583,8 @@ class: center, middle, inverse
 
 # Recap of Recaps
 
-- In this lab, you explored various statistical concepts using Excel:
-  - **Z-scores**, **percentiles**, and **inverse normal values**.
-  - **Scatter plots** and **correlation coefficients**.
-  - **Linear regression analysis** and **prediction**.
-  
+- In this lab, you ran all three t-test designs in Excel, using the Iris dataset throughout:
+  - **One-sample** t-test (manual formula + `T.INV.2T`/`T.DIST.2T`)
+  - **Independent-samples** t-test (`T.TEST()` with pooled vs. Welch correction)
+  - **Paired-samples** t-test (difference scores + `T.TEST()` paired shortcut)
+- In every case: same logic, same shape of formula &mdash; only what counts as "the sample" changes.
