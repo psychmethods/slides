@@ -299,15 +299,15 @@ ggplot(iris %>% filter(Species %in% c("versicolor", "virginica")),
   theme(legend.position = "none") +
   labs(title = "Petal Length by Species", y = "Petal Length (cm)")
 ```
+.footnote[Both groups have 50 flowers, so they line up neatly in two columns.]
 ]]
 
-.footnote[Both groups have 50 flowers, so they line up neatly in two columns.]
 
 ---
 
 # Step 1: Calculate Group Means and SDs
 
-.pull-left[
+
 1. **Select cells** below each column (e.g., B52 and C52) and enter:
    - `=AVERAGE(A2:A51)` for Versicolor
    - `=AVERAGE(B2:B51)` for Virginica
@@ -315,9 +315,9 @@ ggplot(iris %>% filter(Species %in% c("versicolor", "virginica")),
 2. **Below those** (e.g., B53, C53), enter:
    - `=STDEV.S(A2:A51)`
    - `=STDEV.S(B2:B51)`
-]
---
-.pull-right[
+
+---
+
 ```{r, echo=FALSE, out.width="90%", fig.align='center'}
 image_path <- "../img/excel_lab/excel screenshot_zoom.png"
 img <- image_read(image_path) %>%
@@ -335,7 +335,7 @@ ind_sd_vg   <- round(sd(virginica), 2)
 Versicolor: $\bar{x}=$ `r ind_mean_vc`, $s=$ `r ind_sd_vc`
 <br>
 Virginica: $\bar{x}=$ `r ind_mean_vg`, $s=$ `r ind_sd_vg`
-]
+
 
 ---
 
