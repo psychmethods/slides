@@ -1,5 +1,5 @@
 ---
-title: "ANOVA -> Regression <br> `r emo::ji('r')`"
+title: "ANOVA -> Regression <br>  R"
 author: "S. Mason Garrison"
 bibliography: "library.bib"
 output:
