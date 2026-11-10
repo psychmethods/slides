@@ -124,6 +124,7 @@ a + geom_violin(aes(y=Length)) +
        caption="Source: Basic Practice Data",
        x="Length (mm)",
        fill="Types")
+       
 # Non-ggplot
 plot(Length ~ Type, data = Flower_Lengths)
 

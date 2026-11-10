@@ -1,0 +1,1061 @@
+---
+title: "Exam 2 Review <br> `r emo::ji('cat')`"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages, echo=FALSE, message=FALSE, warning=FALSE}
+# Use the same shared setup and stylesheet as the existing course Rmd decks.
+# Place this Rmd alongside the lecture Rmd files so ../ paths resolve.
+library(tidyverse)
+library(emo)
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE,
+                      out.width = "90%", fig.align = "center")
+```
+
+class: middle
+
+# Exam 2 Review
+
+## Modules 6 through 11
+
+---
+
+## Road Map
+
+.large[
+- **Module 6:** Probability and Bayes' theorem
+- **Module 7:** Binomial and sampling distributions
+- **Module 8:** Hypothesis testing and *p* values
+- **Module 9:** *t* tests and confidence intervals
+- **Module 10:** Multiple comparisons, *F* tests, ANOVA, regression
+- **Module 11:** Validity, causation, research designs
+]
+
+--
+
+Each module also includes **reading-based questions** from its assigned chapter.
+
+---
+
+## Today: Apply, then explain
+
+- Each problem uses a **new psychology-themed example**.
+- The statistical ideas and reasoning steps match our lectures.
+- Work with someone nearby before advancing to the answer.
+
+--
+
+**For each answer, explain why the other possible interpretations would be wrong.**
+
+---
+
+class: middle
+
+# Module 6: Probability
+
+Sample spaces, conditional probability, probability rules, and Bayes' theorem
+
+---
+
+## 1. Sample spaces and complements
+
+A psychology experiment randomly presents either a **happy (H)** or **sad (S)** facial expression on each of two independent trials. Each expression has probability $.5$ on each trial.
+
+.pull-left[
+1. List every ordered outcome in the sample space.
+2. What is $P(\text{at least one S})$?
+]
+
+.pull-right[
+3. Are the events "first face is happy" and "second face is sad" disjoint?
+4. Are these events independent?
+]
+
+---
+
+## Sample spaces: Work through the logic
+
+The equally likely ordered outcomes are:
+
+$$S=\{HH,HS,SH,SS\}.$$
+
+--
+
+- $P(\text{at least one S})=3/4=.75$.
+- Or use the **complement**: $1-P(HH)=1-.25=.75$.
+- "First H" and "second S" **overlap** at $HS$, so they are not disjoint.
+- The trials are **independent**: knowing the first outcome does not change the second-trial probability.
+
+---
+
+## 2. Which denominator belongs here?
+
+In a hypothetical sample of 200 students, researchers record whether students report high stress and whether they use a breathing exercise.
+
+| | Uses breathing exercise | Does not use it | Total |
+|:--|--:|--:|--:|
+| High stress | 54 | 36 | 90 |
+| Not high stress | 26 | 84 | 110 |
+| **Total** | **80** | **120** | **200** |
+
+Calculate $P(\text{high stress})$, $P(\text{exercise} \mid \text{high stress})$, and $P(\text{high stress} \mid \text{exercise})$.
+
+---
+
+## The denominator changes with the question
+
+.pull-left[
+**Marginal**
+
+$$P(H)=\frac{90}{200}=.45$$
+
+**Exercise given high stress**
+
+$$P(E\mid H)=\frac{54}{90}=.60$$
+]
+
+.pull-right[
+**High stress given exercise**
+
+$$P(H\mid E)=\frac{54}{80}=.675$$
+]
+
+--
+
+$P(E\mid H)$ and $P(H\mid E)$ are **not interchangeable**.
+
+**Try one more:** $P(H\text{ or }E)=(90+80-54)/200=.58$.
+
+---
+
+## 3. A psychology screener and Bayes' rule
+
+Suppose a **hypothetical** screening instrument is evaluated in a population where:
+
+- $10\%$ of individuals have a particular anxiety condition.
+- $80\%$ of those with the condition screen positive.
+- $20\%$ of those without it also screen positive.
+
+**Question:** If someone screens positive, what is the probability they actually have the condition?
+
+--
+
+Why is the answer **not** $80\%$?
+
+---
+
+## Bayes: Keep the base rate in view
+
+Imagine **1,000** people:
+
+.pull-left[
+- **100** have the condition.
+  - **80** screen positive.
+- **900** do not.
+  - **180** screen positive.
+]
+
+.pull-right[
+Among **260** positive screens, only **80** come from people with the condition.
+
+$$P(C\mid +)=\frac{80}{80+180}\approx .308$$
+]
+
+--
+
+The $80\%$ figure is $P(+\mid C)$, **not** $P(C\mid +)$. A test's sensitivity alone does not determine the probability of a condition after a positive result.
+
+---
+
+## 4. Reading check: Who does the sample represent?
+
+A researcher wants to estimate the **percentage of all undergraduates** who routinely experience academic burnout. They post a survey link in a psychology club's social media account and receive 1,200 responses.
+
+1. What sampling method is this?
+2. What problem does it create for a **frequency claim**?
+3. Would 12,000 responses fix that problem?
+4. How could **stratified sampling** or **oversampling** help?
+
+.small[Chapter 7 reading: sampling methods, biased samples, population representation, and external validity.]
+
+---
+
+## Reading: The selection process matters
+
+- This is **convenience/self-selected sampling** with possible coverage and nonresponse problems.
+- A large response count does **not** correct systematic selection bias.
+- **Stratified random sampling** would draw randomly within defined strata (e.g., class years).
+- **Oversampling** can improve precision for smaller subgroups, but overall population estimates require appropriate weighting.
+
+--
+
+**Contrast:** In cluster sampling, entire groups are selected randomly; in snowball sampling, participants recruit others. A purposive or snowball sample can fit exploratory research, but it does not automatically support a population prevalence estimate.
+
+---
+
+class: middle
+
+# Module 7: Probability Models
+
+Binomial distributions, population versus sampling distributions, LLN, and CLT
+
+---
+
+## 5. Is this a binomial problem?
+
+In a new facial-expression recognition task, each item offers **five equally likely response choices**. A participant guesses on **10 independently generated items**.
+
+1. Let $X$ be the number guessed correctly. Is $X$ binomial?
+2. How many ways can the participant answer **exactly 3** items correctly?
+3. Calculate $P(X=3)$.
+4. What are $E(X)$ and $SD(X)$?
+
+---
+
+## Binomial: Count successes, not sequences
+
+The four requirements hold: fixed $n$, independent trials, success/failure outcomes, and constant $p$.
+
+$$X\sim\operatorname{Binomial}(10,.20)$$
+
+--
+
+$$\binom{10}{3}=120$$
+
+$$P(X=3)=\binom{10}{3}(.2)^3(.8)^7\approx .2013$$
+
+--
+
+$$E(X)=np=2;\qquad SD(X)=\sqrt{np(1-p)}\approx1.265.$$
+
+---
+
+## 6. What makes a probability model valid?
+
+For a brief attention task, suppose the number $X$ of missed checks has this **hypothetical** distribution:
+
+| Missed checks ($X$) | 0 | 1 | 2 |
+|:--|--:|--:|--:|
+| $P(X)$ | .50 | .30 | .20 |
+
+1. Is this a valid discrete probability model?
+2. What is the expected number of misses?
+3. Would you automatically call this a binomial distribution?
+
+---
+
+## A valid model need not be binomial
+
+- Every probability lies between 0 and 1.
+- The probabilities add to 1.
+
+$$E(X)=0(.50)+1(.30)+2(.20)=.70$$
+
+--
+
+$$E(X^2)=1(.30)+4(.20)=1.10$$
+$$SD(X)=\sqrt{1.10-(.70)^2}\approx .781.$$
+
+A count distribution is **not necessarily binomial**. We would also need the binomial trial assumptions, not simply a count of outcomes.
+
+---
+
+## 7. Individual scores versus sample means
+
+Suppose reaction time in a population has:
+
+$$\mu=500\text{ ms},\qquad \sigma=80\text{ ms}.$$
+
+Researchers repeatedly draw independent random samples of **64** people and compute a mean each time.
+
+1. What is the mean of the sampling distribution of $\bar X$?
+2. What is its standard deviation (standard error)?
+3. Approximately what proportion of sample means exceed **520 ms**?
+
+---
+
+## Sampling distributions: A smaller spread
+
+$$E(\bar X)=\mu=500;\qquad SE_{\bar X}=\frac{80}{\sqrt{64}}=10.$$
+
+$$z=\frac{520-500}{10}=2;\qquad P(\bar X>520)\approx .0228.$$
+
+--
+
+```{r rt-population-vs-means, fig.height=3.4, fig.width=8}
+# Illustrative normal curves using the stated population moments.
+# The sampling-mean curve uses a CLT approximation for n = 64.
+rt_curve <- tibble(x = seq(250, 750, length.out = 750)) %>%
+  mutate(individual = dnorm(x, 500, 80),
+         sample_mean = dnorm(x, 500, 10)) %>%
+  pivot_longer(-x, names_to = "distribution", values_to = "density")
+ggplot(rt_curve, aes(x, density, color = distribution)) +
+  geom_line(linewidth = 1) +
+  labs(x = "Reaction time (ms)", y = "Density", color = NULL) +
+  theme_minimal(base_size = 14)
+```
+
+---
+
+## 8. LLN or CLT?
+
+Imagine repeating the reaction-time study with increasingly large random samples.
+
+.pull-left[
+**Statement A:**
+
+As sample size grows, the sample mean gets increasingly close to the population mean.
+]
+
+.pull-right[
+**Statement B:**
+
+The standardized sampling distribution of the mean approaches a normal distribution as sample size grows, under appropriate conditions.
+]
+
+Which is the **law of large numbers** and which is the **central limit theorem**?
+
+---
+
+## Two different claims about larger samples
+
+- **A = Law of Large Numbers:** concentration of an average around its expectation.
+- **B = Central Limit Theorem:** approximate shape of the distribution of sample means.
+
+--
+
+For the same population SD of **80 ms**:
+
+| Sample size | $SE_{\bar X}$ |
+|:--|--:|
+| $n=16$ | $20$ ms |
+| $n=64$ | $10$ ms |
+| $n=256$ | $5$ ms |
+
+Increasing $n$ reduces uncertainty in the sample mean. It does not magically repair a biased sampling method.
+
+---
+
+## 9. Reading check: An ethics problem
+
+A researcher tells students a lab exercise records only anonymous concentration scores. In fact, it stores their names and records personal disclosures. Students are not told of this, and no review board has approved a consent waiver.
+
+1. Which **Belmont principles** are implicated?
+2. What should an **IRB** review before recruitment?
+3. If deception were justified, what safeguards and **debriefing** would be needed?
+
+.small[Chapter 4 reading: Tuskegee, respect for persons, beneficence, justice, APA research ethics, IRBs, and deception.]
+
+---
+
+## Reading: Ethics is about the procedure
+
+- **Respect for persons:** consent and protection of participant autonomy.
+- **Beneficence:** foreseeable risk, privacy protections, and a reasonable risk/benefit balance.
+- **Justice:** fair selection and distribution of burdens and benefits.
+
+--
+
+Research involving deception requires an ethically justified design, appropriate institutional review, applicable consent procedures or waivers, and debriefing when required. Tuskegee illustrates serious failures of consent, welfare, and justice.
+
+**Also know:** fabrication, falsification, and plagiarism are distinct forms of research misconduct; animal studies require appropriate animal-welfare oversight (IACUC).
+
+---
+
+class: middle
+
+# Module 8: Hypothesis Testing
+
+Hypotheses, test statistics, null distributions, tails, errors, and power
+
+---
+
+## 10. Set up a test before seeing the data
+
+A researcher claims a new five-minute breathing exercise **reduces** the population mean score on a stress inventory. The established comparison value is **20 points**.
+
+1. Write the null and alternative hypotheses in terms of $\mu$.
+2. Would this be a one-sided or two-sided test?
+3. What is a **null distribution**?
+4. In the courtroom analogy from lecture, why is "fail to reject" different from "prove the null"?
+
+---
+
+## What is the claim we are testing?
+
+For a directional claim specified **before** examining the data:
+
+$$H_0:\mu\geq20\qquad H_A:\mu<20.$$
+
+Statistical calculations usually use the boundary value $\mu_0=20$.
+
+--
+
+- This is a **left-tailed** test.
+- The **null distribution** tells us which test-statistic values we would expect under the specified null model.
+- A failure to reject means the observed evidence does not meet the chosen rejection criterion. It does **not** establish that $H_0$ is true.
+
+---
+
+## 11. One-sided versus two-sided *p* values
+
+An investigator compares attention scores with a prespecified benchmark. Their standardized test statistic is $z=2.10$ under a standard normal null distribution.
+
+1. What is the **right-tailed** *p* value?
+2. What is the **two-sided** *p* value?
+3. If $\alpha=.05$, what is the conclusion for each?
+4. Does the *p* value tell us how **large or important** the effect is?
+
+---
+
+## Same statistic, different alternatives
+
+$$p_{\text{right}}=P(Z\geq2.10)\approx .0179$$
+
+$$p_{\text{two-sided}}=P(|Z|\geq2.10)\approx .0357$$
+
+Both are below $.05$, but only if the **corresponding direction or sidedness was specified appropriately**.
+
+--
+
+```{r two-tailed-null, fig.height=3.0, fig.width=8}
+null_curve <- tibble(z = seq(-3.8, 3.8, length.out = 900),
+                     density = dnorm(z))
+ggplot(null_curve, aes(z, density)) +
+  geom_area(data = filter(null_curve, abs(z) >= 2.10),
+            fill = "#4E79A7", alpha = .5) +
+  geom_line(linewidth = 1) +
+  geom_vline(xintercept = c(-2.10, 2.10), linetype = "dashed") +
+  labs(x = "Null z statistic", y = "Density") +
+  theme_minimal(base_size = 14)
+```
+
+---
+
+## 12. Errors, alpha, and power
+
+A psychologist tests $H_0$: "An attention-training intervention has no effect."
+
+1. What would a **Type I error** look like here?
+2. What would a **Type II error** look like?
+3. What is the definition of **power**?
+4. How do sample size, variability, effect size, and $\alpha$ affect power?
+
+---
+
+## The long-run decisions
+
+.pull-left[
+- **Type I ($\alpha$):** reject a true null; conclude the training affects attention when it does not.
+- **Type II ($\beta$):** fail to reject a false null; miss a real effect.
+]
+
+.pull-right[
+- **Power:** $1-\beta$ at a specified non-null effect size.
+- Larger effects, larger samples, and less noise tend to increase power.
+]
+
+--
+
+Raising $\alpha$ can increase power but also allows more Type I errors. A small *p* value is **not** a measure of effect size or achieved power.
+
+---
+
+## 13. Reading check: What makes this an experiment?
+
+A researcher randomly assigns participants to study a word list either with a **guided mental-imagery instruction** or with **silent rehearsal**. Everyone then completes the same delayed-recall test.
+
+1. Identify the manipulated independent variable, dependent variable, and control conditions.
+2. What does **random assignment** accomplish?
+3. What could a **manipulation check** measure?
+4. What is one threat to internal or construct validity?
+
+.small[Chapter 10 reading: variables, random assignment, control variables, and construct validity.]
+
+---
+
+## Reading: Manipulate, control, control
+
+- **IV:** encoding instruction (imagery versus rehearsal).
+- **DV:** delayed-recall score.
+- **Controls:** same list length, exposure time, testing environment, and outcome measurement.
+- **Random assignment:** reduces systematic preexisting group differences on average.
+
+--
+
+A manipulation check might assess whether participants actually generated mental images. Unequal instructions, experimenter expectations, and different task demands could complicate interpretation. A statistically detectable difference is not the same as a large or practically important effect.
+
+---
+
+## 14. Reading check: A within-subjects design
+
+The same volunteers perform a vigilance task in three conditions: **silence**, **white noise**, and **instrumental music**.
+
+1. What type of design is this?
+2. What are its advantages relative to separate groups?
+3. What is an **order effect**?
+4. How could the researcher counterbalance the three conditions?
+
+.small[Chapter 10 reading: independent-groups and within-groups designs, repeated measures, and counterbalancing.]
+
+---
+
+## Reading: Precision versus order effects
+
+- A **within-subjects/repeated-measures** design compares each participant with themselves.
+- It removes stable person-to-person differences from some comparisons.
+- **Practice**, **fatigue**, and **carryover** can depend on order.
+
+--
+
+There are $3!=6$ possible complete orders. Balanced assignment across them is **full counterbalancing** when feasible. A between-subjects design avoids many carryover problems but can require more participants for similar precision.
+
+---
+
+class: middle
+
+# Module 9: *t* Tests and Confidence Intervals
+
+One-sample, paired, and independent-sample tests; standard errors and degrees of freedom
+
+---
+
+## 15. First pick the design, then the test
+
+Which *t* test belongs with each question?
+
+.large[
+**A.** A new cohort's mean working-memory score is compared with an established population benchmark.
+
+**B.** Students report perceived stress **before and after** an eight-week coping-skills workshop.
+
+**C.** One group receives cognitive-reappraisal training; a separate group receives a different instruction, and both take an emotion-regulation test.
+]
+
+---
+
+## The unit of comparison determines the test
+
+- **A:** One-sample *t* test, comparing a sample mean with $\mu_0$.
+- **B:** Paired-samples *t* test, applied to each person's **difference score**.
+- **C:** Independent-samples *t* test, comparing means from separate groups.
+
+--
+
+All use an estimated standard error and a *t* reference distribution, but the **standard error and degrees of freedom differ by design**. For independent groups, Welch's test does not require equal population variances.
+
+---
+
+## 16. Work out a one-sample *t* test
+
+A random sample of **25** students has a mean working-memory score $\bar x=46$ and sample standard deviation $s=10$. A previous population benchmark is $\mu_0=50$.
+
+Assume a two-sided test with $\alpha=.05$.
+
+1. What is $SE_{\bar x}$?
+2. Calculate *t* and its degrees of freedom.
+3. Would the result reject $H_0$ at $.05$?
+4. What is the 95% confidence interval for $\mu$?
+
+---
+
+## One-sample test: The arithmetic
+
+$$SE=\frac{10}{\sqrt{25}}=2;\qquad t=\frac{46-50}{2}=-2.00.$$
+
+$$df=25-1=24;\qquad p_{\text{two-sided}}\approx .0569.$$
+
+--
+
+The 95% critical value is $t^*\approx2.064$:
+
+$$46\pm2.064(2)=[41.87,\ 50.13].$$
+
+The interval contains 50; the two-sided test does **not** reject at $.05$. That is not proof the cohort has exactly the benchmark mean.
+
+---
+
+## 17. For paired data, analyze differences
+
+Sixteen people complete an emotion-regulation inventory before and after an intervention.
+
+For $d=\text{after}-\text{before}$:
+
+$$n=16,\qquad \bar d=-4,\qquad s_d=6.$$
+
+1. Calculate the paired-samples *t* statistic.
+2. What are the degrees of freedom?
+3. Construct the 95% confidence interval for the **mean difference**.
+4. Can this pre/post comparison alone establish the intervention caused the change?
+
+---
+
+## Paired test: One score per person
+
+$$SE_{\bar d}=\frac{6}{\sqrt{16}}=1.5;\qquad t=\frac{-4}{1.5}\approx-2.67.$$
+
+$$df=15;\qquad p_{\text{two-sided}}\approx .0176.$$
+
+--
+
+Using $t^*\approx2.131$:
+
+$$-4\pm2.131(1.5)=[-7.20,\ -0.80].$$
+
+The mean change is negative under this scoring rule. Without a comparison group, other explanations for change over time remain possible.
+
+---
+
+## 18. Two independent groups
+
+An emotion-regulation skills experiment yields the following test-score summaries:
+
+| | Training | Comparison |
+|:--|--:|--:|
+| $n$ | 20 | 20 |
+| $\bar x$ | 74 | 68 |
+| $s$ | 8 | 10 |
+
+1. What is the estimated mean difference?
+2. Calculate the **Welch** standard error.
+3. Approximately what is the test statistic?
+4. Why would a paired-samples test be inappropriate?
+
+---
+
+## Two-sample test: Account for both sources of noise
+
+$$\bar x_1-\bar x_2=74-68=6$$
+
+$$SE=\sqrt{\frac{8^2}{20}+\frac{10^2}{20}}\approx2.864$$
+
+$$t=\frac{6}{2.864}\approx2.10.$$
+
+--
+
+Welch degrees of freedom are approximately **36.3**, giving a two-sided $p\approx .043$ and a 95% CI of approximately **[0.19, 11.81]**.
+
+The participants are in **different groups**, so there are no person-level pairs to difference.
+
+---
+
+## 19. What does 95% confidence mean?
+
+A research report states: "The 95% confidence interval for the mean change in stress is $[-7.2,-0.8]$."
+
+Which interpretation is defensible?
+
+.pull-left[
+**A.** There is a 95% probability this fixed population parameter is in this observed interval.
+]
+
+.pull-right[
+**B.** Across repeated samples, the procedure used to construct intervals would capture the fixed parameter about 95% of the time, under its assumptions.
+]
+
+How does **quadrupling $n$** typically affect the standard error?
+
+---
+
+## Confidence is a property of the procedure
+
+**B** describes frequentist coverage. The unknown parameter is fixed; the interval varies from sample to sample.
+
+--
+
+For a mean, with other factors approximately unchanged:
+
+$$SE=\frac{s}{\sqrt n}.$$
+
+Quadrupling $n$ approximately **halves** the standard error and the sampling component of interval width. Increasing confidence (e.g., 95% to 99%) makes an interval wider, all else equal.
+
+---
+
+## 20. Reading check: Why could scores change?
+
+In an intervention study, participants take the same well-being questionnaire four times. The trained group has greater dropout, and the researcher scoring open-ended answers knows each person's assignment.
+
+Identify at least **three** threats to internal validity. Which design changes would help?
+
+.small[Chapter 11 reading: testing, attrition, observer bias, selection, history, maturation, regression, instrumentation, demand, and placebo effects.]
+
+---
+
+## Reading: Name the alternative explanations
+
+- **Testing:** repeated exposure may change responses.
+- **Attrition:** unequal dropout can change which participants remain.
+- **Observer bias:** knowledge of condition can affect scoring.
+
+--
+
+Use alternate forms when appropriate, track retention by condition, use standardized protocols, and blind outcome assessors. Other studies may face history, maturation, regression to the mean, instrumentation, demand characteristics, or placebo effects. Identify a **specific causal route** for each proposed threat.
+
+---
+
+## 21. Reading check: Is a null effect really no effect?
+
+An experiment comparing two feedback instructions finds almost identical sample means and a large *p* value.
+
+Which explanations are possible?
+
+1. The instructions produced too little difference between conditions.
+2. Measurement error and participant differences created too much variability within groups.
+3. The instructions genuinely have little or no effect.
+
+What would help distinguish these explanations?
+
+---
+
+## Reading: Three reasons for a null result
+
+**All three** are possible; a failure to reject does not identify which occurred.
+
+--
+
+- Check the **manipulation** and whether its levels were distinct.
+- Assess reliability, individual variability, and situation noise.
+- Examine estimates, intervals, and study precision instead of treating $p>.05$ as proof of no effect.
+
+A better manipulation or more precise measurement can increase power if a real effect is present.
+
+---
+
+class: middle
+
+# Module 10: *F* Tests, ANOVA, Regression
+
+Why multiple comparisons matter, variance ratios, and factorial designs
+
+---
+
+## 22. Why not run many *t* tests?
+
+A psychologist compares mean performance under **four** different study strategies, testing every pair of conditions at $\alpha=.05$.
+
+1. How many distinct pairwise comparisons are there?
+2. If the six tests were independent and all null hypotheses were true, what would be the probability of **at least one** false rejection?
+3. What can an omnibus ANOVA tell us that does **not** identify which specific pairs differ?
+
+---
+
+## Multiple comparisons accumulate error
+
+For $k=4$ groups, the number of pairs is
+
+$$\binom{4}{2}=\frac{4(3)}{2}=6.$$
+
+--
+
+**Under the stated independence assumption**:
+
+$$P(\text{one or more Type I errors})=1-(.95)^6\approx .265.$$
+
+Pairwise tests on the same groups are generally **not independent**, so this is an illustration rather than the exact error rate in the proposed study.
+
+An omnibus ANOVA asks about an overall pattern of means; **planned contrasts or adjusted post-hoc comparisons** address specific differences.
+
+---
+
+## 23. What goes into the *F* ratio?
+
+Two independent experiments compare **three** emotion-regulation conditions. Both have the same between-condition mean square, but different amounts of variability within conditions.
+
+| | Study A | Study B |
+|:--|--:|--:|
+| $MS_{\mathrm{between}}$ | 18 | 18 |
+| $MS_{\mathrm{within}}$ | 3 | 9 |
+
+1. Calculate $F$ for each study.
+2. Which study has the larger signal relative to noise?
+3. What would $F$ look like under a null model where group means are equal (on average)?
+
+---
+
+## ANOVA compares two kinds of variability
+
+$$F=\frac{MS_{\mathrm{between}}}{MS_{\mathrm{within}}}$$
+
+.pull-left[
+**Study A**
+
+$$F_A=18/3=6$$
+]
+
+.pull-right[
+**Study B**
+
+$$F_B=18/9=2$$
+]
+
+--
+
+Under the null and model assumptions, $F$ tends to be around **1** (though it varies). An exact *p* value also requires the **numerator and denominator degrees of freedom**; the ratio alone is not enough.
+
+---
+
+## 24. A 2-by-3 factorial psychology design
+
+Researchers examine vigilance accuracy as a function of:
+
+- **Background:** quiet room versus nature sounds
+- **Task difficulty:** easy, medium, hard
+
+Hypothetical condition means:
+
+| Background | Easy | Medium | Hard |
+|:--|--:|--:|--:|
+| Quiet | 92 | 80 | 68 |
+| Nature sounds | 88 | 82 | 76 |
+
+What are the **two main-effect questions**? Is there a possible **interaction**? How many cells are in the design?
+
+---
+
+## The interaction is a difference in differences
+
+A 2 $\times$ 3 design has **six** cells.
+
+- Main effect of **background**: average over difficulty.
+- Main effect of **difficulty**: average over background.
+- **Interaction**: does the effect of background vary with difficulty?
+
+--
+
+```{r factorial-vigilance, fig.height=3.8, fig.width=8}
+vigilance <- tribble(
+  ~background, ~difficulty, ~accuracy,
+  "Quiet", "Easy", 92, "Quiet", "Medium", 80, "Quiet", "Hard", 68,
+  "Nature sounds", "Easy", 88, "Nature sounds", "Medium", 82,
+  "Nature sounds", "Hard", 76
+) %>% mutate(difficulty = factor(difficulty,
+                                  levels = c("Easy", "Medium", "Hard")))
+ggplot(vigilance, aes(difficulty, accuracy, group = background,
+                      color = background)) +
+  geom_line(linewidth = 1.1) + geom_point(size = 3) +
+  labs(x = "Task difficulty", y = "Mean accuracy", color = NULL) +
+  theme_minimal(base_size = 14)
+```
+
+The lines are not parallel: sounds are associated with lower accuracy for easy tasks but higher accuracy for hard tasks. The **descriptive interaction** alone does not establish statistical evidence without uncertainty estimates.
+
+---
+
+## 25. Interpret a multiple-regression model
+
+A survey of college students yields the hypothetical fitted model:
+
+$$\widehat{\text{well-being}}=30+2(\text{support})-1.5(\text{stress}).$$
+
+1. Predict well-being for someone with support = **6** and stress = **4**.
+2. Interpret the coefficient of **support** in one sentence.
+3. If this is observational data, what causal conclusion can we make?
+
+---
+
+## Regression: Interpret while holding the others fixed
+
+$$\widehat{y}=30+2(6)-1.5(4)=36.$$
+
+--
+
+The support coefficient means that **for two students with the same measured stress**, a one-point increase in support corresponds to a **two-point higher predicted well-being score**, according to this fitted model.
+
+That is a **conditional association**, not necessarily the causal effect of increasing support. Unmeasured confounding and measurement limitations may remain.
+
+---
+
+## 26. Reading check: Longitudinal claims
+
+A researcher measures **self-regulation** and **stress** at the beginning and end of a semester. Higher early self-regulation predicts lower later stress even after accounting for early stress.
+
+1. Which correlation is **cross-sectional**?
+2. Which is an **autocorrelation**?
+3. Which is a **cross-lag**?
+4. Could the cross-lag by itself establish causation?
+5. Is a **mediator** the same thing as a **moderator**?
+
+.small[Chapter 9 reading: longitudinal correlations, regression coefficients, mediation, moderation, third variables, pattern and parsimony.]
+
+---
+
+## Reading: Patterns support, but do not prove, an explanation
+
+- **Cross-sectional:** self-regulation and stress measured at the same occasion.
+- **Autocorrelation:** a construct correlated with itself over time.
+- **Cross-lag:** an earlier construct associated with the other construct measured later.
+
+--
+
+A cross-lag establishes temporal ordering for the measured variables but does **not** remove all alternative explanations.
+
+- **Mediator:** proposed mechanism on a pathway from predictor to outcome.
+- **Moderator:** changes the size or direction of a predictor-outcome association.
+
+More than one converging study usually supports a stronger claim than an isolated result.
+
+---
+
+class: middle
+
+# Module 11: Validity and Causation
+
+Kinds of validity, causal criteria, experiments, quasi-experiments, small-N designs
+
+---
+
+## 27. What kind of validity evidence is missing?
+
+A psychologist develops a brief "social functioning" questionnaire. It asks only about how often people attend parties.
+
+1. The items *look* relevant to social functioning. What is **face validity**?
+2. Why might the scale have weak **content-related evidence**?
+3. How could **criterion-related evidence** be examined?
+4. How would broader **construct-related evidence** be developed?
+
+---
+
+## Validity depends on the interpretation we want
+
+- **Face validity:** superficial appearance of relevance; not enough to substantiate validity.
+- **Content:** parties represent only a narrow part of functioning, omitting friendship quality, conflict, and other domains.
+- **Criterion:** relate scores to a meaningful external indicator.
+- **Construct:** assess whether correlations, group comparisons, and other evidence fit the theory.
+
+--
+
+**Different issue:** *Internal validity* asks whether a study supports its within-study inference; *external validity* asks whether a finding generalizes to other people, settings, or circumstances.
+
+---
+
+## 28. Correlation, causation, and alternatives
+
+A survey finds that students who use a mood-tracking app report lower anxiety than students who do not use the app.
+
+1. Is the relationship consistent with an app effect?
+2. Give a plausible **reverse-causation** explanation.
+3. Give a plausible **third-variable** explanation.
+4. What evidence would help establish **covariation**, **temporal precedence**, and **no plausible alternative explanation**?
+
+---
+
+## Association is not the full causal argument
+
+.pull-left[
+Possible causal stories:
+
+- App use $\rightarrow$ lower anxiety
+- Anxiety $\rightarrow$ app use
+- A third factor $\rightarrow$ both
+]
+
+.pull-right[
+A stronger design could:
+
+- Randomly assign app access
+- Measure outcomes comparably
+- Track timing and adherence
+- Limit confounding and differential attrition
+]
+
+--
+
+**Hill's considerations** help organize evidence, but no single item mechanically proves causation. A condition can be **necessary** without being sufficient, or sufficient without being necessary.
+
+---
+
+## 29. Compare experimental designs
+
+A psychology department evaluates a new study-skills workshop. In our design notation, `X` is the workshop, `O` a measurement, `R` random assignment, and `N` a nonrandomly formed group.
+
+.pull-left[
+**Design A: Two-group pre/post**
+
+`N   O   X   O`
+
+`N   O       O`
+]
+
+.pull-right[
+**Design B: Randomized posttest-only**
+
+`R       X   O`
+
+`R           O`
+]
+
+Which design is more resistant to **selection effects**? What information does the other design provide? How might you **expand** one of these designs?
+
+---
+
+## The design determines what we can rule out
+
+- **B** uses random assignment to support initial group equivalence **on average**; preexisting selection differences are less plausible as a systematic explanation.
+- **A** includes pretreatment scores and a comparison group, but nonrandom assignment leaves selection concerns.
+
+--
+
+One expansion is a **randomized pretest/posttest design**:
+
+`R   O   X   O`
+
+`R   O       O`
+
+Adding observations or groups can help diagnose threats, but it does not automatically guarantee external validity or perfect measurement.
+
+---
+
+## 30. Reading check: Quasi-experiments and small-N
+
+A university introduces a 10-minute mindfulness break during library study sessions. Anxiety scores are available weekly for **six weeks before** and **six weeks after** the change.
+
+1. What kind of quasi-experimental design is this?
+2. A major exam period begins the same week. What threat does that create?
+3. How could a comparison library strengthen the design?
+4. If a researcher starts the intervention at staggered times across three classrooms, what **small-N logic** is being used?
+
+.small[Reading goals: interrupted time series, nonequivalent groups, multiple-baseline and reversal designs.]
+
+---
+
+## Reading: Use the pattern to challenge explanations
+
+- Repeated observations before and after a change form an **interrupted time-series** design.
+- Concurrent exams create a plausible **history** explanation.
+- A carefully chosen comparison group adds leverage, but may introduce selection differences.
+- Staggered intervention timing across settings is **multiple-baseline** logic.
+
+--
+
+A **reversal** design alternates baseline and intervention when the effect is reversible and withdrawal is ethical. Small-N designs emphasize repeated within-unit evidence; they are not simply underpowered versions of group experiments.
+
+---
+
+class: middle
+
+# Closing question
+
+When you see an unfamiliar research scenario, ask:
+
+.large[
+1. **What was sampled or manipulated?**
+2. **Which probability model or test applies?**
+3. **What is the comparison or null model?**
+4. **What conclusion does the design actually support?**
+]

@@ -1,0 +1,764 @@
+---
+title: "PSY 210 | Exam 2 Review"
+author: "Prof. Mason"
+output:
+  xaringan::moon_reader:
+    css: "exam2_review.css"
+    lib_dir: libs
+    self_contained: true
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+
+```{r setup, include=FALSE}
+# Independent of the original course directory and setup.Rmd.
+# All plots in this deck are supplied as editable source material in the
+# companion figure_reproduction.R script.
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+class: middle, inverse
+
+# Exam 2 Review
+
+## PSY 210 | Fall 2026
+
+.big[Practice making good decisions with data]
+
+.footnote[Prof. Mason]
+
+---
+
+## Roadmap: What connects the topics?
+
+.large[
+1. **Sampling and validity:** Who or what can we make claims about?
+2. **Probability:** How do we quantify uncertainty?
+3. **Inference:** What would we expect if the null were true?
+4. **Design and analysis:** What conclusions does the study support?
+]
+
+.small[Based on the current Exam 2 learning goals and the course lecture material.]
+
+---
+
+## How we'll do the review
+
+- First, **try to answer the question** individually or with someone nearby.
+- Then, explain **why** you chose that answer.
+- On the next slide, we'll work through the reasoning.
+
+--
+
+**The goal:** Practice recognizing what a question is asking, not memorizing a sentence from the slides.
+
+---
+
+class: center, middle, inversedark
+
+# 1. Sampling, Validity, and Causation
+
+.large[What are we allowed to conclude?]
+
+---
+
+## Challenge 1: Where can we generalize?
+
+A researcher surveys 10,000 volunteers who clicked a psychology poll on a social-media site.
+
+.large[
+1. Is the sample necessarily representative of **all U.S. adults**?
+2. Would doubling the sample size fix the central problem?
+3. What if the researcher randomly chose 500 of the 10,000 volunteers?
+]
+
+.question-tag[Think about the **sampling frame**.]
+
+---
+
+class: answer
+
+## Debrief 1: A large sample can still be biased
+
+- **No:** Volunteers and social-media users need not represent all U.S. adults.
+- **No:** More observations do not correct the same selection mechanism.
+- **Still no:** Randomly sampling the volunteers represents the *volunteer pool* more plausibly, not automatically the U.S. population.
+
+.key[Ask **how** participants entered the pool before asking **how many** participated.]
+
+---
+
+## Challenge 2: What kind of sampling is it?
+
+.small[
+| Procedure | Your classification |
+|:--|:--|
+| Randomly draw names from the complete student roster | ? |
+| Randomly sample students within each class year | ? |
+| Randomly select dorms; survey everyone in selected dorms | ? |
+| Ask participants to recruit their friends | ? |
+| Recruit extra participants from an otherwise small subgroup | ? |
+]
+
+.question-tag[Which techniques are probability based?]
+
+---
+
+class: answer
+
+## Debrief 2: Sampling choices
+
+.small[
+| Procedure | Technique |
+|:--|:--|
+| Draw names from a full roster | Simple random sampling |
+| Sample **within** class-year strata | Stratified random sampling |
+| Sample dorms, then everyone in chosen dorms | Cluster sampling |
+| Ask participants to recruit peers | Snowball sampling (nonrandom) |
+| Intentionally recruit extra subgroup members | Oversampling; may be probability based |
+]
+
+**Watch the distinction:** Multistage sampling selects units in stages; purposive and convenience sampling are nonrandom approaches.
+
+---
+
+## Challenge 3: Which validity question?
+
+A new measure of stress:
+
+1. Has items that *look* stress-related.
+2. Covers the main theoretical facets of stress.
+3. Predicts a later outcome it should predict.
+
+An experiment also produces a treatment difference, but participants could choose their own condition.
+
+**Identify:** face, content, criterion-related, and the main causal-validity threat.
+
+---
+
+class: answer
+
+## Debrief 3: Multiple kinds of evidence
+
+1. **Face validity:** Appears to measure stress; appearance alone is weak evidence.
+2. **Content-related evidence:** Captures the intended content domain.
+3. **Criterion-related evidence:** Relates appropriately to an external criterion.
+4. **Selection effects** threaten internal validity if pre-existing differences explain the groups' outcomes.
+
+.key[Construct validity asks whether the operationalization supports the intended theoretical interpretation.]
+
+---
+
+## Challenge 4: Correlation, causation, and design
+
+Students who attend optional tutoring earn higher exam scores than non-attenders.
+
+.large[
+- Does the association establish that tutoring **causes** higher scores?
+- What are the **three causal criteria**?
+- What one design change would most directly reduce selection effects?
+]
+
+---
+
+class: answer
+
+## Debrief 4: Three criteria for a causal claim
+
+1. **Covariation:** Scores differ with tutoring status.
+2. **Temporal precedence:** Tutoring must occur before the measured outcome.
+3. **No plausible alternative explanation:** Prior preparation or motivation might explain the association.
+
+**Design improvement:** Randomly assign access to tutoring when feasible and ethical.
+
+.key[Random assignment addresses internal validity; random sampling addresses population representation.]
+
+---
+
+## Challenge 5: Reading a quasi-experiment
+
+A school introduces a new attendance policy in October. Researchers measure absences each week from August through December.
+
+- What **quasi-experimental design** is this?
+- Name one plausible **history** threat.
+- What would adding a comparable school *without* the policy help address?
+
+---
+
+class: answer
+
+## Debrief 5: Add information, not certainty
+
+- One group with repeated observations around a policy change: **interrupted time-series design**.
+- A simultaneous change, such as a district-wide attendance campaign, could explain the shift (**history**).
+- A comparison school adds a basis for evaluating shared time trends: **nonequivalent groups interrupted time series**.
+
+**Important:** Nonequivalent groups can still differ for reasons related to the outcome.
+
+---
+
+class: center, middle, inversedark
+
+# 2. Probability
+
+.large[What is the denominator?]
+
+---
+
+## Challenge 6: Conditional probability
+
+In a hypothetical study of **200 students**:
+
+| | Passed | Did not pass | Total |
+|:--|--:|--:|--:|
+| Attended review | 72 | 18 | 90 |
+| Did not attend | 66 | 44 | 110 |
+| **Total** | **138** | **62** | **200** |
+
+Compute: $P(\text{pass}\mid\text{attend})$, $P(\text{attend}\mid\text{pass})$, and $P(\text{pass OR attend})$.
+
+---
+
+class: answer
+
+## Debrief 6: Three different denominators
+
+.pull-left[
+$$P(\text{pass}\mid\text{attend})=\frac{72}{90}=.80$$
+
+$$P(\text{attend}\mid\text{pass})=\frac{72}{138}\approx .522$$
+]
+
+.pull-right[
+$$P(\text{pass OR attend})$$
+$$=\frac{138+90-72}{200}=.78$$
+]
+
+.clearfix[]
+
+.key[The condition after the vertical bar determines the denominator. For **OR**, subtract the overlap once.]
+
+---
+
+## Challenge 7: Base rates and Bayes
+
+Suppose a condition occurs in **2%** of people. A screening test:
+
+- Detects **90%** of people who have the condition.
+- Correctly tests negative for **95%** of people who do not.
+
+A person tests positive. Approximately what is the probability they actually have the condition?
+
+.question-tag[Start with 1,000 people rather than a formula.]
+
+---
+
+class: answer
+
+## Debrief 7: Translate to frequencies
+
+.center[
+<img src="exam2_review_figures/bayes_frequency_tree.png" style="width:91%;" alt="Frequency tree for a hypothetical screening test"/>
+]
+
+.small[Of 67 positive results, **18** are true positives. Thus $P(\text{condition}\mid +)=18/67\approx .269$.]
+
+---
+
+## Challenge 8: A binomial model
+
+A trial has two possible outcomes. The success probability is $.20$, trials are independent, and there are **5 trials**.
+
+1. Compute $P(X=2)$.
+2. Find $E(X)$ and $SD(X)$.
+3. Would you use a normal approximation here?
+
+.question-tag[What assumptions does a binomial model require?]
+
+---
+
+class: answer
+
+## Debrief 8: Count successes, not sequences
+
+$$P(X=2)=\binom{5}{2}(.20)^2(.80)^3=.2048$$
+
+$$E(X)=np=1;\qquad SD(X)=\sqrt{np(1-p)}=\sqrt{.8}\approx .894$$
+
+**No normal approximation here:** $np=1$ is too small for the usual success/failure count conditions.
+
+.key[The combination $\binom{n}{k}$ counts the distinct sequences with $k$ successes.]
+
+---
+
+class: center, middle, inversedark
+
+# 3. Sampling Distributions
+
+.large[From individual observations to estimates]
+
+---
+
+## Challenge 9: What changes when $n$ changes?
+
+The population is strongly right-skewed. We repeatedly draw independent random samples of size $n$ and compute each sample mean.
+
+1. What would a **population distribution** display?
+2. What does the **sampling distribution** display?
+3. As $n$ increases, what changes about the mean and spread of the sampling distribution?
+
+---
+
+class: answer
+
+## Debrief 9: Different units of analysis
+
+.center[
+<img src="exam2_review_figures/sampling_distributions.png" style="width:96%;" alt="Right-skewed population, sampling means for n 4 and n 36"/>
+]
+
+.small[The expected sample mean stays at $\mu$; its standard error gets smaller as $n$ grows. The sampling distribution of the mean often becomes more approximately normal under CLT conditions.]
+
+---
+
+## Challenge 10: Law of Large Numbers vs. CLT
+
+.small[
+Which principle is most relevant?
+
+**A.** As the number of fair die rolls grows, the observed proportion of sixes tends toward $1/6$.
+
+**B.** Across repeated large random samples, the distribution of sample means is approximately normal despite skewed observations.
+
+**C.** With population $\sigma=12$, compare standard errors at $n=36$ and $n=144$.
+]
+
+---
+
+class: answer
+
+## Debrief 10: Know which problem is being solved
+
+- **A:** Law of Large Numbers. Long-run averages approach their expected values under appropriate conditions.
+- **B:** Central Limit Theorem. Describes the distribution of suitably standardized means as $n$ grows.
+- **C:** $SE_{\bar X}=\sigma/\sqrt n$. Thus $12/6=2$ versus $12/12=1$.
+
+.key[Quadrupling $n$ halves this standard error. It does **not** automatically fix sampling bias.]
+
+---
+
+class: center, middle, inversedark
+
+# 4. Hypothesis Testing and CIs
+
+.large[Is this result unusual under the null?]
+
+---
+
+## Challenge 11: Errors in hypothesis testing
+
+A researcher tests whether a new study strategy improves exam performance.
+
+Identify:
+
+- A meaningful **null** and **alternative** hypothesis.
+- A **Type I error** and a **Type II error** in this context.
+- What **power** means here.
+
+---
+
+class: answer
+
+## Debrief 11: Decisions have consequences
+
+- $H_0$: No improvement from the strategy; $H_A$: Some improvement (specify direction **before** testing).
+- **Type I:** Conclude improvement when the null is true.
+- **Type II:** Fail to detect improvement when an effect exists.
+- **Power:** Probability of rejecting a false null for a specified effect and test procedure.
+
+.key[$\alpha$ is the long-run Type I error rate of the specified testing procedure under the null.]
+
+---
+
+## Challenge 12: What does $p=.03$ mean?
+
+In a prespecified two-sided test, the software reports $p=.03$, with $\alpha=.05$.
+
+Decide which statements are accurate:
+
+1. There is a 3% probability the null hypothesis is true.
+2. If the null model were true, results at least as extreme as observed would occur about 3% of the time.
+3. The estimated effect must be large or practically important.
+4. Reject $H_0$ at the prespecified $\alpha$ level.
+
+---
+
+class: answer
+
+## Debrief 12: What a p-value does and doesn't say
+
+- **1: Incorrect.** This is not $P(H_0\mid\text{data})$.
+- **2: Correct.** This is a tail-area statement **conditional on the null model**.
+- **3: Incorrect.** Statistical significance does not determine practical importance.
+- **4: Correct.** $.03 < .05$.
+
+.center[
+<img src="exam2_review_figures/null_tails.png" style="width:66%;" alt="Two-tailed null distribution with extreme tails shaded"/>
+]
+
+---
+
+## Challenge 13: Pick the statistical test
+
+.small[
+| Research question | Your test |
+|:--|:--|
+| Is one sample mean different from a known benchmark? | ? |
+| Do the **same** people change from pretest to posttest? | ? |
+| Do two **independent** groups have different means? | ? |
+| Do three independent groups have different means? | ? |
+| Does a continuous outcome vary with two measured predictors? | ? |
+]
+
+.question-tag[First ask how the observations are related.]
+
+---
+
+class: answer
+
+## Debrief 13: Match design to the analysis
+
+.small[
+| Research question | Candidate analysis |
+|:--|:--|
+| Sample mean vs. benchmark | One-sample $t$ test |
+| Same people measured twice | Paired-samples $t$ test |
+| Two independent groups | Independent-samples $t$ test |
+| Three independent groups | One-way ANOVA / $F$ test |
+| Outcome with two measured predictors | Multiple regression |
+]
+
+**Then check assumptions:** distribution of residuals or differences, independence, group variances, and the specific estimand.
+
+---
+
+## Challenge 14: A paired-samples calculation
+
+For **25** participants, the average within-person change is **+5 points**, and the SD of the *difference scores* is **10**.
+
+1. What are the **standard error**, $t$ statistic, and $df$ for $H_0:\mu_D=0$?
+2. The two-sided $p$ value is approximately $.0197$. Reject at $.05$?
+3. Interpret a 95% CI for the mean change.
+
+---
+
+class: answer
+
+## Debrief 14: Compute, then interpret
+
+$$SE_{\bar D}=\frac{10}{\sqrt{25}}=2,\qquad t=\frac{5-0}{2}=2.5,\qquad df=24$$
+
+A 95% $t$ interval uses $t^*\approx2.064$:
+
+$$5\pm2.064(2)\approx[0.87,9.13]$$
+
+.center[
+<img src="exam2_review_figures/paired_ci.png" style="width:76%;" alt="95 percent confidence interval for paired mean difference"/>
+]
+
+---
+
+## Challenge 15: Interpret that interval carefully
+
+Our estimated 95% CI for the population mean within-person change was **[0.87, 9.13] points**.
+
+.large[
+Which statements are supported?
+
+- The interval excludes a null difference of zero.
+- There is a 95% chance that this already-computed fixed interval contains the fixed true mean.
+- The procedure would capture the true mean in approximately 95% of repetitions under its assumptions.
+]
+
+---
+
+class: answer
+
+## Debrief 15: Confidence is about the procedure
+
+- **Supported:** The CI excludes zero, agreeing with the two-sided test at $.05$.
+- **Not the frequentist interpretation:** Once constructed, the interval and parameter are fixed, not random.
+- **Supported:** Under its assumptions, this *procedure* has 95% coverage over repeated sampling.
+
+.key[The width reflects precision. It does not establish causal identification or population representation.]
+
+---
+
+class: center, middle, inversedark
+
+# 5. ANOVA and Factorial Designs
+
+.large[Comparing signal with noise]
+
+---
+
+## Challenge 16: Why an $F$ statistic?
+
+A one-way ANOVA compares **3 independent groups** with **30 total participants**.
+
+Suppose the analysis gives $MS_{between}=24$ and $MS_{within}=6$.
+
+1. Compute $F$ and its degrees of freedom.
+2. If $p\approx .0301$, what is the conclusion at $\alpha=.05$?
+3. Does the overall test identify **which** groups differ?
+
+---
+
+class: answer
+
+## Debrief 16: Between vs. within variance
+
+.pull-left[
+$$F=\frac{MS_{between}}{MS_{within}}=\frac{24}{6}=4$$
+
+$$df_1=k-1=2;\quad df_2=N-k=27$$
+
+Since $p\approx .0301$, reject the equal-means null.
+]
+
+.pull-right[
+<img src="exam2_review_figures/anova_variation.png" style="width:100%;" alt="Illustration of within and between group variation"/>
+]
+
+.clearfix[]
+
+.key[An omnibus $F$ test does not say which pairs differ. Multiple-comparison procedures address follow-up comparisons.]
+
+---
+
+## Challenge 17: Spot the interaction
+
+An experiment compares two reading programs across **small** and **large** classes.
+
+| | Small class | Large class |
+|:--|--:|--:|
+| Phonics | 90 | 70 |
+| Whole word | 70 | 90 |
+
+- Is this a **2 x 2** factorial design?
+- Are there main effects of program or class size in these cell means?
+- Is there an **interaction**?
+
+---
+
+class: answer
+
+## Debrief 17: An interaction without main effects
+
+.center[
+<img src="exam2_review_figures/factorial_interaction.png" style="width:80%;" alt="Cross-over reading program by class size interaction"/>
+]
+
+.small[Two factors, two levels each, and **four cells**. Both marginal program means are 80; both class-size marginal means are 80. The effect of program **reverses across class size**: an interaction.]
+
+---
+
+## Challenge 18: Between, within, or mixed?
+
+Participants are randomly assigned to **one of two** teaching programs, then assessed at **pretest, posttest, and follow-up**.
+
+1. How many factors and levels?
+2. Is the overall design between-subjects, within-subjects, or **mixed**?
+3. What are the three principal effects to investigate?
+
+---
+
+class: answer
+
+## Debrief 18: Describe the design precisely
+
+- A **2 x 3 factorial**: program (2 levels) x time (3 levels), giving 6 cells.
+- A **mixed** design: program is between-subjects, time is within-subjects.
+- Evaluate a program main effect, a time main effect, and a **program x time interaction**.
+
+.key[The interaction asks whether the pattern of change over time differs by program.]
+
+---
+
+class: center, middle, inversedark
+
+# 6. Regression, Ethics, and Design Threats
+
+.large[Do the results justify the claim?]
+
+---
+
+## Challenge 19: What does regression tell us?
+
+A multiple regression predicts well-being from weekly exercise hours and sleep hours:
+
+.small[
+| Predictor | Unstandardized $b$ | $p$ |
+|:--|--:|--:|
+| Exercise hours | 2.0 | .010 |
+| Sleep hours | 0.8 | .200 |
+]
+
+- Interpret the exercise coefficient **holding sleep constant**.
+- Can we infer that exercising one extra hour **causes** a 2-point gain?
+
+---
+
+class: answer
+
+## Debrief 19: Conditional association is not a manipulation
+
+- The model predicts **2 additional well-being points per one additional weekly exercise hour**, comparing cases with the same sleep hours, assuming the model form.
+- The result is evidence of a **conditional association**, not automatically a causal effect.
+- Unmeasured third variables, reverse causation, and model misspecification remain possible.
+
+.key[Multiple regression can adjust for *measured* covariates. Random assignment targets confounding differently.]
+
+---
+
+## Challenge 20: Mediator, moderator, or third variable?
+
+A researcher proposes three explanations for an exercise/well-being association.
+
+1. Exercise improves **sleep**, which improves well-being.
+2. Exercise helps more for people with **high baseline stress** than low stress.
+3. **Baseline health** predicts both exercise and well-being.
+
+What role does the bold variable play in each explanation?
+
+---
+
+class: answer
+
+## Debrief 20: Three different causal stories
+
+- **Sleep:** Proposed *mediator* on the causal pathway.
+- **Baseline stress:** *Moderator* of the exercise-outcome association or effect.
+- **Baseline health:** Candidate *third variable/confounder*.
+
+**Bonus:** Cross-sectional, autocorrelations, and cross-lag correlations describe different relationships in longitudinal data; temporal ordering alone does not remove all confounding.
+
+---
+
+## Challenge 21: Ethical principles in action
+
+A study recruits economically disadvantaged participants for a burdensome intervention. Consent language hides important risks.
+
+Which **Belmont principles** should the review consider?
+
+- Adequate understanding and voluntary choice?
+- Whether risks are justified and minimized?
+- Fairness in who bears the burdens of research?
+
+---
+
+class: answer
+
+## Debrief 21: Respect, beneficence, justice
+
+- **Respect for persons:** Meaningful informed consent and additional safeguards for vulnerability.
+- **Beneficence:** Assess and minimize risks relative to anticipated benefits.
+- **Justice:** Examine the fair selection and treatment of participants.
+
+**Research oversight:** IRBs evaluate human-subjects protections. Deception requires specific justification and appropriate debriefing.
+
+---
+
+## Challenge 22: Which internal validity threat?
+
+.small[
+1. A major campus event occurs midway through the study.
+2. Children improve simply as they get older.
+3. The questionnaire is changed between pretest and posttest.
+4. Participants with the lowest scores disproportionately leave.
+5. Scores improve because participants remember the earlier questions.
+]
+
+.question-tag[History, maturation, instrumentation, attrition, or testing?]
+
+---
+
+class: answer
+
+## Debrief 22: Name the mechanism
+
+.small[
+1. **History:** Outside event coincides with the intervention.
+2. **Maturation:** Changes happen with time or development.
+3. **Instrumentation:** The measurement process changes.
+4. **Attrition:** Selective loss changes the observed sample.
+5. **Testing:** Earlier measurement influences later performance.
+]
+
+Also review **regression to the mean**, observer bias, demand characteristics, placebo effects, and selection effects.
+
+---
+
+## Challenge 23: Small-$N$ or large-$N$?
+
+A clinic repeatedly measures one client's behavior over a long baseline, introduces treatment, and continues measuring.
+
+- Which **small-$N$ design family** does this resemble?
+- How could a **reversal** or a **multiple-baseline** design strengthen inference?
+- Which validity questions still matter?
+
+---
+
+class: answer
+
+## Debrief 23: Repeated observations can help
+
+- This resembles a **stable-baseline** or A-B single-case design.
+- A **reversal** design examines whether responding changes with removal/reintroduction when feasible and ethical.
+- **Multiple baselines** stagger intervention across behaviors, settings, or participants.
+- Still evaluate **internal, external, construct, and statistical validity**.
+
+---
+
+class: middle, inverse
+
+# Exit Ticket
+
+.large[
+For any unfamiliar scenario, ask:
+
+1. **Who** was sampled, and **how**?
+2. Which variables were **measured or manipulated**?
+3. What distribution, test, or model matches the design?
+4. Which conclusion is supported, and which is **too strong**?
+]
+
+---
+
+## The quick decision map
+
+.small[
+| If the question is about... | Start by asking... |
+|:--|:--|
+| Generalization | How were participants selected? |
+| Causation | Can we rule out alternative explanations? |
+| Conditional probability | What event defines the denominator? |
+| Sampling uncertainty | What statistic varies across samples? |
+| A $p$ value | What is assumed true in the null model? |
+| $t$ vs. $F$ vs. regression | How many groups/predictors? Related observations? |
+| Factorial experiments | Are there main effects and interactions? |
+]
+
+---
+
+class: center, middle, inversedark
+
+# Questions?
+
+.large[Tell me the reasoning you're uncertain about.]
+
+.small[Exam 2 review | PSY 210]
