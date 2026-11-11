@@ -161,7 +161,7 @@ A person tests positive. Approximately what is the probability they actually hav
 ## Debrief 3: Translate to frequencies
 
 .center[
-```{r, echo=FALSE, out.width="91%", fig.align="center"}
+```{r, echo=FALSE, out.width="61%", fig.align="center"}
 # Frequency tree: expected counts out of 1,000 people
 plot.new()
 plot.window(xlim = c(0, 10.7), ylim = c(0, 7.6))
@@ -243,7 +243,7 @@ The population is strongly right-skewed. We repeatedly draw independent random s
 ## Debrief 7: Different units of analysis
 
 .center[
-```{r, echo=FALSE, out.width="96%", fig.align="center"}
+```{r, echo=FALSE, out.width="66%", fig.align="center"}
 # Population values and sampling distributions of means
 x <- seq(0.001, 4, length.out = 500)
 plot(x, dexp(x), type = "l", lwd = 3, col = "#799b88",
@@ -348,7 +348,7 @@ Decide which statements are accurate:
 - **4: Correct.** $.03 < .05$.
 
 .center[
-```{r, echo=FALSE, out.width="66%", fig.align="center"}
+```{r, echo=FALSE, out.width="46%", fig.align="center"}
 # A two-sided null distribution with p = .03
 z <- qnorm(1 - 0.03/2)
 x <- seq(-4, 4, length.out = 601)
