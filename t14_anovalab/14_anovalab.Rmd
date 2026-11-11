@@ -96,6 +96,8 @@ write.xlsx(iris, "IrisData.xlsx")
 ```
 
 [Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t14_anovalab/IrisData.xlsx)
+
+**Answer Key**: [IrisData_Answers.xlsx](https://github.com/psychmethods/slides/raw/refs/heads/main/t14_anovalab/IrisData_Answers.xlsx)
 ]
 .pull-right-narrow[
 .center[
@@ -407,6 +409,8 @@ write.xlsx(two_sample_data, "Iris_TwoSample_TTest.xlsx")
 ```
 
 [Download the Excel file here](https://github.com/psychmethods/slides/raw/refs/heads/main/t14_anovalab/Iris_TwoSample_TTest.xlsx)
+
+**Answer Key**: [Iris_TwoSample_TTest_Answers.xlsx](https://github.com/psychmethods/slides/raw/refs/heads/main/t14_anovalab/Iris_TwoSample_TTest_Answers.xlsx)
 
 ```{r, echo=FALSE, out.width="50%", warning = FALSE}
 library(qrcode)
@@ -765,6 +769,8 @@ write.xlsx(iris, "Iris_ANOVA.xlsx")
 ```
 
 2. **Download the file here**: [Download Link](https://github.com/psychmethods/slides/raw/refs/heads/main/t14_anovalab/Iris_ANOVA.xlsx).
+
+3. **Answer Key**: [Iris_ANOVA_Answers.xlsx](https://github.com/psychmethods/slides/raw/refs/heads/main/t14_anovalab/Iris_ANOVA_Answers.xlsx)
 
 .pull-right[
 ```{r, echo=FALSE, out.width="50%", warning = FALSE}
