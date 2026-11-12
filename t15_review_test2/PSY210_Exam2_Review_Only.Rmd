@@ -502,7 +502,7 @@ box()
 Our estimated 95% CI for the population mean within-person change was **[0.87, 9.13] points**.
 
 .medi[
-Which statements are supported?
+Which of the following statements are true?
 
 - The interval excludes a null difference of zero.
 - There is a 95% chance that this already-computed fixed interval contains the fixed true mean.
