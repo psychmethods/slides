@@ -1,0 +1,1010 @@
+---
+title: "Can You Multitask? A Factorial Design Challenge"
+author: "S. Mason Garrison"
+bibliography: "library.bib"
+output:
+  xaringan::moon_reader:
+    css: "../slides.css"
+    lib_dir: libs
+    self_contained: TRUE
+    nature:
+      ratio: "16:9"
+      highlightLines: true
+      highlightStyle: solarized-light
+      countIncrementalSlides: false
+      slideNumberFormat: ""
+---
+<!--
+INSTRUCTOR SETUP
+
+This is a new companion lab. The original sampling.Rmd is unchanged.
+It uses the same xaringan output, 16:9 ratio, split columns, incremental
+reveals, minimal plot theme, and blue/orange palette as the sampling lab.
+When available, it also uses ../slides.css and ../setup.Rmd. The supplied
+reference did not include those two files. A standalone fallback is included.
+
+RENDERING
+Install the renderer once, if needed:
+  install.packages(c("rmarkdown", "xaringan"))
+Render from RStudio with Knit, or from R:
+  rmarkdown::render("multitasking_lab.Rmd")
+The setup chunk installs any missing analysis packages on your machine.
+
+DATA OPTIONS
+The default data_source is "demo": every analysis slide says SYNTHETIC DATA.
+Set data_source to "csv" to read the local csv_file, or to "sheet" to read
+sheet_url with googlesheets4. The sheet URL is deliberately blank: the M&M
+sheet is not reused. Use a NEW sheet with these exact column headers:
+  ID,Order,DS,DA,NS,NA
+Each row represents one person. Order is 1, 2, 3, or 4. The four scores are
+nonnegative integers. Blank means missing; zero means no correct numbers.
+Copy those headers into a shared sheet or a CSV. A QR code appears when a
+sheet_url is supplied and qrcode is installed. Otherwise share your normal
+course link, or use the no-device board option on the data-entry slide.
+
+The HTML contains a snapshot of the data at knit time, just like the sampling
+lab's read_sheet workflow. After students enter their data, save/export the
+CSV if using it, re-knit with data_source = "csv" or "sheet", reopen/refresh
+the HTML, and jump to #class-results. No refresh occurs inside an open deck.
+For the no-device option, enter rows in the CSV while students score, or
+calculate four cell means on the board and use the interpretation slides.
+If class-data loading fails, the deck displays a status message. It never
+silently replaces unavailable class data with synthetic observations.
+
+ACTIVITY LOGISTICS
+Materials: paper and a pen per participant. Students draw their own four boxes.
+No printing, special materials, student R installation, or individual timer.
+Students use only one hand to write at a time. Use usual writing hand as D
+and the other hand as N; these are task labels rather than a handedness test.
+Students can be an observer/recorder if writing or speaking is inaccessible.
+Students who observe take part in predictions, analysis, and the exit ticket.
+With an odd class size, one trio rotates through writer/listener/recorder.
+Each person still completes all four conditions. Allow two extra minutes
+within the activity block and shorten the discussion if needed.
+
+SCORING
+Score is the last correctly completed number before the FIRST sequence error.
+An omission, repetition, out-of-order number, or unreadable number ends the
+correct prefix. An unfinished final number does not count. A visible correction
+completed before time expires counts as corrected. Partners check afterward,
+so the listener does not interrupt writing or coach during a trial.
+Alphabet accuracy/rate is not a second numeric outcome. Partners note pauses
+or abandoned recitation for discussion. Students prioritize both tasks and
+recite continuously at a comfortable pace; no fixed alphabet rate is claimed.
+
+ORDER
+Use four sequences that balance condition positions and first-order carryover
+across orders when equally represented: 1 = DS DA NA NS; 2 = DA NS DS NA;
+3 = NS NA DA DS; 4 = NA DS NS DA. Actual classroom assignment may be uneven.
+Number pairs 1-4 repeatedly. Partner A uses that order; B uses the next order,
+wrapping 4 to 1. Each round slide lists the condition for every order.
+
+PACING (50 MINUTES)
+0-7: introduction, paper setup, scoring demonstration, predictions.
+7-19: brief practice and all trials, both partners, including scoring.
+19-24: entry, quick data checks, re-knit/jump to class results.
+24-36: cell means, graph, main effects, simple effects, interaction.
+36-45: interpretation, competing demands, design quality/variations.
+45-50: exit ticket and wrap-up. Appendices are optional, outside this budget.
+
+TIMERS
+Each trial has an independent embedded 20-second timer: Start and Reset.
+Timers require no internet or extra R package. They do not start automatically.
+Click outside the timer before using slide-navigation keys. A timer ends with
+a large STOP display; the instructor also announces stop. Reset before reuse.
+If the display is unavailable, use one instructor stopwatch for the class.
+
+NOTES
+Press P in xaringan for presenter notes. Trial slides are generated by an R
+helper so the eight timers and condition assignments stay consistent.
+The analysis is descriptive. A nonzero sample difference in differences is
+not a statistical test and is not labeled statistically significant.
+-->
+
+```{r child = "../setup.Rmd"}
+```
+
+```{r packages2, echo=FALSE, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(scales)
+if (!require("emo")) devtools::install_github("hadley/emo")
+# xaringan::inf_mr(cast_from = "..")
+library(emo)
+knitr::opts_chunk$set(echo = FALSE,out.width = "90%", fig.align = "center")
+# Consistent palette + theme for all visuals
+
+base_cols <- c(
+  Blue   = "#0072CE",
+  Orange = "#FF7F00",
+  Green  = "#3CB043",
+  Red    = "#E41A1C",
+  Yellow = "#FFD700",
+  Brown  = "#7B3F00"
+)
+
+thm <- theme_minimal(base_size = 16) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    axis.title.x = element_text(margin = margin(t = 8)),
+    axis.title.y = element_text(margin = margin(r = 8)),
+    legend.position = "right"
+  )
+
+
+# Class data: paste the URL for a new class sheet here.
+# Sheet headers: ID, Order, DS, DA, NS, NA
+share_link <- "https://docs.google.com/spreadsheets/d/1D4i8e0pTrqwLk_FjMFtkimqhmtOrBf-X6OU9RT57m_Q"
+score_cols <- c("DS", "DA", "NS", "NA")
+```
+
+
+
+
+```{r timer, eval=FALSE, echo=FALSE, results='asis'}
+# An iframe isolates each timer so its script runs inside a remark slide.
+# The timer uses elapsed clock time, rather than assuming every tick is exact.
+timer_html <- paste0(
+  '<!doctype html><html lang="en"><head><meta charset="utf-8"><style>',
+  'body{margin:0;font-family:Arial,sans-serif;text-align:center;background:#f3f7fb;color:#17324d}',
+  '#clock{font-size:62px;font-weight:bold;line-height:1.2;margin:5px}',
+  'button{font-size:20px;padding:6px 22px;margin:0 8px;border:1px solid #0072CE;',
+  'border-radius:5px;background:white;color:#17324d;cursor:pointer}',
+  '</style></head><body><div id="clock" role="timer" aria-live="off">', 20,
+  '</div><button id="start">Start</button><button id="reset">Reset</button>',
+  '<script>const duration=', 20, ';let running=false,end=0,interval;',
+  'const clock=document.getElementById("clock"),start=document.getElementById("start");',
+  'function tick(){const left=Math.max(0,Math.ceil((end-performance.now())/1000));',
+  'clock.textContent=left===0?"STOP":left;if(left===0){clearInterval(interval);',
+  'running=false;clock.style.color="#b32025";start.disabled=true;}}',
+  'start.onclick=function(){if(running)return;running=true;start.disabled=true;',
+  'end=performance.now()+duration*1000;tick();interval=setInterval(tick,50);};',
+  'document.getElementById("reset").onclick=function(){clearInterval(interval);',
+  'running=false;clock.textContent=duration;clock.style.color="";start.disabled=false;};',
+  '</script></body></html>'
+)
+cat(as.character(htmltools::tags$iframe(
+  srcdoc = timer_html, title = "20-second class timer",
+  style = "width:100%;height:145px;border:0;"
+)))
+```
+
+<!--
+
+Set share_link above to the new class sheet. Synthetic examples appear only
+in the separate preview section. Class-data slides wait for actual entries.
+After collecting entries, re-knit and refresh the HTML at #class-results.
+The rendered graphs are snapshots, as in the sampling lab.
+-->
+
+class: middle
+
+# Can You Multitask?
+
+## A Factorial Design Challenge
+
+---
+
+## Roadmap
+
+- Setup and predictions (7 min)
+- Hands-on challenge with a partner (12 min)
+- Score entry and class-data check (5 min)
+- Class analysis: main effects and interactions (12 min)
+- Interpretation and study design (9 min)
+- Exit ticket and wrap-up (5 min)
+
+--
+
+**By the end of this lab, you should be able to:**
+
+- Identify factors, levels, and cells in a factorial design
+- Distinguish main effects from interactions
+- Explain an interaction as a difference in differences
+- Identify a within-groups factorial design
+
+---
+
+# Quick refresher: what is an interaction?
+
+.pull-left[
+- A factorial design combines levels of two or more factors.
+- A **2 x 2** design has four cells.
+- A main effect averages across the other factor.
+]
+
+--
+
+.pull-right[
+- An interaction asks whether the effect of one factor **depends on** the other.
+- Today: does adding a second task affect writing equally with both hands?
+]
+
+---
+
+## The Multitasking Challenge
+
+- Objective: Experience a factorial experiment and analyze our class results
+
+--
+
+- Materials:
+  - Paper and a pen
+  - A partner
+  - One class timer, run by the instructor
+
+--
+
+- Outcome: correct consecutive numbers written in **20 seconds**
+
+???
+The following setup, scoring, and order slides share the first 7 minutes.
+Students can take an observer/recorder role if writing or speaking is
+inaccessible. They still participate in predictions and analysis.
+
+---
+
+# Two factors, four conditions
+
+| | Silent | Alphabet aloud |
+|:--|:--|:--|
+| **Dominant hand** | **DS** | **DA** |
+| **Non-dominant hand** | **NS** | **NA** |
+
+- Dominant = your usual writing hand. Non-dominant = your other hand.
+- In every condition, write **1, 2, 3, 4...** as far as you can.
+- In alphabet conditions, say **A-Z aloud repeatedly** while writing.
+- Each participant completes **all four conditions**.
+
+---
+
+## Multitasking Procedure
+
+- Divide your paper into four boxes: **DS, DA, NS, NA**.
+
+--
+
+- Partner A writes first. Partner B listens and checks the score afterward.
+
+--
+
+- Start each round at **1**. Stop when the instructor says stop.
+
+--
+
+- Circle your score in that condition's box.
+
+--
+
+- After four rounds, switch roles. Each person finishes with **four scores**.
+
+---
+
+# What counts as the score?
+
+Your score is the **last correctly completed number before the first sequence error**.
+
+**Example:** 1, 2, 3, 4, 6, 7, 8
+
+--
+
+**Score = 4.** The sequence first goes wrong when 5 is skipped.
+
+- A repetition, out-of-order number, or unreadable number ends the correct sequence.
+- An unfinished final number does not count.
+- A correction completed before STOP counts as corrected.
+- Check scores after the round. Keep **0** if no number was correct.
+
+---
+
+# Your order number
+
+Count pairs **1, 2, 3, 4**, then repeat.
+
+- Partner A uses the pair's number as their order.
+- Partner B uses the next order, wrapping **4 back to 1**.
+
+| Order | Round 1 | Round 2 | Round 3 | Round 4 |
+|:--:|:--:|:--:|:--:|:--:|
+| 1 | DS | DA | NA | NS |
+| 2 | DA | NS | DS | NA |
+| 3 | NS | NA | DA | DS |
+| 4 | NA | DS | NS | DA |
+
+Write your order number on your paper. Each round slide lists your condition.
+
+???
+With equal representation, these four orders balance condition positions
+and first-order carryover. Actual group sizes may be slightly uneven.
+For an odd class size, a trio rotates writer/listener/recorder. Allow two
+extra minutes in the activity block and shorten the discussion.
+
+---
+
+# Your prediction
+
+.pull-left[
+- Which condition will have the highest score?
+- Will adding the alphabet affect both hands equally?
+- What would that look like in a graph?
+]
+
+--
+
+.pull-right[
+**Write a prediction:**
+
+"We predict the alphabet will have a larger effect when..."
+
+Or explain why you expect equal effects.
+]
+
+---
+
+# Quick practice
+
+- Write a few numbers with each hand in the margin.
+- Try writing while saying **A, B, C, D...** aloud.
+- Check that both partners understand the scoring rule.
+
+--
+
+**During alphabet rounds:** keep both tasks going at a comfortable pace.
+
+The listener checks that recitation continues, without interrupting or coaching.
+
+**Practice stays in the margin. Partner A writes first.**
+
+???
+Start the 7-19 minute activity block. Keep practice under a minute.
+Alphabet accuracy/rate is not a second numeric outcome. Partners note long
+pauses for the later discussion. Do not require a fixed recitation rate.
+
+---
+
+# Partner A: round 1
+
+| Your order | This round |
+|:--:|:--|
+| 1 | **DS**: Dominant + silent |
+| 2 | **DA**: Dominant + alphabet |
+| 3 | **NS**: Non-dominant + silent |
+| 4 | **NA**: Non-dominant + alphabet |
+
+Write **1, 2, 3...** in the matching box. Alphabet condition: say A-Z aloud repeatedly.
+
+```{r ref.label="timer", eval=TRUE, echo=FALSE, results='asis'}
+```
+
+**After STOP:** check the sequence, circle your score, and record it in that box.
+
+???
+Allow about a minute for writing, scoring, and changing conditions. Click
+outside the timer before using slide-navigation keys. Announce STOP aloud.
+
+---
+
+# Partner A: round 2
+
+| Your order | This round |
+|:--:|:--|
+| 1 | **DA**: Dominant + alphabet |
+| 2 | **NS**: Non-dominant + silent |
+| 3 | **NA**: Non-dominant + alphabet |
+| 4 | **DS**: Dominant + silent |
+
+Write **1, 2, 3...** in the matching box. Alphabet condition: say A-Z aloud repeatedly.
+
+```{r ref.label="timer", eval=TRUE, echo=FALSE, results='asis'}
+```
+
+**After STOP:** check the sequence, circle your score, and record it in that box.
+
+???
+Allow about a minute for writing, scoring, and changing conditions. Click
+outside the timer before using slide-navigation keys. Announce STOP aloud.
+
+---
+
+# Partner A: round 3
+
+| Your order | This round |
+|:--:|:--|
+| 1 | **NA**: Non-dominant + alphabet |
+| 2 | **DS**: Dominant + silent |
+| 3 | **DA**: Dominant + alphabet |
+| 4 | **NS**: Non-dominant + silent |
+
+Write **1, 2, 3...** in the matching box. Alphabet condition: say A-Z aloud repeatedly.
+
+```{r ref.label="timer", eval=TRUE, echo=FALSE, results='asis'}
+```
+
+**After STOP:** check the sequence, circle your score, and record it in that box.
+
+???
+Allow about a minute for writing, scoring, and changing conditions. Click
+outside the timer before using slide-navigation keys. Announce STOP aloud.
+
+---
+
+# Partner A: round 4
+
+| Your order | This round |
+|:--:|:--|
+| 1 | **NS**: Non-dominant + silent |
+| 2 | **NA**: Non-dominant + alphabet |
+| 3 | **DS**: Dominant + silent |
+| 4 | **DA**: Dominant + alphabet |
+
+Write **1, 2, 3...** in the matching box. Alphabet condition: say A-Z aloud repeatedly.
+
+```{r ref.label="timer", eval=TRUE, echo=FALSE, results='asis'}
+```
+
+**After STOP:** check the sequence, circle your score, and record it in that box.
+
+???
+Allow about a minute for writing, scoring, and changing conditions. Click
+outside the timer before using slide-navigation keys. Announce STOP aloud.
+
+---
+
+# Switch roles
+
+- Partner A: check that each box has a circled score.
+- Partner B: use your own paper and your own order number.
+- Your order is the next number after the pair's number, wrapping **4 to 1**.
+
+**Partner B writes. Partner A listens and checks.**
+
+---
+
+# Partner B: round 1
+
+| Your order | This round |
+|:--:|:--|
+| 1 | **DS**: Dominant + silent |
+| 2 | **DA**: Dominant + alphabet |
+| 3 | **NS**: Non-dominant + silent |
+| 4 | **NA**: Non-dominant + alphabet |
+
+Write **1, 2, 3...** in the matching box. Alphabet condition: say A-Z aloud repeatedly.
+
+```{r ref.label="timer", eval=TRUE, echo=FALSE, results='asis'}
+```
+
+**After STOP:** check the sequence, circle your score, and record it in that box.
+
+???
+Allow about a minute for writing, scoring, and changing conditions. Click
+outside the timer before using slide-navigation keys. Announce STOP aloud.
+
+---
+
+# Partner B: round 2
+
+| Your order | This round |
+|:--:|:--|
+| 1 | **DA**: Dominant + alphabet |
+| 2 | **NS**: Non-dominant + silent |
+| 3 | **NA**: Non-dominant + alphabet |
+| 4 | **DS**: Dominant + silent |
+
+Write **1, 2, 3...** in the matching box. Alphabet condition: say A-Z aloud repeatedly.
+
+```{r ref.label="timer", eval=TRUE, echo=FALSE, results='asis'}
+```
+
+**After STOP:** check the sequence, circle your score, and record it in that box.
+
+???
+Allow about a minute for writing, scoring, and changing conditions. Click
+outside the timer before using slide-navigation keys. Announce STOP aloud.
+
+---
+
+# Partner B: round 3
+
+| Your order | This round |
+|:--:|:--|
+| 1 | **NA**: Non-dominant + alphabet |
+| 2 | **DS**: Dominant + silent |
+| 3 | **DA**: Dominant + alphabet |
+| 4 | **NS**: Non-dominant + silent |
+
+Write **1, 2, 3...** in the matching box. Alphabet condition: say A-Z aloud repeatedly.
+
+```{r ref.label="timer", eval=TRUE, echo=FALSE, results='asis'}
+```
+
+**After STOP:** check the sequence, circle your score, and record it in that box.
+
+???
+Allow about a minute for writing, scoring, and changing conditions. Click
+outside the timer before using slide-navigation keys. Announce STOP aloud.
+
+---
+
+# Partner B: round 4
+
+| Your order | This round |
+|:--:|:--|
+| 1 | **NS**: Non-dominant + silent |
+| 2 | **NA**: Non-dominant + alphabet |
+| 3 | **DS**: Dominant + silent |
+| 4 | **DA**: Dominant + alphabet |
+
+Write **1, 2, 3...** in the matching box. Alphabet condition: say A-Z aloud repeatedly.
+
+```{r ref.label="timer", eval=TRUE, echo=FALSE, results='asis'}
+```
+
+**After STOP:** check the sequence, circle your score, and record it in that box.
+
+???
+Allow about a minute for writing, scoring, and changing conditions. Click
+outside the timer before using slide-navigation keys. Announce STOP aloud.
+
+---
+
+class: middle
+
+# What to expect...
+
+---
+
+# Analysis in Action
+
+- What we'll get from the class data
+- **Synthetic example only. Our results may differ.**
+
+```{r ref.label="nom", out.width="65%", echo=FALSE, warning=FALSE}
+```
+
+???
+Beginning of the 19-24 minute score-entry block. Show the kind of graph we
+will build while students check their scores. This preview is separate
+from class-data slides, as in the sampling lab.
+
+---
+
+# Source Code
+
+.tiny[
+
+```{r nom, fig.show="hide", warning=FALSE, echo=TRUE, eval=TRUE}
+set.seed(123) # For reproducibility
+
+# Synthetic observations demonstrate an interaction; they are not predictions.
+# Shared person effects retain the repeated-measures structure in the example.
+students <- c("Tukey", "Gauss", "Noether", "Fisher", "Bayes",
+              "Pearson", "Student", "Fiducial", "Neyman", "Cochran")
+person <- rnorm(length(students), 0, 3)
+df_syn <- tibble(
+  ID = students,
+  DS = pmax(0, round(42 + person + rnorm(10, 0, 2))),
+  DA = pmax(0, round(35 + person + rnorm(10, 0, 2))),
+  NS = pmax(0, round(28 + person + rnorm(10, 0, 2))),
+  `NA` = pmax(0, round(14 + person + rnorm(10, 0, 2)))
+)
+
+# Build long-format data without treating the four rows as independent people.
+df_long_syn <- df_syn %>%
+  pivot_longer(all_of(score_cols), names_to="Condition", values_to="Score") %>%
+  mutate(Hand = if_else(str_starts(Condition, "D"), "Dominant", "Non-dominant"),
+         Task = factor(if_else(str_ends(Condition, "S"), "Silent", "Alphabet"),
+                       levels=c("Silent", "Alphabet")))
+
+# Plotting the data
+p_syn <- df_long_syn %>%
+  group_by(Hand, Task) %>% summarise(Mean=mean(Score), .groups="drop") %>%
+  ggplot(aes(Task, Mean, color=Hand, group=Hand)) +
+  geom_line(linewidth=1) + geom_point(size=3) +
+  scale_color_manual(values=base_cols[c("Blue", "Orange")]) +
+  expand_limits(y=0) +
+  labs(title="Multitasking challenge (synthetic)",
+       x=NULL, y="Mean correct consecutive numbers") + thm
+p_syn
+```
+
+]
+
+---
+
+# Data Collection
+
+.pull-left[
+.center[
+```{r, out.width="100%", warning=FALSE}
+if (nzchar(share_link) && requireNamespace("qrcode", quietly=TRUE)) {
+  code <- qrcode::qr_code(share_link)
+  plot(code)
+} else {
+  plot.new()
+  text(0.5, 0.6, "Use the class data-entry link", cex=1.2)
+}
+```
+
+Scan to input your data!
+.footnote[``r if (nzchar(share_link)) share_link else "No link supplied"``
+
+]]]
+
+--
+
+.pull-right[
+Checklist:
+- One row per person, with a unique participant code
+- Include your order number and all four scores
+- Enter **0** for no correct numbers; leave missed conditions blank
+- Match scores to conditions, regardless of trial order
+- Submit once
+
+**Sheet headers:**
+
+`ID, Order, DS, DA, NS, NA`
+]
+
+???
+Set share_link in the packages2 chunk before class. Use a new sheet, rather
+than the M&M sheet. If students have no devices, record rows on the board
+and enter them into the sheet. Re-knit after entries arrive, refresh the
+HTML, and jump to #class-results. Charts are snapshots at knit time.
+
+---
+
+## Analysis in action
+
+```{r, error=TRUE, warning=FALSE, message=FALSE, out.height="65%"}
+library(googlesheets4)
+library(tidyverse)
+
+#Read google sheets data into R
+raw <- if (nzchar(share_link)) {
+  tryCatch(read_sheet(share_link), error=function(e) tibble())
+} else {
+  tibble()
+}
+
+# If reading fails, create an empty tibble
+# Require one unique person and four valid scores for every comparison.
+# Using the same complete participants in all cells preserves paired contrasts.
+df <- if (!all(c("ID", score_cols) %in% names(raw))) {
+  tibble(ID=character(), DS=numeric(), DA=numeric(),
+         NS=numeric(), `NA`=numeric())
+} else {
+  raw %>%
+    select(ID, all_of(score_cols)) %>%
+    mutate(ID=trimws(as.character(ID)),
+           across(all_of(score_cols), ~ suppressWarnings(as.numeric(.)))) %>%
+    filter(!is.na(ID), ID != "") %>%
+    # Exclude every copy of a duplicated ID rather than picking one silently.
+    filter(!duplicated(ID) & !duplicated(ID, fromLast=TRUE)) %>%
+    filter(if_all(all_of(score_cols),
+                  ~ is.finite(.) & . >= 0 & . == floor(.)))
+}
+
+# Convert the data to long format
+df_long <- if (nrow(df) > 0) {
+  df %>%
+    pivot_longer(all_of(score_cols), names_to="Condition", values_to="Score") %>%
+    mutate(Hand=factor(if_else(str_starts(Condition, "D"),
+                              "Dominant", "Non-dominant"),
+                       levels=c("Dominant", "Non-dominant")),
+           Task=factor(if_else(str_ends(Condition, "S"), "Silent", "Alphabet"),
+                       levels=c("Silent", "Alphabet")))
+} else {
+  tibble()
+}
+```
+
+Discussion prompts:
+- Did your four scores match your prediction?
+- Did everyone have the same easiest and hardest conditions?
+
+???
+Private Sheets use your normal googlesheets4 authentication. A blank link,
+failed read, missing headers, or no valid rows produces waiting messages.
+There is no switch to synthetic data on these class-result slides.
+
+---
+name: class-results
+
+# Our four cell means
+
+```{r, echo=FALSE, error=TRUE, message=FALSE, warning=FALSE}
+library(kableExtra)
+
+if (nrow(df_long) > 0) {
+  cell_means <- df_long %>%
+    group_by(Hand, Task) %>%
+    summarise(Mean=mean(Score), .groups="drop")
+
+  cell_means %>%
+    pivot_wider(names_from=Task, values_from=Mean) %>%
+    kable(format="html", digits=1, caption="Class data: mean writing score") %>%
+    kable_styling(bootstrap_options=c("striped", "hover", "condensed"),
+                  full_width=FALSE) %>%
+    column_spec(1, bold=TRUE)
+} else {
+  cat("Waiting for complete class entries...")
+}
+```
+
+Higher scores mean more correct consecutive numbers in 20 seconds.
+
+???
+Start the 24-36 minute analysis block. The same complete participants
+contribute to all four cells. Report any excluded or missing entries by
+comparing the sheet against the retained rows before interpreting results.
+
+---
+
+# What does our interaction plot show?
+
+```{r, echo=FALSE, error=TRUE, message=FALSE, warning=FALSE, out.width="65%"}
+if (nrow(df_long) > 0) {
+  ggplot(cell_means, aes(Task, Mean, color=Hand, group=Hand)) +
+    geom_line(linewidth=1) + geom_point(size=3) +
+    scale_color_manual(values=base_cols[c("Blue", "Orange")]) +
+    expand_limits(y=0) +
+    labs(title="Multitasking challenge (class data)",
+         x=NULL, y="Mean correct consecutive numbers") + thm
+} else {
+  cat("Waiting for entries...")
+}
+```
+
+Compare the change from silent to alphabet for each hand.
+
+---
+
+# Main Effects
+
+.pull-left[
+**Writing hand**
+
+Average across silent and alphabet conditions for each hand.
+
+**Adding the alphabet**
+
+Average across dominant and non-dominant hands for each task.
+]
+
+--
+
+.pull-right[
+```{r, echo=FALSE, error=TRUE, warning=FALSE}
+if (nrow(df_long) > 0) {
+  marginal_means <- bind_rows(
+    df_long %>% group_by(Hand) %>%
+      summarise(Mean=mean(Score), .groups="drop") %>%
+      transmute(Factor="Hand", Level=as.character(Hand), Mean),
+    df_long %>% group_by(Task) %>%
+      summarise(Mean=mean(Score), .groups="drop") %>%
+      transmute(Factor="Task", Level=as.character(Task), Mean)
+  )
+  kable(marginal_means, format="html", digits=1) %>%
+    kable_styling(bootstrap_options=c("striped", "condensed"), full_width=FALSE)
+} else {
+  cat("Waiting for entries...")
+}
+```
+]
+
+???
+Ask for each marginal difference: dominant minus non-dominant, and silent
+minus alphabet. These are descriptive differences, not statistical tests.
+
+---
+
+# Simple Effects: The Alphabet Cost
+
+**Alphabet cost = silent score minus alphabet score.**
+
+Calculate it separately for each hand.
+
+```{r, echo=FALSE, error=TRUE, warning=FALSE}
+if (nrow(df) > 0) {
+  # Define all alphabet costs as silent minus alphabet. Positive = lower score
+  # with the alphabet. Interaction is non-dominant cost minus dominant cost.
+  # Individual alphabet costs, then the individual difference in differences.
+  df <- df %>%
+    mutate(Cost_D=DS - DA,
+           Cost_N=NS - .data[["NA"]],
+           Interaction=Cost_N - Cost_D)
+
+  costs <- tibble(Hand=c("Dominant", "Non-dominant"),
+                  Silent=c(mean(df$DS), mean(df$NS)),
+                  Alphabet=c(mean(df$DA), mean(df[["NA"]])),
+                  Cost=c(mean(df$Cost_D), mean(df$Cost_N)))
+  kable(costs, format="html", digits=1) %>%
+    kable_styling(bootstrap_options=c("striped", "condensed"), full_width=FALSE)
+} else {
+  cat("Waiting for entries...")
+}
+```
+
+A positive cost means fewer correct numbers with the alphabet.
+
+---
+
+# Interaction: A Difference in Differences
+
+.pull-left[
+**Non-dominant alphabet cost**
+
+minus
+
+**Dominant alphabet cost**
+
+$$(NS - NA) - (DS - DA)$$
+]
+
+--
+
+.pull-right[
+```{r, echo=FALSE, error=TRUE, warning=FALSE, results='asis'}
+if (nrow(df) > 0) {
+  # Mean of paired contrasts equals the contrast of the four cell means.
+  cat(sprintf("**Class difference in differences: %.1f numbers.**",
+              mean(df$Interaction)))
+} else {
+  cat("Waiting for entries...")
+}
+```
+
+- Positive: larger alphabet cost with the non-dominant hand
+- Negative: larger cost with the dominant hand
+- Zero: equal costs
+]
+
+???
+A nonzero sample difference does not by itself establish a statistically
+supported interaction. Compare the two simple effects, rather than naming
+only the highest and lowest cells. A crossover is not required.
+
+---
+
+# Putting the Results into Words
+
+- "Averaging across tasks, output was..."
+
+--
+
+- "Averaging across hands, adding the alphabet..."
+
+--
+
+- "The alphabet cost was ___ for the dominant hand and ___ for the other hand."
+
+--
+
+- "The effect of adding the alphabet depended on hand because..."
+
+If the costs are similar, describe that result instead.
+
+---
+
+class: middle
+
+# What Did We Learn about Our Design?
+
+???
+Start the 36-45 minute interpretation block.
+
+---
+
+# What Happened When the Task Got Harder?
+
+.pull-left[
+**Writer's experience**
+
+- Did you slow your writing?
+- Did you slow the alphabet?
+- Did you stop one task to keep the other going?
+]
+
+--
+
+.pull-right[
+**Listener's observations**
+
+- Did the alphabet pause?
+- Were there number-sequence errors?
+- Did practice make a difference?
+]
+
+We measured writing output. We did not measure both tasks equally.
+
+---
+
+# Potential Limitations
+
+.pull-left[
+- **Noise:** a silent writer could still hear other people reciting.
+- **Task priority:** alphabet pace might change when writing becomes harder.
+]
+
+--
+
+.pull-right[
+- **Measurement:** our score combines speed and sequence accuracy.
+- **Order:** practice and fatigue can affect later rounds.
+- **Reliability:** one short trial per condition leaves measurement noise.
+]
+
+Which limitation would you address first, and how?
+
+---
+
+# Relating to Factorial Designs
+
+.pull-left[
+**Today's within-groups design**
+
+Each person completes all four hand/task combinations.
+
+**Between-groups alternative**
+
+Each person completes one randomly assigned combination.
+]
+
+--
+
+.pull-right[
+**Mixed alternative**
+
+Assign each person one hand, then have them complete both task conditions.
+
+Which design needs more people to have the same number of observations in each cell?
+]
+
+---
+
+# Exit Ticket
+
+1. Identify the factorial notation and which factors are within-groups.
+2. Calculate the class difference in differences from the four cell means.
+3. Explain the result in one sentence about how the alphabet effect depends on hand.
+4. Identify one limitation and a change that would address it.
+
+???
+Start the 45-50 minute exit/wrap-up block. Answer 1: 2 x 2, both within-groups.
+For the contrast, use (NS - NA) - (DS - DA). Accept a reversed sign when
+consistently defined and interpreted. Similar costs are a valid result.
+
+---
+
+# Wrapping Up...
+
+.pull-left[
+## Key Takeaways
+
+1. Two factors with two levels create four cells.
+2. A main effect averages across the other factor.
+3. An interaction compares the effects at different levels of the other factor.
+]
+
+.pull-right[
+## Our Central Question
+
+Does adding a second task affect writing equally with both hands?
+
+**The answer comes from a difference in differences.**
+]
+
+<!--
+Retained code comments from the previous draft (superseded implementation):
+# Reuse the course setup when this file is in the same folder as sampling.Rmd.
+# The standalone version can render without the unprovided course files.
+# Install-if-missing is intentional: this deck may be run on several machines.
+# Consistent palette + theme for all visuals, following the sampling deck.
+# The order sequences balance positions and preceding conditions across orders.
+# Every round uses the same scoring reminder and a fresh timer.
+# Read class data explicitly. Never switch to demo data after a class-data error.
+      # Use your usual signed-in session for private sheets; public sheets can
+      # instead use googlesheets4::gs4_deauth() before rendering if preferred.
+# One row per person, with the same complete people in all four conditions.
+# Marginal differences.
+-->
